@@ -141,7 +141,7 @@
 .zenve-doc-connect-btn {
   height: 36px;
   padding: 0 16px;
-  background-color: #0c4331;
+  background-color: #843299;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -159,8 +159,8 @@
 
 .zenve-doc-connect-active {
   background-color: #e3efe8;
-  color: #0c4331;
-  border: 1px solid #0c4331;
+  color: #843299;
+  border: 1px solid #843299;
 }
 
 .zenve-doc-msg-btn {
@@ -205,7 +205,7 @@
 .zenve-doc-badge-pill {
   font-size: 10.5px;
   font-weight: 600;
-  color: #0c4331;
+  color: #843299;
   background-color: #e5efe9;
   padding: 2px 8px;
   border-radius: 4px;
@@ -259,7 +259,7 @@
 .zenve-doc-stat-num {
   font-size: 17px;
   font-weight: 700;
-  color: #0c4331;
+  color: #843299;
 }
 
 .zenve-doc-stat-lbl {
