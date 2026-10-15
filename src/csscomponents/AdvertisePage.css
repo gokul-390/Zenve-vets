@@ -1,0 +1,330 @@
+/* AdvertisePage.css */
+
+.advertise-page {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 22px 30px 42px;
+  box-sizing: border-box;
+  color: #26342d;
+  font-family: 'Figtree', sans-serif;
+}
+
+/* Green advertising banner */
+.advertise-hero {
+  padding: 42px 40px 34px;
+  overflow: hidden;
+  border-radius: 22px;
+  color: #f5f5eb;
+  background: linear-gradient(120deg, #123e30, #1c5943 56%, #164535);
+  box-sizing: border-box;
+}
+
+.advertise-eyebrow {
+  color: #d7cf8f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.3px;
+}
+
+.advertise-hero > h1 {
+  max-width: 1000px;
+  margin: 13px 0 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(26px, 3.2vw, 38px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.advertise-intro {
+  max-width: 730px;
+  margin: 0;
+  color: #d2dfd6;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Benefits */
+.advertise-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 25px;
+}
+
+.advertise-benefit {
+  min-width: 0;
+  padding: 19px 17px;
+  border: 1px solid rgb(226 239 222 / 17%);
+  border-radius: 15px;
+  background: rgb(255 255 255 / 5%);
+  box-sizing: border-box;
+}
+
+.advertise-benefit:first-child {
+  background: rgb(104 180 128 / 17%);
+}
+
+.advertise-benefit > svg {
+  color: #e0d78e;
+}
+
+.advertise-benefit h2 {
+  margin: 12px 0 7px;
+  color: #f5f5eb;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.advertise-benefit p {
+  margin: 0;
+  color: #d5e0d8;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.advertise-pricing {
+  margin: 34px 0 0 5%;
+  color: #e7eee5;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.advertise-pricing a {
+  color: #e0d78e;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+/* Advertiser form layout */
+.advertiser-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 38px;
+  padding: 30px 6px 0;
+}
+
+.advertiser-form-panel,
+.advertiser-dashboard-panel {
+  min-width: 0;
+}
+
+.advertiser-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.advertiser-section-heading > svg {
+  flex-shrink: 0;
+  color: #176b5b;
+}
+
+.advertiser-section-heading h2 {
+  margin: 0;
+  color: #27352d;
+  font-family: 'Outfit', sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.advertiser-subtitle {
+  margin: 8px 0 20px;
+  color: #818c84;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Forms */
+.advertiser-form-panel form,
+.advertiser-dashboard-panel form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+.advertiser-form-panel label,
+.advertiser-dashboard-panel label {
+  margin: 0 0 9px;
+  color: #58675d;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.advertiser-form-panel input,
+.advertiser-dashboard-panel input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  margin: 0 0 19px;
+  padding: 13px 16px;
+  border: 1px solid #e3e9e3;
+  border-radius: 7px;
+  outline: none;
+  color: #26342d;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.advertiser-form-panel input::placeholder,
+.advertiser-dashboard-panel input::placeholder {
+  color: #929b94;
+}
+
+.advertiser-form-panel input:focus,
+.advertiser-dashboard-panel input:focus {
+  border-color: #789b89;
+  box-shadow: 0 0 0 3px rgb(23 107 91 / 8%);
+}
+
+/* Buttons */
+.advertiser-primary-button,
+.advertiser-secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.advertiser-primary-button {
+  border: 1px solid #e7e3bb;
+  color: #263d2e;
+  background: #e9e5bf;
+}
+
+.advertiser-primary-button:hover {
+  background: #ded8a7;
+}
+
+.advertiser-secondary-button {
+  align-self: stretch;
+  border: 1px solid #e3e9e3;
+  color: #354c40;
+  background: #fff;
+}
+
+.advertiser-secondary-button:hover {
+  border-color: #9bbba4;
+  background: #f4f8f4;
+}
+
+/* Supporting text */
+.advertiser-note {
+  margin: 12px 0 0;
+  color: #78857c;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.advertiser-feedback {
+  margin-top: 22px;
+  padding: 14px 16px;
+  border: 1px solid #dce9df;
+  border-radius: 8px;
+  color: #24563e;
+  background: #edf6ef;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Divider between the two advertiser sections */
+.advertiser-dashboard-panel {
+  padding-left: 28px;
+  border-left: 1px solid #edf0ed;
+}
+
+/* Tablet */
+@media (max-width: 950px) {
+  .advertise-page {
+    padding: 22px 20px 32px;
+  }
+
+  .advertise-hero {
+    padding: 30px 26px;
+  }
+
+  .advertise-benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .advertise-pricing {
+    margin-left: 0;
+  }
+
+  .advertiser-panels {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+    padding-top: 26px;
+  }
+
+  .advertiser-dashboard-panel {
+    padding: 26px 0 0;
+    border-top: 1px solid #edf0ed;
+    border-left: 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .advertise-page {
+    padding: 16px 14px 28px;
+  }
+
+  .advertise-hero {
+    padding: 25px 19px;
+    border-radius: 15px;
+  }
+
+  .advertise-hero > h1 {
+    font-size: 27px;
+    letter-spacing: -0.7px;
+  }
+
+  .advertise-intro {
+    font-size: 12px;
+  }
+
+  .advertise-benefits {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .advertise-benefit {
+    padding: 16px;
+  }
+
+  .advertise-pricing {
+    margin-top: 24px;
+  }
+
+  .advertiser-panels {
+    gap: 26px;
+    padding: 25px 2px 0;
+  }
+
+  .advertiser-section-heading h2 {
+    font-size: 18px;
+  }
+
+  .advertiser-form-panel input,
+  .advertiser-dashboard-panel input {
+    min-height: 46px;
+  }
+}
