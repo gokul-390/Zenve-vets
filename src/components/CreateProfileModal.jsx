@@ -82,11 +82,13 @@ export const CreateProfileModal = ({ isOpen, onClose }) => {
         </button>
 
         {/* Modal Header */}
+        <div className="zenve-modal-header" style={{ backgroundImage: "url('your-image-url.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="zenve-modal-header">
           <h2 className="zenve-modal-title">Make your professional mark.</h2>
           <p className="zenve-modal-subtitle">
             Your own public veterinary page. Free, with no login required.
           </p>
+        </div>
         </div>
 
         {/* Form */}

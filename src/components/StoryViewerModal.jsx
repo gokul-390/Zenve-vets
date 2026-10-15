@@ -7,6 +7,7 @@ export const StoryViewerModal = ({
   isOpen,
   onClose,
   onStoryViewed,
+  onAddStory,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(initialStoryIndex);
   const [progress, setProgress] = useState(0);
@@ -151,7 +152,7 @@ export const StoryViewerModal = ({
               className="zenve-story-author-img"
             />
             <div className="zenve-story-author-info">
-              <span className="zenve-story-author-name">{currentStory.name}</span>
+              <span className="zenve-story-author-name">{currentStory.authorName || currentStory.name}</span>
               <span className="zenve-story-meta">
                 {currentStory.specialty || 'Veterinary Surgeon'} • {currentStory.time || '3h ago'}
               </span>
@@ -159,6 +160,19 @@ export const StoryViewerModal = ({
           </div>
 
           <div className="zenve-story-header-actions">
+            {onAddStory && (
+              <button
+                type="button"
+                className="zenve-story-header-add-btn"
+                onClick={() => {
+                  onClose();
+                  onAddStory();
+                }}
+                title="Add your story from gallery"
+              >
+                +
+              </button>
+            )}
             <button
               type="button"
               className="zenve-story-pause-btn"

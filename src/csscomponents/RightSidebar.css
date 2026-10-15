@@ -43,8 +43,8 @@
 .zenve-aside-search-toggle:hover,
 .zenve-search-toggle-active {
   background-color: #e5eee8;
-  border-color: #0c4331;
-  color: #0c4331;
+  border-color: #843299;
+  color: #843299;
 }
 
 .zenve-people-search-box {
@@ -226,8 +226,8 @@
 
 .zenve-doctor-following {
   background-color: #e4efe9;
-  border-color: #0c4331;
-  color: #0c4331;
+  border-color: #843299;
+  color: #843299;
   font-size: 13px;
   font-weight: 700;
 }

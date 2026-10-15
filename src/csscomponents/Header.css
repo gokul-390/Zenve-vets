@@ -196,6 +196,7 @@
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -350,10 +351,13 @@
 }
 
 @keyframes subtle-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.65;
     transform: scale(1.15);
@@ -373,10 +377,10 @@
   gap: 7px;
   height: 40px;
   padding: 0 18px;
-  background-color: #f6eee4;
+  background-color: #29903B;
   border: 1px solid #decdbe;
   border-radius: 8px;
-  color: #2b221b;
+  color: white;
   font-size: 13.5px;
   font-weight: 600;
   font-family: inherit;
@@ -402,6 +406,7 @@
     padding: 0 16px;
     gap: 12px;
   }
+
   .zenve-header-search-wrapper {
     margin: 0 12px;
   }
@@ -411,6 +416,7 @@
   .zenve-community-badge {
     display: none;
   }
+
   .zenve-brand-subtitle {
     display: none;
   }

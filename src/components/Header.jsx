@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ZenveLogo, SearchIcon, PlusIcon, ChevronDownIcon } from './Icons';
 import '../csscomponents/Header.css';
-import image from '../assets/image.png';
+import image from '../assets/image.jpg';
 import { COUNTRIES } from '../data/countries';
 
 export const Header = ({ onCreateProfile }) => {
@@ -167,7 +167,7 @@ export const Header = ({ onCreateProfile }) => {
           className="zenve-create-profile-btn"
           onClick={onCreateProfile}
         >
-          <PlusIcon size={15} color="#2F251E" />
+          <PlusIcon size={15} color="white" />
           <span>Create your profile</span>
         </button>
       </div>

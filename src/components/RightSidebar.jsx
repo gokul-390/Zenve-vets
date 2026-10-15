@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { SearchIcon } from './Icons';
 import '../csscomponents/RightSidebar.css';
 
-export const RightSidebar = ({ onOpenCreateProfile }) => {
+export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
   const [followingMap, setFollowingMap] = useState({});
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const doctors = [
     {
@@ -71,94 +74,116 @@ export const RightSidebar = ({ onOpenCreateProfile }) => {
     setFollowingMap((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const filteredDoctors = doctors.filter((doc) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      doc.name.toLowerCase().includes(q) ||
+      doc.specialty.toLowerCase().includes(q) ||
+      doc.location.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <aside className="zenve-right-sidebar" aria-label="People to know and advantages">
       {/* 1. People to Know */}
       <section className="zenve-aside-block">
         <div className="zenve-aside-header">
           <span className="zenve-aside-tag">PEOPLE TO KNOW</span>
-          <a href="#view-all" className="zenve-aside-link">
-            <span>View all</span>
-            <span className="zenve-aside-link-arrow">↗</span>
-          </a>
+          <div className="zenve-aside-header-actions">
+            <button
+              type="button"
+              className={`zenve-aside-search-toggle ${isSearchOpen ? 'zenve-search-toggle-active' : ''}`}
+              onClick={() => setIsSearchOpen((prev) => !prev)}
+              title={isSearchOpen ? 'Close search' : 'Search people'}
+              aria-label="Search people"
+            >
+              <SearchIcon size={13} color="currentColor" />
+            </button>
+            <a
+              href="#view-all"
+              className="zenve-aside-link"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onSelectTab) onSelectTab('search');
+              }}
+            >
+              <span>View all</span>
+              <span className="zenve-aside-link-arrow">↗</span>
+            </a>
+          </div>
         </div>
+
+        {/* Real-time search box when toggled */}
+        {isSearchOpen && (
+          <div className="zenve-people-search-box">
+            <SearchIcon size={13} color="#7c8a83" />
+            <input
+              type="text"
+              className="zenve-people-search-input"
+              placeholder="Search by name, city or specialty..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="zenve-people-search-clear"
+                onClick={() => setSearchQuery('')}
+                title="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
 
         <div className="zenve-doctor-list">
-          {doctors.map((doctor) => {
-            const isFollowing = !!followingMap[doctor.id];
-            return (
-              <div key={doctor.id} className="zenve-doctor-card">
-                <div className="zenve-doctor-avatar-wrapper">
-                  <img
-                    src={doctor.img}
-                    alt={doctor.name}
-                    className="zenve-doctor-avatar-img"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
+          {filteredDoctors.length > 0 ? (
+            filteredDoctors.map((doctor) => {
+              const isFollowing = !!followingMap[doctor.id];
+              return (
+                <div key={doctor.id} className="zenve-doctor-card">
+                  <div className="zenve-doctor-avatar-wrapper">
+                    <img
+                      src={doctor.img}
+                      alt={doctor.name}
+                      className="zenve-doctor-avatar-img"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  </div>
+
+                  <div className="zenve-doctor-info">
+                    <h3 className="zenve-doctor-name">{doctor.name}</h3>
+                    <p className="zenve-doctor-specialty">{doctor.specialty}</p>
+                    <span className="zenve-doctor-location">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      <span>{doctor.location}</span>
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`zenve-doctor-follow-btn ${isFollowing ? 'zenve-doctor-following' : ''}`}
+                    onClick={() => toggleFollow(doctor.id)}
+                    title={isFollowing ? 'Following' : 'Connect'}
+                  >
+                    {isFollowing ? '✓' : '+'}
+                  </button>
                 </div>
-
-                <div className="zenve-doctor-info">
-                  <h3 className="zenve-doctor-name">{doctor.name}</h3>
-                  <p className="zenve-doctor-specialty">{doctor.specialty}</p>
-                  <span className="zenve-doctor-location">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    <span>{doctor.location}</span>
-                  </span>
-                </div>
-
-                <button
-                  type="button"
-                  className={`zenve-doctor-follow-btn ${isFollowing ? 'zenve-doctor-following' : ''}`}
-                  onClick={() => toggleFollow(doctor.id)}
-                  title={isFollowing ? 'Following' : 'Connect'}
-                >
-                  {isFollowing ? '✓' : '+'}
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 2. The Zenve Advantage */}
-      <section className="zenve-aside-block zenve-advantage-block">
-        <div className="zenve-aside-header">
-          <span className="zenve-aside-tag">THE ZENVE ADVANTAGE</span>
-          <span className="zenve-advantage-sparkle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#25352D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
-            </svg>
-          </span>
-        </div>
-
-        <div className="zenve-advantage-list">
-          {advantages.map((item) => (
-            <div
-              key={item.id}
-              className="zenve-advantage-card"
-              onClick={onOpenCreateProfile}
-              role="button"
-              tabIndex={0}
-            >
-              <div className="zenve-advantage-icon-box">
-                {item.icon}
-              </div>
-              <div className="zenve-advantage-text">
-                <h4 className="zenve-advantage-title">{item.title}</h4>
-                <p className="zenve-advantage-desc">{item.description}</p>
-              </div>
-              <div className="zenve-advantage-arrow">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9EA7A2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </div>
-            </div>
-          ))}
+              );
+            })
+          ) : (
+            <p style={{ fontSize: '12px', color: '#7a8882', padding: '10px 0', margin: 0 }}>
+              No doctors found matching "{searchQuery}"
+            </p>
+          )}
         </div>
       </section>
     </aside>

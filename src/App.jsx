@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import FeedContent from './components/FeedContent';
 import RightSidebar from './components/RightSidebar';
+import SearchPage from './components/SearchPage';
 import CreateProfileModal from './components/CreateProfileModal';
 import './csscomponents/App.css';
 
@@ -36,8 +37,15 @@ export function App() {
               />
 
               {/* Right Aside Column (People to Know & Zenve Advantage) */}
-              <RightSidebar onOpenCreateProfile={() => setIsModalOpen(true)} />
+              <RightSidebar
+                onOpenCreateProfile={() => setIsModalOpen(true)}
+                onSelectTab={setActiveTab}
+              />
             </div>
+          ) : activeTab === 'search' ? (
+            <SearchPage />
+          ) : activeTab === 'advertise' ? (
+            <AdvertisePage />
           ) : (
             <div className="zenve-section-placeholder-view">
               <span className="zenve-indicator-tag">ACTIVE VIEW</span>
@@ -45,9 +53,7 @@ export function App() {
                 {activeTab === 'network' && 'Veterinary Professional Network'}
                 {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
                 {activeTab === 'messages' && 'Direct Messages & Consultations'}
-                {activeTab === 'search' && 'Search Doctors, Specialties & Clinics'}
                 {activeTab === 'benefits' && 'Exclusive Member Benefits'}
-                {activeTab === 'advertise' && 'Advertise to Veterinary Community'}
               </h2>
               <p className="zenve-section-placeholder-desc">
                 Switch back to the <strong>Feed</strong> tab to explore moments from the community, people to know, and the full Zenve advantage.

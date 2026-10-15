@@ -116,56 +116,6 @@ export const Sidebar = ({ activeTab = 'feed', onSelectTab, onOpenCreateProfile }
           </a>
         </div>
       </div>
-
-      {/* Promo Card: Your next chapter starts here */}
-      <div className="zenve-sidenav-promo-card">
-        <div className="zenve-promo-sparkle-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B88B38" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2C12 7.5 7.5 12 2 12C7.5 12 12 16.5 12 22C12 16.5 16.5 12 22 12C16.5 12 12 7.5 12 2Z" />
-          </svg>
-        </div>
-
-        <h3 className="zenve-promo-title">
-          Your next chapter
-          <br />
-          starts here.
-        </h3>
-
-        <p className="zenve-promo-desc">
-          A professional page. A stronger network. A world of possibilities.
-        </p>
-
-        <button
-          type="button"
-          className="zenve-promo-join-btn"
-          onClick={onOpenCreateProfile}
-        >
-          <span>Join the community</span>
-          <span className="zenve-promo-btn-arrow">↗</span>
-        </button>
-
-        <div className="zenve-promo-subtext">
-          FREE MEMBERSHIP · NO LOGIN
-        </div>
-      </div>
-
-      {/* Sidenav Bottom Footer Text */}
-      <div className="zenve-sidenav-credits">
-        <div className="zenve-credits-categories">PEOPLE · PETS · LIVESTOCK</div>
-        <div className="zenve-credits-copy">© 2026 Zenve Vet™</div>
-        <button
-          type="button"
-          className="zenve-credits-link"
-          onClick={onOpenCreateProfile}
-        >
-          Team review
-        </button>
-        <div className="zenve-credits-disclaimer">
-          55 fictional example profiles.
-          <br />
-          Credentials are not verified.
-        </div>
-      </div>
     </aside>
   );
 };

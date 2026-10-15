@@ -59,9 +59,15 @@
   box-shadow: 0 0 0 3px rgb(23 107 91 / 8%);
 }
 
-.search-input-wrap > svg {
+.search-input-wrap > svg,
+.search-input-wrap svg {
   flex-shrink: 0;
   color: #64766b;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  display: block;
 }
 
 .search-input-wrap input {

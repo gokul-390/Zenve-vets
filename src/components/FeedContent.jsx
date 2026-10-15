@@ -1,8 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import StoryViewerModal from './StoryViewerModal';
 import PostCard from './PostCard';
-import { postsApi } from '../api';
+import { postsApi, storiesApi } from '../api';
 import '../csscomponents/FeedContent.css';
+
+// Community doctor stories
+const COMMUNITY_STORIES = [
+  {
+    id: 'aarthi',
+    name: 'Dr.Aarthi',
+    specialty: 'Orthopedic Surgery',
+    time: '1h ago',
+    img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+    storyMedia: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
+    caption: 'Post-op recovery going fantastic! This brave Golden Retriever is up and walking comfortably today 🐾❤️',
+  },
+  {
+    id: 'arun',
+    name: 'Dr.Arun',
+    specialty: 'Veterinary Surgeon',
+    time: '2h ago',
+    img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&h=150&q=80',
+    storyMedia: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
+    caption: 'Morning rounds complete at the clinic! Ready for two specialized ultrasound diagnostics today 🩺✨',
+  },
+  {
+    id: 'priya_123',
+    name: 'Dr.Priya',
+    specialty: 'Veterinary Dermatology',
+    time: '3h ago',
+    img: 'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=150&h=150&q=80',
+    storyMedia: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
+    caption: 'Allergy screening follow-up: chronic dermatitis symptoms decreased by 85% on the hypoallergenic regimen! 🐶',
+  },
+  {
+    id: 'sweet_heart',
+    name: 'sweet_Sneha',
+    specialty: 'Animal Rehabilitation',
+    time: '4h ago',
+    img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80',
+    storyMedia: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
+    caption: 'Hydrotherapy physical therapy session with Milo! Water exercises work wonders for joint mobility 🌊🐕',
+  },
+  {
+    id: 'nidhi',
+    name: 'Dr.Nidhi',
+    specialty: 'Small Animal Medicine',
+    time: '5h ago',
+    img: 'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=150&h=150&q=80',
+    storyMedia: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=900&q=80',
+    caption: 'Routine pediatric checkup & vaccinations done for this gorgeous litter of pups! Healthy & energetic 🐾',
+  },
+  {
+    id: 'sanjay',
+    name: 'Dr.Sanjay',
+    specialty: 'Equine Specialist',
+    time: '6h ago',
+    img: 'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=150&h=150&q=80',
+    storyMedia: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
+    caption: 'Equine soundness evaluation at the ranch this afternoon. Always a privilege working with these majestic animals 🐴',
+  },
+  {
+    id: 'karthika',
+    name: 'Dr.Karthika',
+    specialty: 'Avian & Exotic Care',
+    time: '7h ago',
+    img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+    storyMedia: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=80',
+    caption: 'Exotic feather checkup & beak grooming today. Beak conditioning is key for healthy avian nutrition 🦜🩺',
+  },
+];
 
 export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSelectMainTab }) => {
   const [feedFilterTab, setFeedFilterTab] = useState('for-you');
@@ -21,6 +88,23 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
     }
   };
 
+  // User's own stories (persisted in localStorage)
+  const [userStories, setUserStories] = useState(() => {
+    try {
+      const saved = localStorage.getItem('zenve_user_stories');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Gallery file input ref & modal states for adding a story
+  const storyFileInputRef = useRef(null);
+  const [isAddStoryModalOpen, setIsAddStoryModalOpen] = useState(false);
+  const [selectedStoryImage, setSelectedStoryImage] = useState(null);
+  const [storyCaption, setStoryCaption] = useState('');
+  const [storyToastMessage, setStoryToastMessage] = useState(null);
+
   // Story Viewer modal state
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
@@ -28,76 +112,8 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   // Set of story IDs that have been visited/viewed
   const [viewedStoryIds, setViewedStoryIds] = useState({});
 
-  const stories = [
-    {
-      id: 'your-story',
-      isUser: true,
-      name: 'Your story',
-    },
-    {
-      id: 'aarthi',
-      name: 'Dr.Aarthi',
-      specialty: 'Orthopedic Surgery',
-      time: '1h ago',
-      img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
-      storyMedia: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
-      caption: 'Post-op recovery going fantastic! This brave Golden Retriever is up and walking comfortably today 🐾❤️',
-    },
-    {
-      id: 'arun',
-      name: 'Dr.Arun',
-      specialty: 'Veterinary Surgeon',
-      time: '2h ago',
-      img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&h=150&q=80',
-      storyMedia: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
-      caption: 'Morning rounds complete at the clinic! Ready for two specialized ultrasound diagnostics today 🩺✨',
-    },
-    {
-      id: 'priya_123',
-      name: 'Dr.Priya',
-      specialty: 'Veterinary Dermatology',
-      time: '3h ago',
-      img: 'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=150&h=150&q=80',
-      storyMedia: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
-      caption: 'Allergy screening follow-up: chronic dermatitis symptoms decreased by 85% on the hypoallergenic regimen! 🐶',
-    },
-    {
-      id: 'sweet_heart',
-      name: 'sweet_Sneha',
-      specialty: 'Animal Rehabilitation',
-      time: '4h ago',
-      img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80',
-      storyMedia: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
-      caption: 'Hydrotherapy physical therapy session with Milo! Water exercises work wonders for joint mobility 🌊🐕',
-    },
-    {
-      id: 'nidhi',
-      name: 'Dr.Nidhi',
-      specialty: 'Small Animal Medicine',
-      time: '5h ago',
-      img: 'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=150&h=150&q=80',
-      storyMedia: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=900&q=80',
-      caption: 'Routine pediatric checkup & vaccinations done for this gorgeous litter of pups! Healthy & energetic 🐾',
-    },
-    {
-      id: 'sanjay',
-      name: 'Dr.Sanjay',
-      specialty: 'Equine Specialist',
-      time: '6h ago',
-      img: 'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=150&h=150&q=80',
-      storyMedia: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
-      caption: 'Equine soundness evaluation at the ranch this afternoon. Always a privilege working with these majestic animals 🐴',
-    },
-    {
-      id: 'karthika',
-      name: 'Dr.Karthika',
-      specialty: 'Avian & Exotic Care',
-      time: '7h ago',
-      img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
-      storyMedia: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=80',
-      caption: 'Exotic feather checkup & beak grooming today. Beak conditioning is key for healthy avian nutrition 🦜🩺',
-    },
-  ];
+  // Combined active stories (user's stories first, then community doctors)
+  const allActiveStories = [...userStories, ...COMMUNITY_STORIES];
 
   // 7 Doctor Posts with Video Shorts & Sound Toggle
   const INITIAL_POSTS = [
@@ -235,19 +251,98 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
 
   const [feedPosts, setFeedPosts] = useState(INITIAL_POSTS);
 
-  const handleMarkAsViewed = (storyId) => {
+  const handleMarkAsViewed = async (storyId) => {
     setViewedStoryIds((prev) => ({ ...prev, [storyId]: true }));
+    try {
+      await storiesApi.markViewed(storyId);
+    } catch {
+      // offline / local mode supported
+    }
   };
 
-  // Open specific person's story and mark it as viewed
+  // Open specific story and mark it as viewed
   const handleOpenStory = (indexInActiveList) => {
-    const activeList = stories.filter((s) => !s.isUser);
-    const story = activeList[indexInActiveList];
+    const story = allActiveStories[indexInActiveList];
     if (story) {
       handleMarkAsViewed(story.id);
     }
     setSelectedStoryIndex(indexInActiveList);
     setIsStoryModalOpen(true);
+  };
+
+  // Open native gallery / file chooser dialog
+  const handleTriggerStoryUpload = () => {
+    if (storyFileInputRef.current) {
+      storyFileInputRef.current.click();
+    }
+  };
+
+  // Process image picked from device gallery
+  const handleStoryFileSelected = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file from your gallery');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageResult = event.target?.result;
+      if (imageResult) {
+        setSelectedStoryImage(imageResult);
+        setStoryCaption('');
+        setIsAddStoryModalOpen(true);
+      }
+    };
+    reader.readAsDataURL(file);
+    // Reset input value so user can pick the same file again if desired
+    e.target.value = '';
+  };
+
+  // Publish new story to moments list
+  const handlePublishStory = async () => {
+    if (!selectedStoryImage) return;
+
+    const newStory = {
+      id: `user-story-${Date.now()}`,
+      name: 'Your story',
+      authorName: 'Dr. You (Your Practice)',
+      specialty: 'Veterinary Professional',
+      time: 'Just now',
+      img: selectedStoryImage,
+      storyMedia: selectedStoryImage,
+      caption: storyCaption.trim() || 'Sharing moments from our practice 🐾',
+      isUserStory: true,
+      createdAt: Date.now(),
+    };
+
+    const updatedUserStories = [newStory, ...userStories];
+    setUserStories(updatedUserStories);
+    try {
+      localStorage.setItem('zenve_user_stories', JSON.stringify(updatedUserStories));
+    } catch (err) {
+      console.warn('Could not save user stories to localStorage:', err);
+    }
+
+    setIsAddStoryModalOpen(false);
+    setSelectedStoryImage(null);
+    setStoryCaption('');
+
+    // Celebratory toast
+    setStoryToastMessage('Story shared successfully! 📸');
+    setTimeout(() => setStoryToastMessage(null), 3500);
+
+    // Open viewer automatically to display the freshly added story
+    setSelectedStoryIndex(0);
+    setIsStoryModalOpen(true);
+
+    try {
+      await storiesApi.create(newStory);
+    } catch (err) {
+      console.warn('Stories API sync notice (stored locally):', err.message);
+    }
   };
 
   // Handle new post created from the top post creation card
@@ -304,22 +399,18 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
 
         <div className="zenve-feed-hero-right">
           <div className="zenve-stethoscope-card">
+            <div className='svgimg'>
             <svg
-              width="80"
-              height="70"
               viewBox="0 0 100 85"
               fill="none"
-              stroke="#E2BA6D"
+              stroke="white"
               strokeWidth="2.4"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M25 15V32C25 45 35 55 50 55C65 55 75 45 75 32V15" />
-              <path d="M50 55V72C50 78 55 82 62 82H75" />
-              <circle cx="78" cy="82" r="5" fill="#E2BA6D" />
-              <circle cx="25" cy="15" r="4" fill="#E2BA6D" />
-              <circle cx="75" cy="15" r="4" fill="#E2BA6D" />
+            <path d="M24,12a4,4,0,0,0-1,7.86V22a6,6,0,0,1-6,6,6,6,0,0,1-6-6V19h1l1-1V16.41A8,8,0,0,0,18,9V4L17,3H14V5h2V9a6,6,0,0,1-6,6,5.81,5.81,0,0,1-.86-.06A6,6,0,0,1,4,9V5H6V3H3L2,4V9a8.06,8.06,0,0,0,5,7.41V18l1,1H9v3a8,8,0,0,0,16,0V19.86A4,4,0,0,0,24,12Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,24,18Z"></path> 
             </svg>
+            </div>
             <span className="zenve-hero-sublabel">BETTER TOGETHER</span>
           </div>
         </div>
@@ -340,55 +431,113 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
           </button>
         </div>
 
-        <div className="zenve-stories-row">
-          {stories.map((story) => {
-            // Calculate active index (excluding 'your-story')
-            const activeIndex = stories
-              .filter((s) => !s.isUser)
-              .findIndex((s) => s.id === story.id);
+        {/* Hidden File Input for Device/Gallery Photo Selection */}
+        <input
+          type="file"
+          ref={storyFileInputRef}
+          accept="image/*"
+          onChange={handleStoryFileSelected}
+          style={{ display: 'none' }}
+          id="zenve-gallery-file-input"
+        />
 
-            const isViewed = !!viewedStoryIds[story.id];
+        <div className="zenve-stories-row">
+          {/* User's Story Item */}
+          {userStories.length > 0 ? (
+            <div className="zenve-story-item">
+              <div className="zenve-story-avatar-container">
+                <button
+                  type="button"
+                  className="zenve-story-avatar-btn-wrapper"
+                  onClick={() => handleOpenStory(0)}
+                  title="View your story"
+                >
+                  <div
+                    className={`zenve-story-avatar-wrapper ${
+                      viewedStoryIds[userStories[0].id] ? 'zenve-story-avatar-viewed' : ''
+                    }`}
+                  >
+                    <img
+                      src={userStories[0].storyMedia || userStories[0].img}
+                      alt="Your story"
+                      className="zenve-story-avatar-img"
+                    />
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  className="zenve-story-add-badge"
+                  onClick={handleTriggerStoryUpload}
+                  title="Add another photo from gallery"
+                  aria-label="Add story"
+                >
+                  +
+                </button>
+              </div>
+              <span
+                className={`zenve-story-name ${
+                  viewedStoryIds[userStories[0].id] ? 'zenve-story-name-viewed' : ''
+                }`}
+                onClick={() => handleOpenStory(0)}
+              >
+                Your story
+              </span>
+            </div>
+          ) : (
+            <div className="zenve-story-item">
+              <button
+                type="button"
+                className="zenve-story-avatar-btn zenve-story-add-btn"
+                onClick={handleTriggerStoryUpload}
+                title="Click to add photo from gallery"
+                id="zenve-add-story-btn"
+              >
+                <span className="zenve-add-story-plus">+</span>
+              </button>
+              <span
+                className="zenve-story-name"
+                onClick={handleTriggerStoryUpload}
+                style={{ cursor: 'pointer' }}
+              >
+                Your story
+              </span>
+            </div>
+          )}
+
+          {/* Community Doctor Stories */}
+          {COMMUNITY_STORIES.map((docStory, docIdx) => {
+            const storyActiveIndex = userStories.length + docIdx;
+            const isViewed = !!viewedStoryIds[docStory.id];
 
             return (
-              <div key={story.id} className="zenve-story-item">
-                {story.isUser ? (
-                  <button
-                    type="button"
-                    className="zenve-story-avatar-btn zenve-story-add-btn"
-                    onClick={onOpenCreateProfile}
-                    title="Add your story"
+              <div key={docStory.id} className="zenve-story-item">
+                <button
+                  type="button"
+                  className="zenve-story-avatar-btn-wrapper"
+                  onClick={() => handleOpenStory(storyActiveIndex)}
+                  title={`View ${docStory.name}'s story`}
+                >
+                  <div
+                    className={`zenve-story-avatar-wrapper ${
+                      isViewed ? 'zenve-story-avatar-viewed' : ''
+                    }`}
                   >
-                    <span className="zenve-add-story-plus">+</span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="zenve-story-avatar-btn-wrapper"
-                    onClick={() => handleOpenStory(activeIndex)}
-                    title={`View ${story.name}'s story`}
-                  >
-                    <div
-                      className={`zenve-story-avatar-wrapper ${
-                        isViewed ? 'zenve-story-avatar-viewed' : ''
-                      }`}
-                    >
-                      <img
-                        src={story.img}
-                        alt={story.name}
-                        className="zenve-story-avatar-img"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.parentElement.classList.add('zenve-avatar-fallback');
-                        }}
-                      />
-                    </div>
-                  </button>
-                )}
+                    <img
+                      src={docStory.img}
+                      alt={docStory.name}
+                      className="zenve-story-avatar-img"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.classList.add('zenve-avatar-fallback');
+                      }}
+                    />
+                  </div>
+                </button>
                 <span
                   className={`zenve-story-name ${isViewed ? 'zenve-story-name-viewed' : ''}`}
-                  onClick={() => !story.isUser && handleOpenStory(activeIndex)}
+                  onClick={() => handleOpenStory(storyActiveIndex)}
                 >
-                  {story.name}
+                  {docStory.name}
                 </span>
               </div>
             );
@@ -425,81 +574,6 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#717D77" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
             </svg>
-          </button>
-        </div>
-
-        <div className="zenve-create-post-bottom">
-          <div className="zenve-post-actions-pills">
-            <button
-              type="button"
-              className={`zenve-post-pill ${activePostType === 'photo' ? 'zenve-post-pill-active' : ''}`}
-              onClick={() => setActivePostType('photo')}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <path d="m21 15-5-5L5 21" />
-              </svg>
-              <span>Photo / Post</span>
-            </button>
-
-            <button
-              type="button"
-              className={`zenve-post-pill ${activePostType === 'clinical' ? 'zenve-post-pill-active' : ''}`}
-              onClick={() => setActivePostType('clinical')}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 6.5V5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5v1.5" />
-                <rect x="3.5" y="6.5" width="17" height="13.5" rx="2.5" />
-                <path d="M12 10.5V15.5M9.5 13H14.5" />
-              </svg>
-              <span>Clinical case</span>
-            </button>
-
-            <button
-              type="button"
-              className={`zenve-post-pill ${activePostType === 'story' ? 'zenve-post-pill-active' : ''}`}
-              onClick={() => setActivePostType('story')}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="9" />
-                <line x1="12" y1="8" x2="12" y2="16" />
-                <line x1="8" y1="12" x2="16" y2="12" />
-              </svg>
-              <span>Story</span>
-            </button>
-
-            <button
-              type="button"
-              className={`zenve-post-pill ${activePostType === 'video' ? 'zenve-post-pill-active' : ''}`}
-              onClick={() => setActivePostType('video')}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="6" width="14" height="12" rx="2" />
-                <polygon points="22 8 16 12 22 16 22 8" />
-              </svg>
-              <span>Short video</span>
-            </button>
-
-            <button
-              type="button"
-              className={`zenve-post-pill ${activePostType === 'ai' ? 'zenve-post-pill-active' : ''}`}
-              onClick={() => setActivePostType('ai')}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
-              </svg>
-              <span>AI case assistant</span>
-            </button>
-          </div>
-
-          <button
-            type="button"
-            className="zenve-post-submit-btn"
-            onClick={handleCreateNewPost}
-          >
-            <span>Post</span>
-            <span className="zenve-post-submit-arrow">↗</span>
           </button>
         </div>
       </section>
@@ -584,9 +658,7 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
             key={post.id}
             post={post}
             onDoctorClick={(doctorId) => {
-              const idx = stories
-                .filter((s) => !s.isUser)
-                .findIndex((s) => s.id === doctorId);
+              const idx = allActiveStories.findIndex((s) => s.id === doctorId);
               if (idx !== -1) {
                 handleOpenStory(idx);
               }
@@ -599,12 +671,116 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
       {isStoryModalOpen && (
         <StoryViewerModal
           key={selectedStoryIndex}
-          stories={stories}
+          stories={allActiveStories}
           initialStoryIndex={selectedStoryIndex}
           isOpen={isStoryModalOpen}
           onClose={() => setIsStoryModalOpen(false)}
           onStoryViewed={handleMarkAsViewed}
+          onAddStory={handleTriggerStoryUpload}
         />
+      )}
+
+      {/* 7. Gallery Image Add / Story Preview Modal */}
+      {isAddStoryModalOpen && (
+        <div
+          className="zenve-add-story-modal-overlay"
+          onClick={() => setIsAddStoryModalOpen(false)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="zenve-add-story-modal-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="zenve-add-story-modal-header">
+              <div className="zenve-add-story-header-text">
+                <h3 className="zenve-add-story-title">Add to Story</h3>
+                <p className="zenve-add-story-subtitle">
+                  Share a photo from your gallery with fellow veterinarians
+                </p>
+              </div>
+              <button
+                type="button"
+                className="zenve-add-story-close-btn"
+                onClick={() => setIsAddStoryModalOpen(false)}
+                title="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="zenve-add-story-preview-area">
+              <img
+                src={selectedStoryImage}
+                alt="Story Preview"
+                className="zenve-add-story-preview-image"
+              />
+              <button
+                type="button"
+                className="zenve-add-story-change-btn"
+                onClick={handleTriggerStoryUpload}
+                title="Pick another photo from gallery"
+              >
+                <span>📷 Change photo</span>
+              </button>
+            </div>
+
+            <div className="zenve-add-story-caption-section">
+              <label className="zenve-add-story-label">Story Caption (Optional)</label>
+              <textarea
+                rows={2}
+                className="zenve-add-story-caption-input"
+                placeholder="What's happening in your clinic today? (e.g. Case recovery going great! 🐾)"
+                value={storyCaption}
+                onChange={(e) => setStoryCaption(e.target.value)}
+                maxLength={150}
+              />
+
+              <div className="zenve-add-story-emojis-row">
+                {['🐾', '🩺', '🐕', '🐱', '❤️', '✨', '🐴', '🦜'].map((emoji) => (
+                  <button
+                    key={emoji}
+                    type="button"
+                    className="zenve-add-story-emoji-chip"
+                    onClick={() => setStoryCaption((prev) => prev + emoji)}
+                    title={`Add ${emoji}`}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="zenve-add-story-modal-footer">
+              <button
+                type="button"
+                className="zenve-add-story-cancel-btn"
+                onClick={() => {
+                  setIsAddStoryModalOpen(false);
+                  setSelectedStoryImage(null);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="zenve-add-story-submit-btn"
+                onClick={handlePublishStory}
+              >
+                <span>Share Story</span>
+                <span className="zenve-btn-arrow">↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 8. Toast notification */}
+      {storyToastMessage && (
+        <div className="zenve-story-toast-popup">
+          <span className="zenve-toast-icon">✓</span>
+          <span>{storyToastMessage}</span>
+        </div>
       )}
     </div>
   );

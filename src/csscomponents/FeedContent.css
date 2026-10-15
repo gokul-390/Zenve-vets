@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0c4331;
+  background-color: #DA2A51;
   border-radius: 12px;
   padding: 32px 34px;
   color: #ffffff;
@@ -347,8 +347,8 @@
 
 .zenve-post-pill-active {
   background-color: #e5efe9;
-  border-color: #0c4331;
-  color: #0c4331;
+  border-color: #843299;
+  color: #843299;
   font-weight: 600;
 }
 
@@ -358,7 +358,7 @@
   gap: 6px;
   height: 32px;
   padding: 0 16px;
-  background-color: #0c4331;
+  background-color: #843299;
   border: none;
   border-radius: 6px;
   color: #ffffff;
@@ -411,7 +411,7 @@
 }
 
 .zenve-feed-tab-active {
-  color: #0c4331;
+  color: #843299;
   font-weight: 700;
 }
 
@@ -422,7 +422,7 @@
   left: 0;
   right: 0;
   height: 2.5px;
-  background-color: #0c4331;
+  background-color: #843299;
   border-radius: 2px;
 }
 
@@ -456,7 +456,7 @@
 
 .zenve-tab-shorts-icon {
   font-size: 9px;
-  color: #0c4331;
+  color: #843299;
 }
 
 .zenve-shorts-count-pill {
@@ -494,7 +494,7 @@
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  background: #0c4331;
+  background: #843299;
   color: #ffffff;
   border-radius: 999px;
   font-size: 10px;
@@ -532,20 +532,20 @@
   margin: 0;
   font-size: 13.5px;
   font-weight: 700;
-  color: #0c4331;
+  color: #843299;
 }
 
 .zenve-shorts-banner-desc {
   margin: 0;
   font-size: 12px;
-  color: #4b5a52;
+  color: #843299;
 }
 
 .zenve-shorts-show-all-btn {
   padding: 6px 14px;
   background: #ffffff;
   border: 1px solid #b5d5c5;
-  color: #0c4331;
+  color: #843299;
   font-size: 12px;
   font-weight: 700;
   border-radius: 6px;
@@ -556,7 +556,339 @@
 }
 
 .zenve-shorts-show-all-btn:hover {
-  background: #0c4331;
+  background: #843299;
   color: #ffffff;
-  border-color: #0c4331;
+  border-color:#843299;
+}
+
+.svgimg {
+  width: 100%;
+  height: 100%;
+  object-view-box: inherit;
+  color: white;
+  text-align: center;
+}
+
+/* User Story Container & Add Badge */
+.zenve-story-avatar-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-story-add-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0f4332;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, background 0.15s ease;
+  z-index: 2;
+  padding: 0;
+  line-height: 1;
+}
+
+.zenve-story-add-badge:hover {
+  transform: scale(1.15);
+  background: #155e46;
+}
+
+/* Add Story Modal Styles */
+.zenve-add-story-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 25, 20, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  animation: storyModalFadeIn 0.22s ease-out;
+}
+
+@keyframes storyModalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.zenve-add-story-modal-card {
+  background: #ffffff;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: storyCardPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes storyCardPop {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.zenve-add-story-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid #edf2ef;
+}
+
+.zenve-add-story-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.zenve-add-story-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f4332;
+  letter-spacing: -0.01em;
+}
+
+.zenve-add-story-subtitle {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7a73;
+}
+
+.zenve-add-story-close-btn {
+  background: #f1f5f3;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #55635d;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.zenve-add-story-close-btn:hover {
+  background: #e2ebe6;
+  color: #1a2521;
+}
+
+/* Image preview in modal */
+.zenve-add-story-preview-area {
+  position: relative;
+  width: 100%;
+  background: #0f1c16;
+  max-height: 340px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-add-story-preview-image {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  display: block;
+}
+
+.zenve-add-story-change-btn {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.zenve-add-story-change-btn:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Caption and emojis */
+.zenve-add-story-caption-section {
+  padding: 16px 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zenve-add-story-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4a5751;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.zenve-add-story-caption-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1.5px solid #dbe4df;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #1a2420;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  line-height: 1.4;
+}
+
+.zenve-add-story-caption-input:focus {
+  border-color: #0f4332;
+  box-shadow: 0 0 0 3px rgba(15, 67, 50, 0.1);
+}
+
+.zenve-add-story-emojis-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.zenve-add-story-emoji-chip {
+  background: #f4f7f5;
+  border: 1px solid #e2ece7;
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.zenve-add-story-emoji-chip:hover {
+  transform: scale(1.18);
+  background: #e8f1ec;
+}
+
+/* Modal Footer */
+.zenve-add-story-modal-footer {
+  padding: 12px 20px 18px;
+  border-top: 1px solid #edf2ef;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.zenve-add-story-cancel-btn {
+  padding: 9px 18px;
+  border: 1px solid #d4ded9;
+  background: #ffffff;
+  color: #4b5852;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.zenve-add-story-cancel-btn:hover {
+  background: #f5f8f6;
+  color: #1a2420;
+}
+
+.zenve-add-story-submit-btn {
+  padding: 9px 22px;
+  background: linear-gradient(135deg, #0f4332, #185a44);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(15, 67, 50, 0.3);
+  transition: all 0.18s ease;
+  font-family: inherit;
+}
+
+.zenve-add-story-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(15, 67, 50, 0.4);
+  background: linear-gradient(135deg, #145943, #1e7156);
+}
+
+/* Toast popup notification */
+.zenve-story-toast-popup {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f4332;
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+  z-index: 10000;
+  animation: toastSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 18px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.zenve-toast-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0f4332;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
 }

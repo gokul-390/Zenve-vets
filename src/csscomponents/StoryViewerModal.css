@@ -151,6 +151,28 @@
   gap: 8px;
 }
 
+.zenve-story-header-add-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s ease;
+  line-height: 1;
+}
+
+.zenve-story-header-add-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.08);
+}
+
 .zenve-story-pause-btn,
 .zenve-story-close-btn {
   background: rgba(0, 0, 0, 0.35);
@@ -310,7 +332,7 @@
 .zenve-story-send-btn {
   position: absolute;
   right: 6px;
-  background-color: #0c4331;
+  background-color: #843299;
   color: #ffffff;
   border: none;
   border-radius: 999px;
