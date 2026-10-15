@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
 import StoryViewerModal from './StoryViewerModal';
 import PostCard from './PostCard';
+import { postsApi } from '../api';
 import '../csscomponents/FeedContent.css';
 
-export const FeedContent = ({ onOpenCreateProfile }) => {
-  const [activeTab, setActiveTab] = useState('for-you');
+export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSelectMainTab }) => {
+  const [feedFilterTab, setFeedFilterTab] = useState('for-you');
   const [activePostType, setActivePostType] = useState('photo');
   const [postText, setPostText] = useState('');
+
+  // Keep feed tab in sync with left sidebar navigation
+  const activeTab = activeMainTab === 'videos' ? 'videos' : feedFilterTab;
+
+  const handleTabChange = (tabId) => {
+    setFeedFilterTab(tabId);
+    if (tabId === 'videos') {
+      if (onSelectMainTab) onSelectMainTab('videos');
+    } else {
+      if (onSelectMainTab && activeMainTab === 'videos') onSelectMainTab('feed');
+    }
+  };
 
   // Story Viewer modal state
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
@@ -116,6 +129,7 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
       caption:
         'Hydrotherapy day with sweet Bruno! Swimming takes all pressure off joints while strengthening core spinal stabilizers. Sound ON to hear Bruno splash! 🌊🐕',
       mediaUrl: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
+      videoUrl: '/assets/community-moment-OzvSkOwI.webm',
       isVideoShort: true,
       audioTitle: '♫ Happy Paws Melodies • sweet_Sneha',
       audioTheme: 'playful',
@@ -153,6 +167,7 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
       caption:
         'Feline dermatology case checkup: Leo’s chronic pruritus and skin lesions have completely healed. Tap audio button to hear his peaceful purrs 🐱✨',
       mediaUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
+      videoUrl: '/__l5e/assets-v1/917a25fc-5887-4372-ba01-7e6d08a13e4a/demo-video-2.webm',
       isVideoShort: true,
       audioTitle: '♫ Relaxing Feline Vibes • Dr. Priya',
       audioTheme: 'calm',
@@ -189,6 +204,7 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
       caption:
         'Gait kinematics and stride symmetry analysis on an Arabian stallion. Sound ON to hear the hoofbeats rhythm across the paddock track 🐴🌾',
       mediaUrl: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
+      videoUrl: '/__l5e/assets-v1/777ea1ef-de4b-4958-b8f2-6ef1387ad2b0/demo-video-1.webm',
       isVideoShort: true,
       audioTitle: '♫ Hoofbeats & Wind • Dr. Sanjay',
       audioTheme: 'equine',
@@ -235,7 +251,7 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
   };
 
   // Handle new post created from the top post creation card
-  const handleCreateNewPost = () => {
+  const handleCreateNewPost = async () => {
     if (!postText.trim()) return;
 
     const newPost = {
@@ -247,6 +263,7 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
       timeAgo: 'Just now',
       caption: postText.trim(),
       mediaUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
+      videoUrl: activePostType === 'video' ? '/assets/community-moment-OzvSkOwI.webm' : null,
       isVideoShort: activePostType === 'video',
       audioTitle: activePostType === 'video' ? '♫ Original Clinic Audio' : null,
       audioTheme: 'calm',
@@ -257,6 +274,12 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
 
     setFeedPosts([newPost, ...feedPosts]);
     setPostText('');
+
+    try {
+      await postsApi.create(newPost);
+    } catch (err) {
+      console.warn('API sync notice (stored locally):', err.message);
+    }
   };
 
   return (
@@ -487,21 +510,32 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
           <button
             type="button"
             className={`zenve-feed-tab-btn ${activeTab === 'for-you' ? 'zenve-feed-tab-active' : ''}`}
-            onClick={() => setActiveTab('for-you')}
+            onClick={() => handleTabChange('for-you')}
           >
             For you
           </button>
           <button
             type="button"
+            className={`zenve-feed-tab-btn zenve-feed-tab-shorts ${activeTab === 'videos' ? 'zenve-feed-tab-active' : ''}`}
+            onClick={() => handleTabChange('videos')}
+          >
+            <span className="zenve-tab-shorts-icon">▶</span>
+            <span>Short videos</span>
+            <span className="zenve-shorts-count-pill">
+              {feedPosts.filter((p) => p.isVideoShort).length}
+            </span>
+          </button>
+          <button
+            type="button"
             className={`zenve-feed-tab-btn ${activeTab === 'popular' ? 'zenve-feed-tab-active' : ''}`}
-            onClick={() => setActiveTab('popular')}
+            onClick={() => handleTabChange('popular')}
           >
             Popular
           </button>
           <button
             type="button"
             className={`zenve-feed-tab-btn ${activeTab === 'following' ? 'zenve-feed-tab-active' : ''}`}
-            onClick={() => setActiveTab('following')}
+            onClick={() => handleTabChange('following')}
           >
             Following
           </button>
@@ -509,13 +543,43 @@ export const FeedContent = ({ onOpenCreateProfile }) => {
 
         <div className="zenve-feed-tabs-right">
           <span className="zenve-community-feed-dot" />
-          <span className="zenve-community-feed-label">COMMUNITY FEED</span>
+          <span className="zenve-community-feed-label">
+            {activeTab === 'videos' || activeMainTab === 'videos' ? 'SHORTS FEED' : 'COMMUNITY FEED'}
+          </span>
         </div>
       </section>
 
+      {/* 4.5 Shorts Filter Banner if Shorts video button active */}
+      {(activeTab === 'videos' || activeMainTab === 'videos') && (
+        <section className="zenve-shorts-filter-banner">
+          <div className="zenve-shorts-banner-left">
+            <span className="zenve-shorts-banner-tag">
+              <span className="zenve-shorts-live-dot" />
+              SHORTS ONLY
+            </span>
+            <div className="zenve-shorts-banner-text">
+              <h3 className="zenve-shorts-banner-title">Veterinary Short Videos &amp; Clinical Reels</h3>
+              <p className="zenve-shorts-banner-desc">
+                Showing {feedPosts.filter((p) => p.isVideoShort).length} video shorts posted by verified doctors. Tap any video or sound button to watch.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="zenve-shorts-show-all-btn"
+            onClick={() => handleTabChange('for-you')}
+          >
+            Show All Posts ✕
+          </button>
+        </section>
+      )}
+
       {/* 5. Instagram-Style Posts Stream for the 7 Doctors & Video Shorts */}
       <section className="zenve-feed-posts-stream">
-        {feedPosts.map((post) => (
+        {(activeTab === 'videos' || activeMainTab === 'videos'
+          ? feedPosts.filter((p) => p.isVideoShort)
+          : feedPosts
+        ).map((post) => (
           <PostCard
             key={post.id}
             post={post}

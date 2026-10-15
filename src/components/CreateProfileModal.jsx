@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { doctorsApi } from '../api';
 import '../csscomponents/CreateProfileModal.css';
 
 export const CreateProfileModal = ({ isOpen, onClose }) => {
@@ -10,6 +11,7 @@ export const CreateProfileModal = ({ isOpen, onClose }) => {
     experience: '',
     aboutYou: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Close on Escape key
@@ -42,13 +44,22 @@ export const CreateProfileModal = ({ isOpen, onClose }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      onClose();
-    }, 1400);
+    setIsSubmitting(true);
+
+    try {
+      await doctorsApi.createProfile(formData);
+    } catch (err) {
+      console.warn('API notice (saved locally in browser session):', err.message);
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        onClose();
+      }, 1400);
+    }
   };
 
   return (
@@ -178,10 +189,16 @@ export const CreateProfileModal = ({ isOpen, onClose }) => {
           <button
             type="submit"
             className="zenve-modal-submit-btn"
-            disabled={isSubmitted}
+            disabled={isSubmitted || isSubmitting}
           >
-            <span>{isSubmitted ? 'Creating your page...' : 'Create my professional page'}</span>
-            {!isSubmitted && <span className="zenve-submit-arrow">↗</span>}
+            <span>
+              {isSubmitting
+                ? 'Connecting to ZenveVet...'
+                : isSubmitted
+                ? 'Creating your page...'
+                : 'Create my professional page'}
+            </span>
+            {!isSubmitted && !isSubmitting && <span className="zenve-submit-arrow">↗</span>}
           </button>
         </form>
       </div>

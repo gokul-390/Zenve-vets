@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import soundManager from '../utils/soundManager';
+import { postsApi } from '../api';
 import '../csscomponents/PostCard.css';
 
 export const PostCard = ({ post, onDoctorClick }) => {
@@ -8,6 +9,9 @@ export const PostCard = ({ post, onDoctorClick }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [showHeartBurst, setShowHeartBurst] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [hasVideoError, setHasVideoError] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentInput, setCommentInput] = useState('');
   const [commentsList, setCommentsList] = useState(post.initialComments || [
@@ -15,45 +19,106 @@ export const PostCard = ({ post, onDoctorClick }) => {
     { id: 2, author: 'Dr. Priya Nair', text: 'Splendid clinical execution.' },
   ]);
 
+  const videoRef = useRef(null);
+
   // Synchronize sound state with soundManager
   useEffect(() => {
     const unsubscribe = soundManager.subscribe((activeId) => {
-      setIsSoundOn(activeId === post.id);
+      const active = activeId === post.id;
+      setIsSoundOn(active);
+      if (videoRef.current) {
+        videoRef.current.muted = !active;
+      }
     });
     return unsubscribe;
   }, [post.id]);
 
-  const handleLikeToggle = () => {
+  useEffect(() => {
+    const currentVideo = videoRef.current;
+    return () => {
+      if (currentVideo) {
+        currentVideo.pause();
+      }
+    };
+  }, []);
+
+  const handleLikeToggle = async () => {
     setIsLiked((prev) => {
       const next = !prev;
       setLikesCount((count) => (next ? count + 1 : count - 1));
       return next;
     });
+
+    try {
+      await postsApi.like(post.id);
+    } catch (err) {
+      console.warn('API like sync notice:', err.message);
+    }
   };
 
-  const handleDoubleTap = () => {
+  const handleDoubleTap = async () => {
     if (!isLiked) {
       setIsLiked(true);
       setLikesCount((prev) => prev + 1);
+      try {
+        await postsApi.like(post.id);
+      } catch (err) {
+        console.warn('API like sync notice:', err.message);
+      }
     }
     setShowHeartBurst(true);
     setTimeout(() => setShowHeartBurst(false), 900);
   };
 
-  const handleSoundToggle = (e) => {
-    e.stopPropagation();
-    soundManager.toggleSound(post.id, post.audioTheme || 'calm');
+  const handleTogglePlay = (e) => {
+    if (e) e.stopPropagation();
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play().catch((err) => {
+        console.warn('Video playback error or blocked:', err);
+      });
+    }
   };
 
-  const handleAddComment = (e) => {
+  const handleSoundToggle = (e) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      const willBeSoundOn = !isSoundOn;
+      videoRef.current.muted = !willBeSoundOn;
+      setIsSoundOn(willBeSoundOn);
+      if (willBeSoundOn) {
+        soundManager.toggleSound(post.id, post.audioTheme || 'calm');
+      } else {
+        soundManager.stopSound();
+      }
+    } else {
+      soundManager.toggleSound(post.id, post.audioTheme || 'calm');
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current && videoRef.current.duration) {
+      setVideoProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+    }
+  };
+
+  const handleAddComment = async (e) => {
     e.preventDefault();
-    if (!commentInput.trim()) return;
-    setCommentsList((prev) => [
-      ...prev,
-      { id: Date.now(), author: 'You', text: commentInput.trim() },
-    ]);
+    const commentText = commentInput.trim();
+    if (!commentText) return;
+
+    const newComment = { id: Date.now(), author: 'You', text: commentText };
+    setCommentsList((prev) => [...prev, newComment]);
     setCommentInput('');
     setShowComments(true);
+
+    try {
+      await postsApi.addComment(post.id, { text: commentText });
+    } catch (err) {
+      console.warn('API comment sync notice:', err.message);
+    }
   };
 
   return (
@@ -93,12 +158,53 @@ export const PostCard = ({ post, onDoctorClick }) => {
       <div
         className="zenve-post-media-box"
         onDoubleClick={handleDoubleTap}
+        onClick={post.videoUrl && !hasVideoError ? handleTogglePlay : undefined}
       >
-        <img
-          src={post.mediaUrl}
-          alt={post.caption}
-          className="zenve-post-media-img"
-        />
+        {post.videoUrl && !hasVideoError ? (
+          <div className="zenve-post-video-container">
+            <video
+              ref={videoRef}
+              src={post.videoUrl}
+              poster={post.mediaUrl}
+              className="zenve-post-media-video"
+              loop
+              playsInline
+              muted={!isSoundOn}
+              onTimeUpdate={handleTimeUpdate}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onError={() => setHasVideoError(true)}
+            />
+
+            {/* Center Play Button Overlay when paused */}
+            {!isPlaying && (
+              <button
+                type="button"
+                className="zenve-video-center-play-btn"
+                onClick={handleTogglePlay}
+                aria-label="Play shorts video"
+              >
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="6 3 20 12 6 21 6 3" />
+                </svg>
+              </button>
+            )}
+
+            {/* Video Playback Progress Bar */}
+            <div className="zenve-video-progress-bar">
+              <div
+                className="zenve-video-progress-fill"
+                style={{ width: `${videoProgress}%` }}
+              />
+            </div>
+          </div>
+        ) : (
+          <img
+            src={post.mediaUrl}
+            alt={post.caption}
+            className="zenve-post-media-img"
+          />
+        )}
 
         {/* Double-tap Heart Burst Animation */}
         {showHeartBurst && (
@@ -110,10 +216,15 @@ export const PostCard = ({ post, onDoctorClick }) => {
         {/* Instagram Reels / Short Badge & Sound Button */}
         {post.isVideoShort && (
           <>
-            <div className="zenve-reel-badge">
-              <span className="zenve-reel-icon">▶</span>
-              <span>SHORT REEL</span>
-            </div>
+            <button
+              type="button"
+              className="zenve-reel-badge"
+              onClick={handleTogglePlay}
+              title={isPlaying ? 'Pause video short' : 'Play video short'}
+            >
+              <span className="zenve-reel-icon">{isPlaying ? '❚❚' : '▶'}</span>
+              <span>{isPlaying ? 'PLAYING SHORT' : 'SHORT REEL'}</span>
+            </button>
 
             {/* Instagram Click-Only Sound Button */}
             <button
@@ -192,6 +303,19 @@ export const PostCard = ({ post, onDoctorClick }) => {
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
           </button>
+
+          {/* Shorts Video Button on card */}
+          {post.isVideoShort && (
+            <button
+              type="button"
+              className="zenve-shorts-video-btn-pill"
+              onClick={handleTogglePlay}
+              title={isPlaying ? "Pause shorts video" : "Play shorts video"}
+            >
+              <span className="zenve-shorts-pill-play">{isPlaying ? '❚❚' : '▶'}</span>
+              <span>{isPlaying ? 'Pause video' : 'Shorts video'}</span>
+            </button>
+          )}
         </div>
 
         {/* Bookmark / Save Button */}

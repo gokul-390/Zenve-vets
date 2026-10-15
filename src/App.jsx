@@ -26,10 +26,14 @@ export function App() {
 
         {/* Center & Right: Main Workspace */}
         <main className="zenve-content-workspace">
-          {activeTab === 'feed' ? (
+          {activeTab === 'feed' || activeTab === 'videos' ? (
             <div className="zenve-feed-layout-columns">
               {/* Main Feed Column */}
-              <FeedContent onOpenCreateProfile={() => setIsModalOpen(true)} />
+              <FeedContent
+                onOpenCreateProfile={() => setIsModalOpen(true)}
+                activeMainTab={activeTab}
+                onSelectMainTab={setActiveTab}
+              />
 
               {/* Right Aside Column (People to Know & Zenve Advantage) */}
               <RightSidebar onOpenCreateProfile={() => setIsModalOpen(true)} />
@@ -40,7 +44,6 @@ export function App() {
               <h2 className="zenve-section-placeholder-title">
                 {activeTab === 'network' && 'Veterinary Professional Network'}
                 {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
-                {activeTab === 'videos' && 'Short Videos & Clinical Demonstrations'}
                 {activeTab === 'messages' && 'Direct Messages & Consultations'}
                 {activeTab === 'search' && 'Search Doctors, Specialties & Clinics'}
                 {activeTab === 'benefits' && 'Exclusive Member Benefits'}

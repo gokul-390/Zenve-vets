@@ -446,3 +446,117 @@
   color: #798680;
   text-transform: uppercase;
 }
+
+/* Shorts Tab with Pill Badge */
+.zenve-feed-tab-shorts {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-tab-shorts-icon {
+  font-size: 9px;
+  color: #0c4331;
+}
+
+.zenve-shorts-count-pill {
+  background: #e2ba6d;
+  color: #17241e;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 10px;
+  line-height: 1.2;
+}
+
+/* Shorts Filter Banner when Shorts video button active */
+.zenve-shorts-filter-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #f2f7f4 0%, #e6efe9 100%);
+  border: 1.5px solid #b5d5c5;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(12, 67, 49, 0.05);
+}
+
+.zenve-shorts-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zenve-shorts-banner-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #0c4331;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.zenve-shorts-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #e2ba6d;
+  animation: zenveShortsPulse 1.5s infinite;
+}
+
+@keyframes zenveShortsPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+.zenve-shorts-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zenve-shorts-banner-title {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0c4331;
+}
+
+.zenve-shorts-banner-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #4b5a52;
+}
+
+.zenve-shorts-show-all-btn {
+  padding: 6px 14px;
+  background: #ffffff;
+  border: 1px solid #b5d5c5;
+  color: #0c4331;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.zenve-shorts-show-all-btn:hover {
+  background: #0c4331;
+  color: #ffffff;
+  border-color: #0c4331;
+}

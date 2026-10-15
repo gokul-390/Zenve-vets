@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FeedIcon,
   VetNetworkIcon,
@@ -11,8 +11,8 @@ import {
 } from './Icons';
 import '../csscomponents/Sidebar.css';
 
-export const Sidebar = ({ activeTab, onSelectTab, onOpenCreateProfile }) => {
-  const [currentTab, setCurrentTab] = useState(activeTab || 'feed');
+export const Sidebar = ({ activeTab = 'feed', onSelectTab, onOpenCreateProfile }) => {
+  const currentTab = activeTab;
 
   const navItems = [
     { id: 'feed', label: 'Feed', icon: FeedIcon },
@@ -26,7 +26,6 @@ export const Sidebar = ({ activeTab, onSelectTab, onOpenCreateProfile }) => {
   ];
 
   const handleItemClick = (id) => {
-    setCurrentTab(id);
     if (onSelectTab) {
       onSelectTab(id);
     }
