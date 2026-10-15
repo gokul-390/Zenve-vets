@@ -1,0 +1,387 @@
+/* Story Viewer Modal Styles */
+.zenve-story-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(10, 15, 12, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: storyOverlayFade 0.2s ease-out;
+  user-select: none;
+}
+
+@keyframes storyOverlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.zenve-story-top-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  z-index: 1010;
+}
+
+.zenve-story-top-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.06);
+}
+
+/* Card Container */
+.zenve-story-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 720px;
+  max-height: 92vh;
+  background-color: #151d18;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: storyCardPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes storyCardPop {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Segmented Progress Bar */
+.zenve-story-progress-bar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  gap: 6px;
+  z-index: 20;
+}
+
+.zenve-progress-track {
+  flex: 1;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.zenve-progress-fill {
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 999px;
+  transition: width 0.05s linear;
+}
+
+/* Header */
+.zenve-story-header {
+  position: absolute;
+  top: 26px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+}
+
+.zenve-story-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zenve-story-author-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #e2ba6d;
+  object-fit: cover;
+}
+
+.zenve-story-author-info {
+  display: flex;
+  flex-direction: column;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.zenve-story-author-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.zenve-story-meta {
+  font-size: 11px;
+  color: #e0e6e2;
+  font-weight: 500;
+}
+
+.zenve-story-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zenve-story-pause-btn,
+.zenve-story-close-btn {
+  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.zenve-story-pause-btn:hover,
+.zenve-story-close-btn:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Media Viewport */
+.zenve-story-media-container {
+  flex: 1;
+  position: relative;
+  background-color: #0b110e;
+  overflow: hidden;
+}
+
+.zenve-story-media-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-story-gradient-bottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+/* Tap Zones */
+.zenve-tap-zone {
+  position: absolute;
+  top: 80px;
+  bottom: 120px;
+  width: 35%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.zenve-tap-zone-left {
+  left: 0;
+}
+
+.zenve-tap-zone-right {
+  right: 0;
+}
+
+/* Caption */
+.zenve-story-caption-box {
+  position: absolute;
+  bottom: 16px;
+  left: 18px;
+  right: 18px;
+  z-index: 15;
+}
+
+.zenve-story-caption-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+}
+
+/* Floating Reaction Animations */
+.zenve-floating-emojis-container {
+  position: absolute;
+  bottom: 80px;
+  right: 24px;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.zenve-floating-emoji {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 32px;
+  animation: floatUp 1.4s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.8) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-80px) scale(1.3) rotate(12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-160px) scale(1.6) rotate(-15deg);
+  }
+}
+
+/* Footer: Reply Form & Reaction Icons */
+.zenve-story-footer {
+  padding: 12px 14px 16px 14px;
+  background-color: #121915;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 20;
+}
+
+.zenve-story-reply-form {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.zenve-story-reply-input {
+  width: 100%;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0 44px 0 14px;
+  color: #ffffff;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.zenve-story-reply-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.zenve-story-reply-input:focus {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: #e2ba6d;
+}
+
+.zenve-story-send-btn {
+  position: absolute;
+  right: 6px;
+  background-color: #0c4331;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zenve-story-quick-reactions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.zenve-story-reaction-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+  line-height: 1;
+}
+
+.zenve-story-reaction-btn:hover {
+  transform: scale(1.3);
+}
+
+/* Nav Side Arrows */
+.zenve-story-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s ease;
+  z-index: 30;
+  line-height: 1;
+}
+
+.zenve-story-nav-prev {
+  left: -60px;
+}
+
+.zenve-story-nav-next {
+  right: -60px;
+}
+
+.zenve-story-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-50%) scale(1.08);
+}
+
+@media (max-width: 600px) {
+  .zenve-story-card {
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  .zenve-story-nav-btn {
+    display: none;
+  }
+}

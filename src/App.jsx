@@ -1,0 +1,64 @@
+import React, { useState } from 'react';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import FeedContent from './components/FeedContent';
+import RightSidebar from './components/RightSidebar';
+import CreateProfileModal from './components/CreateProfileModal';
+import './csscomponents/App.css';
+
+export function App() {
+  const [activeTab, setActiveTab] = useState('feed');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <div className="zenve-app-container">
+      {/* 1. Global Header */}
+      <Header onCreateProfile={() => setIsModalOpen(true)} />
+
+      {/* 2. Main Content Body */}
+      <div className="zenve-main-layout">
+        {/* Left: Sidenav */}
+        <Sidebar
+          activeTab={activeTab}
+          onSelectTab={setActiveTab}
+          onOpenCreateProfile={() => setIsModalOpen(true)}
+        />
+
+        {/* Center & Right: Main Workspace */}
+        <main className="zenve-content-workspace">
+          {activeTab === 'feed' ? (
+            <div className="zenve-feed-layout-columns">
+              {/* Main Feed Column */}
+              <FeedContent onOpenCreateProfile={() => setIsModalOpen(true)} />
+
+              {/* Right Aside Column (People to Know & Zenve Advantage) */}
+              <RightSidebar onOpenCreateProfile={() => setIsModalOpen(true)} />
+            </div>
+          ) : (
+            <div className="zenve-section-placeholder-view">
+              <span className="zenve-indicator-tag">ACTIVE VIEW</span>
+              <h2 className="zenve-section-placeholder-title">
+                {activeTab === 'network' && 'Veterinary Professional Network'}
+                {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
+                {activeTab === 'videos' && 'Short Videos & Clinical Demonstrations'}
+                {activeTab === 'messages' && 'Direct Messages & Consultations'}
+                {activeTab === 'search' && 'Search Doctors, Specialties & Clinics'}
+                {activeTab === 'benefits' && 'Exclusive Member Benefits'}
+                {activeTab === 'advertise' && 'Advertise to Veterinary Community'}
+              </h2>
+              <p className="zenve-section-placeholder-desc">
+                Switch back to the <strong>Feed</strong> tab to explore moments from the community, people to know, and the full Zenve advantage.
+              </p>
+            </div>
+          )}
+        </main>
+      </div>
+      <CreateProfileModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </div>
+  );
+}
+
+export default App;

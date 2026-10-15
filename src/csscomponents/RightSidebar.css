@@ -1,0 +1,306 @@
+/* Right Sidebar Styles */
+.zenve-right-sidebar {
+  width: 320px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.zenve-aside-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.zenve-aside-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.zenve-aside-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zenve-aside-search-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #d4ddd7;
+  background: transparent;
+  color: #63716a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.zenve-aside-search-toggle:hover,
+.zenve-search-toggle-active {
+  background-color: #e5eee8;
+  border-color: #0c4331;
+  color: #0c4331;
+}
+
+.zenve-people-search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f5f8f6;
+  border: 1px solid #e1e7e3;
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  animation: searchSlideDown 0.18s ease-out;
+}
+
+@keyframes searchSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zenve-people-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 12px;
+  font-family: inherit;
+  color: #1a2520;
+  padding: 0;
+}
+
+.zenve-people-search-input::placeholder {
+  color: #83918a;
+}
+
+.zenve-people-search-clear {
+  background: transparent;
+  border: none;
+  color: #7b8882;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.zenve-aside-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #717d77;
+  text-transform: uppercase;
+}
+
+.zenve-aside-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #717d77;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.zenve-aside-link:hover {
+  color: #1a2520;
+}
+
+.zenve-aside-link-arrow {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Doctor Cards */
+.zenve-doctor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.zenve-doctor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+.zenve-doctor-card:hover {
+  background-color: #f3f7f4;
+}
+
+.zenve-doctor-no-results {
+  font-size: 12px;
+  color: #7a8680;
+  padding: 12px 6px;
+  text-align: center;
+}
+
+.zenve-doctor-avatar-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #e5eee8;
+  flex-shrink: 0;
+}
+
+.zenve-doctor-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-doctor-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.zenve-doctor-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d2722;
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-doctor-specialty {
+  font-size: 11.5px;
+  color: #66736d;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-doctor-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: #84918a;
+}
+
+.zenve-doctor-follow-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #d4ded8;
+  background-color: #ffffff;
+  color: #55625b;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.zenve-doctor-follow-btn:hover {
+  background-color: #f0f5f2;
+  border-color: #b8c7c0;
+  color: #17241e;
+}
+
+.zenve-doctor-following {
+  background-color: #e4efe9;
+  border-color: #0c4331;
+  color: #0c4331;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Advantage Cards */
+.zenve-advantage-block {
+  margin-top: 4px;
+}
+
+.zenve-advantage-sparkle {
+  display: flex;
+  align-items: center;
+}
+
+.zenve-advantage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zenve-advantage-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.zenve-advantage-card:hover {
+  background-color: #f3f7f4;
+}
+
+.zenve-advantage-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f7eedf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.zenve-advantage-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.zenve-advantage-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2520;
+  margin: 0 0 3px 0;
+  letter-spacing: -0.01em;
+}
+
+.zenve-advantage-desc {
+  font-size: 11.5px;
+  color: #6a7771;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.zenve-advantage-arrow {
+  display: flex;
+  align-items: center;
+  color: #9ea7a2;
+}
+
+@media (max-width: 1080px) {
+  .zenve-right-sidebar {
+    display: none;
+  }
+}

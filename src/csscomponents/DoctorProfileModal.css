@@ -1,0 +1,312 @@
+/* Doctor Profile Modal Styles */
+.zenve-doc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(14, 21, 18, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  animation: docOverlayFade 0.2s ease-out;
+}
+
+@keyframes docOverlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.zenve-doc-modal-card {
+  position: relative;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: docModalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes docModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Close Button */
+.zenve-doc-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.zenve-doc-modal-close:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: scale(1.05);
+}
+
+/* Banner */
+.zenve-doc-cover-banner {
+  height: 110px;
+  background: linear-gradient(135deg, #0b4330 0%, #175e46 100%);
+  position: relative;
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
+
+.zenve-doc-banner-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #e2ba6d;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* Header & Avatar */
+.zenve-doc-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 24px;
+  margin-top: -46px;
+  margin-bottom: 16px;
+}
+
+.zenve-doc-avatar-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  background-color: #e5ece7;
+}
+
+.zenve-doc-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-doc-online-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #16a34a;
+  border: 2px solid #ffffff;
+}
+
+/* Top Buttons */
+.zenve-doc-actions-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.zenve-doc-connect-btn {
+  height: 36px;
+  padding: 0 16px;
+  background-color: #0c4331;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.zenve-doc-connect-btn:hover {
+  background-color: #073223;
+  transform: translateY(-1px);
+}
+
+.zenve-doc-connect-active {
+  background-color: #e3efe8;
+  color: #0c4331;
+  border: 1px solid #0c4331;
+}
+
+.zenve-doc-msg-btn {
+  height: 36px;
+  padding: 0 16px;
+  background-color: #f5f7f5;
+  border: 1px solid #d9e0db;
+  color: #27352d;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.zenve-doc-msg-btn:hover {
+  background-color: #e8eee9;
+}
+
+/* Main Info */
+.zenve-doc-main-info {
+  padding: 0 24px 18px 24px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.zenve-doc-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.zenve-doc-name {
+  font-size: 21px;
+  font-weight: 700;
+  color: #17241e;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.zenve-doc-badge-pill {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #0c4331;
+  background-color: #e5efe9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.zenve-doc-specialty-text {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #55635c;
+  margin: 0 0 10px 0;
+}
+
+.zenve-doc-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #717d77;
+  flex-wrap: wrap;
+}
+
+.zenve-doc-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.zenve-doc-meta-separator {
+  color: #b5c0b9;
+}
+
+/* Stats */
+.zenve-doc-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.zenve-doc-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: #f7faf8;
+  border-radius: 8px;
+  border: 1px solid #e7eee9;
+}
+
+.zenve-doc-stat-num {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0c4331;
+}
+
+.zenve-doc-stat-lbl {
+  font-size: 11px;
+  color: #6c7872;
+  margin-top: 2px;
+}
+
+/* Sections */
+.zenve-doc-section {
+  padding: 18px 24px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.zenve-doc-section:last-child {
+  border-bottom: none;
+  padding-bottom: 24px;
+}
+
+.zenve-doc-section-heading {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1a2721;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 8px 0;
+}
+
+.zenve-doc-about-p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #4b5851;
+  margin: 0;
+}
+
+.zenve-doc-skills-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.zenve-doc-skill-pill {
+  font-size: 12px;
+  font-weight: 500;
+  color: #27362f;
+  background-color: #f1f5f2;
+  border: 1px solid #e0e7e2;
+  padding: 5px 12px;
+  border-radius: 999px;
+}

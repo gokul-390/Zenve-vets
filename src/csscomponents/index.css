@@ -1,0 +1,49 @@
+/* Reset and Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-primary: #0d382b;
+  --color-primary-light: #e4efe9;
+  --color-gold: #c99738;
+  --color-gold-text: #8c8266;
+  --color-border: #e9ece8;
+  --color-bg-page: #f9fbf9;
+  --color-text-dark: #17211c;
+  --color-text-muted: #5c6861;
+  --color-text-subtle: #7d8882;
+  --color-badge-bg: #f6eee4;
+  --color-badge-border: #decdbe;
+  
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-dark);
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+
+input {
+  font-family: inherit;
+}
