@@ -26,3 +26,11 @@ dist-ssr
 node_modules/
 .env
 dist/
+
+# Java / Maven
+target/
+**/target/
+*.class
+*.jar
+*.war
+.m2/
