@@ -414,3 +414,68 @@
     display: none;
   }
 }
+
+/* ── Dark / Light Mode Toggle ──────────────────────────── */
+.zenve-theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 9999px;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.zenve-theme-toggle-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 48px;
+  height: 26px;
+  border-radius: 9999px;
+  background-color: #d4dbd6;
+  border: 1.5px solid #c0cac2;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.zenve-theme-toggle--dark .zenve-theme-toggle-track {
+  background-color: #1e3a4a;
+  border-color: #2d5568;
+}
+
+.zenve-theme-toggle-thumb {
+  position: absolute;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #c99738;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, color 0.3s ease;
+}
+
+.zenve-theme-toggle--dark .zenve-theme-toggle-thumb {
+  transform: translateX(22px);
+  background-color: #1e3a4a;
+  color: #7ec8e3;
+}
+
+.zenve-theme-toggle:hover .zenve-theme-toggle-track {
+  border-color: #0d382b;
+}
+
+.zenve-theme-toggle--dark:hover .zenve-theme-toggle-track {
+  border-color: #4a9bbf;
+}
+
+.zenve-theme-toggle:focus-visible .zenve-theme-toggle-track {
+  box-shadow: 0 0 0 3px rgba(13, 56, 43, 0.25);
+}
