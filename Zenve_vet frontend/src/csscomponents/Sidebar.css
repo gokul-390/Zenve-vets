@@ -22,7 +22,7 @@
 
 .zenve-sidenav:hover {
   scrollbar-color: #e2e8e4 transparent;
-  transition: 1.5s;
+  transition: 1s;
 }
 
 .zenve-sidenav::-webkit-scrollbar {
