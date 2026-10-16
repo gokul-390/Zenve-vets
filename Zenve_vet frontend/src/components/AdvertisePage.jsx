@@ -3,7 +3,6 @@ import {
   Users,
   ShieldCheck,
   Eye,
-  EyeOff,
   ArrowUpRight,
   KeyRound,
   Megaphone,
@@ -13,6 +12,7 @@ import {
   Sparkles,
   CheckCircle2,
 } from 'lucide-react';
+
 import '../csscomponents/AdvertisePage.css';
 
 const campaignObjectives = [
@@ -46,7 +46,7 @@ const budgetRanges = [
   'Above ₹50,000',
 ];
 
-export default function AdvertisePage() {
+export default function AdvertisePage({ onOpenDashboard }) {
   const [brandName, setBrandName] = useState('');
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
@@ -57,8 +57,6 @@ export default function AdvertisePage() {
   const [budget, setBudget] = useState(budgetRanges[0]);
   const [startDate, setStartDate] = useState('');
 
-  const [accessKey, setAccessKey] = useState('');
-  const [showAccessKey, setShowAccessKey] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('info');
 
@@ -67,23 +65,16 @@ export default function AdvertisePage() {
 
     setMessageType('success');
     setMessage(
-      `Your campaign brief is ready. Brand: ${brandName.trim()}. Objective: ${objective}. Registration has not been sent to a server yet. Connect the backend API to submit it.`
+      `Your campaign brief is ready. Brand: ${brandName.trim()}. Objective: ${objective}. This is an on-screen preview only; your details have not been sent to a server.`
     );
   }
 
-  function handleDashboardSubmit(event) {
-    event.preventDefault();
+  function handleDashboardSubmit() {
+    setMessage('');
 
-    if (!accessKey.trim()) {
-      setMessageType('error');
-      setMessage('Please enter your advertiser access key.');
-      return;
+    if (typeof onOpenDashboard === 'function') {
+      onOpenDashboard();
     }
-
-    setMessageType('info');
-    setMessage(
-      'Your access key has not been verified. Secure dashboard authentication must be connected to the backend.'
-    );
   }
 
   return (
@@ -111,12 +102,18 @@ export default function AdvertisePage() {
           </p>
 
           <div className="advertise-hero-actions">
-            <a className="advertise-hero-cta" href="#advertiser-registration">
+            <a
+              className="advertise-hero-cta"
+              href="#advertiser-registration"
+            >
               Plan your campaign
               <ArrowUpRight size={17} aria-hidden="true" />
             </a>
 
-            <a className="advertise-hero-contact" href="mailto:zenvefashions@gmail.com">
+            <a
+              className="advertise-hero-contact"
+              href="mailto:zenvefashions@gmail.com"
+            >
               Talk to our team
             </a>
           </div>
@@ -126,6 +123,7 @@ export default function AdvertisePage() {
               <ShieldCheck size={15} aria-hidden="true" />
               Review-led campaigns
             </span>
+
             <span>
               <Target size={15} aria-hidden="true" />
               Audience-focused planning
@@ -138,11 +136,15 @@ export default function AdvertisePage() {
             <div className="advertise-orbit-center">
               <Megaphone size={32} />
             </div>
+
             <span className="advertise-orbit-dot dot-one" />
             <span className="advertise-orbit-dot dot-two" />
             <span className="advertise-orbit-dot dot-three" />
           </div>
-          <span className="advertise-orbit-caption">CONNECT · INFORM · GROW</span>
+
+          <span className="advertise-orbit-caption">
+            CONNECT · INFORM · GROW
+          </span>
         </div>
 
         <div className="advertise-hero-bottom">
@@ -153,14 +155,21 @@ export default function AdvertisePage() {
         </div>
       </header>
 
-      <section className="advertise-benefits-section" aria-labelledby="advertise-benefits-title">
+      <section
+        className="advertise-benefits-section"
+        aria-labelledby="advertise-benefits-title"
+      >
         <div className="advertise-section-intro">
           <div>
-            <span className="advertise-section-kicker">WHY ZENVE VET</span>
+            <span className="advertise-section-kicker">
+              WHY ZENVE VET
+            </span>
+
             <h2 id="advertise-benefits-title">
               Advertising with purpose.
             </h2>
           </div>
+
           <p>
             Built around relevant communication, responsible review, and
             campaign performance visibility.
@@ -172,8 +181,13 @@ export default function AdvertisePage() {
             <span className="advertise-benefit-icon">
               <Users size={22} aria-hidden="true" />
             </span>
-            <span className="advertise-benefit-number">01 / AUDIENCE</span>
+
+            <span className="advertise-benefit-number">
+              01 / AUDIENCE
+            </span>
+
             <h3>Reach the right professionals</h3>
+
             <p>
               Plan campaigns for veterinary practitioners, clinics,
               livestock and equine professionals, and researchers.
@@ -184,8 +198,13 @@ export default function AdvertisePage() {
             <span className="advertise-benefit-icon">
               <ShieldCheck size={22} aria-hidden="true" />
             </span>
-            <span className="advertise-benefit-number">02 / TRUST</span>
+
+            <span className="advertise-benefit-number">
+              02 / TRUST
+            </span>
+
             <h3>Responsible campaign review</h3>
+
             <p>
               Campaigns are intended to be reviewed by the Zenve Vet team
               before publication.
@@ -196,8 +215,13 @@ export default function AdvertisePage() {
             <span className="advertise-benefit-icon">
               <Eye size={22} aria-hidden="true" />
             </span>
-            <span className="advertise-benefit-number">03 / INSIGHTS</span>
+
+            <span className="advertise-benefit-number">
+              03 / INSIGHTS
+            </span>
+
             <h3>Plan for measurable results</h3>
+
             <p>
               Views, clicks, and click-through reporting are planned
               features, subject to analytics integration.
@@ -206,13 +230,20 @@ export default function AdvertisePage() {
         </div>
       </section>
 
-      <section className="advertise-workspace" id="advertiser-registration">
+      <section
+        className="advertise-workspace"
+        id="advertiser-registration"
+      >
         <div className="advertise-workspace-heading">
-          <span className="advertise-section-kicker">YOUR NEXT STEP</span>
+          <span className="advertise-section-kicker">
+            YOUR NEXT STEP
+          </span>
+
           <h2>Let's build your campaign.</h2>
+
           <p>
-            Share your brand details and campaign preferences. You can refine
-            the plan with the Zenve Vet team.
+            Share your brand details and campaign preferences. You can
+            refine the plan with the Zenve Vet team.
           </p>
         </div>
 
@@ -222,9 +253,13 @@ export default function AdvertisePage() {
               <span className="advertiser-heading-icon">
                 <Megaphone size={20} aria-hidden="true" />
               </span>
+
               <div>
-                <span className="advertiser-panel-kicker">01 · GET STARTED</span>
-                <h2>Brand & campaign brief</h2>
+                <span className="advertiser-panel-kicker">
+                  01 · GET STARTED
+                </span>
+
+                <h2>Brand &amp; campaign brief</h2>
               </div>
             </div>
 
@@ -238,7 +273,10 @@ export default function AdvertisePage() {
                 <span>Required fields *</span>
               </div>
 
-              <label htmlFor="advertiser-brand">Brand or organisation name *</label>
+              <label htmlFor="advertiser-brand">
+                Brand or organisation name *
+              </label>
+
               <input
                 id="advertiser-brand"
                 type="text"
@@ -250,7 +288,10 @@ export default function AdvertisePage() {
                 required
               />
 
-              <label htmlFor="advertiser-email">Business contact email *</label>
+              <label htmlFor="advertiser-email">
+                Business contact email *
+              </label>
+
               <input
                 id="advertiser-email"
                 type="email"
@@ -262,7 +303,10 @@ export default function AdvertisePage() {
                 required
               />
 
-              <label htmlFor="advertiser-website">Website URL *</label>
+              <label htmlFor="advertiser-website">
+                Website URL *
+              </label>
+
               <input
                 id="advertiser-website"
                 type="url"
@@ -287,13 +331,16 @@ export default function AdvertisePage() {
                     <Target size={14} aria-hidden="true" />
                     Campaign objective
                   </label>
+
                   <select
                     id="advertiser-objective"
                     value={objective}
                     onChange={(event) => setObjective(event.target.value)}
                   >
                     {campaignObjectives.map((item) => (
-                      <option key={item} value={item}>{item}</option>
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -303,13 +350,16 @@ export default function AdvertisePage() {
                     <Image size={14} aria-hidden="true" />
                     Preferred format
                   </label>
+
                   <select
                     id="advertiser-format"
                     value={format}
                     onChange={(event) => setFormat(event.target.value)}
                   >
                     {campaignFormats.map((item) => (
-                      <option key={item} value={item}>{item}</option>
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -319,26 +369,34 @@ export default function AdvertisePage() {
                     <Users size={14} aria-hidden="true" />
                     Target audience
                   </label>
+
                   <select
                     id="advertiser-audience"
                     value={audience}
                     onChange={(event) => setAudience(event.target.value)}
                   >
                     {audiences.map((item) => (
-                      <option key={item} value={item}>{item}</option>
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div className="advertiser-field">
-                  <label htmlFor="advertiser-budget">Indicative budget</label>
+                  <label htmlFor="advertiser-budget">
+                    Indicative budget
+                  </label>
+
                   <select
                     id="advertiser-budget"
                     value={budget}
                     onChange={(event) => setBudget(event.target.value)}
                   >
                     {budgetRanges.map((item) => (
-                      <option key={item} value={item}>{item}</option>
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -349,6 +407,7 @@ export default function AdvertisePage() {
                   <CalendarDays size={14} aria-hidden="true" />
                   Preferred campaign start date
                 </label>
+
                 <input
                   id="advertiser-start-date"
                   type="date"
@@ -360,17 +419,26 @@ export default function AdvertisePage() {
 
               <div className="advertiser-plan-summary">
                 <Sparkles size={17} aria-hidden="true" />
+
                 <div>
                   <strong>Your campaign direction</strong>
+
                   <p>
                     {objective} · {format} · {audience}
                   </p>
+
                   <p>Budget: {budget}</p>
-                  {startDate && <p>Preferred start: {startDate}</p>}
+
+                  {startDate && (
+                    <p>Preferred start: {startDate}</p>
+                  )}
                 </div>
               </div>
 
-              <button className="advertiser-primary-button" type="submit">
+              <button
+                className="advertiser-primary-button"
+                type="submit"
+              >
                 Prepare campaign brief
                 <ArrowUpRight size={17} aria-hidden="true" />
               </button>
@@ -387,70 +455,56 @@ export default function AdvertisePage() {
               <span className="advertiser-heading-icon advertiser-key-icon">
                 <KeyRound size={20} aria-hidden="true" />
               </span>
+
               <div>
-                <span className="advertiser-panel-kicker">02 · EXISTING ADVERTISERS</span>
-                <h2>Access your dashboard</h2>
+                <span className="advertiser-panel-kicker">
+                  02 · EXISTING ADVERTISERS
+                </span>
+
+                <h2>Advertiser dashboard</h2>
               </div>
             </div>
 
             <p className="advertiser-subtitle">
-              Already have an advertiser access key? Enter it below to check
-              access availability.
+              Explore sample campaign statistics and advertising
+              performance while the backend API is being developed.
             </p>
-
-            <form onSubmit={handleDashboardSubmit}>
-              <label htmlFor="advertiser-key">Advertiser access key *</label>
-              <div className="advertiser-key-input-wrap">
-                <KeyRound size={17} aria-hidden="true" />
-                <input
-                  id="advertiser-key"
-                  type={showAccessKey ? 'text' : 'password'}
-                  placeholder="Enter your access key"
-                  value={accessKey}
-                  onChange={(event) => setAccessKey(event.target.value)}
-                  autoComplete="current-password"
-                  required
-                />
-                <button
-                  className="advertiser-toggle-key"
-                  type="button"
-                  onClick={() => setShowAccessKey((visible) => !visible)}
-                  aria-label={showAccessKey ? 'Hide access key' : 'Show access key'}
-                  aria-pressed={showAccessKey}
-                >
-                  {showAccessKey ? (
-                    <EyeOff size={17} aria-hidden="true" />
-                  ) : (
-                    <Eye size={17} aria-hidden="true" />
-                  )}
-                </button>
-              </div>
-
-              <button className="advertiser-secondary-button" type="submit">
-                <KeyRound size={16} aria-hidden="true" />
-                Check dashboard access
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </button>
-            </form>
 
             <div className="advertiser-dashboard-note">
               <ShieldCheck size={19} aria-hidden="true" />
+
               <div>
-                <strong>Your access, protected</strong>
+                <strong>Demo dashboard</strong>
+
                 <p>
-                  Access keys should be validated securely by the backend.
-                  This page does not authenticate users or open a dashboard yet.
+                  The dashboard currently displays sample campaign data.
+                  No access key or authentication is required.
                 </p>
               </div>
             </div>
+
+            <button
+              className="advertiser-secondary-button"
+              type="button"
+              onClick={handleDashboardSubmit}
+            >
+              <KeyRound size={16} aria-hidden="true" />
+              Open advertiser dashboard
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </button>
 
             <div className="advertiser-contact-card">
               <span className="advertiser-contact-icon">
                 <Users size={19} aria-hidden="true" />
               </span>
+
               <div>
                 <strong>Need help getting started?</strong>
-                <p>Contact our team for campaign pricing and setup guidance.</p>
+
+                <p>
+                  Contact our team for campaign pricing and setup guidance.
+                </p>
+
                 <a href="mailto:zenvefashions@gmail.com">
                   zenvefashions@gmail.com
                   <ArrowUpRight size={14} aria-hidden="true" />
@@ -459,18 +513,25 @@ export default function AdvertisePage() {
             </div>
 
             <div className="advertiser-process-list">
-              <span className="advertiser-panel-kicker">HOW IT WORKS</span>
+              <span className="advertiser-panel-kicker">
+                HOW IT WORKS
+              </span>
+
               <div>
                 <CheckCircle2 size={16} aria-hidden="true" />
                 <span>Share your brand and campaign preferences</span>
               </div>
+
               <div>
                 <CheckCircle2 size={16} aria-hidden="true" />
                 <span>Discuss pricing and campaign requirements</span>
               </div>
+
               <div>
                 <CheckCircle2 size={16} aria-hidden="true" />
-                <span>Complete review and publishing setup with the team</span>
+                <span>
+                  Complete review and publishing setup with the team
+                </span>
               </div>
             </div>
           </section>
@@ -488,7 +549,9 @@ export default function AdvertisePage() {
           ) : (
             <ShieldCheck size={19} aria-hidden="true" />
           )}
+
           <p>{message}</p>
+
           <button
             type="button"
             onClick={() => setMessage('')}
