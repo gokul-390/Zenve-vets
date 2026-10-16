@@ -1,26 +1,27 @@
 /* =========================================
    ZENVE VET — SEARCH & DISCOVERY
+   Clean, responsive, professional styling
    Burgundy • Ivory • Muted Gold
 ========================================= */
 
 .search-page {
   --search-forest: #541522;
-  --search-forest-dark: #3D0D18;
-  --search-ivory: #F8F4EC;
-  --search-sage: #F1E8E5;
-  --search-gold: #C5A45B;
-  --search-white: #FFFDF9;
-  --search-text: #392D2C;
-  --search-muted: #80716D;
-  --search-border: #E9DFD5;
+  --search-forest-dark: #3d0d18;
+  --search-ivory: #f8f4ec;
+  --search-sage: #f1e8e5;
+  --search-gold: #c5a45b;
+  --search-white: #fffdf9;
+  --search-text: #392d2c;
+  --search-muted: #80716d;
+  --search-border: #e9dfd5;
   --search-shadow: 0 6px 22px rgba(84, 21, 34, 0.055);
 
-  box-sizing: border-box;
   width: 100%;
   max-width: none;
   min-width: 0;
   margin: 0;
   padding: 0 0 36px;
+  box-sizing: border-box;
   color: var(--search-text);
   font-family: "Figtree", "Segoe UI", sans-serif;
 }
@@ -34,10 +35,12 @@
 .search-page button,
 .search-page input,
 .search-page select {
-  font-family: inherit;
+  font: inherit;
 }
 
-/* Heading */
+/* =========================================
+   PAGE HEADING
+========================================= */
 
 .search-heading {
   width: 100%;
@@ -48,7 +51,7 @@
   display: inline-flex;
   align-items: center;
   padding: 7px 11px;
-  border: 1px solid #E9D9D8;
+  border: 1px solid #e9d9d8;
   border-radius: 999px;
   background: var(--search-sage);
   color: var(--search-forest);
@@ -77,15 +80,17 @@
   line-height: 1.8;
 }
 
-/* Search Input and City Filter */
+/* =========================================
+   SEARCH INPUT AND LOCATION
+========================================= */
 
 .search-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px;
+  grid-template-columns: minmax(0, 1fr) 200px;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
-  max-width: 850px;
+  max-width: none;
 }
 
 .search-input-wrap {
@@ -94,7 +99,7 @@
   gap: 11px;
   width: 100%;
   min-width: 0;
-  min-height: 50px;
+  min-height: 48px;
   margin: 0;
   padding: 5px 10px 5px 15px;
   border: 1px solid var(--search-border);
@@ -106,7 +111,7 @@
 }
 
 .search-input-wrap:focus-within {
-  border-color: #A66F7B;
+  border-color: #a66f7b;
   box-shadow: 0 0 0 3px rgba(84, 21, 34, 0.09);
 }
 
@@ -120,7 +125,6 @@
   width: 100%;
   min-width: 0;
   min-height: 36px;
-  margin: 0;
   padding: 0;
   border: 0;
   outline: none;
@@ -155,7 +159,7 @@
   align-items: center;
   gap: 7px;
   min-width: 0;
-  min-height: 50px;
+  min-height: 48px;
   padding: 0 10px;
   border: 1px solid var(--search-border);
   border-radius: 12px;
@@ -170,7 +174,7 @@
 .search-city-select {
   width: 100%;
   min-width: 0;
-  height: 44px;
+  height: 42px;
   padding: 0 4px;
   border: 0;
   outline: none;
@@ -180,15 +184,17 @@
   cursor: pointer;
 }
 
-/* Specialty Filters */
+/* =========================================
+   SPECIALTY FILTERS
+========================================= */
 
 .search-filter-section {
-  margin-top: 23px;
+  margin-top: 30px;
 }
 
 .search-filter-label {
   display: block;
-  margin-bottom: 12px;
+  margin: 0 0 15px;
   color: var(--search-text);
   font-size: 12px;
   font-weight: 800;
@@ -197,12 +203,13 @@
 .search-specialties {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 9px;
+  row-gap: 10px;
 }
 
 .search-specialties button {
-  min-height: 34px;
-  padding: 7px 13px;
+  min-height: 35px;
+  padding: 8px 14px;
   border: 1px solid var(--search-border);
   border-radius: 999px;
   background: var(--search-white);
@@ -210,11 +217,15 @@
   font-size: 11px;
   font-weight: 650;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease,
-    color 160ms ease;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
 }
 
 .search-specialties button:hover {
+  transform: translateY(-1px);
   border-color: var(--search-gold);
   color: var(--search-forest);
 }
@@ -223,16 +234,19 @@
   border-color: var(--search-forest);
   background: var(--search-forest);
   color: var(--search-white);
+  box-shadow: 0 2px 7px rgba(84, 21, 34, 0.12);
 }
 
-/* Verification and Takeaways */
+/* =========================================
+   VERIFICATION AND TAKEAWAYS
+========================================= */
 
 .search-options {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 13px 20px;
-  margin: 20px 0 24px;
+  margin: 22px 0 27px;
 }
 
 .search-options label {
@@ -274,31 +288,35 @@
   background: var(--search-sage);
 }
 
-/* Main Category Tabs */
+/* =========================================
+   CATEGORY TABS
+========================================= */
 
 .search-tabs {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 10px;
   width: 100%;
   min-width: 0;
-  margin-top: 4px;
-  padding: 0 0 1px;
+  margin-top: 8px;
+  padding: 0;
   overflow-x: auto;
   border-bottom: 1px solid var(--search-border);
   scrollbar-width: thin;
-  scrollbar-color: #D6C1B9 transparent;
+  scrollbar-color: #d6c1b9 transparent;
 }
 
 .search-tabs button {
   position: relative;
   display: inline-flex;
+  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   gap: 9px;
-  min-height: 49px;
-  padding: 0 13px;
+  min-width: max-content;
+  min-height: 52px;
+  padding: 0 14px;
   border: 1px solid transparent;
   border-radius: 10px 10px 0 0;
   background: transparent;
@@ -308,6 +326,10 @@
   white-space: nowrap;
   cursor: pointer;
   transition: background 160ms ease, color 160ms ease;
+}
+
+.search-tabs button > svg {
+  flex-shrink: 0;
 }
 
 .search-tab-label {
@@ -338,8 +360,6 @@
   content: "";
 }
 
-/* Count badges */
-
 .search-tab-count {
   display: inline-flex;
   flex-shrink: 0;
@@ -348,7 +368,7 @@
   min-width: 25px;
   height: 23px;
   padding: 0 7px;
-  border: 1px solid #E9D9D8;
+  border: 1px solid #e9d9d8;
   border-radius: 999px;
   background: var(--search-sage);
   color: var(--search-forest);
@@ -364,28 +384,30 @@
   color: var(--search-white);
 }
 
-/* Section Headings and Result Counts */
+/* =========================================
+   RESULTS HEADINGS AND COUNTS
+========================================= */
 
 .search-results-section,
 .search-discovery-section {
   width: 100%;
   min-width: 0;
-  margin-top: 28px;
+  margin-top: 25px;
   scroll-margin-top: 24px;
 }
 
 .search-results-heading {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   width: 100%;
-  margin: 0 0 18px;
+  margin: 0 0 16px;
 }
 
 .search-results-eyebrow {
   display: inline-block;
-  color: #9A8050;
+  color: #9a8050;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -424,20 +446,54 @@
   font-weight: 750;
 }
 
-/* Scrollable Doctor Directory */
+/* Optional directory sorting controls */
+.search-directory-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search-sort-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--search-border);
+  border-radius: 10px;
+  background: var(--search-white);
+  color: var(--search-forest);
+}
+
+.search-sort-control select {
+  max-width: 155px;
+  min-height: 34px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--search-text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* =========================================
+   DOCTOR DIRECTORY SCROLL AREA
+========================================= */
 
 .doctor-scroll-container {
   width: 100%;
   max-width: 100%;
+  max-height: 650px;
   min-width: 0;
-  max-height: 680px;
-  padding: 2px 5px 12px 2px;
+  padding: 3px 6px 12px 2px;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior-y: contain;
-  scrollbar-width: thin;
-  scrollbar-color: #CDB8B0 #F8F4EC;
   border-radius: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: #cdb8b0 var(--search-ivory);
 }
 
 .doctor-scroll-container::-webkit-scrollbar {
@@ -452,23 +508,25 @@
 .doctor-scroll-container::-webkit-scrollbar-thumb {
   border: 1px solid var(--search-ivory);
   border-radius: 10px;
-  background: #CDB8B0;
+  background: #cdb8b0;
 }
 
 .doctor-scroll-container::-webkit-scrollbar-thumb:hover {
-  background: #A98C84;
+  background: #a98c84;
 }
 
-/* Doctor Cards */
+/* =========================================
+   DOCTOR CARDS
+========================================= */
 
 .doctor-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
-  gap: 18px;
+  gap: 16px;
   width: 100%;
   min-width: 0;
-  padding: 2px 2px 5px;
+  padding: 2px;
 }
 
 .doctor-card {
@@ -480,13 +538,15 @@
   border-radius: 15px;
   background: var(--search-white);
   box-shadow: var(--search-shadow);
-  transition: transform 180ms ease, box-shadow 180ms ease,
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
     border-color 180ms ease;
 }
 
 .doctor-card:hover {
   transform: translateY(-2px);
-  border-color: #D6C1B9;
+  border-color: #d6c1b9;
   box-shadow: 0 10px 25px rgba(84, 21, 34, 0.085);
 }
 
@@ -495,9 +555,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-height: 76px;
-  padding: 15px 16px;
-  background: linear-gradient(120deg, #F1E8E5, #F8F4EC);
+  min-height: 78px;
+  padding: 13px 15px;
+  background: linear-gradient(125deg, var(--search-sage), var(--search-ivory));
 }
 
 .doctor-banner-icon {
@@ -531,13 +591,13 @@
   position: relative;
   display: grid;
   flex-shrink: 0;
-  width: 58px;
-  height: 58px;
-  margin: -27px 0 0 16px;
+  width: 62px;
+  height: 62px;
+  margin: -30px 0 0 16px;
   place-items: center;
   overflow: hidden;
   border: 4px solid var(--search-white);
-  border-radius: 17px;
+  border-radius: 16px;
   color: var(--search-forest);
   font-size: 16px;
   font-weight: 800;
@@ -556,12 +616,12 @@
   flex: 1;
   flex-direction: column;
   min-width: 0;
-  padding: 12px 16px 16px;
+  padding: 10px 15px 15px;
 }
 
 .doctor-label {
   display: inline-block;
-  color: #9A8050;
+  color: #9a8050;
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -569,7 +629,7 @@
 }
 
 .doctor-card-body h3 {
-  margin: 8px 0 5px;
+  margin: 7px 0 5px;
   color: var(--search-forest-dark);
   font-family: "Outfit", "Segoe UI", sans-serif;
   font-size: 16px;
@@ -582,17 +642,23 @@
 .doctor-specialty {
   margin: 0;
   color: var(--search-muted);
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.6;
+}
+
+.doctor-experience {
+  margin-top: 7px;
+  color: var(--search-muted);
+  font-size: 11px;
 }
 
 .doctor-location {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 12px;
+  margin-top: 9px;
   color: var(--search-muted);
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .doctor-location svg {
@@ -600,15 +666,24 @@
   color: var(--search-forest);
 }
 
-/* Doctor Card Actions */
+.doctor-verified-icon {
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--search-forest);
+  vertical-align: -2px;
+}
+
+/* =========================================
+   DOCTOR CARD ACTIONS
+========================================= */
 
 .doctor-card-footer {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 12px;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 16px;
+  padding-top: 13px;
 }
 
 .doctor-community-status {
@@ -623,13 +698,13 @@
 
 .doctor-community-status svg {
   flex-shrink: 0;
-  color: #8B7541;
+  color: #8b7541;
 }
 
 .doctor-card-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 7px;
 }
 
 .doctor-connect-button,
@@ -641,22 +716,26 @@
   gap: 6px;
   width: 100%;
   min-width: 0;
-  min-height: 38px;
-  padding: 8px 9px;
+  min-height: 36px;
+  padding: 7px 8px;
   border: 1px solid transparent;
-  border-radius: 9px;
+  border-radius: 8px;
   font-size: 10px;
   font-weight: 750;
   line-height: 1.35;
   text-align: center;
   overflow-wrap: anywhere;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease,
-    color 160ms ease, transform 160ms ease;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
 }
 
 .doctor-connect-button {
   grid-column: 1 / -1;
+  min-height: 38px;
   border-color: var(--search-forest);
   background: var(--search-forest);
   color: var(--search-white);
@@ -668,13 +747,13 @@
 }
 
 .doctor-connect-button.is-connected {
-  border-color: #E0D0A8;
-  background: #F5EEDC;
+  border-color: #e0d0a8;
+  background: #f5eedc;
   color: var(--search-forest);
 }
 
 .doctor-connect-button.is-connected:hover {
-  background: #EEE2C6;
+  background: #eee2c6;
 }
 
 .doctor-profile-button {
@@ -702,7 +781,9 @@
   flex-shrink: 0;
 }
 
-/* Discovery Filters: Cases, Stories, Videos Only */
+/* =========================================
+   CASES, STORIES AND VIDEO FILTERS
+========================================= */
 
 .discovery-heading {
   margin-bottom: 16px;
@@ -725,8 +806,7 @@
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease,
-    color 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
 .discovery-filter-row button:hover {
@@ -740,7 +820,9 @@
   color: var(--search-white);
 }
 
-/* Discovery Cards */
+/* =========================================
+   DISCOVERY CARDS
+========================================= */
 
 .discovery-grid {
   display: grid;
@@ -748,14 +830,15 @@
   align-items: stretch;
   gap: 16px;
   width: 100%;
+  min-width: 0;
 }
 
 .discovery-card {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 230px;
-  padding: 19px;
+  min-height: 220px;
+  padding: 18px;
   border: 1px solid var(--search-border);
   border-radius: 14px;
   background: var(--search-white);
@@ -793,7 +876,7 @@
   align-items: center;
   padding: 5px 8px;
   border-radius: 999px;
-  background: #F5EEDC;
+  background: #f5eedc;
   color: var(--search-forest);
   font-size: 9px;
   font-weight: 800;
@@ -845,7 +928,9 @@
   overflow-wrap: anywhere;
 }
 
-/* Discovery Notice */
+/* =========================================
+   DISCOVERY NOTE
+========================================= */
 
 .search-discovery-note {
   display: flex;
@@ -871,14 +956,16 @@
   line-height: 1.7;
 }
 
-/* Empty Search State */
+/* =========================================
+   EMPTY SEARCH STATE
+========================================= */
 
 .search-empty {
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 42px 22px;
-  border: 1px dashed #D8C7BD;
+  border: 1px dashed #d8c7bd;
   border-radius: 15px;
   background: rgba(255, 253, 249, 0.8);
   text-align: center;
@@ -928,7 +1015,9 @@
   background: var(--search-forest-dark);
 }
 
-/* Doctor Profile Modal */
+/* =========================================
+   DOCTOR PROFILE MODAL
+========================================= */
 
 .doctor-modal-backdrop {
   position: fixed;
@@ -1112,7 +1201,7 @@
 
 .doctor-interest-list span {
   padding: 7px 10px;
-  border: 1px solid #E9D9D8;
+  border: 1px solid #e9d9d8;
   border-radius: 999px;
   background: var(--search-sage);
   color: var(--search-forest);
@@ -1134,7 +1223,9 @@
   line-height: 1.7;
 }
 
-/* Keyboard Accessibility */
+/* =========================================
+   ACCESSIBILITY
+========================================= */
 
 .search-page button:focus-visible,
 .search-page input:focus-visible,
@@ -1143,24 +1234,33 @@
   outline-offset: 3px;
 }
 
-/* Tablet */
+/* =========================================
+   TABLET
+========================================= */
 
 @media (max-width: 1050px) {
+  .search-controls {
+    grid-template-columns: minmax(0, 1fr) 180px;
+  }
+
   .doctor-grid,
   .discovery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .search-controls {
-    max-width: 780px;
+  .search-tabs button {
+    padding-right: 10px;
+    padding-left: 10px;
   }
 
   .doctor-scroll-container {
-    max-height: 650px;
+    max-height: 620px;
   }
 }
 
-/* Mobile */
+/* =========================================
+   MOBILE
+========================================= */
 
 @media (max-width: 650px) {
   .search-page {
@@ -1183,23 +1283,22 @@
   .search-controls {
     grid-template-columns: minmax(0, 1fr);
     gap: 10px;
-    max-width: none;
   }
 
   .search-input-wrap {
-    min-height: 48px;
+    min-height: 46px;
   }
 
   .search-city-field {
-    min-height: 45px;
+    min-height: 44px;
   }
 
   .search-city-select {
-    height: 41px;
+    height: 40px;
   }
 
   .search-filter-section {
-    margin-top: 20px;
+    margin-top: 24px;
   }
 
   .search-specialties {
@@ -1217,12 +1316,12 @@
   }
 
   .search-tabs {
+    justify-content: flex-start;
     gap: 8px;
-    padding-bottom: 1px;
   }
 
   .search-tabs button {
-    gap: 7px;
+    flex: 0 0 auto;
     min-height: 45px;
     padding: 0 10px;
     font-size: 11px;
@@ -1257,41 +1356,39 @@
     font-size: 9px;
   }
 
+  .search-directory-controls {
+    justify-content: flex-start;
+  }
+
   .doctor-scroll-container {
     max-height: 590px;
     padding-right: 3px;
   }
 
-  .doctor-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 13px;
-  }
-
+  .doctor-grid,
   .discovery-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 13px;
   }
 
-  .doctor-card-body {
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-
   .doctor-card-banner {
-    padding-right: 15px;
-    padding-left: 15px;
+    min-height: 75px;
+    padding: 12px 15px;
   }
 
   .doctor-avatar {
+    width: 58px;
+    height: 58px;
+    margin-top: -28px;
     margin-left: 15px;
   }
 
-  .doctor-card-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .doctor-card-body {
+    padding: 10px 15px 14px;
   }
 
-  .doctor-connect-button {
-    grid-column: 1 / -1;
+  .doctor-card-body h3 {
+    font-size: 16px;
   }
 
   .discovery-card {
@@ -1330,10 +1427,7 @@
     border-radius: 12px;
   }
 
-  .doctor-profile-stats {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
+  .doctor-profile-stats,
   .doctor-profile-actions {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -1343,7 +1437,9 @@
   }
 }
 
-/* Very Small Phones */
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
 
 @media (max-width: 360px) {
   .search-heading h1 {
@@ -1356,6 +1452,11 @@
   }
 
   .search-results-heading {
+    flex-direction: column;
+  }
+
+  .search-directory-controls {
+    align-items: stretch;
     flex-direction: column;
   }
 
@@ -1372,7 +1473,9 @@
   }
 }
 
-/* Reduced Motion */
+/* =========================================
+   REDUCED MOTION
+========================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .search-page *,
@@ -1382,306 +1485,5 @@
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-  }
-}
-/* =========================================
-   IMAGE 1 LAYOUT REFINEMENTS
-========================================= */
-
-/* Give the page more room */
-.search-page {
-  width: 100%;
-  max-width: none;
-}
-
-/* Wider search area */
-.search-controls {
-  max-width: none;
-  grid-template-columns: minmax(0, 1fr) 220px;
-}
-
-/* More space between filters and category tabs */
-.search-options {
-  margin-bottom: 28px;
-}
-
-.search-tabs {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: 14px;
-  margin-top: 10px;
-  padding-bottom: 0;
-  overflow-x: auto;
-}
-
-.search-tabs button {
-  flex: 1 0 auto;
-  justify-content: center;
-  gap: 11px;
-  min-height: 58px;
-  padding: 0 18px;
-  border-radius: 12px 12px 0 0;
-  font-size: 14px;
-}
-
-.search-tabs button > svg {
-  flex-shrink: 0;
-}
-
-.search-tab-count {
-  min-width: 31px;
-  height: 29px;
-  padding: 0 9px;
-  font-size: 12px;
-}
-
-/* Result heading and sorting */
-.search-results-heading {
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.search-directory-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.search-sort-control {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 42px;
-  padding: 0 12px;
-  border: 1px solid var(--search-border);
-  border-radius: 11px;
-  background: var(--search-white);
-  color: var(--search-forest);
-}
-
-.search-sort-control select {
-  max-width: 155px;
-  min-height: 38px;
-  border: 0;
-  outline: none;
-  background: transparent;
-  color: var(--search-text);
-  font-size: 12px;
-  cursor: pointer;
-}
-
-/* Bigger, more spacious doctor cards */
-.doctor-scroll-container {
-  max-height: 690px;
-  padding: 4px 8px 16px 4px;
-}
-
-.doctor-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-}
-
-.doctor-card {
-  border-radius: 19px;
-}
-
-.doctor-card-banner {
-  min-height: 110px;
-  padding: 19px;
-  background: linear-gradient(125deg, #F1E8E5, #F5EEDC);
-}
-
-.doctor-banner-icon {
-  width: 47px;
-  height: 47px;
-  border-radius: 50%;
-}
-
-.doctor-avatar {
-  width: 86px;
-  height: 86px;
-  margin-top: -43px;
-  margin-left: 22px;
-  border-radius: 50%;
-  font-size: 20px;
-}
-
-.doctor-card-body {
-  padding: 14px 22px 22px;
-}
-
-.doctor-label {
-  font-size: 9px;
-}
-
-.doctor-card-body h3 {
-  margin-top: 10px;
-  font-size: 19px;
-}
-
-.doctor-specialty {
-  font-size: 13px;
-}
-
-.doctor-experience {
-  margin-top: 7px;
-  color: var(--search-muted);
-  font-size: 12px;
-}
-
-.doctor-location {
-  margin-top: 12px;
-  font-size: 12px;
-}
-
-.doctor-card-footer {
-  gap: 14px;
-  padding-top: 18px;
-}
-
-.doctor-community-status {
-  font-size: 12px;
-}
-
-.doctor-card-actions {
-  gap: 9px;
-}
-
-.doctor-connect-button,
-.doctor-profile-button,
-.doctor-message-button {
-  min-height: 43px;
-  padding: 10px 9px;
-  border-radius: 10px;
-  font-size: 11px;
-}
-
-.doctor-connect-button {
-  min-height: 47px;
-  font-size: 12px;
-}
-
-/* Make the verification mark look polished */
-.doctor-verified-icon {
-  display: inline-block;
-  margin-left: 6px;
-  color: var(--search-forest);
-  vertical-align: -2px;
-}
-
-/* Tablet */
-@media (max-width: 1050px) {
-  .search-controls {
-    max-width: none;
-    grid-template-columns: minmax(0, 1fr) 190px;
-  }
-
-  .doctor-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 17px;
-  }
-
-  .search-tabs button {
-    padding-right: 13px;
-    padding-left: 13px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 650px) {
-  .search-controls {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .search-tabs {
-    justify-content: flex-start;
-    gap: 8px;
-  }
-
-  .search-tabs button {
-    flex: 0 0 auto;
-    gap: 7px;
-    min-height: 47px;
-    padding: 0 11px;
-    font-size: 11px;
-  }
-
-  .search-tabs button > svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .search-tab-count {
-    min-width: 24px;
-    height: 22px;
-    padding: 0 6px;
-    font-size: 10px;
-  }
-
-  .search-results-heading {
-    align-items: flex-start;
-  }
-
-  .search-directory-controls {
-    justify-content: flex-start;
-  }
-
-  .search-sort-control {
-    min-height: 37px;
-  }
-
-  .doctor-scroll-container {
-    max-height: 590px;
-    padding-right: 4px;
-  }
-
-  .doctor-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 15px;
-  }
-
-  .doctor-card-banner {
-    min-height: 90px;
-  }
-
-  .doctor-avatar {
-    width: 74px;
-    height: 74px;
-    margin-top: -37px;
-    margin-left: 17px;
-  }
-
-  .doctor-card-body {
-    padding: 12px 17px 18px;
-  }
-
-  .doctor-card-body h3 {
-    font-size: 17px;
-  }
-
-  .doctor-card-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .doctor-connect-button {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 360px) {
-  .search-directory-controls {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .doctor-card-actions {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .doctor-connect-button {
-    grid-column: auto;
   }
 }

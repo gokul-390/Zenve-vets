@@ -85,3 +85,83 @@
     padding: 16px 16px 80px 16px;
   }
 }
+
+/* =========================================
+SIDEBAR + MAIN CONTENT RESPONSIVE LAYOUT
+========================================= */
+
+@media (min-width: 769px) {
+.zenve-main-layout {
+display: flex;
+width: 100%;
+min-width: 0;
+}
+
+/* Default: sidebar is collapsed to 76px */
+.zenve-main-layout .zenve-content-workspace {
+flex: 1 1 auto;
+width: calc(100% - 76px);
+min-width: 0;
+margin-left: 76px;
+max-width: none;
+box-sizing: border-box;
+transition:
+margin-left 0.22s ease,
+width 0.22s ease;
+}
+
+/* Expand content spacing when sidebar is hovered */
+.zenve-main-layout:has(.zenve-sidenav:hover)
+.zenve-content-workspace,
+.zenve-main-layout:has(.zenve-sidenav:focus-within)
+.zenve-content-workspace {
+width: calc(100% - 260px);
+margin-left: 260px;
+}
+
+/* Search page fills its available workspace */
+.zenve-content-workspace:has(.search-page) .search-page {
+width: 100%;
+max-width: none;
+min-width: 0;
+margin-left: 0;
+margin-right: 0;
+box-sizing: border-box;
+}
+
+/* Advertise page fills its available workspace */
+.zenve-content-workspace:has(.advertise-page) .advertise-page {
+width: 100%;
+max-width: none;
+min-width: 0;
+margin-left: 0;
+margin-right: 0;
+box-sizing: border-box;
+}
+}
+
+/* Tablet and mobile */
+@media (max-width: 768px) {
+.zenve-main-layout {
+display: flex;
+width: 100%;
+min-width: 0;
+}
+
+.zenve-content-workspace {
+flex: 1 1 auto;
+width: auto;
+min-width: 0;
+margin-left: 0;
+max-width: none;
+box-sizing: border-box;
+}
+
+.zenve-content-workspace .search-page,
+.zenve-content-workspace .advertise-page {
+width: 100%;
+max-width: none;
+min-width: 0;
+box-sizing: border-box;
+}
+}
