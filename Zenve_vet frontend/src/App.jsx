@@ -8,6 +8,7 @@ import AdvertisePage from './components/AdvertisePage';
 import MemberBenefitsPage from './components/MemberBenefitsPage';
 import CreateProfileModal from './components/CreateProfileModal';
 import VetNetwork from './components/VetNetwork';
+import ClinicalCases from './components/ClinicalCases';
 import './csscomponents/App.css';
 
 export function App() {
@@ -79,6 +80,8 @@ export function App() {
               customVets={customVets}
               onOpenCreateProfile={() => setIsModalOpen(true)}
             />
+          ) : activeTab === 'clinical' ? (
+            <ClinicalCases />
           ) : activeTab === 'search' ? (
             <SearchPage />
           ) : activeTab === 'benefits' ? (
@@ -89,9 +92,7 @@ export function App() {
             <div className="zenve-section-placeholder-view">
               <span className="zenve-indicator-tag">ACTIVE VIEW</span>
               <h2 className="zenve-section-placeholder-title">
-                {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
                 {activeTab === 'messages' && 'Direct Messages & Consultations'}
-                {activeTab === 'benefits' && 'Exclusive Member Benefits'}
               </h2>
               <p className="zenve-section-placeholder-desc">
                 Switch back to the <strong>Feed</strong> tab to explore moments from the community, people to know, and the full Zenve advantage.
