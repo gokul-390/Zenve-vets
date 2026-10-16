@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react';
 import StoryViewerModal from './StoryViewerModal';
 import PostCard from './PostCard';
+import DoctorProfileModal from './DoctorProfileModal';
+import { DOCTORS_DATABASE } from '../data/doctorsData';
 import { postsApi, storiesApi } from '../api';
 import '../csscomponents/FeedContent.css';
 
-// Community doctor stories
+// Community doctor stories (each doctor has multiple stories on their single story page)
 const COMMUNITY_STORIES = [
   {
     id: 'aarthi',
@@ -12,6 +14,20 @@ const COMMUNITY_STORIES = [
     specialty: 'Orthopedic Surgery',
     time: '1h ago',
     img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+    items: [
+      {
+        id: 'aarthi-1',
+        storyMedia: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
+        caption: 'Post-op recovery going fantastic! This brave Golden Retriever is up and walking comfortably today 🐾❤️',
+        time: '1h ago',
+      },
+      {
+        id: 'aarthi-2',
+        storyMedia: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80',
+        caption: 'Follow-up gait assessment: complete weight bearing achieved on the left stifle joint 🩺🐶',
+        time: '45m ago',
+      },
+    ],
     storyMedia: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
     caption: 'Post-op recovery going fantastic! This brave Golden Retriever is up and walking comfortably today 🐾❤️',
   },
@@ -21,6 +37,20 @@ const COMMUNITY_STORIES = [
     specialty: 'Veterinary Surgeon',
     time: '2h ago',
     img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&h=150&q=80',
+    items: [
+      {
+        id: 'arun-1',
+        storyMedia: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
+        caption: 'Morning rounds complete at the clinic! Ready for two specialized ultrasound diagnostics today 🩺✨',
+        time: '2h ago',
+      },
+      {
+        id: 'arun-2',
+        storyMedia: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=900&q=80',
+        caption: 'Reviewing abdominal sonogram scans with the surgical team prior to procedure 🐾',
+        time: '1h ago',
+      },
+    ],
     storyMedia: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
     caption: 'Morning rounds complete at the clinic! Ready for two specialized ultrasound diagnostics today 🩺✨',
   },
@@ -30,6 +60,20 @@ const COMMUNITY_STORIES = [
     specialty: 'Veterinary Dermatology',
     time: '3h ago',
     img: 'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=150&h=150&q=80',
+    items: [
+      {
+        id: 'priya-1',
+        storyMedia: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
+        caption: 'Allergy screening follow-up: chronic dermatitis symptoms decreased by 85% on the hypoallergenic regimen! 🐶',
+        time: '3h ago',
+      },
+      {
+        id: 'priya-2',
+        storyMedia: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=900&q=80',
+        caption: 'Skin cytology sample under oil immersion: zero secondary bacterial flare-ups noted 🔬✨',
+        time: '2h ago',
+      },
+    ],
     storyMedia: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
     caption: 'Allergy screening follow-up: chronic dermatitis symptoms decreased by 85% on the hypoallergenic regimen! 🐶',
   },
@@ -39,6 +83,20 @@ const COMMUNITY_STORIES = [
     specialty: 'Animal Rehabilitation',
     time: '4h ago',
     img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80',
+    items: [
+      {
+        id: 'sneha-1',
+        storyMedia: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
+        caption: 'Hydrotherapy physical therapy session with Milo! Water exercises work wonders for joint mobility 🌊🐕',
+        time: '4h ago',
+      },
+      {
+        id: 'sneha-2',
+        storyMedia: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=900&q=80',
+        caption: 'Post-swim stretch and massage therapy. Milo was smiling the whole session! 🐾✨',
+        time: '3h ago',
+      },
+    ],
     storyMedia: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
     caption: 'Hydrotherapy physical therapy session with Milo! Water exercises work wonders for joint mobility 🌊🐕',
   },
@@ -48,6 +106,20 @@ const COMMUNITY_STORIES = [
     specialty: 'Small Animal Medicine',
     time: '5h ago',
     img: 'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=150&h=150&q=80',
+    items: [
+      {
+        id: 'nidhi-1',
+        storyMedia: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=900&q=80',
+        caption: 'Routine pediatric checkup & vaccinations done for this gorgeous litter of pups! Healthy & energetic 🐾',
+        time: '5h ago',
+      },
+      {
+        id: 'nidhi-2',
+        storyMedia: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=900&q=80',
+        caption: 'Growth chart review with puppy parents — nutrition plan tuned for optimal skeletal growth 🦴🩺',
+        time: '4h ago',
+      },
+    ],
     storyMedia: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=900&q=80',
     caption: 'Routine pediatric checkup & vaccinations done for this gorgeous litter of pups! Healthy & energetic 🐾',
   },
@@ -57,6 +129,20 @@ const COMMUNITY_STORIES = [
     specialty: 'Equine Specialist',
     time: '6h ago',
     img: 'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=150&h=150&q=80',
+    items: [
+      {
+        id: 'sanjay-1',
+        storyMedia: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
+        caption: 'Equine soundness evaluation at the ranch this afternoon. Always a privilege working with these majestic animals 🐴',
+        time: '6h ago',
+      },
+      {
+        id: 'sanjay-2',
+        storyMedia: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=900&q=80',
+        caption: 'Paddock turnout and gait symmetry checks under the afternoon sun 🌾🐴',
+        time: '5h ago',
+      },
+    ],
     storyMedia: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
     caption: 'Equine soundness evaluation at the ranch this afternoon. Always a privilege working with these majestic animals 🐴',
   },
@@ -66,6 +152,20 @@ const COMMUNITY_STORIES = [
     specialty: 'Avian & Exotic Care',
     time: '7h ago',
     img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+    items: [
+      {
+        id: 'karthika-1',
+        storyMedia: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=80',
+        caption: 'Exotic feather checkup & beak grooming today. Beak conditioning is key for healthy avian nutrition 🦜🩺',
+        time: '7h ago',
+      },
+      {
+        id: 'karthika-2',
+        storyMedia: 'https://images.unsplash.com/photo-1452570053594-1b985d6ea890?auto=format&fit=crop&w=900&q=80',
+        caption: 'Weight monitoring & wing span checkup. Healthy plumage and brilliant appetite! 🦜🌿',
+        time: '6h ago',
+      },
+    ],
     storyMedia: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=80',
     caption: 'Exotic feather checkup & beak grooming today. Beak conditioning is key for healthy avian nutrition 🦜🩺',
   },
@@ -105,6 +205,60 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   const [storyCaption, setStoryCaption] = useState('');
   const [storyToastMessage, setStoryToastMessage] = useState(null);
 
+  // Gallery file input ref & states for creating a post picture
+  const postFileInputRef = useRef(null);
+  const feedTopRef = useRef(null);
+  const [selectedPostImage, setSelectedPostImage] = useState(null);
+  const [selectedPostImageName, setSelectedPostImageName] = useState('');
+  const [selectedPostTags, setSelectedPostTags] = useState(['#ClinicalCase']);
+  const [postToastMessage, setPostToastMessage] = useState(null);
+
+  // Doctor Profile Modal State (opens on clicking doctor ID / header in posts)
+  const [selectedProfileDoctor, setSelectedProfileDoctor] = useState(null);
+  const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
+  const [doctorFollowingMap, setDoctorFollowingMap] = useState(() => {
+    try {
+      const saved = localStorage.getItem('zenve_following_doctors');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const handleToggleDoctorFollow = (doctorId) => {
+    setDoctorFollowingMap((prev) => {
+      const next = { ...prev, [doctorId]: !prev[doctorId] };
+      try {
+        localStorage.setItem('zenve_following_doctors', JSON.stringify(next));
+      } catch (err) {
+        console.warn('Could not save doctor following state to localStorage:', err);
+      }
+      return next;
+    });
+  };
+
+  const handleDoctorProfileClick = (doctorId, post) => {
+    const doc = DOCTORS_DATABASE[doctorId] || {
+      id: doctorId,
+      name: post?.authorName || 'Dr. ' + doctorId,
+      specialty: post?.authorSpecialty || 'Veterinary Specialist',
+      location: post?.authorSpecialty?.split('•')?.[1]?.trim() || 'India',
+      img: post?.authorImg || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+      clinic: 'Apex Veterinary Multi-Specialty Clinic',
+      education: 'BVSc & AH, MVSc',
+      experience: '8+ years clinical experience',
+      casesHandled: '540+ cases',
+      followers: '1.8k',
+      followingCount: '210',
+      rating: '4.9 ★',
+      about: `${post?.authorName || 'Doctor'} is a verified veterinary specialist providing compassionate and evidence-based clinical veterinary care across the Zenve Vet network.`,
+      focusAreas: ['Clinical Diagnostics', 'Patient Care', 'Surgical Protocols', 'Animal Welfare'],
+    };
+
+    setSelectedProfileDoctor(doc);
+    setIsDoctorModalOpen(true);
+  };
+
   // Story Viewer modal state
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
@@ -112,8 +266,21 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   // Set of story IDs that have been visited/viewed
   const [viewedStoryIds, setViewedStoryIds] = useState({});
 
-  // Combined active stories (user's stories first, then community doctors)
-  const allActiveStories = [...userStories, ...COMMUNITY_STORIES];
+  // Combined active stories: user's stories grouped as 1 person with multiple slides, followed by community doctors
+  const userStoryGroup = userStories.length > 0 ? [{
+    id: 'user',
+    name: 'Your story',
+    authorName: 'Dr. You (Your Practice)',
+    specialty: 'Veterinary Professional',
+    time: userStories[userStories.length - 1]?.time || 'Just now',
+    img: userStories[userStories.length - 1]?.storyMedia || userStories[userStories.length - 1]?.img,
+    storyMedia: userStories[userStories.length - 1]?.storyMedia || userStories[userStories.length - 1]?.img,
+    caption: userStories[userStories.length - 1]?.caption || '',
+    items: userStories,
+    isUserStory: true,
+  }] : [];
+
+  const allActiveStories = [...userStoryGroup, ...COMMUNITY_STORIES];
 
   // 7 Doctor Posts with Video Shorts & Sound Toggle
   const INITIAL_POSTS = [
@@ -249,7 +416,18 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
     },
   ];
 
-  const [feedPosts, setFeedPosts] = useState(INITIAL_POSTS);
+  const [feedPosts, setFeedPosts] = useState(() => {
+    try {
+      const saved = localStorage.getItem('zenve_community_posts');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // fallback
+    }
+    return INITIAL_POSTS;
+  });
 
   const handleMarkAsViewed = async (storyId) => {
     setViewedStoryIds((prev) => ({ ...prev, [storyId]: true }));
@@ -345,30 +523,109 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
     }
   };
 
-  // Handle new post created from the top post creation card
-  const handleCreateNewPost = async () => {
-    if (!postText.trim()) return;
+  // Open device gallery file picker for post photo
+  const handleOpenPostGallery = () => {
+    if (postFileInputRef.current) {
+      postFileInputRef.current.click();
+    }
+  };
+
+  // Process chosen picture from gallery
+  const handlePostImageSelected = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (JPEG, PNG, WEBP, etc.) from your gallery');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageResult = event.target?.result;
+      if (imageResult) {
+        setSelectedPostImage(imageResult);
+        setSelectedPostImageName(file.name);
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  // Remove current post photo
+  const handleRemovePostImage = () => {
+    setSelectedPostImage(null);
+    setSelectedPostImageName('');
+    if (postFileInputRef.current) {
+      postFileInputRef.current.value = '';
+    }
+  };
+
+  // Toggle tag chip
+  const handleTogglePostTag = (tag) => {
+    setSelectedPostTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  // Handle Post Button Click:
+  // - If no picture selected and no text: opens gallery to pick picture!
+  // - If picture is selected or text entered: publishes the picture post to the feed!
+  const handlePostButtonClick = async () => {
+    if (!selectedPostImage && !postText.trim()) {
+      handleOpenPostGallery();
+      return;
+    }
 
     const newPost = {
       id: `post-${Date.now()}`,
       authorId: 'you',
       authorName: 'Dr. You (Your Practice)',
-      authorImg: 'https://images.unsplash.com/photo-1594824813686-271790ee1078?auto=format&fit=crop&w=150&h=150&q=80',
-      authorSpecialty: 'Veterinary Professional',
+      authorImg:
+        'https://images.unsplash.com/photo-1594824813686-271790ee1078?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Veterinary Professional • Clinical Practice',
       timeAgo: 'Just now',
-      caption: postText.trim(),
-      mediaUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
-      videoUrl: activePostType === 'video' ? '/assets/community-moment-OzvSkOwI.webm' : null,
-      isVideoShort: activePostType === 'video',
-      audioTitle: activePostType === 'video' ? '♫ Original Clinic Audio' : null,
-      audioTheme: 'calm',
+      caption: postText.trim() || 'Sharing a clinical case picture from our veterinary practice 🐾',
+      mediaUrl:
+        selectedPostImage ||
+        'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
+      videoUrl: null,
+      isVideoShort: false,
       likes: 1,
-      tags: ['#ZenveVet', '#ClinicalCase', '#VeterinaryNetwork'],
+      tags:
+        selectedPostTags.length > 0
+          ? selectedPostTags
+          : ['#ZenveVet', '#ClinicalCase', '#VeterinaryNetwork'],
       initialComments: [],
+      createdAt: Date.now(),
     };
 
-    setFeedPosts([newPost, ...feedPosts]);
+    const updatedPosts = [newPost, ...feedPosts];
+    setFeedPosts(updatedPosts);
+    try {
+      localStorage.setItem('zenve_community_posts', JSON.stringify(updatedPosts));
+    } catch (err) {
+      console.warn('Could not save post to localStorage:', err);
+    }
+
+    // Reset post inputs
     setPostText('');
+    setSelectedPostImage(null);
+    setSelectedPostImageName('');
+
+    // Switch to 'for-you' tab so user sees their new post if on videos tab
+    if (activeMainTab === 'videos' || feedFilterTab === 'videos') {
+      handleTabChange('for-you');
+    }
+
+    // Toast notification
+    setPostToastMessage('🎉 Picture posted to community feed successfully!');
+    setTimeout(() => setPostToastMessage(null), 3500);
+
+    // Smooth scroll to top of feed
+    if (feedTopRef.current) {
+      feedTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     try {
       await postsApi.create(newPost);
@@ -390,7 +647,6 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
           <button
             type="button"
             className="zenve-feed-hero-cta"
-            onClick={onOpenCreateProfile}
           >
             <span>Make your mark</span>
             <span className="zenve-cta-arrow">↗</span>
@@ -400,16 +656,16 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
         <div className="zenve-feed-hero-right">
           <div className="zenve-stethoscope-card">
             <div className='svgimg'>
-            <svg
-              viewBox="0 0 100 85"
-              fill="none"
-              stroke="white"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-            <path d="M24,12a4,4,0,0,0-1,7.86V22a6,6,0,0,1-6,6,6,6,0,0,1-6-6V19h1l1-1V16.41A8,8,0,0,0,18,9V4L17,3H14V5h2V9a6,6,0,0,1-6,6,5.81,5.81,0,0,1-.86-.06A6,6,0,0,1,4,9V5H6V3H3L2,4V9a8.06,8.06,0,0,0,5,7.41V18l1,1H9v3a8,8,0,0,0,16,0V19.86A4,4,0,0,0,24,12Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,24,18Z"></path> 
-            </svg>
+              <svg
+                viewBox="0 0 100 85"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M24,12a4,4,0,0,0-1,7.86V22a6,6,0,0,1-6,6,6,6,0,0,1-6-6V19h1l1-1V16.41A8,8,0,0,0,18,9V4L17,3H14V5h2V9a6,6,0,0,1-6,6,5.81,5.81,0,0,1-.86-.06A6,6,0,0,1,4,9V5H6V3H3L2,4V9a8.06,8.06,0,0,0,5,7.41V18l1,1H9v3a8,8,0,0,0,16,0V19.86A4,4,0,0,0,24,12Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,24,18Z"></path>
+              </svg>
             </div>
             <span className="zenve-hero-sublabel">BETTER TOGETHER</span>
           </div>
@@ -442,113 +698,120 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
         />
 
         <div className="zenve-stories-row">
-          {/* User's Story Item */}
-          {userStories.length > 0 ? (
-            <div className="zenve-story-item">
-              <div className="zenve-story-avatar-container">
-                <button
-                  type="button"
-                  className="zenve-story-avatar-btn-wrapper"
-                  onClick={() => handleOpenStory(0)}
-                  title="View your story"
-                >
-                  <div
-                    className={`zenve-story-avatar-wrapper ${
-                      viewedStoryIds[userStories[0].id] ? 'zenve-story-avatar-viewed' : ''
-                    }`}
+            {/* User's Story Item */}
+            {userStories.length > 0 ? (
+              <div className="zenve-story-item">
+                <div className="zenve-story-avatar-container">
+                  <button
+                    type="button"
+                    className="zenve-story-avatar-btn-wrapper"
+                    onClick={() => handleOpenStory(0)}
+                    title={`View your story (${userStories.length} ${userStories.length > 1 ? 'stories' : 'story'})`}
                   >
-                    <img
-                      src={userStories[0].storyMedia || userStories[0].img}
-                      alt="Your story"
-                      className="zenve-story-avatar-img"
-                    />
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  className="zenve-story-add-badge"
-                  onClick={handleTriggerStoryUpload}
-                  title="Add another photo from gallery"
-                  aria-label="Add story"
-                >
-                  +
-                </button>
-              </div>
-              <span
-                className={`zenve-story-name ${
-                  viewedStoryIds[userStories[0].id] ? 'zenve-story-name-viewed' : ''
-                }`}
-                onClick={() => handleOpenStory(0)}
-              >
-                Your story
-              </span>
-            </div>
-          ) : (
-            <div className="zenve-story-item">
-              <button
-                type="button"
-                className="zenve-story-avatar-btn zenve-story-add-btn"
-                onClick={handleTriggerStoryUpload}
-                title="Click to add photo from gallery"
-                id="zenve-add-story-btn"
-              >
-                <span className="zenve-add-story-plus">+</span>
-              </button>
-              <span
-                className="zenve-story-name"
-                onClick={handleTriggerStoryUpload}
-                style={{ cursor: 'pointer' }}
-              >
-                Your story
-              </span>
-            </div>
-          )}
-
-          {/* Community Doctor Stories */}
-          {COMMUNITY_STORIES.map((docStory, docIdx) => {
-            const storyActiveIndex = userStories.length + docIdx;
-            const isViewed = !!viewedStoryIds[docStory.id];
-
-            return (
-              <div key={docStory.id} className="zenve-story-item">
-                <button
-                  type="button"
-                  className="zenve-story-avatar-btn-wrapper"
-                  onClick={() => handleOpenStory(storyActiveIndex)}
-                  title={`View ${docStory.name}'s story`}
-                >
-                  <div
-                    className={`zenve-story-avatar-wrapper ${
-                      isViewed ? 'zenve-story-avatar-viewed' : ''
-                    }`}
+                    <div
+                      className={`zenve-story-avatar-wrapper ${viewedStoryIds['user'] ? 'zenve-story-avatar-viewed' : ''
+                        }`}
+                    >
+                      <img
+                        src={userStories[userStories.length - 1].storyMedia || userStories[userStories.length - 1].img}
+                        alt="Your story"
+                        className="zenve-story-avatar-img"
+                      />
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    className="zenve-story-add-badge"
+                    onClick={handleTriggerStoryUpload}
+                    title="Add another photo from gallery"
+                    aria-label="Add story"
                   >
-                    <img
-                      src={docStory.img}
-                      alt={docStory.name}
-                      className="zenve-story-avatar-img"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.parentElement.classList.add('zenve-avatar-fallback');
-                      }}
-                    />
-                  </div>
-                </button>
+                    +
+                  </button>
+                </div>
                 <span
-                  className={`zenve-story-name ${isViewed ? 'zenve-story-name-viewed' : ''}`}
-                  onClick={() => handleOpenStory(storyActiveIndex)}
+                  className={`zenve-story-name ${viewedStoryIds['user'] ? 'zenve-story-name-viewed' : ''
+                    }`}
+                  onClick={() => handleOpenStory(0)}
                 >
-                  {docStory.name}
+                  Your story
                 </span>
               </div>
-            );
-          })}
+            ) : (
+              <div className="zenve-story-item">
+                <button
+                  type="button"
+                  className="zenve-story-avatar-btn zenve-story-add-btn"
+                  onClick={handleTriggerStoryUpload}
+                  title="Click to add photo from gallery"
+                  id="zenve-add-story-btn"
+                >
+                  <span className="zenve-add-story-plus">+</span>
+                </button>
+                <span
+                  className="zenve-story-name"
+                  onClick={handleTriggerStoryUpload}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Your story
+                </span>
+              </div>
+            )}
+
+            {/* Community Doctor Stories */}
+            {COMMUNITY_STORIES.map((docStory, docIdx) => {
+              const storyActiveIndex = userStoryGroup.length + docIdx;
+              const isViewed = !!viewedStoryIds[docStory.id];
+
+              return (
+                <div key={docStory.id} className="zenve-story-item">
+                  <button
+                    type="button"
+                    className="zenve-story-avatar-btn-wrapper"
+                    onClick={() => handleOpenStory(storyActiveIndex)}
+                    title={`View ${docStory.name}'s story`}
+                  >
+                    <div
+                      className={`zenve-story-avatar-wrapper ${isViewed ? 'zenve-story-avatar-viewed' : ''
+                        }`}
+                    >
+                      <img
+                        src={docStory.img}
+                        alt={docStory.name}
+                        className="zenve-story-avatar-img"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.parentElement.classList.add('zenve-avatar-fallback');
+                        }}
+                      />
+                    </div>
+                  </button>
+                  <span
+                    className={`zenve-story-name ${isViewed ? 'zenve-story-name-viewed' : ''}`}
+                    onClick={() => handleOpenStory(storyActiveIndex)}
+                  >
+                    {docStory.name}
+                  </span>
+                </div>
+              );
+            })}
         </div>
       </section>
 
+      {/* Hidden File Input for Device Gallery Photo Selection for Posts */}
+      <input
+        type="file"
+        ref={postFileInputRef}
+        accept="image/*"
+        onChange={handlePostImageSelected}
+        style={{ display: 'none' }}
+        id="zenve-post-gallery-file-input"
+      />
+
       {/* 3. Post Creation Card */}
-      <section className="zenve-create-post-card">
+      <section className="zenve-create-post-card" ref={feedTopRef}>
         <div className="zenve-create-post-top">
-          <div className="zenve-post-stethoscope-icon">
+          <div className="zenve-post-stethoscope-icon" title="Share with Zenve community">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F4332" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
               <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
@@ -558,22 +821,116 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
           <input
             type="text"
             className="zenve-post-input"
-            placeholder="Share a discovery, a case, a little inspiration..."
+            placeholder={
+              selectedPostImage
+                ? "Write a caption for your picture (optional)..."
+                : "Share a discovery, clinical case photo, or inspiration..."
+            }
             value={postText}
             onChange={(e) => setPostText(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') handleCreateNewPost();
+              if (e.key === 'Enter') handlePostButtonClick();
             }}
           />
           <button
             type="button"
-            className="zenve-post-edit-btn"
-            title="Write long post"
-            onClick={handleCreateNewPost}
+            className="zenve-post-quick-gallery-btn"
+            title="Open gallery to select picture"
+            onClick={handleOpenPostGallery}
+            aria-label="Open gallery"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#717D77" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F4332" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+              <circle cx="9" cy="9" r="2" />
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
             </svg>
+          </button>
+        </div>
+
+        {/* Selected Gallery Picture Preview */}
+        {selectedPostImage && (
+          <div className="zenve-post-image-preview-box">
+            <div className="zenve-post-image-preview-inner">
+              <img
+                src={selectedPostImage}
+                alt="Selected from gallery"
+                className="zenve-post-image-preview-thumbnail"
+              />
+              <div className="zenve-post-image-preview-details">
+                <div className="zenve-post-preview-status-badge">
+                  <span className="zenve-preview-dot" />
+                  <span>Gallery picture ready to post</span>
+                </div>
+                <span className="zenve-post-preview-filename">
+                  {selectedPostImageName || 'gallery-image.jpg'}
+                </span>
+                <div className="zenve-post-preview-actions">
+                  <button
+                    type="button"
+                    className="zenve-preview-change-btn"
+                    onClick={handleOpenPostGallery}
+                    title="Choose a different picture from gallery"
+                  >
+                    Change picture
+                  </button>
+                  <button
+                    type="button"
+                    className="zenve-preview-remove-btn"
+                    onClick={handleRemovePostImage}
+                    title="Remove picture"
+                  >
+                    ✕ Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Post Bottom Action Bar */}
+        <div className="zenve-create-post-bottom">
+          <div className="zenve-post-actions-pills">
+            {/* Photo / Gallery Button */}
+            <button
+              type="button"
+              className={`zenve-post-pill ${selectedPostImage ? 'zenve-post-pill-active' : ''}`}
+              onClick={handleOpenPostGallery}
+              title="Open gallery to select a picture"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                <circle cx="9" cy="9" r="2" />
+                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+              </svg>
+              <span>{selectedPostImage ? 'Change Photo' : 'Photo / Gallery'}</span>
+            </button>
+
+            {/* Quick Tag Chips */}
+            {['#ClinicalCase', '#Surgery', '#AnimalCare'].map((tag) => {
+              const isSelected = selectedPostTags.includes(tag);
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  className={`zenve-post-tag-chip ${isSelected ? 'zenve-tag-chip-selected' : ''}`}
+                  onClick={() => handleTogglePostTag(tag)}
+                  title={`Toggle ${tag}`}
+                >
+                  {tag}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Prominent Post Button */}
+          <button
+            type="button"
+            className={`zenve-post-submit-btn ${selectedPostImage ? 'zenve-post-submit-ready' : ''}`}
+            onClick={handlePostButtonClick}
+            title={selectedPostImage ? "Post picture to feed" : "Click to select picture from gallery and post"}
+          >
+            <span>{selectedPostImage ? 'Post Picture' : 'Post'}</span>
+            <span className="zenve-post-submit-arrow">➔</span>
           </button>
         </div>
       </section>
@@ -657,12 +1014,7 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
           <PostCard
             key={post.id}
             post={post}
-            onDoctorClick={(doctorId) => {
-              const idx = allActiveStories.findIndex((s) => s.id === doctorId);
-              if (idx !== -1) {
-                handleOpenStory(idx);
-              }
-            }}
+            onDoctorClick={(doctorId) => handleDoctorProfileClick(doctorId, post)}
           />
         ))}
       </section>
@@ -775,13 +1127,29 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
         </div>
       )}
 
-      {/* 8. Toast notification */}
+      {/* 8. Toast notifications */}
       {storyToastMessage && (
         <div className="zenve-story-toast-popup">
           <span className="zenve-toast-icon">✓</span>
           <span>{storyToastMessage}</span>
         </div>
       )}
+
+      {postToastMessage && (
+        <div className="zenve-story-toast-popup zenve-post-toast-popup">
+          <span className="zenve-toast-icon">✓</span>
+          <span>{postToastMessage}</span>
+        </div>
+      )}
+
+      {/* 9. Doctor Profile Modal (Post photos, Short Videos, Followers & Following) */}
+      <DoctorProfileModal
+        doctor={selectedProfileDoctor}
+        isOpen={isDoctorModalOpen}
+        onClose={() => setIsDoctorModalOpen(false)}
+        isFollowing={selectedProfileDoctor ? !!doctorFollowingMap[selectedProfileDoctor.id] : false}
+        onToggleFollow={handleToggleDoctorFollow}
+      />
     </div>
   );
 };

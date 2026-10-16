@@ -1,0 +1,561 @@
+/* Instagram-Style Post & Video Shorts Card */
+.zenve-post-card {
+  background-color: #ffffff;
+  border: 1px solid #e3e8e4;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin-bottom: 20px;
+}
+
+/* 1. Header */
+.zenve-post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+
+.zenve-post-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.zenve-post-author:hover .zenve-post-author-name {
+  color: #3D0D18;
+  text-decoration: underline;
+}
+
+.zenve-post-author:hover .zenve-post-author-avatar-ring {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(216, 173, 90, 0.5);
+}
+
+.zenve-post-author-avatar-ring {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #d8ad5a, #b3852b, #e7c276);
+  flex-shrink: 0;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.zenve-post-author-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  display: block;
+}
+
+.zenve-post-author-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.zenve-post-author-name-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.zenve-post-author-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #17241e;
+  letter-spacing: -0.01em;
+}
+
+.zenve-post-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background-color: #0c4331;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.zenve-post-author-meta {
+  font-size: 11.5px;
+  color: #727f79;
+}
+
+.zenve-post-options-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #727f79;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+
+.zenve-post-options-btn:hover {
+  color: #1a2520;
+}
+
+/* 2. Media Box */
+.zenve-post-media-box {
+  position: relative;
+  background-color: #0d1310;
+  width: 100%;
+  max-height: 520px;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.zenve-post-media-img {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Video Container & Player */
+.zenve-post-video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  max-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d1310;
+  cursor: pointer;
+}
+
+.zenve-post-media-video {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Center Play Button Overlay */
+.zenve-video-center-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(12, 67, 49, 0.88);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 12;
+  padding-left: 4px;
+}
+
+.zenve-video-center-play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.12);
+  background: #0c4331;
+  border-color: #e2ba6d;
+  color: #e2ba6d;
+  box-shadow: 0 6px 24px rgba(12, 67, 49, 0.6);
+}
+
+/* Video Progress Bar Track */
+.zenve-video-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.25);
+  z-index: 14;
+  overflow: hidden;
+}
+
+.zenve-video-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d8ad5a, #e7c276);
+  transition: width 0.1s linear;
+}
+
+/* Reel / Shorts Badge */
+.zenve-reel-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background-color: #3D0D18;
+  backdrop-filter: blur(4px);
+  border: none;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.zenve-reel-badge:hover {
+  transform: scale(1.05);
+  background: #0c4331;
+}
+
+.zenve-reel-icon {
+  font-size: 8px;
+}
+
+/* Instagram Sound Button */
+.zenve-instagram-sound-btn {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(18, 25, 21, 0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 15;
+  transition: all 0.18s ease;
+}
+
+.zenve-instagram-sound-btn:hover {
+  background: rgba(18, 25, 21, 0.95);
+  transform: scale(1.08);
+}
+
+.zenve-sound-on {
+  background: #0c4331;
+  border-color: #e2ba6d;
+  color: #e2ba6d;
+  box-shadow: 0 0 12px rgba(12, 67, 49, 0.6);
+}
+
+/* Animated Sound Wave Bars */
+.zenve-sound-waves {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 2px;
+}
+
+.zenve-wave-bar {
+  width: 2.5px;
+  height: 8px;
+  background-color: #e2ba6d;
+  border-radius: 2px;
+  animation: soundBarDance 0.8s ease-in-out infinite alternate;
+}
+
+.zenve-wave-bar:nth-child(2) {
+  height: 12px;
+  animation-delay: 0.2s;
+}
+
+.zenve-wave-bar:nth-child(3) {
+  height: 6px;
+  animation-delay: 0.4s;
+}
+
+@keyframes soundBarDance {
+  0% {
+    transform: scaleY(0.4);
+  }
+  100% {
+    transform: scaleY(1.3);
+  }
+}
+
+/* Audio Ticker Pill */
+.zenve-audio-ticker-pill {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 260px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 10;
+}
+
+.zenve-audio-note {
+  color: #e2ba6d;
+  animation: noteRotate 2.5s infinite linear;
+}
+
+@keyframes noteRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Double Tap Heart Burst */
+.zenve-double-tap-heart {
+  position: absolute;
+  font-size: 80px;
+  z-index: 20;
+  pointer-events: none;
+  animation: heartPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heartPop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-15deg);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.3) rotate(0deg);
+  }
+  80% {
+    opacity: 0.9;
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6) translateY(-20px);
+  }
+}
+
+/* 3. Actions Bar */
+.zenve-post-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 6px 14px;
+}
+
+.zenve-post-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.zenve-post-action-btn {
+  background: transparent;
+  border: none;
+  color: #2b3630;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.zenve-post-action-btn:hover {
+  transform: scale(1.15);
+  color: #0c4331;
+}
+
+/* Shorts Video Action Pill on Card */
+.zenve-shorts-video-btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  background: #f0f7f3;
+  border: 1px solid #b7d8c7;
+  border-radius: 999px;
+  color: #0c4331;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zenve-shorts-video-btn-pill:hover {
+  background: #0c4331;
+  color: #ffffff;
+  border-color: #0c4331;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(12, 67, 49, 0.25);
+}
+
+.zenve-shorts-pill-play {
+  font-size: 8px;
+}
+
+.zenve-liked-btn {
+  color: #e11d48;
+  animation: heartBeat 0.3s ease-out;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.zenve-saved-btn {
+  color: #0c4331;
+}
+
+/* 4. Likes */
+.zenve-post-likes {
+  padding: 0 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1b2621;
+  margin-bottom: 6px;
+}
+
+/* 5. Caption */
+.zenve-post-caption-box {
+  padding: 0 14px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #23312a;
+}
+
+.zenve-post-caption-author {
+  font-weight: 700;
+  color: #17241e;
+  margin-right: 6px;
+}
+
+.zenve-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.zenve-post-tag {
+  color: #0c4331;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.zenve-post-tag:hover {
+  text-decoration: underline;
+}
+
+/* 6. Comments */
+.zenve-post-comments-wrapper {
+  padding: 8px 14px 14px 14px;
+}
+
+.zenve-view-comments-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #7b8882;
+  cursor: pointer;
+  margin-bottom: 6px;
+  font-family: inherit;
+}
+
+.zenve-view-comments-btn:hover {
+  color: #17241e;
+}
+
+.zenve-comments-expanded-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.zenve-comment-item {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #2b3831;
+}
+
+.zenve-comment-author {
+  font-weight: 700;
+  color: #17241e;
+  margin-right: 6px;
+}
+
+.zenve-add-comment-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #edf1ee;
+  padding-top: 10px;
+  margin-top: 6px;
+}
+
+.zenve-add-comment-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1e2823;
+}
+
+.zenve-add-comment-input::placeholder {
+  color: #8c9892;
+}
+
+.zenve-post-comment-btn {
+  background: transparent;
+  border: none;
+  color: #0c4331;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 4px;
+  font-family: inherit;
+}

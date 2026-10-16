@@ -2,7 +2,7 @@
 .zenve-doc-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 10000;
   background-color: rgba(14, 21, 18, 0.55);
   backdrop-filter: blur(4px);
   display: flex;
@@ -16,6 +16,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -25,7 +26,7 @@
   position: relative;
   background-color: #ffffff;
   width: 100%;
-  max-width: 540px;
+  max-width: 660px;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 16px;
@@ -40,6 +41,7 @@
     opacity: 0;
     transform: scale(0.95) translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -74,7 +76,7 @@
 /* Banner */
 .zenve-doc-cover-banner {
   height: 110px;
-  background: linear-gradient(135deg, #0b4330 0%, #175e46 100%);
+  background: linear-gradient(135deg, #3D0D18 0%, #3D0D18 100%);
   position: relative;
   padding: 16px 20px;
   box-sizing: border-box;
@@ -141,7 +143,7 @@
 .zenve-doc-connect-btn {
   height: 36px;
   padding: 0 16px;
-  background-color: #843299;
+  background-color: #3D0D18;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -159,8 +161,8 @@
 
 .zenve-doc-connect-active {
   background-color: #e3efe8;
-  color: #843299;
-  border: 1px solid #843299;
+  color: #3D0D18;
+  border: 1px solid #3D0D18;
 }
 
 .zenve-doc-msg-btn {
@@ -205,7 +207,7 @@
 .zenve-doc-badge-pill {
   font-size: 10.5px;
   font-weight: 600;
-  color: #843299;
+  color: #3D0D18;
   background-color: #e5efe9;
   padding: 2px 8px;
   border-radius: 4px;
@@ -259,7 +261,7 @@
 .zenve-doc-stat-num {
   font-size: 17px;
   font-weight: 700;
-  color: #843299;
+  color: #3D0D18;
 }
 
 .zenve-doc-stat-lbl {
@@ -309,4 +311,613 @@
   border: 1px solid #e0e7e2;
   padding: 5px 12px;
   border-radius: 999px;
+}
+
+/* Following Status Banner */
+.zenve-doc-following-indicator {
+  margin-top: 12px;
+  background: #fdf5f6;
+  border: 1px solid #f2d6dc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: docIndicatorIn 0.2s ease-out;
+}
+
+@keyframes docIndicatorIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zenve-doc-following-indicator-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #3D0D18;
+  background: #e8d0d6;
+  padding: 3px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.zenve-doc-following-indicator-text {
+  font-size: 11.5px;
+  color: #492830;
+  line-height: 1.35;
+}
+
+/* Interactive Tabs Bar */
+.zenve-doc-tabs-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 2px solid #edf1ee;
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.zenve-doc-tabs-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.zenve-doc-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #63706a;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.zenve-doc-tab-btn:hover {
+  color: #17241e;
+}
+
+.zenve-doc-tab-btn-active {
+  color: #3D0D18;
+  border-bottom-color: #3D0D18;
+  font-weight: 700;
+}
+
+.zenve-doc-tab-count {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: #f0f4f1;
+  color: #4a5650;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.zenve-doc-tab-btn-active .zenve-doc-tab-count {
+  background: #3D0D18;
+  color: #ffffff;
+}
+
+/* Tab Content Areas */
+.zenve-doc-tab-content {
+  padding: 18px 24px 28px 24px;
+  animation: tabFadeIn 0.2s ease-out;
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zenve-doc-tab-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.zenve-doc-tab-subtag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #798680;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Photos Grid */
+.zenve-doc-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 520px) {
+  .zenve-doc-posts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.zenve-doc-post-card {
+  background: #ffffff;
+  border: 1px solid #e2e8e4;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.zenve-doc-post-card:hover {
+  border-color: #3D0D18;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.zenve-doc-post-thumb-wrapper {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: #e6eee8;
+  overflow: hidden;
+}
+
+.zenve-doc-post-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.zenve-doc-post-card:hover .zenve-doc-post-thumb {
+  transform: scale(1.04);
+}
+
+.zenve-doc-post-overlay {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 14px;
+}
+
+.zenve-doc-post-info {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.zenve-doc-post-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #17241e;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-doc-post-caption {
+  font-size: 11.5px;
+  color: #55625c;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.zenve-doc-post-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10.5px;
+  color: #83918a;
+}
+
+.zenve-doc-post-tag {
+  background: #eef3f0;
+  color: #3D0D18;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Lightbox Photo Preview */
+.zenve-photo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: docOverlayFade 0.15s ease-out;
+}
+
+.zenve-photo-lightbox-card {
+  position: relative;
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+}
+
+.zenve-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-lightbox-img {
+  width: 100%;
+  max-height: 440px;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-lightbox-details {
+  padding: 16px 20px;
+}
+
+.zenve-lightbox-details h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #17241e;
+}
+
+.zenve-lightbox-details p {
+  font-size: 13px;
+  color: #4b5851;
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+}
+
+.zenve-lightbox-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.zenve-lightbox-tag-pill {
+  font-size: 11px;
+  background: #eef3f0;
+  color: #3D0D18;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* Short Videos Grid */
+.zenve-doc-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 520px) {
+  .zenve-doc-videos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.zenve-doc-video-card {
+  background: #ffffff;
+  border: 1px solid #e2e8e4;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.zenve-doc-video-thumb-container {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: #14201a;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.zenve-doc-video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zenve-doc-video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000000;
+}
+
+.zenve-doc-video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  transition: background 0.15s ease;
+}
+
+.zenve-doc-video-thumb-container:hover .zenve-doc-video-play-overlay {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.zenve-doc-video-play-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(61, 13, 24, 0.85);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  padding-left: 3px;
+  transition: transform 0.15s ease;
+}
+
+.zenve-doc-video-thumb-container:hover .zenve-doc-video-play-btn {
+  transform: scale(1.1);
+  background: #3D0D18;
+}
+
+.zenve-doc-video-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.zenve-doc-video-reel-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #3D0D18;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.zenve-doc-video-info {
+  padding: 10px 12px;
+}
+
+.zenve-doc-video-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #17241e;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-doc-video-caption {
+  font-size: 11.5px;
+  color: #55625c;
+  line-height: 1.4;
+  margin: 0 0 6px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.zenve-doc-video-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: #7d8b84;
+}
+
+/* Followers Tab Styles */
+.zenve-doc-current-user-follow-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fdf5f6;
+  border: 1px solid #ebd0d6;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.zenve-doc-user-follow-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid #3D0D18;
+}
+
+.zenve-doc-user-follow-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zenve-doc-user-follow-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zenve-doc-user-follow-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #794d56;
+  letter-spacing: 0.05em;
+}
+
+.zenve-doc-user-follow-status {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.zenve-status-active {
+  color: #3D0D18;
+}
+
+.zenve-status-inactive {
+  color: #6d5b60;
+}
+
+.zenve-doc-followers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zenve-doc-follower-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #f7faf8;
+  border: 1px solid #e4ece7;
+  border-radius: 10px;
+  transition: all 0.15s ease;
+}
+
+.zenve-doc-follower-item:hover {
+  background: #eef4f0;
+  border-color: #cbd8cf;
+}
+
+.zenve-doc-follower-avatar-wrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #dbe4de;
+  flex-shrink: 0;
+}
+
+.zenve-doc-follower-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zenve-doc-follower-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.zenve-doc-follower-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #17241e;
+  margin: 0 0 2px 0;
+}
+
+.zenve-doc-follower-spec {
+  font-size: 11.5px;
+  color: #55625c;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-doc-follower-mutual {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  color: #7d8b84;
+}
+
+.zenve-peer-follow-btn {
+  height: 30px;
+  padding: 0 12px;
+  background: #ffffff;
+  border: 1px solid #c8d5cd;
+  color: #33423a;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.zenve-peer-follow-btn:hover {
+  background: #3D0D18;
+  color: #ffffff;
+  border-color: #3D0D18;
+}
+
+.zenve-peer-following {
+  background: #e5efe9;
+  border-color: #3D0D18;
+  color: #3D0D18;
+}
+
+.zenve-doc-stat-card-active {
+  background-color: #fcf4f5;
+  border-color: #3D0D18;
 }

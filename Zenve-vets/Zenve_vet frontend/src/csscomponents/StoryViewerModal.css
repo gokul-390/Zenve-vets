@@ -1,0 +1,564 @@
+/* Story Viewer Modal Styles */
+.zenve-story-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10005;
+  background-color: rgba(8, 12, 10, 0.92);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: storyOverlayFade 0.2s ease-out;
+  user-select: none;
+}
+
+@keyframes storyOverlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Top Bar: Person Pagination & Close Button */
+.zenve-story-top-bar {
+  position: absolute;
+  top: 20px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10015;
+}
+
+.zenve-story-person-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zenve-story-person-pill {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.zenve-story-current-name {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.zenve-story-top-close {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.zenve-story-top-close:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
+}
+
+/* Multi-Person Story Stage */
+.zenve-story-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  max-height: 760px;
+}
+
+/* Side Previews (Instagram Desktop Style for Previous/Next Person) */
+.zenve-story-side-preview {
+  position: relative;
+  width: 200px;
+  height: 480px;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.45;
+  filter: brightness(0.75);
+  transform: scale(0.92);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.zenve-story-side-preview:hover {
+  opacity: 0.85;
+  filter: brightness(0.95);
+  transform: scale(0.97);
+}
+
+.zenve-side-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-side-preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 18px 12px;
+  text-align: center;
+  gap: 6px;
+}
+
+.zenve-side-avatar-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #d8ad5a, #b3852b);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.zenve-side-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+}
+
+.zenve-side-name {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.zenve-side-action {
+  font-size: 11px;
+  color: #e2ba6d;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.zenve-story-side-placeholder {
+  width: 200px;
+  flex-shrink: 0;
+  visibility: hidden;
+}
+
+/* Main Story Card */
+.zenve-story-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 720px;
+  max-height: 90vh;
+  background-color: #151d18;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  z-index: 10010;
+  flex-shrink: 0;
+}
+
+.zenve-story-slide-next {
+  animation: storySlideNext 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zenve-story-slide-prev {
+  animation: storySlidePrev 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes storySlideNext {
+  from {
+    opacity: 0.5;
+    transform: translateX(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes storySlidePrev {
+  from {
+    opacity: 0.5;
+    transform: translateX(-30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Segmented Progress Bar */
+.zenve-story-progress-bar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  gap: 6px;
+  z-index: 20;
+}
+
+.zenve-progress-track {
+  flex: 1;
+  height: 3.5px;
+  background-color: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.zenve-progress-fill {
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 999px;
+  transition: width 0.05s linear;
+}
+
+/* Story Header */
+.zenve-story-header {
+  position: absolute;
+  top: 24px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+}
+
+.zenve-story-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zenve-story-author-avatar-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #d8ad5a, #b3852b);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.zenve-story-author-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  display: block;
+}
+
+.zenve-story-author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.zenve-story-author-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-story-author-name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.01em;
+}
+
+.zenve-story-author-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3D0D18;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.zenve-story-meta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.zenve-story-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zenve-story-header-add-btn,
+.zenve-story-pause-btn,
+.zenve-story-close-btn {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.zenve-story-header-add-btn:hover,
+.zenve-story-pause-btn:hover,
+.zenve-story-close-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+  transform: scale(1.08);
+}
+
+/* Media Container */
+.zenve-story-media-container {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  background-color: #0b110e;
+  overflow: hidden;
+}
+
+.zenve-story-media-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-story-gradient-bottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0) 55%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+  pointer-events: none;
+}
+
+/* Tap Zones */
+.zenve-tap-zone {
+  position: absolute;
+  top: 80px;
+  bottom: 120px;
+  width: 40%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.zenve-tap-zone-left {
+  left: 0;
+}
+
+.zenve-tap-zone-right {
+  right: 0;
+}
+
+/* Next Person Prompt Pill */
+.zenve-story-next-prompt {
+  position: absolute;
+  top: 80px;
+  right: 14px;
+  z-index: 15;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-story-next-prompt:hover {
+  background: #3D0D18;
+  transform: scale(1.04);
+}
+
+.zenve-next-prompt-arrow {
+  font-size: 13px;
+  color: #e2ba6d;
+}
+
+/* Caption */
+.zenve-story-caption-box {
+  position: absolute;
+  bottom: 16px;
+  left: 18px;
+  right: 18px;
+  z-index: 15;
+}
+
+.zenve-story-caption-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
+
+/* Floating Reactions */
+.zenve-floating-emojis-container {
+  position: absolute;
+  bottom: 80px;
+  right: 24px;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.zenve-floating-emoji {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 32px;
+  animation: floatUp 1.4s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.8) rotate(0deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-80px) scale(1.3) rotate(12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-160px) scale(1.6) rotate(-15deg);
+  }
+}
+
+/* Footer: Reply Form & Reaction Icons */
+.zenve-story-footer {
+  padding: 12px 14px 16px 14px;
+  background-color: #121915;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 20;
+}
+
+.zenve-story-reply-form {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 2px 6px 2px 14px;
+}
+
+.zenve-story-reply-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-family: inherit;
+  padding: 6px 0;
+}
+
+.zenve-story-reply-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.zenve-story-send-btn {
+  background: #3D0D18;
+  color: #ffffff;
+  border: none;
+  border-radius: 18px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zenve-story-quick-reactions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.zenve-story-reaction-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+  line-height: 1;
+}
+
+.zenve-story-reaction-btn:hover {
+  transform: scale(1.3);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 960px) {
+  .zenve-story-side-preview,
+  .zenve-story-side-placeholder {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .zenve-story-card {
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+}
