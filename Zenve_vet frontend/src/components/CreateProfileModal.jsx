@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { doctorsApi } from '../api';
 import '../csscomponents/CreateProfileModal.css';
 
-export const CreateProfileModal = ({ isOpen, onClose }) => {
+export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     cityState: '',
@@ -46,19 +46,92 @@ export const CreateProfileModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.fullName.trim()) return;
+
     setIsSubmitting(true);
 
+    const rawName = formData.fullName.trim();
+    const formattedName = rawName.toLowerCase().startsWith('dr.')
+      ? rawName
+      : `Dr. ${rawName}`;
+
+    const specLower = (formData.specialty || '').toLowerCase();
+    let category = 'Medicine';
+    if (specLower.includes('surg') || specLower.includes('sureg')) category = 'Surgery';
+    else if (specLower.includes('derm') || specLower.includes('skin')) category = 'Dermatology';
+    else if (specLower.includes('cardio') || specLower.includes('heart')) category = 'Cardiology';
+    else if (specLower.includes('equine') || specLower.includes('horse')) category = 'Equine';
+    else if (specLower.includes('rehab') || specLower.includes('physio')) category = 'Rehabilitation';
+    else if (specLower.includes('exotic') || specLower.includes('avian') || specLower.includes('bird')) category = 'Exotics';
+
+    const expText = formData.experience.trim();
+    const formattedExp = expText.toLowerCase().includes('year')
+      ? expText
+      : `${expText} years experience`;
+
+    const newDoctor = {
+      id: `custom-vet-${Date.now()}`,
+      name: formattedName,
+      rawName: rawName,
+      degrees: 'BVSc & AH',
+      specialty: formData.specialty.trim() || 'Veterinary Specialist',
+      specialtyCategory: category,
+      location: formData.cityState.trim() || 'India',
+      clinic: formData.workingPlace.trim() || 'Independent Clinical Practice',
+      experience: formattedExp,
+      casesHandled: '150+',
+      followers: '1',
+      rating: '5.0 ★',
+      about:
+        formData.aboutYou.trim() ||
+        'Dedicated veterinary practitioner with expertise in clinical diagnostics, compassionate surgery, and patient rehabilitation.',
+      description:
+        formData.aboutYou.trim() ||
+        'Specializing in compassionate clinical and surgical animal care with patient-first principles.',
+      focusAreas: [
+        formData.specialty.trim() || 'General Practice',
+        'Clinical Diagnostics',
+        'Patient Wellness',
+        'Emergency Care',
+      ],
+      img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&h=150&q=80',
+      coverImg: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
+      mutualCount: 1,
+      mutualConnectionsText: 'Zenvevet Community Member',
+      mutualAvatars: [
+        'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=100&h=100&q=80',
+      ],
+      initialStatus: 'not_connected',
+      initialFollowing: false,
+      isVerified: false,
+      isCurrentUser: true,
+      createdAt: Date.now(),
+    };
+
     try {
-      await doctorsApi.createProfile(formData);
+      if (doctorsApi && doctorsApi.createProfile) {
+        await doctorsApi.createProfile(formData);
+      }
     } catch (err) {
       console.warn('API notice (saved locally in browser session):', err.message);
     } finally {
       setIsSubmitting(false);
       setIsSubmitted(true);
       setTimeout(() => {
+        if (onProfileCreated) {
+          onProfileCreated(newDoctor);
+        }
         setIsSubmitted(false);
         onClose();
-      }, 1400);
+        setFormData({
+          fullName: '',
+          cityState: '',
+          specialty: '',
+          workingPlace: '',
+          experience: '',
+          aboutYou: '',
+        });
+      }, 850);
     }
   };
 

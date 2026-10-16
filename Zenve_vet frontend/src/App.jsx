@@ -6,11 +6,41 @@ import RightSidebar from './components/RightSidebar';
 import SearchPage from './components/SearchPage';
 import AdvertisePage from './components/AdvertisePage';
 import CreateProfileModal from './components/CreateProfileModal';
+import VetNetwork from './components/VetNetwork';
 import './csscomponents/App.css';
 
 export function App() {
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // User-created veterinarian profile persisted in localStorage (single user page)
+  const [customVets, setCustomVets] = useState(() => {
+    try {
+      const stored = localStorage.getItem('zenve_custom_vets');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const latestProfile = [parsed[0]];
+          localStorage.setItem('zenve_custom_vets', JSON.stringify(latestProfile));
+          return latestProfile;
+        }
+      }
+      return [];
+    } catch {
+      return [];
+    }
+  });
+
+  const handleProfileCreated = (newVet) => {
+    const updated = [newVet];
+    setCustomVets(updated);
+    try {
+      localStorage.setItem('zenve_custom_vets', JSON.stringify(updated));
+    } catch (err) {
+      console.error('Failed to save to localStorage:', err);
+    }
+    setActiveTab('network');
+  };
 
   return (
     <div className="zenve-app-container">
@@ -43,6 +73,11 @@ export function App() {
                 onSelectTab={setActiveTab}
               />
             </div>
+          ) : activeTab === 'network' ? (
+            <VetNetwork
+              customVets={customVets}
+              onOpenCreateProfile={() => setIsModalOpen(true)}
+            />
           ) : activeTab === 'search' ? (
             <SearchPage />
           ) : activeTab === 'advertise' ? (
@@ -51,7 +86,6 @@ export function App() {
             <div className="zenve-section-placeholder-view">
               <span className="zenve-indicator-tag">ACTIVE VIEW</span>
               <h2 className="zenve-section-placeholder-title">
-                {activeTab === 'network' && 'Veterinary Professional Network'}
                 {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
                 {activeTab === 'messages' && 'Direct Messages & Consultations'}
                 {activeTab === 'benefits' && 'Exclusive Member Benefits'}
@@ -66,6 +100,7 @@ export function App() {
       <CreateProfileModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onProfileCreated={handleProfileCreated}
       />
     </div>
   );

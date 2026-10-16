@@ -1,0 +1,459 @@
+/* Vet Profile Modal Styles */
+.zenve-vmodal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(14, 21, 18, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: vmodalFadeIn 0.2s ease-out;
+}
+
+@keyframes vmodalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.zenve-vmodal-card {
+  position: relative;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: vmodalSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes vmodalSlideUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Close Button */
+.zenve-vmodal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.zenve-vmodal-close:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+}
+
+/* Cover Banner */
+.zenve-vmodal-banner {
+  height: 120px;
+  background: linear-gradient(135deg, #0b4330 0%, #175e46 60%, #1f7759 100%);
+  position: relative;
+  padding: 16px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.zenve-vmodal-banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #e2ba6d;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 4px 9px;
+  border-radius: 4px;
+  width: fit-content;
+  text-transform: uppercase;
+}
+
+.zenve-vmodal-sparkle {
+  font-size: 11px;
+}
+
+.zenve-vmodal-banner-clinic {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Header & Avatar */
+.zenve-vmodal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 24px;
+  margin-top: -46px;
+  position: relative;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.zenve-vmodal-avatar-box {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  background-color: #e4efe9;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.zenve-vmodal-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-vmodal-online-dot {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #10b981;
+  border: 2.5px solid #ffffff;
+}
+
+.zenve-vmodal-actions-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.zenve-vmodal-btn-connect {
+  height: 36px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.zenve-vmodal-btn-primary {
+  background-color: #0c4331;
+  color: #ffffff;
+  border: 1px solid #0c4331;
+}
+
+.zenve-vmodal-btn-primary:hover {
+  background-color: #083425;
+}
+
+.zenve-vmodal-btn-pending {
+  background-color: #fbf5ea;
+  border: 1px solid #d9bd8b;
+  color: #8c6a21;
+}
+
+.zenve-vmodal-btn-pending:hover {
+  background-color: #f5edd8;
+}
+
+.zenve-vmodal-btn-connected {
+  background-color: #e4efe9;
+  border: 1px solid #b8d4c5;
+  color: #0c4331;
+}
+
+.zenve-vmodal-btn-connected:hover {
+  background-color: #d7e8de;
+}
+
+.zenve-vmodal-btn-follow {
+  height: 36px;
+  padding: 0 14px;
+  background-color: #ffffff;
+  border: 1px solid #d4ddd7;
+  color: #495650;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-vmodal-btn-follow:hover {
+  background-color: #f3f7f4;
+  border-color: #b9c7c0;
+  color: #1a2520;
+}
+
+.zenve-vmodal-btn-following {
+  background-color: #f0f6f2;
+  border-color: #0c4331;
+  color: #0c4331;
+}
+
+.zenve-vmodal-btn-msg {
+  height: 36px;
+  padding: 0 16px;
+  background-color: #ffffff;
+  border: 1px solid #d4ddd7;
+  color: #2b3933;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-vmodal-btn-msg:hover {
+  background-color: #f3f7f4;
+  border-color: #b9c7c0;
+}
+
+/* Info Section */
+.zenve-vmodal-info-section {
+  padding: 16px 24px 0 24px;
+}
+
+.zenve-vmodal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.zenve-vmodal-name {
+  font-size: 21px;
+  font-weight: 700;
+  color: #17241e;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.zenve-vmodal-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background-color: #10b981;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.zenve-vmodal-degree-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8c6a21;
+  background-color: #fbf5ea;
+  border: 1px solid #ebd9b5;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.zenve-vmodal-specialty {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0c4331;
+  margin: 0 0 10px 0;
+}
+
+.zenve-vmodal-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: #63706a;
+}
+
+.zenve-vmodal-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.zenve-vmodal-meta-sep {
+  color: #b0bcb5;
+}
+
+/* Mutual Connections Box */
+.zenve-vmodal-mutual-box {
+  margin-top: 14px;
+  background-color: #f5f8f6;
+  border: 1px solid #e1e8e4;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zenve-vmodal-mutual-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.zenve-vmodal-mutual-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  object-fit: cover;
+  margin-left: -8px;
+}
+
+.zenve-vmodal-mutual-avatar:first-child {
+  margin-left: 0;
+}
+
+.zenve-vmodal-mutual-text {
+  font-size: 12px;
+  color: #495650;
+  line-height: 1.4;
+}
+
+.zenve-vmodal-mutual-label {
+  font-weight: 700;
+  color: #17241e;
+}
+
+/* Stats Grid */
+.zenve-vmodal-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 18px 24px;
+  background-color: #fafbfa;
+  border-top: 1px solid #ebf0ec;
+  border-bottom: 1px solid #ebf0ec;
+  margin-top: 18px;
+}
+
+.zenve-vmodal-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.zenve-vmodal-stat-val {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0c4331;
+}
+
+.zenve-vmodal-stat-lbl {
+  font-size: 11px;
+  color: #798680;
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* Sections */
+.zenve-vmodal-section {
+  padding: 16px 24px;
+}
+
+.zenve-vmodal-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #717d77;
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
+
+.zenve-vmodal-about-text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #43504a;
+  margin: 0;
+}
+
+.zenve-vmodal-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.zenve-vmodal-tag {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0c4331;
+  background-color: #eaf3ed;
+  border: 1px solid #d1e3d7;
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .zenve-vmodal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -36px;
+  }
+
+  .zenve-vmodal-actions-top {
+    width: 100%;
+  }
+
+  .zenve-vmodal-btn-connect,
+  .zenve-vmodal-btn-follow,
+  .zenve-vmodal-btn-msg {
+    flex: 1;
+    font-size: 12px;
+    padding: 0 10px;
+  }
+
+  .zenve-vmodal-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
