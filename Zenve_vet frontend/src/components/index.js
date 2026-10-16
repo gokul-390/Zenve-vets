@@ -1,5 +1,7 @@
 export { Header } from './Header';
+
 export { Sidebar } from './Sidebar';
+
 export { FeedContent } from './FeedContent';
 export { RightSidebar } from './RightSidebar';
 export { PostCard } from './PostCard';
