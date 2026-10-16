@@ -47,3 +47,134 @@ button {
 input {
   font-family: inherit;
 }
+
+/* ── Dark Mode Variables ───────────────────────────────── */
+[data-theme='dark'] {
+  --color-primary: #4ade80;
+  --color-primary-light: #1a3a2a;
+  --color-gold: #f0b429;
+  --color-gold-text: #c9a94a;
+  --color-border: #2a3530;
+  --color-bg-page: #0f1a15;
+  --color-text-dark: #e2ede6;
+  --color-text-muted: #8faa99;
+  --color-text-subtle: #6a8070;
+  --color-badge-bg: #1e2d25;
+  --color-badge-border: #3a4f43;
+
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-page);
+}
+
+[data-theme='dark'] body {
+  background-color: var(--color-bg-page);
+  color: var(--color-text-dark);
+}
+
+/* Header dark mode */
+[data-theme='dark'] .zenve-header {
+  background-color: #121e18;
+  border-bottom-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-brand-title {
+  color: #c8e6d4;
+}
+
+[data-theme='dark'] .zenve-trademark {
+  color: #c8e6d4;
+}
+
+[data-theme='dark'] .zenve-brand-subtitle {
+  color: #8ca898;
+}
+
+[data-theme='dark'] .zenve-search-bar {
+  background-color: #1a2922;
+  border-color: #2a3d34;
+}
+
+[data-theme='dark'] .zenve-search-bar:focus-within {
+  background-color: #1e3028;
+  border-color: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+}
+
+[data-theme='dark'] .zenve-search-input {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-search-input::placeholder {
+  color: #5a7868;
+}
+
+[data-theme='dark'] .zenve-search-divider {
+  background-color: #2a3d34;
+}
+
+[data-theme='dark'] .zenve-country-selector:hover,
+[data-theme='dark'] .zenve-country-selector-active {
+  background-color: #1e3028;
+}
+
+[data-theme='dark'] .zenve-country-text {
+  color: #9dbdad;
+}
+
+[data-theme='dark'] .zenve-country-dropdown-menu {
+  background-color: #141f1a;
+  border-color: #243028;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .zenve-country-search-box {
+  background-color: #1a2922;
+  border-color: #2a3d34;
+}
+
+[data-theme='dark'] .zenve-country-filter-input {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-country-option:hover {
+  background-color: #1e3028;
+}
+
+[data-theme='dark'] .zenve-country-option-selected {
+  background-color: #1a3a2a;
+}
+
+[data-theme='dark'] .zenve-option-name {
+  color: #c8e6d4;
+}
+
+[data-theme='dark'] .zenve-country-option-selected .zenve-option-name {
+  color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-community-text {
+  color: #8ca898;
+}
+
+/* App layout dark mode */
+[data-theme='dark'] .zenve-app-container {
+  background-color: #0f1a15;
+}
+
+[data-theme='dark'] .zenve-section-placeholder-view {
+  background-color: #121e18;
+  border-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-section-placeholder-title {
+  color: #c8e6d4;
+}
+
+[data-theme='dark'] .zenve-section-placeholder-desc {
+  color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-indicator-tag {
+  color: #4ade80;
+  background-color: #1a3a2a;
+}
