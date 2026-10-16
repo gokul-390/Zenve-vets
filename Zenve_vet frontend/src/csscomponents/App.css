@@ -20,6 +20,12 @@
   min-width: 0;
 }
 
+@media (min-width: 769px) {
+  .zenve-content-workspace {
+    margin-left: 76px;
+  }
+}
+
 /* Feed layout with center content + right rail */
 .zenve-feed-layout-columns {
   display: flex;
