@@ -105,7 +105,7 @@
 
 /* Active Nav Item */
 .zenve-nav-item-active {
-  background-color: #e4efe9;
+  background-color:burlywood;
 }
 
 .zenve-nav-icon {
@@ -134,7 +134,11 @@
 }
 
 .zenve-nav-item-active .zenve-nav-label {
+<<<<<<< HEAD
+  color: #3D0D18;
+=======
   color:green;
+>>>>>>> 104bab7d6a49fee9fd99b21b52cbae86fa9a7098
   font-weight: 600;
 }
 
@@ -142,7 +146,7 @@
   width: 4px;
   height: 12px;
   border-radius: 999px;
-  background-color: #0e4232;
+  background-color: #3D0D18;
   margin-left: 8px;
   flex-shrink: 0;
   animation: fadeIn 0.2s ease;
