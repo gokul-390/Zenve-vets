@@ -1,32 +1,60 @@
 import React, { useState } from 'react';
 import { SearchIcon } from './Icons';
+import DoctorProfileModal from './DoctorProfileModal';
 import '../csscomponents/RightSidebar.css';
 
 export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
   const [followingMap, setFollowingMap] = useState({});
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
+  const [connectToast, setConnectToast] = useState(null);
 
   const doctors = [
     {
       id: 'arun',
       name: 'Dr. Arun Mehta',
       specialty: 'Veterinary Surgery',
-      location: 'Mumbai',
+      location: 'Mumbai, Maharashtra',
+      clinic: 'Apex Veterinary Multi-Specialty & Trauma Hospital',
+      education: 'BVSc & AH, MVSc (Surgery & Radiology)',
+      experience: '12+ years clinical experience',
+      casesHandled: '850+ surgeries',
+      followers: '2.4k',
+      rating: '4.9 ★',
+      about: 'Senior Veterinary Surgeon specializing in minimally invasive soft-tissue surgery, complex trauma reconstruction, and orthopedic stabilization. Dedicated to advancing surgical excellence and mentoring junior veterinary residents.',
+      focusAreas: ['Orthopedic Surgery', 'Soft Tissue Procedures', 'Trauma Management', 'Laparoscopy', 'Joint Reconstruction'],
       img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=120&h=120&q=80',
     },
     {
       id: 'priya',
       name: 'Dr. Priya Nair',
       specialty: 'Veterinary Dermatology',
-      location: 'Kochi',
+      location: 'Kochi, Kerala',
+      clinic: 'Coastal Veterinary Specialty & Allergy Clinic',
+      education: 'BVSc & AH, MVSc (Dermatology)',
+      experience: '9+ years clinical experience',
+      casesHandled: '620+ patients',
+      followers: '1.9k',
+      rating: '4.9 ★',
+      about: 'Specialist in canine and feline dermatology, environmental allergies, and autoimmune skin conditions. Pioneer in sublingual allergen-specific immunotherapy (SLIT) protocols for companion animals.',
+      focusAreas: ['Dermatopathology', 'Allergy Immunotherapy', 'Cytology & Biopsy', 'Autoimmune Skin Disease', 'Ear Canal Diagnostics'],
       img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=120&h=120&q=80',
     },
     {
       id: 'vikram',
       name: 'Dr. Vikram Singh',
       specialty: 'Equine Medicine',
-      location: 'Jaipur',
+      location: 'Jaipur, Rajasthan',
+      clinic: 'Rajputana Equine Hospital & Stud Health Care',
+      education: 'BVSc & AH, MVSc (Equine Medicine)',
+      experience: '15+ years clinical experience',
+      casesHandled: '1,100+ horses',
+      followers: '3.1k',
+      rating: '5.0 ★',
+      about: 'Internationally recognized equine clinician focusing on sports horse sports medicine, gait kinematics, soundness evaluations, and equine emergency critical care.',
+      focusAreas: ['Equine Sports Medicine', 'Lameness Diagnostics', 'Colic Critical Care', 'Equine Ultrasonography', 'Stud Herd Management'],
       img: 'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=120&h=120&q=80',
     },
   ];
@@ -71,7 +99,35 @@ export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
   ];
 
   const toggleFollow = (id) => {
-    setFollowingMap((prev) => ({ ...prev, [id]: !prev[id] }));
+    setFollowingMap((prev) => {
+      const willFollow = !prev[id];
+      const doc = doctors.find((d) => d.id === id);
+      if (willFollow && doc) {
+        setConnectToast(`Connected with ${doc.name}!`);
+        setTimeout(() => setConnectToast(null), 3000);
+      }
+      return { ...prev, [id]: willFollow };
+    });
+  };
+
+  const handleConnectClick = (e, doctor) => {
+    e.stopPropagation();
+    setFollowingMap((prev) => {
+      const willFollow = !prev[doctor.id];
+      if (willFollow) {
+        setConnectToast(`Connected with ${doctor.name}! Viewing profile...`);
+        setTimeout(() => setConnectToast(null), 3000);
+      }
+      return { ...prev, [doctor.id]: willFollow };
+    });
+    // Open doctor details modal
+    setSelectedDoctor(doctor);
+    setIsDoctorModalOpen(true);
+  };
+
+  const handleOpenDoctorDetails = (doctor) => {
+    setSelectedDoctor(doctor);
+    setIsDoctorModalOpen(true);
   };
 
   const filteredDoctors = doctors.filter((doc) => {
@@ -144,7 +200,17 @@ export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
             filteredDoctors.map((doctor) => {
               const isFollowing = !!followingMap[doctor.id];
               return (
-                <div key={doctor.id} className="zenve-doctor-card">
+                <div
+                  key={doctor.id}
+                  className="zenve-doctor-card"
+                  onClick={() => handleOpenDoctorDetails(doctor)}
+                  title={`View details of ${doctor.name}`}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleOpenDoctorDetails(doctor);
+                  }}
+                >
                   <div className="zenve-doctor-avatar-wrapper">
                     <img
                       src={doctor.img}
@@ -171,8 +237,9 @@ export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
                   <button
                     type="button"
                     className={`zenve-doctor-follow-btn ${isFollowing ? 'zenve-doctor-following' : ''}`}
-                    onClick={() => toggleFollow(doctor.id)}
-                    title={isFollowing ? 'Following' : 'Connect'}
+                    onClick={(e) => handleConnectClick(e, doctor)}
+                    title={isFollowing ? 'Connected • Click to view details' : 'Click to connect & view doctor details'}
+                    aria-label={`Connect with ${doctor.name}`}
                   >
                     {isFollowing ? '✓' : '+'}
                   </button>
@@ -186,6 +253,23 @@ export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
           )}
         </div>
       </section>
+
+      {/* 2. Doctor Details Profile Modal */}
+      <DoctorProfileModal
+        doctor={selectedDoctor}
+        isOpen={isDoctorModalOpen}
+        onClose={() => setIsDoctorModalOpen(false)}
+        isFollowing={selectedDoctor ? !!followingMap[selectedDoctor.id] : false}
+        onToggleFollow={toggleFollow}
+      />
+
+      {/* 3. Connect Toast Notification */}
+      {connectToast && (
+        <div className="zenve-connect-toast">
+          <span className="zenve-toast-icon">✓</span>
+          <span>{connectToast}</span>
+        </div>
+      )}
     </aside>
   );
 };

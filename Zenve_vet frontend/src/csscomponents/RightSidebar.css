@@ -304,3 +304,34 @@
     display: none;
   }
 }
+
+/* Connect Toast Notification */
+.zenve-connect-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: #0f4332;
+  color: #ffffff;
+  padding: 11px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  z-index: 10002;
+  animation: connectToastIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes connectToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+

@@ -22,6 +22,17 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  user-select: none;
+}
+
+.zenve-post-author:hover .zenve-post-author-name {
+  color: #3D0D18;
+  text-decoration: underline;
+}
+
+.zenve-post-author:hover .zenve-post-author-avatar-ring {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(216, 173, 90, 0.5);
 }
 
 .zenve-post-author-avatar-ring {
@@ -31,6 +42,7 @@
   padding: 2px;
   background: linear-gradient(135deg, #d8ad5a, #b3852b, #e7c276);
   flex-shrink: 0;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .zenve-post-author-avatar {
@@ -189,7 +201,7 @@
   position: absolute;
   top: 14px;
   left: 14px;
-  background: rgba(12, 67, 49, 0.88);
+  background-color: #3D0D18;
   backdrop-filter: blur(4px);
   border: none;
   color: #ffffff;
