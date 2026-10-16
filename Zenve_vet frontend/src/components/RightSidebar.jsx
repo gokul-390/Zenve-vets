@@ -35,7 +35,7 @@ export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
     {
       id: 'page',
       icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C49338" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B38F00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10" />
           <line x1="2" y1="12" x2="22" y2="12" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -47,7 +47,7 @@ export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
     {
       id: 'network',
       icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C49338" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B38F00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="9" cy="7" r="4" />
           <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
           <circle cx="18" cy="11" r="3" />
@@ -60,7 +60,7 @@ export const RightSidebar = ({ onOpenCreateProfile, onSelectTab }) => {
     {
       id: 'growth',
       icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C49338" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B38F00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="8" r="6" />
           <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
         </svg>

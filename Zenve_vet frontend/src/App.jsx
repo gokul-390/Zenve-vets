@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import FeedContent from './components/FeedContent';
 import RightSidebar from './components/RightSidebar';
 import SearchPage from './components/SearchPage';
+import MemberBenefitsPage from './components/MemberBenefitsPage';
 import CreateProfileModal from './components/CreateProfileModal';
 import './csscomponents/App.css';
 
@@ -44,6 +45,8 @@ export function App() {
             </div>
           ) : activeTab === 'search' ? (
             <SearchPage />
+          ) : activeTab === 'benefits' ? (
+            <MemberBenefitsPage onOpenCreateProfile={() => setIsModalOpen(true)} />
           ) : activeTab === 'advertise' ? (
             <AdvertisePage />
           ) : (
