@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import FeedContent from './components/FeedContent';
 import RightSidebar from './components/RightSidebar';
 import SearchPage from './components/SearchPage';
+import AdvertisePage from './components/AdvertisePage';
 import CreateProfileModal from './components/CreateProfileModal';
 import './csscomponents/App.css';
 
