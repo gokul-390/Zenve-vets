@@ -123,6 +123,7 @@ export const MemberBenefitsPage = ({
   onSelectTab,
   onNavigateToFeed,
   onNavigateToNetwork,
+  onNavigateToMessages,
   onOpenLogin,
   isLoggedIn: propIsLoggedIn,
   user: propUser,
@@ -214,28 +215,62 @@ export const MemberBenefitsPage = ({
     };
   }, [isLoginPromptOpen]);
 
-  // Compute login status using existing authentication conventions:
-  // 1. propIsLoggedIn if explicitly provided
-  // 2. propUser if explicitly provided
-  // 3. zenve_token in localStorage
-  // 4. zenve_user in localStorage
-  // 5. zenve_custom_vets in localStorage
+  // Check if the user has already created their profile
+  const checkHasProfile = useCallback(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const vets = localStorage.getItem('zenve_custom_vets');
+        if (vets) {
+          const parsed = JSON.parse(vets);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return true;
+          }
+        }
+        const u = localStorage.getItem('zenve_user');
+        if (u) {
+          const parsedUser = JSON.parse(u);
+          if (
+            parsedUser &&
+            (parsedUser.profileCreated ||
+              parsedUser.name ||
+              parsedUser.fullName ||
+              parsedUser.doctor)
+          ) {
+            return true;
+          }
+        }
+      }
+      if (storedProfile) return true;
+      if (
+        propUser &&
+        (propUser.name ||
+          propUser.fullName ||
+          propUser.specialty ||
+          propUser.doctor)
+      ) {
+        return true;
+      }
+      return false;
+    } catch {
+      return Boolean(storedProfile);
+    }
+  }, [storedProfile, propUser]);
+
+  const hasCreatedProfile = Boolean(storedProfile || checkHasProfile());
+
+  // Compute login/profile status
   const isLoggedIn = Boolean(
     propIsLoggedIn !== undefined
       ? propIsLoggedIn
-      : propUser || (token && token.trim() !== '') || storedUser || storedProfile
+      : propUser || (token && token.trim() !== '') || storedUser || storedProfile || hasCreatedProfile
   );
 
   const activeProfile = storedProfile;
 
-  // Open the existing professional profile creation form
+  // Open the profile creation form modal
   const openProfileCreationForm = useCallback(() => {
-    if (typeof onOpenCreateProfile === 'function') {
-      onOpenCreateProfile();
-    } else {
-      setIsCreateProfileOpen(true);
-    }
-  }, [onOpenCreateProfile]);
+    setIsCreateProfileOpen(true);
+  }, []);
 
   // Navigate to the user's existing profile page (Vet Network page / profile modal)
   const navigateToProfile = useCallback(() => {
@@ -250,7 +285,9 @@ export const MemberBenefitsPage = ({
     }
 
     // 2. Click the sidebar "Vet network" navigation button directly
-    const navButtons = document.querySelectorAll('.zenve-nav-item');
+    const navButtons = document.querySelectorAll(
+      '.zenve-nav-item, .zenve-sidenav button, aside button, nav button'
+    );
     for (const btn of navButtons) {
       const text = btn.textContent ? btn.textContent.toLowerCase() : '';
       if (text.includes('vet network') || text.includes('network')) {
@@ -269,6 +306,36 @@ export const MemberBenefitsPage = ({
     window.dispatchEvent(new CustomEvent('zenve:switch-tab', { detail: 'network' }));
   }, [onNavigateToNetwork, onSelectTab, activeProfile]);
 
+  // Navigate to the Messages page
+  const navigateToMessages = useCallback(() => {
+    // 1. If explicit callback passed
+    if (typeof onNavigateToMessages === 'function') {
+      onNavigateToMessages();
+      return;
+    }
+    if (typeof onSelectTab === 'function') {
+      onSelectTab('messages');
+      return;
+    }
+
+    // 2. Click the sidebar "Messages" navigation button directly
+    const navButtons = document.querySelectorAll(
+      '.zenve-nav-item, .zenve-sidenav button, aside button, nav button'
+    );
+    for (const btn of navButtons) {
+      const text = btn.textContent ? btn.textContent.toLowerCase().trim() : '';
+      if (text.includes('messages') || text.includes('message')) {
+        btn.click();
+        return;
+      }
+    }
+
+    // 3. Fallback custom event
+    window.dispatchEvent(
+      new CustomEvent('zenve:switch-tab', { detail: 'messages' })
+    );
+  }, [onNavigateToMessages, onSelectTab]);
+
   // Navigate to the existing Vet Network / community page
   const navigateToCommunity = useCallback(() => {
     // 1. If explicit callback passed
@@ -282,7 +349,9 @@ export const MemberBenefitsPage = ({
     }
 
     // 2. Click the sidebar "Feed" navigation button directly
-    const navButtons = document.querySelectorAll('.zenve-nav-item');
+    const navButtons = document.querySelectorAll(
+      '.zenve-nav-item, .zenve-sidenav button, aside button, nav button'
+    );
     for (const btn of navButtons) {
       const text = btn.textContent ? btn.textContent.toLowerCase() : '';
       if (text.includes('feed')) {
@@ -305,10 +374,10 @@ export const MemberBenefitsPage = ({
   }, [onNavigateToFeed, onSelectTab]);
 
   // ── BUTTON 1: Create Your Free Profile ─────────────────────────
-  // Case A: User is not logged in -> Open existing professional profile creation form
-  // Case B: User is logged in -> Navigate to user's existing profile page
+  // Case A: User has not created profile -> Open professional profile creation form
+  // Case B: User has created profile -> Navigate to user's existing profile page
   const handleCreateProfileClick = () => {
-    if (isLoggedIn) {
+    if (checkHasProfile()) {
       navigateToProfile();
     } else {
       openProfileCreationForm();
@@ -316,17 +385,13 @@ export const MemberBenefitsPage = ({
   };
 
   // ── BUTTON 2: Join the Community ───────────────────────────────
-  // Case A: User is not logged in -> Display existing login prompt/modal
-  // Case B: User is logged in -> Navigate to existing Vet Network/community page
+  // Case A: User has not created profile -> Pop up Create Your Profile form
+  // Case B: User has created profile already -> Go to Messages page
   const handleJoinCommunityClick = () => {
-    if (isLoggedIn) {
-      navigateToCommunity();
+    if (checkHasProfile()) {
+      navigateToMessages();
     } else {
-      if (typeof onOpenLogin === 'function') {
-        onOpenLogin();
-      } else {
-        setIsLoginPromptOpen(true);
-      }
+      openProfileCreationForm();
     }
   };
 
@@ -336,6 +401,7 @@ export const MemberBenefitsPage = ({
     setStoredProfile(newDoctor);
     try {
       localStorage.setItem('zenve_custom_vets', JSON.stringify(updated));
+      window.dispatchEvent(new Event('storage'));
     } catch (err) {
       console.error('Failed to save to localStorage:', err);
     }
