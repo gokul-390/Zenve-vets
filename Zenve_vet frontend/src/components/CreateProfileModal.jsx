@@ -298,6 +298,7 @@ export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
         </div>
       </div>
     </div>
+
   );
 };
 
