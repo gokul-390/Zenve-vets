@@ -1,4 +1,6 @@
-import React, { useMemo, useRef, useState } from 'react';
+File: "src/components/SearchPage.jsx"
+
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Search,
   MapPin,
@@ -10,7 +12,6 @@ import {
   UserCheck,
   X,
   Camera,
-  ArrowUpRight,
   PlayCircle,
   FileText,
   Heart,
@@ -21,68 +22,28 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 
+import { VETERINARIANS } from '../data/veterinarians';
+import { DOCTORS_DATABASE } from '../data/doctorsData';
 import '../csscomponents/SearchPage.css';
 
-const doctors = [
-  {
-    id: 1,
-    name: 'Dr. Ananya Sharma',
-    specialty: 'Small Animal Medicine',
-    city: 'Bengaluru',
-    initials: 'AS',
-    color: '#DCE9E0',
-    verified: false,
-    takeaway: true,
-    experience: '6 years',
-    about:
-      'Interested in preventive care, small animal medicine, and practical approaches to improving animal wellbeing.',
-    interests: ['Small Animal Care', 'Preventive Medicine', 'Pet Wellness'],
-  },
-  {
-    id: 2,
-    name: 'Dr. Arjun Mehta',
-    specialty: 'Veterinary Surgery',
-    city: 'Mumbai',
-    initials: 'AM',
-    color: '#E9DFD1',
-    verified: false,
-    takeaway: true,
-    experience: '8 years',
-    about:
-      'Focused on veterinary surgical practice, case discussions, and sharing practical clinical knowledge.',
-    interests: ['Veterinary Surgery', 'Clinical Cases', 'Patient Care'],
-  },
-  {
-    id: 3,
-    name: 'Dr. Priya Nair',
-    specialty: 'Veterinary Dermatology',
-    city: 'Kochi',
-    initials: 'PN',
-    color: '#E6DFEC',
-    verified: false,
-    takeaway: false,
-    experience: '5 years',
-    about:
-      'Interested in veterinary dermatology, skin health, and evidence-informed approaches to animal care.',
-    interests: ['Dermatology', 'Skin Health', 'Small Animal Care'],
-  },
-  {
-    id: 4,
-    name: 'Dr. Vikram Singh',
-    specialty: 'Equine Medicine',
-    city: 'Jaipur',
-    initials: 'VS',
-    color: '#DCE5EF',
-    verified: false,
-    takeaway: true,
-    experience: '7 years',
-    about:
-      'Interested in equine health, lameness assessment, and sharing knowledge with veterinary professionals.',
-    interests: ['Equine Medicine', 'Lameness', 'Animal Welfare'],
-  },
+const STORAGE_KEYS = {
+  posts: 'zenve_community_posts',
+  stories: 'zenve_user_stories',
+  cases: 'zenve_clinical_cases',
+};
+
+const CONTENT_UPDATED_EVENT = 'zenve:community-content-updated';
+
+const AVATAR_COLORS = [
+  '#DCE9E0',
+  '#E9DFD1',
+  '#E6DFEC',
+  '#DCE5EF',
+  '#F0E0D9',
+  '#E2E8D8',
 ];
 
-const specialties = [
+const SPECIALTY_CHIPS = [
   'Dermatology',
   'Surgery',
   'Livestock',
@@ -93,58 +54,299 @@ const specialties = [
   'Preventive',
 ];
 
-const discoveryItems = [
-  {
-    id: 'case-1',
-    type: 'Cases',
-    title: 'A closer look at clinical case discussions',
-    description:
-      'Review how structured case notes can help veterinary teams discuss symptoms, findings, and next steps.',
-    author: 'Clinical Learning',
-    icon: FileText,
-    time: 'Case discussion',
-  },
-  {
-    id: 'story-1',
-    type: 'Stories',
-    title: 'Everyday moments in veterinary practice',
-    description:
-      'A space for professionals to share practice experiences, milestones, and lessons learned.',
-    author: 'Community Stories',
-    icon: Heart,
-    time: 'Community story',
-  },
-  {
-    id: 'video-1',
-    type: 'Videos',
-    title: 'Learn through short clinical demonstrations',
-    description:
-      'Discover a dedicated space for demonstrations, learning clips, and educational videos.',
-    author: 'Video Learning',
-    icon: PlayCircle,
-    time: 'Video collection',
-  },
-  {
-    id: 'case-2',
-    type: 'Cases',
-    title: 'From observations to useful case notes',
-    description:
-      'Organize clinical observations and questions before discussing a case with colleagues.',
-    author: 'Clinical Learning',
-    icon: Stethoscope,
-    time: 'Case discussion',
-  },
-];
+const CONTENT_FILTERS = ['All', 'Cases', 'Stories', 'Videos'];
 
-const tabs = [
-  { label: 'All', count: 124, icon: LayoutGrid },
-  { label: 'Doctors', count: 86, icon: Stethoscope },
-  { label: 'Cases', count: 18, icon: FileText },
-  { label: 'Stories & videos', count: 20, icon: PlayCircle },
-];
+function readStoredArray(key) {
+  try {
+    if (typeof window === 'undefined') return [];
+
+    const raw = window.localStorage.getItem(key);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.warn(`Unable to read ${key} from localStorage.`, error);
+    return [];
+  }
+}
+
+function asText(value, fallback = '') {
+  if (value === null || value === undefined) return fallback;
+  if (typeof value === 'string' || typeof value === 'number') {
+    return String(value);
+  }
+  return fallback;
+}
+
+function asArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function getInitials(name = '') {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+
+  if (!parts.length) return 'VP';
+
+  return parts
+    .slice(0, 2)
+    .map((part) => part.replace(/[^a-zA-Z]/g, '').charAt(0))
+    .join('')
+    .toUpperCase() || 'VP';
+}
+
+function getDoctorExperience(doctor) {
+  const value = doctor.experience;
+
+  if (typeof value === 'number') {
+    return `${value} years`;
+  }
+
+  return asText(value, 'Not specified');
+}
+
+function normalizeDoctor(doctor, index) {
+  const name = asText(doctor.name, 'Veterinary professional');
+  const specialty = asText(
+    doctor.specialty,
+    asText(doctor.specialtyCategory, 'Veterinary Medicine')
+  );
+
+  const focusAreas = asArray(doctor.focusAreas)
+    .map((item) => {
+      if (typeof item === 'string') return item;
+      return asText(item?.name || item?.title);
+    })
+    .filter(Boolean);
+
+  const interests = focusAreas.length
+    ? focusAreas
+    : [specialty];
+
+  const city = asText(doctor.location, 'Location not specified')
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean)[0] || 'Location not specified';
+
+  return {
+    id: asText(doctor.id, `veterinarian-${index}`),
+    name,
+    specialty,
+    city,
+    initials: getInitials(name),
+    color: AVATAR_COLORS[index % AVATAR_COLORS.length],
+    image: asText(doctor.img),
+    // Mock verification flags are deliberately not treated as proof.
+    verified: false,
+    takeaway: focusAreas.length > 0,
+    experience: getDoctorExperience(doctor),
+    about: asText(
+      doctor.about,
+      asText(doctor.description, 'Veterinary professional profile.')
+    ),
+    interests,
+    education: asText(doctor.degrees || doctor.education),
+    clinic: asText(doctor.clinic),
+    rating: doctor.rating,
+    casesHandled: doctor.casesHandled,
+    followers: doctor.followers,
+    original: doctor,
+  };
+}
+
+function getDoctorDirectory() {
+  return asArray(VETERINARIANS).map(normalizeDoctor);
+}
+
+function getStoredDoctorContent() {
+  // Used only as a fallback for discovery content, not to merge doctor identities.
+  return Object.values(DOCTORS_DATABASE || {});
+}
+
+function getDoctorProfileContent() {
+  const posts = [];
+  const videos = [];
+
+  getStoredDoctorContent().forEach((doctor, doctorIndex) => {
+    const author = asText(doctor.name, 'Veterinary professional');
+    const authorId = asText(doctor.id, `profile-${doctorIndex}`);
+
+    asArray(doctor.posts).forEach((post, postIndex) => {
+      const title = asText(
+        post.title || post.caption || post.description || post.content,
+        'Veterinary community post'
+      );
+
+      posts.push({
+        id: asText(post.id, `${authorId}-post-${postIndex}`),
+        type: 'Stories',
+        title,
+        description: asText(post.description || post.caption || post.content, title),
+        author,
+        time: asText(post.timeAgo || post.createdAt, 'Profile post'),
+        image: asText(post.imageUrl || post.mediaUrl || post.image),
+        searchText: `${title} ${author} ${asText(post.tags)}`,
+      });
+    });
+
+    asArray(doctor.videos).forEach((video, videoIndex) => {
+      const title = asText(
+        video.title || video.caption || video.description,
+        'Veterinary educational video'
+      );
+
+      videos.push({
+        id: asText(video.id, `${authorId}-video-${videoIndex}`),
+        type: 'Videos',
+        title,
+        description: asText(video.description || video.caption, title),
+        author,
+        time: asText(video.timeAgo || video.createdAt, 'Profile video'),
+        image: asText(video.thumbnailUrl || video.imageUrl || video.thumbnail),
+        videoUrl: asText(video.videoUrl || video.url),
+        searchText: `${title} ${author}`,
+      });
+    });
+  });
+
+  return { posts, videos };
+}
+
+function normalizeCase(item, index) {
+  const title = asText(
+    item.title || item.caseNumber,
+    `Clinical case ${index + 1}`
+  );
+
+  const details = [
+    asText(item.description),
+    item.species ? `Species: ${asText(item.species)}` : '',
+    item.breed ? `Breed: ${asText(item.breed)}` : '',
+    item.diagnosis ? `Diagnosis: ${asText(item.diagnosis)}` : '',
+    item.treatment ? `Treatment: ${asText(item.treatment)}` : '',
+    item.status ? `Status: ${asText(item.status)}` : '',
+  ].filter(Boolean);
+
+  return {
+    id: asText(item.id, `case-${index}`),
+    type: 'Cases',
+    title,
+    description: details.join(' · ') || 'Clinical case record.',
+    author: asText(item.assignedDoctorName, 'Clinical case record'),
+    time: asText(item.date || item.createdAt, 'Clinical case'),
+    searchText: [
+      title,
+      item.caseNumber,
+      item.species,
+      item.breed,
+      item.description,
+      item.diagnosis,
+      item.treatment,
+      item.notes,
+      item.status,
+      item.priority,
+    ].map((value) => asText(value)).join(' '),
+  };
+}
+
+function normalizePost(item, index) {
+  const title = asText(
+    item.title || item.caption || item.description || item.content,
+    'Community post'
+  );
+
+  const isVideo = Boolean(
+    item.isVideoShort ||
+    item.videoUrl ||
+    item.mediaType === 'video' ||
+    item.type === 'video'
+  );
+
+  return {
+    id: asText(item.id, `post-${index}`),
+    type: isVideo ? 'Videos' : 'Stories',
+    title,
+    description: asText(item.description || item.caption || item.content, title),
+    author: asText(item.authorName || item.name, 'Community member'),
+    time: asText(item.timeAgo || item.createdAt, 'Community post'),
+    image: asText(item.mediaUrl || item.imageUrl || item.image),
+    videoUrl: asText(item.videoUrl),
+    searchText: [
+      title,
+      item.authorName,
+      item.authorSpecialty,
+      item.caption,
+      item.description,
+      asArray(item.tags).join(' '),
+    ].map((value) => asText(value)).join(' '),
+  };
+}
+
+function normalizeStory(item, index) {
+  const title = asText(
+    item.title || item.caption || item.name || item.authorName,
+    `Community story ${index + 1}`
+  );
+
+  return {
+    id: asText(item.id, `story-${index}`),
+    type: 'Stories',
+    title,
+    description: asText(
+      item.description || item.caption,
+      'A story shared by the veterinary community.'
+    ),
+    author: asText(item.authorName || item.name, 'Community member'),
+    time: asText(item.timeAgo || item.createdAt || item.time, 'Community story'),
+    image: asText(item.mediaUrl || item.imageUrl || item.image || item.storyMedia),
+    searchText: [
+      title,
+      item.authorName,
+      item.name,
+      item.caption,
+      item.description,
+    ].map((value) => asText(value)).join(' '),
+  };
+}
+
+function getDiscoveryContent() {
+  const storedPosts = readStoredArray(STORAGE_KEYS.posts);
+  const storedStories = readStoredArray(STORAGE_KEYS.stories);
+  const storedCases = readStoredArray(STORAGE_KEYS.cases);
+  const profileContent = getDoctorProfileContent();
+
+  const posts = storedPosts.map(normalizePost);
+  const stories = storedStories.map(normalizeStory);
+  const cases = storedCases.map(normalizeCase);
+
+  // Profile content provides a useful local fallback until the Feed content
+  // is saved to localStorage. Avoid duplicating fallback posts when stored posts exist.
+  const fallbackStories = storedPosts.length ? [] : profileContent.posts;
+  const fallbackVideos = storedPosts.length
+    ? []
+    : profileContent.videos;
+
+  const feedVideos = posts.filter((item) => item.type === 'Videos');
+  const feedStories = posts.filter((item) => item.type === 'Stories');
+
+  return [
+    ...cases,
+    ...stories,
+    ...feedStories,
+    ...feedVideos,
+    ...fallbackStories,
+    ...fallbackVideos,
+  ];
+}
+
+function getContentIcon(type) {
+  if (type === 'Cases') return FileText;
+  if (type === 'Videos') return PlayCircle;
+  return Heart;
+}
 
 function DiscoveryCard({ item }) {
-  const ItemIcon = item.icon;
+  const ItemIcon = getContentIcon(item.type);
 
   return (
     <article className="discovery-card">
@@ -157,6 +359,12 @@ function DiscoveryCard({ item }) {
 
       <h3>{item.title}</h3>
       <p>{item.description}</p>
+
+      {item.image && (
+        <div className="discovery-card-media">
+          <img src={item.image} alt="" loading="lazy" />
+        </div>
+      )}
 
       <div className="discovery-card-footer">
         <span>
@@ -181,15 +389,67 @@ export default function SearchPage() {
   const [profilePhotos, setProfilePhotos] = useState({});
   const [discoveryFilter, setDiscoveryFilter] = useState('All');
   const [sortBy, setSortBy] = useState('relevant');
+  const [contentVersion, setContentVersion] = useState(0);
 
   const photoInputRef = useRef(null);
+
+  useEffect(() => {
+    const refreshContent = () => {
+      setContentVersion((version) => version + 1);
+    };
+
+    const handleStorage = (event) => {
+      if (
+        !event.key ||
+        Object.values(STORAGE_KEYS).includes(event.key)
+      ) {
+        refreshContent();
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    window.addEventListener(CONTENT_UPDATED_EVENT, refreshContent);
+    window.addEventListener('focus', refreshContent);
+
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener(CONTENT_UPDATED_EVENT, refreshContent);
+      window.removeEventListener('focus', refreshContent);
+    };
+  }, []);
+
+  const doctors = useMemo(() => getDoctorDirectory(), []);
+
+  const discoveryItems = useMemo(
+    () => getDiscoveryContent(),
+    [contentVersion]
+  );
+
+  const cities = useMemo(() => {
+    const values = doctors
+      .map((doctor) => doctor.city)
+      .filter((value) => value && value !== 'Location not specified');
+
+    return ['All states', ...new Set(values)].sort((a, b) => {
+      if (a === 'All states') return -1;
+      if (b === 'All states') return 1;
+      return a.localeCompare(b);
+    });
+  }, [doctors]);
 
   const filteredDoctors = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
     const results = doctors.filter((doctor) => {
-      const searchableText =
-        `${doctor.name} ${doctor.specialty} ${doctor.city} ${doctor.about} ${doctor.interests.join(' ')}`.toLowerCase();
+      const searchableText = [
+        doctor.name,
+        doctor.specialty,
+        doctor.city,
+        doctor.about,
+        doctor.education,
+        doctor.clinic,
+        doctor.interests.join(' '),
+      ].join(' ').toLowerCase();
 
       return (
         searchableText.includes(normalizedQuery) &&
@@ -207,28 +467,42 @@ export default function SearchPage() {
     if (sortBy === 'name') {
       results.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === 'experience') {
-      results.sort(
-        (a, b) =>
-          parseInt(b.experience, 10) - parseInt(a.experience, 10)
-      );
+      results.sort((a, b) => {
+        const getYears = (value) => {
+          const match = value.match(/\d+/);
+          return match ? Number(match[0]) : 0;
+        };
+
+        return getYears(b.experience) - getYears(a.experience);
+      });
     }
 
     return results;
-  }, [query, city, specialty, verifiedOnly, takeawaysOnly, sortBy]);
+  }, [
+    doctors,
+    query,
+    city,
+    specialty,
+    verifiedOnly,
+    takeawaysOnly,
+    sortBy,
+  ]);
 
   const visibleDoctors =
     tab === 'All' || tab === 'Doctors' ? filteredDoctors : [];
 
   const visibleDiscoveryItems = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+
     return discoveryItems.filter((item) => {
       const matchesFilter =
         discoveryFilter === 'All' || item.type === discoveryFilter;
 
       const matchesSearch =
-        !query.trim() ||
-        `${item.title} ${item.description} ${item.author} ${item.type}`
+        !normalizedQuery ||
+        `${item.title} ${item.description} ${item.author} ${item.type} ${item.searchText || ''}`
           .toLowerCase()
-          .includes(query.trim().toLowerCase());
+          .includes(normalizedQuery);
 
       const matchesTab =
         tab === 'All' ||
@@ -239,7 +513,35 @@ export default function SearchPage() {
 
       return matchesFilter && matchesSearch && matchesTab;
     });
-  }, [discoveryFilter, query, tab]);
+  }, [discoveryItems, discoveryFilter, query, tab]);
+
+  const contentCounts = useMemo(() => {
+    const caseCount = discoveryItems.filter(
+      (item) => item.type === 'Cases'
+    ).length;
+
+    const storiesAndVideosCount = discoveryItems.filter(
+      (item) => ['Stories', 'Videos'].includes(item.type)
+    ).length;
+
+    return {
+      all: doctors.length + discoveryItems.length,
+      doctors: doctors.length,
+      cases: caseCount,
+      storiesAndVideos: storiesAndVideosCount,
+    };
+  }, [doctors, discoveryItems]);
+
+  const tabs = [
+    { label: 'All', count: contentCounts.all, icon: LayoutGrid },
+    { label: 'Doctors', count: contentCounts.doctors, icon: Stethoscope },
+    { label: 'Cases', count: contentCounts.cases, icon: FileText },
+    {
+      label: 'Stories & videos',
+      count: contentCounts.storiesAndVideos,
+      icon: PlayCircle,
+    },
+  ];
 
   function toggleConnection(doctorId) {
     setConnections((previous) => ({
@@ -291,7 +593,6 @@ export default function SearchPage() {
 
   return (
     <section className="search-page">
-      {/* Page heading */}
       <header className="search-heading">
         <span className="search-eyebrow">DISCOVER THE COMMUNITY</span>
         <h1>Find people, cases &amp; answers.</h1>
@@ -301,7 +602,6 @@ export default function SearchPage() {
         </p>
       </header>
 
-      {/* Search and location */}
       <div className="search-controls">
         <label className="search-input-wrap">
           <Search size={19} aria-hidden="true" />
@@ -332,21 +632,20 @@ export default function SearchPage() {
             onChange={(event) => setCity(event.target.value)}
             aria-label="Filter by city"
           >
-            <option>All states</option>
-            <option>Bengaluru</option>
-            <option>Mumbai</option>
-            <option>Kochi</option>
-            <option>Jaipur</option>
+            {cities.map((cityName) => (
+              <option key={cityName} value={cityName}>
+                {cityName}
+              </option>
+            ))}
           </select>
         </label>
       </div>
 
-      {/* Specialty chips */}
       <div className="search-filter-section">
         <span className="search-filter-label">Explore specialties</span>
 
         <div className="search-specialties" aria-label="Specialty filters">
-          {specialties.map((item) => (
+          {SPECIALTY_CHIPS.map((item) => (
             <button
               type="button"
               key={item}
@@ -362,7 +661,6 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {/* Verification filters */}
       <div className="search-options">
         <label>
           <input
@@ -392,7 +690,6 @@ export default function SearchPage() {
         </button>
       </div>
 
-      {/* Category navigation */}
       <div className="search-tabs" role="tablist" aria-label="Search categories">
         {tabs.map((item) => {
           const TabIcon = item.icon;
@@ -417,7 +714,6 @@ export default function SearchPage() {
         })}
       </div>
 
-      {/* Doctor directory */}
       {(tab === 'All' || tab === 'Doctors') && (
         <section className="search-results-section">
           <div className="search-results-heading">
@@ -425,8 +721,8 @@ export default function SearchPage() {
               <span className="search-results-eyebrow">YOUR DIRECTORY</span>
               <h2>Professionals to explore</h2>
               <p>
-                Discover peers by specialty and location. Sample profiles are
-                clearly identified.
+                Profiles are loaded from the existing veterinarian data.
+                Verification must come from a trusted backend source.
               </p>
             </div>
 
@@ -456,7 +752,7 @@ export default function SearchPage() {
               <div className="doctor-grid">
                 {visibleDoctors.map((doctor) => {
                   const connected = Boolean(connections[doctor.id]);
-                  const photo = profilePhotos[doctor.id];
+                  const photo = profilePhotos[doctor.id] || doctor.image;
 
                   return (
                     <article className="doctor-card" key={doctor.id}>
@@ -485,7 +781,7 @@ export default function SearchPage() {
 
                       <div className="doctor-card-body">
                         <span className="doctor-label">
-                          SAMPLE PROFILE · NOT VERIFIED
+                          SAMPLE DATA · NOT VERIFIED
                         </span>
 
                         <h3>
@@ -547,7 +843,7 @@ export default function SearchPage() {
                               className="doctor-message-button"
                               onClick={() =>
                                 window.alert(
-                                  'Messaging will be connected to the backend API.'
+                                  'Messaging requires the backend messaging API.'
                                 )
                               }
                             >
@@ -577,7 +873,6 @@ export default function SearchPage() {
         </section>
       )}
 
-      {/* Clinical cases and stories/videos */}
       {tab !== 'Doctors' && (
         <section className="search-discovery-section">
           <div className="search-results-heading discovery-heading">
@@ -591,7 +886,8 @@ export default function SearchPage() {
                     : 'Clinical cases, stories & videos'}
               </h2>
               <p>
-                Explore learning topics and community content.
+                Search the clinical cases and community content available on
+                this device.
               </p>
             </div>
 
@@ -601,8 +897,11 @@ export default function SearchPage() {
             </span>
           </div>
 
-          <div className="discovery-filter-row" aria-label="Filter discovery content">
-            {['All', 'Cases', 'Stories', 'Videos'].map((item) => (
+          <div
+            className="discovery-filter-row"
+            aria-label="Filter discovery content"
+          >
+            {CONTENT_FILTERS.map((item) => (
               <button
                 type="button"
                 key={item}
@@ -618,7 +917,7 @@ export default function SearchPage() {
           {visibleDiscoveryItems.length > 0 ? (
             <div className="discovery-grid">
               {visibleDiscoveryItems.map((item) => (
-                <DiscoveryCard key={item.id} item={item} />
+                <DiscoveryCard key={`${item.type}-${item.id}`} item={item} />
               ))}
             </div>
           ) : (
@@ -645,15 +944,14 @@ export default function SearchPage() {
           <div className="search-discovery-note">
             <Eye size={16} aria-hidden="true" />
             <p>
-              These are sample clinical cases, stories, and videos. Live
-              community content can be connected when the relevant backend
-              APIs are available.
+              Search reads locally stored posts, stories, and clinical cases.
+              Content not saved on this device, including backend-only content,
+              will not appear until it is connected to the data source.
             </p>
           </div>
         </section>
       )}
 
-      {/* Doctor profile modal */}
       {selectedDoctor && (
         <div
           className="doctor-modal-backdrop"
@@ -687,9 +985,11 @@ export default function SearchPage() {
                 className="doctor-profile-photo"
                 style={{ backgroundColor: selectedDoctor.color }}
               >
-                {profilePhotos[selectedDoctor.id] ? (
+                {profilePhotos[selectedDoctor.id] || selectedDoctor.image ? (
                   <img
-                    src={profilePhotos[selectedDoctor.id]}
+                    src={
+                      profilePhotos[selectedDoctor.id] || selectedDoctor.image
+                    }
                     alt={`${selectedDoctor.name} profile`}
                   />
                 ) : (
@@ -728,7 +1028,7 @@ export default function SearchPage() {
             <div className="doctor-profile-stats">
               <div>
                 <strong>{selectedDoctor.experience}</strong>
-                <span>Experience (sample)</span>
+                <span>Experience (source data)</span>
               </div>
               <div>
                 <strong>
@@ -736,9 +1036,23 @@ export default function SearchPage() {
                     ? 'Connected'
                     : 'Not connected'}
                 </strong>
-                <span>Connection status</span>
+                <span>Local connection preview</span>
               </div>
             </div>
+
+            {selectedDoctor.education && (
+              <section className="doctor-profile-detail">
+                <h3>Education</h3>
+                <p>{selectedDoctor.education}</p>
+              </section>
+            )}
+
+            {selectedDoctor.clinic && (
+              <section className="doctor-profile-detail">
+                <h3>Clinic</h3>
+                <p>{selectedDoctor.clinic}</p>
+              </section>
+            )}
 
             <section className="doctor-profile-detail">
               <h3>About</h3>
@@ -757,8 +1071,9 @@ export default function SearchPage() {
             <section className="doctor-profile-detail">
               <h3>Profile status</h3>
               <p>
-                This is a sample community profile, not a verified real-world
-                professional record.
+                These profiles come from local project data. Professional
+                identity and verification status have not been confirmed by a
+                live verification service.
               </p>
             </section>
 
@@ -784,7 +1099,7 @@ export default function SearchPage() {
                 className="doctor-message-button"
                 onClick={() =>
                   window.alert(
-                    'Messaging will be connected to the backend API.'
+                    'Messaging requires the backend messaging API.'
                   )
                 }
               >
@@ -795,8 +1110,8 @@ export default function SearchPage() {
 
             <p className="doctor-profile-disclaimer">
               Profile-picture changes are a local preview and are not uploaded
-              to a server. Sample profile details should be replaced with
-              verified backend data.
+              to a server. Connection status is also local until the backend
+              connection feature is implemented.
             </p>
           </section>
         </div>
