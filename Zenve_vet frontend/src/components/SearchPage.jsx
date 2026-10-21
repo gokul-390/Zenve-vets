@@ -545,11 +545,14 @@ export default function SearchPage() {
                             <button
                               type="button"
                               className="doctor-message-button"
-                              onClick={() =>
-                                window.alert(
-                                  'Messaging will be connected to the backend API.'
-                                )
-                              }
+                              onClick={() => {
+                                window.dispatchEvent(
+                                  new CustomEvent('zenve_open_message', {
+                                    detail: { doctorId: doctor.id },
+                                  })
+                                );
+                              }}
+                              title={`Message ${doctor.name}`}
                             >
                               <MessageCircle size={15} aria-hidden="true" />
                               Message
@@ -782,11 +785,15 @@ export default function SearchPage() {
               <button
                 type="button"
                 className="doctor-message-button"
-                onClick={() =>
-                  window.alert(
-                    'Messaging will be connected to the backend API.'
-                  )
-                }
+                onClick={() => {
+                  window.dispatchEvent(
+                    new CustomEvent('zenve_open_message', {
+                      detail: { doctorId: selectedDoctor.id },
+                    })
+                  );
+                  setSelectedDoctor(null);
+                }}
+                title={`Message ${selectedDoctor.name}`}
               >
                 <MessageCircle size={16} />
                 Message

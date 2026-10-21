@@ -8,11 +8,25 @@ import AdvertisePage from './components/AdvertisePage';
 import MemberBenefitsPage from './components/MemberBenefitsPage';
 import CreateProfileModal from './components/CreateProfileModal';
 import VetNetwork from './components/VetNetwork';
+import MessagesPage from './components/MessagesPage';
 import './csscomponents/App.css';
 
 export function App() {
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeMessageDoctorId, setActiveMessageDoctorId] = useState(null);
+
+  // Global event listener to switch to messages page for a specific doctor
+  React.useEffect(() => {
+    const handleOpenMessageEvent = (e) => {
+      if (e.detail?.doctorId) {
+        setActiveMessageDoctorId(e.detail.doctorId);
+      }
+      setActiveTab('messages');
+    };
+    window.addEventListener('zenve_open_message', handleOpenMessageEvent);
+    return () => window.removeEventListener('zenve_open_message', handleOpenMessageEvent);
+  }, []);
 
   // User-created veterinarian profile persisted in localStorage (single user page)
   const [customVets, setCustomVets] = useState(() => {
@@ -85,12 +99,16 @@ export function App() {
             <MemberBenefitsPage onOpenCreateProfile={() => setIsModalOpen(true)} />
           ) : activeTab === 'advertise' ? (
             <AdvertisePage />
+          ) : activeTab === 'messages' ? (
+            <MessagesPage
+              initialDoctorId={activeMessageDoctorId}
+              onDoctorChanged={setActiveMessageDoctorId}
+            />
           ) : (
             <div className="zenve-section-placeholder-view">
               <span className="zenve-indicator-tag">ACTIVE VIEW</span>
               <h2 className="zenve-section-placeholder-title">
                 {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
-                {activeTab === 'messages' && 'Direct Messages & Consultations'}
                 {activeTab === 'benefits' && 'Exclusive Member Benefits'}
               </h2>
               <p className="zenve-section-placeholder-desc">
