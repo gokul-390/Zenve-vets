@@ -764,10 +764,7 @@ stories and clinical insights from the community.
         <div>
           <span className="search-results-eyebrow">YOUR DIRECTORY</span>
           <h2>Professionals to explore</h2>
-          <p>
-            Profiles are loaded from the existing veterinarian data.
-            Verification must come from a trusted backend source.
-          </p>
+         
         </div>
 
         <div className="search-directory-controls">
@@ -924,10 +921,7 @@ stories and clinical insights from the community.
                 ? 'Stories & videos'
                 : 'Clinical cases, stories & videos'}
           </h2>
-          <p>
-            Search the clinical cases and community content available on
-            this device.
-          </p>
+        
         </div>
 
         <span className="search-result-count">
