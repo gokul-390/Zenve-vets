@@ -8,7 +8,9 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
-import heroImage from '../assets/Member-benefits.jpg';
+import heroImage from '../assets/Member-benefits-dark.jpg';
+import heroImageDark from '../assets/Member-benefits-dark.jpg';
+import { useTheme } from '../context/ThemeContext';
 import CreateProfileModal from './CreateProfileModal';
 import VetProfileModal from './VetProfileModal';
 import '../csscomponents/MemberBenefitsPage.css';
@@ -129,6 +131,9 @@ export const MemberBenefitsPage = ({
   isLoggedIn: propIsLoggedIn,
   user: propUser,
 }) => {
+  const themeContext = useTheme();
+  const isDark = Boolean(themeContext?.isDark);
+
   const [isCreateProfileOpen, setIsCreateProfileOpen] = useState(false);
   const [isViewProfileOpen, setIsViewProfileOpen] = useState(false);
   const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
@@ -283,10 +288,10 @@ export const MemberBenefitsPage = ({
     propIsLoggedIn !== undefined
       ? propIsLoggedIn
       : propUser ||
-          (token && token.trim() !== '') ||
-          storedUser ||
-          storedProfile ||
-          hasCreatedProfile
+      (token && token.trim() !== '') ||
+      storedUser ||
+      storedProfile ||
+      hasCreatedProfile
   );
 
   const activeProfile = storedProfile;
@@ -482,18 +487,15 @@ export const MemberBenefitsPage = ({
   ];
 
   return (
-    <div className="zenve-benefits-container">
+    <div className={`zenve-benefits-container ${isDark ? 'zenve-dark-theme' : ''}`}>
       <section
-        className="zenve-Member-benefits"
+        className={`zenve-Member-benefits ${isDark ? 'zenve-dark-hero' : ''}`}
         style={{
-          backgroundImage: `linear-gradient(105deg,
-            rgba(13, 56, 43, 0.80) 0%,
-            rgba(13, 56, 43, 0.68) 45%,
-            rgba(13, 56, 43, 0.45) 75%,
-            rgba(13, 56, 43, 0.09) 100%),
-            url(${heroImage})`,
+          '--hero-image': `url(${heroImage})`,
+          '--hero-image-dark': `url(${heroImageDark})`,
         }}
       >
+        <div className="zenve-Member-benefits-bg" aria-hidden="true" />
         <div className="zenve-Member-benefits-content">
           <span className="zenve-benefits-eyebrow">
             THE ZENVE ADVANTAGE
