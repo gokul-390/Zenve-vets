@@ -178,3 +178,24 @@ input {
   color: #4ade80;
   background-color: #1a3a2a;
 }
+
+/* Feed tabs dark mode */
+[data-theme='dark'] .zenve-feed-tabs-bar {
+  border-bottom-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-feed-tab-btn {
+  color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-feed-tab-btn:hover {
+  color: #e2ede6;
+  background-color: #182820;
+}
+
+[data-theme='dark'] .zenve-feed-tab-active {
+  background-color: #3D0D18;
+  border-color: #5c1827;
+  color: #ffffff;
+}
+

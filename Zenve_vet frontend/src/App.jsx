@@ -10,13 +10,30 @@ import AdvertiserDashboard from './components/AdvertiserDashboard';
 import MemberBenefitsPage from './components/MemberBenefitsPage';
 import CreateProfileModal from './components/CreateProfileModal';
 import VetNetwork from './components/VetNetwork';
+<<<<<<< HEAD
 import ClinicalCases from './components/ClinicalCases';
 
+=======
+import MessagesPage from './components/MessagesPage';
+>>>>>>> 08e585c629f5206a10481b6e090cff58f70cff4d
 import './csscomponents/App.css';
 
 export function App() {
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeMessageDoctorId, setActiveMessageDoctorId] = useState(null);
+
+  // Global event listener to switch to messages page for a specific doctor
+  React.useEffect(() => {
+    const handleOpenMessageEvent = (e) => {
+      if (e.detail?.doctorId) {
+        setActiveMessageDoctorId(e.detail.doctorId);
+      }
+      setActiveTab('messages');
+    };
+    window.addEventListener('zenve_open_message', handleOpenMessageEvent);
+    return () => window.removeEventListener('zenve_open_message', handleOpenMessageEvent);
+  }, []);
 
   // Switch between the Advertise page and its dashboard.
   // The global Header and Sidebar remain mounted.
@@ -133,6 +150,7 @@ export function App() {
               onOpenCreateProfile={() => setIsModalOpen(true)}
             />
           ) : activeTab === 'advertise' ? (
+<<<<<<< HEAD
             showAdvertiserDashboard ? (
               <AdvertiserDashboard
                 onBack={handleBackToAdvertise}
@@ -142,6 +160,14 @@ export function App() {
                 onOpenDashboard={handleOpenAdvertiserDashboard}
               />
             )
+=======
+            <AdvertisePage />
+          ) : activeTab === 'messages' ? (
+            <MessagesPage
+              initialDoctorId={activeMessageDoctorId}
+              onDoctorChanged={setActiveMessageDoctorId}
+            />
+>>>>>>> 08e585c629f5206a10481b6e090cff58f70cff4d
           ) : (
             <div className="zenve-section-placeholder-view">
               <span className="zenve-indicator-tag">
@@ -149,8 +175,13 @@ export function App() {
               </span>
 
               <h2 className="zenve-section-placeholder-title">
+<<<<<<< HEAD
                 {activeTab === 'messages' &&
                   'Direct Messages & Consultations'}
+=======
+                {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
+                {activeTab === 'benefits' && 'Exclusive Member Benefits'}
+>>>>>>> 08e585c629f5206a10481b6e090cff58f70cff4d
               </h2>
 
               <p className="zenve-section-placeholder-desc">

@@ -1007,16 +1007,24 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
 
       {/* 5. Instagram-Style Posts Stream for the 7 Doctors & Video Shorts */}
       <section className="zenve-feed-posts-stream">
-        {(activeTab === 'videos' || activeMainTab === 'videos'
-          ? feedPosts.filter((p) => p.isVideoShort)
-          : feedPosts
-        ).map((post) => (
-          <PostCard
-            key={post.id}
-            post={post}
-            onDoctorClick={(doctorId) => handleDoctorProfileClick(doctorId, post)}
-          />
-        ))}
+        {(() => {
+          let displayed = feedPosts;
+          if (activeTab === 'videos' || activeMainTab === 'videos') {
+            displayed = feedPosts.filter((p) => p.isVideoShort);
+          } else if (activeTab === 'popular') {
+            displayed = [...feedPosts].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+          } else if (activeTab === 'following') {
+            const followed = feedPosts.filter((p) => doctorFollowingMap[p.authorId]);
+            displayed = followed.length > 0 ? followed : feedPosts;
+          }
+          return displayed.map((post) => (
+            <PostCard
+              key={post.id}
+              post={post}
+              onDoctorClick={(doctorId) => handleDoctorProfileClick(doctorId, post)}
+            />
+          ));
+        })()}
       </section>
 
       {/* 6. Interactive Story Viewer Modal */}
