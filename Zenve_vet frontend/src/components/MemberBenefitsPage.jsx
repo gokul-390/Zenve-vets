@@ -215,7 +215,11 @@ export const MemberBenefitsPage = ({
     };
   }, [isLoginPromptOpen]);
 
+<<<<<<< HEAD
   // Check if the user has already created their profile
+=======
+  // Check if the user has already created their profilegit
+>>>>>>> 69b09db00b571dacd926e678de93794eb291a018
   const checkHasProfile = useCallback(() => {
     try {
       if (typeof window !== 'undefined') {
