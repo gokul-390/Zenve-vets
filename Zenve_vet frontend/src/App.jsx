@@ -167,7 +167,9 @@ export function App() {
               </span>
 
               <h2 className="zenve-section-placeholder-title">
-                {activeTab === 'messages' && 'Direct Messages & Consultations'}
+                {activeTab === 'messages' &&
+                  'Direct Messages & Consultations'}
+
                 {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
                 {activeTab === 'benefits' && 'Exclusive Member Benefits'}
               </h2>
