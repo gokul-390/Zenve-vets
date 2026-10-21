@@ -1,0 +1,1095 @@
+/* ==========================================================================
+   ZenveVet - Messages Page Styles
+   ========================================================================== */
+
+.zenve-messages-container {
+  display: flex;
+  height: calc(100vh - 120px);
+  min-height: 600px;
+  background: #ffffff;
+  border: 1px solid #e5eae6;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Left Rail: Contacts & Search ────────────────────────────────────── */
+.zenve-messages-sidebar {
+  width: 360px;
+  min-width: 320px;
+  border-right: 1px solid #e7ede9;
+  display: flex;
+  flex-direction: column;
+  background: #fbfdfc;
+}
+
+.zenve-messages-sidebar-header {
+  padding: 20px 20px 14px 20px;
+  border-bottom: 1px solid #edf2ef;
+}
+
+.zenve-messages-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.zenve-messages-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a2721;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zenve-messages-count-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: #3D0D18;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+
+/* Search bar */
+.zenve-messages-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f6f3;
+  border: 1px solid #e0eae4;
+  border-radius: 10px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.zenve-messages-search-box:focus-within {
+  background: #ffffff;
+  border-color: #3D0D18;
+  box-shadow: 0 0 0 3px rgba(61, 13, 24, 0.08);
+}
+
+.zenve-messages-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: #17241e;
+  font-family: inherit;
+}
+
+.zenve-messages-search-input::placeholder {
+  color: #84938b;
+}
+
+.zenve-messages-search-clear {
+  background: transparent;
+  border: none;
+  color: #84938b;
+  cursor: pointer;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.zenve-messages-search-clear:hover {
+  color: #3D0D18;
+}
+
+/* Filter tabs (All, Followers, Following) */
+.zenve-messages-filter-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #edf2ef;
+  background: #fbfdfc;
+}
+
+.zenve-messages-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #5c6861;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-messages-tab-btn:hover {
+  background: #eef3f0;
+  color: #17241e;
+}
+
+.zenve-messages-tab-btn.active {
+  background: #3D0D18;
+  border-color: #3D0D18;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Contacts List */
+.zenve-messages-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 10px;
+}
+
+.zenve-messages-section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #83918a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 12px 4px 12px;
+}
+
+.zenve-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.zenve-contact-item:hover {
+  background: #f0f5f2;
+}
+
+.zenve-contact-item.active {
+  background: #f7e8ec;
+  border-left: 3px solid #3D0D18;
+}
+
+.zenve-contact-avatar-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.zenve-contact-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #e1ebe5;
+}
+
+.zenve-online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #16a34a;
+  border: 2px solid #ffffff;
+}
+
+.zenve-contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.zenve-contact-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.zenve-contact-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #17241e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-contact-time {
+  font-size: 11px;
+  color: #899790;
+  flex-shrink: 0;
+}
+
+.zenve-contact-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.zenve-contact-preview {
+  font-size: 12px;
+  color: #617068;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.zenve-contact-status-chip {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.zenve-status-following {
+  background: #e4efe9;
+  color: #0d382b;
+}
+
+.zenve-status-not-following {
+  background: #f4f6f5;
+  color: #798781;
+}
+
+.zenve-unread-badge {
+  background: #3D0D18;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.zenve-contacts-empty {
+  padding: 30px 20px;
+  text-align: center;
+  color: #7d8b84;
+  font-size: 13px;
+}
+
+/* ── Right: Chat Conversation Pane ───────────────────────────────────── */
+.zenve-messages-chat-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  min-width: 0;
+}
+
+/* Chat Header */
+.zenve-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid #edf2ef;
+  background: #ffffff;
+}
+
+.zenve-chat-header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zenve-chat-header-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #e1eae5;
+}
+
+.zenve-chat-header-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #17241e;
+  margin: 0 0 2px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-chat-header-verified {
+  color: #16a34a;
+  font-size: 12px;
+}
+
+.zenve-chat-header-sub {
+  font-size: 12px;
+  color: #697871;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zenve-follow-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.zenve-follow-toggle-btn.following {
+  background: #edf3f0;
+  color: #1c382b;
+  border: 1px solid #cbdcd2;
+}
+
+.zenve-follow-toggle-btn.following:hover {
+  background: #ffebee;
+  border-color: #ffcdd2;
+  color: #c62828;
+}
+
+.zenve-follow-toggle-btn.not-following {
+  background: #3D0D18;
+  color: #ffffff;
+  border: 1px solid #3D0D18;
+}
+
+.zenve-follow-toggle-btn.not-following:hover {
+  background: #541322;
+}
+
+.zenve-view-profile-btn {
+  background: transparent;
+  border: 1px solid #d8e2dc;
+  color: #495650;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-view-profile-btn:hover {
+  background: #f2f7f4;
+  color: #17241e;
+  border-color: #b5c7bd;
+}
+
+/* Messages Flow Area */
+.zenve-chat-history {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #fbfdfc;
+}
+
+.zenve-chat-encrypted-notice {
+  align-self: center;
+  font-size: 11px;
+  color: #7b8882;
+  background: #edf4f0;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-chat-bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: 72%;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  position: relative;
+}
+
+.zenve-chat-bubble-wrap:hover {
+  transform: translateY(-1px);
+}
+
+.zenve-chat-bubble-wrap.zenve-bubble-selected-reply .zenve-chat-bubble {
+  outline: 2px solid #e07a5f;
+  box-shadow: 0 0 0 4px rgba(224, 122, 95, 0.25);
+}
+
+.zenve-chat-bubble-wrap.sent {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.zenve-chat-bubble-wrap.received {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.zenve-chat-bubble {
+  position: relative;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  word-break: break-word;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zenve-chat-bubble:hover .zenve-bubble-reply-action-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.zenve-bubble-reply-action-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #ffffff;
+  border: 1px solid #d4ded8;
+  border-radius: 14px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #3D0D18;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  z-index: 5;
+  white-space: nowrap;
+}
+
+.zenve-chat-bubble-wrap.sent .zenve-bubble-reply-action-btn {
+  left: -74px;
+}
+
+.zenve-chat-bubble-wrap.received .zenve-bubble-reply-action-btn {
+  right: -74px;
+}
+
+.zenve-bubble-reply-action-btn:hover {
+  background: #fdf2f4;
+  border-color: #3D0D18;
+  transform: translateY(-50%) scale(1.06);
+}
+
+/* Quoted Reply Reference Inside Bubble */
+.zenve-chat-quoted-box {
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #3D0D18;
+  border-radius: 6px;
+  padding: 5px 9px;
+  margin-bottom: 5px;
+  font-size: 11.5px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.zenve-chat-bubble-wrap.sent .zenve-chat-quoted-box {
+  background: rgba(255, 255, 255, 0.18);
+  border-left-color: #f7d899;
+}
+
+.zenve-quoted-author {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #3D0D18;
+  margin-bottom: 2px;
+}
+
+.zenve-chat-bubble-wrap.sent .zenve-quoted-author {
+  color: #f7d899;
+}
+
+.zenve-quoted-text {
+  margin: 0;
+  color: inherit;
+  opacity: 0.88;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+  font-size: 11px;
+}
+
+.zenve-chat-bubble.sent {
+  background: #3D0D18;
+  color: #ffffff;
+  border-bottom-right-radius: 3px;
+}
+
+.zenve-chat-bubble.received {
+  background: #ffffff;
+  color: #17241e;
+  border: 1px solid #e7ede9;
+  border-bottom-left-radius: 3px;
+}
+
+.zenve-chat-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  color: #8c9b93;
+  margin-top: 3px;
+  padding: 0 4px;
+}
+
+.zenve-click-hint {
+  font-size: 9.5px;
+  color: #9ab0a3;
+  margin-left: 6px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.zenve-chat-bubble-wrap:hover .zenve-click-hint {
+  opacity: 1;
+}
+
+.zenve-chat-check {
+  color: #16a34a;
+  font-size: 11px;
+}
+
+/* Typing Indicator */
+.zenve-typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  background: #ffffff;
+  border: 1px solid #e7ede9;
+  border-radius: 14px;
+  border-bottom-left-radius: 3px;
+  align-self: flex-start;
+}
+
+.zenve-typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8fa398;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+
+.zenve-typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.zenve-typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.zenve-typing-label {
+  font-size: 11px;
+  color: #7b8882;
+  margin-left: 4px;
+}
+
+/* Quick prompt chips */
+.zenve-quick-prompts-row {
+  display: flex;
+  gap: 8px;
+  padding: 8px 24px 0 24px;
+  background: #fbfdfc;
+  overflow-x: auto;
+}
+
+.zenve-quick-prompt-btn {
+  background: #ffffff;
+  border: 1px solid #dbe6df;
+  border-radius: 14px;
+  padding: 5px 11px;
+  font-size: 11.5px;
+  color: #495650;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.zenve-quick-prompt-btn:hover {
+  background: #edf5f0;
+  color: #3D0D18;
+  border-color: #3D0D18;
+}
+
+/* Input Area (When Following) */
+.zenve-chat-composer-wrapper {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-top: 1px solid #edf2ef;
+}
+
+.zenve-chat-replying-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 24px;
+  background: #fdf5f6;
+  border-bottom: 1px solid #f8e1e5;
+  animation: slideDownReply 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDownReply {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zenve-replying-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.zenve-replying-bar-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #edd2d8;
+  color: #3D0D18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.zenve-replying-bar-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.zenve-replying-bar-author {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #3D0D18;
+}
+
+.zenve-replying-bar-snippet {
+  font-size: 11px;
+  color: #6d5b60;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 520px;
+}
+
+.zenve-replying-bar-close {
+  background: transparent;
+  border: none;
+  color: #8c7379;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.zenve-replying-bar-close:hover {
+  background: #edd2d8;
+  color: #3D0D18;
+}
+
+.zenve-chat-composer {
+  padding: 12px 24px 18px 24px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zenve-chat-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #f3f7f5;
+  border: 1px solid #e1e9e4;
+  border-radius: 24px;
+  padding: 6px 16px;
+  transition: all 0.2s ease;
+}
+
+.zenve-chat-input-wrap:focus-within {
+  background: #ffffff;
+  border-color: #3D0D18;
+  box-shadow: 0 0 0 3px rgba(61, 13, 24, 0.08);
+}
+
+.zenve-chat-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13.5px;
+  color: #17241e;
+  font-family: inherit;
+  padding: 6px 0;
+}
+
+.zenve-chat-input::placeholder {
+  color: #8fa097;
+}
+
+.zenve-chat-send-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3D0D18;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(61, 13, 24, 0.25);
+  flex-shrink: 0;
+}
+
+.zenve-chat-send-btn:hover:not(:disabled) {
+  background: #541322;
+  transform: translateY(-1px);
+}
+
+.zenve-chat-send-btn:disabled {
+  background: #d4ded8;
+  color: #8c9a92;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Restricted Message Notice (When NOT Following) */
+.zenve-chat-restricted-banner {
+  padding: 24px;
+  border-top: 1px solid #edf2ef;
+  background: #fef8f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.zenve-restricted-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fae6eb;
+  color: #3D0D18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-restricted-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #3D0D18;
+  margin: 0;
+}
+
+.zenve-restricted-desc {
+  font-size: 12.5px;
+  color: #617068;
+  max-width: 440px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.zenve-restricted-follow-btn {
+  background: #3D0D18;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(61, 13, 24, 0.2);
+}
+
+.zenve-restricted-follow-btn:hover {
+  background: #541322;
+  transform: translateY(-1px);
+}
+
+/* Empty placeholder when no chat selected */
+.zenve-chat-no-selection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  background: #fbfdfc;
+}
+
+.zenve-chat-no-selection-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #edf5f0;
+  color: #3D0D18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.zenve-chat-no-selection-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #17241e;
+  margin: 0 0 6px 0;
+}
+
+.zenve-chat-no-selection-desc {
+  font-size: 13.5px;
+  color: #6a7972;
+  max-width: 360px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Dark Mode Adaptations ───────────────────────────────────────────── */
+[data-theme='dark'] .zenve-messages-container {
+  background: #121e18;
+  border-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-messages-sidebar {
+  background: #101a15;
+  border-right-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-messages-sidebar-header,
+[data-theme='dark'] .zenve-messages-filter-tabs,
+[data-theme='dark'] .zenve-chat-header,
+[data-theme='dark'] .zenve-chat-composer {
+  border-color: #1f2f28;
+  background: #101a15;
+}
+
+[data-theme='dark'] .zenve-messages-title,
+[data-theme='dark'] .zenve-contact-name,
+[data-theme='dark'] .zenve-chat-header-name,
+[data-theme='dark'] .zenve-chat-no-selection-title {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-messages-search-box {
+  background: #182820;
+  border-color: #243a2f;
+}
+
+[data-theme='dark'] .zenve-messages-search-input {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-contact-item:hover {
+  background: #182920;
+}
+
+[data-theme='dark'] .zenve-contact-item.active {
+  background: #24141a;
+  border-left-color: #f7a8b8;
+}
+
+[data-theme='dark'] .zenve-contact-preview,
+[data-theme='dark'] .zenve-chat-header-sub,
+[data-theme='dark'] .zenve-chat-no-selection-desc {
+  color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-chat-pane,
+[data-theme='dark'] .zenve-chat-history,
+[data-theme='dark'] .zenve-chat-no-selection,
+[data-theme='dark'] .zenve-quick-prompts-row {
+  background: #0f1914;
+}
+
+[data-theme='dark'] .zenve-chat-bubble.received {
+  background: #15241d;
+  color: #e2ede6;
+  border-color: #243a2f;
+}
+
+[data-theme='dark'] .zenve-chat-input-wrap {
+  background: #182820;
+  border-color: #243a2f;
+}
+
+[data-theme='dark'] .zenve-chat-input {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-chat-restricted-banner {
+  background: #211317;
+  border-color: #381f25;
+}
+
+[data-theme='dark'] .zenve-restricted-icon-wrap {
+  background: #33151c;
+}
+
+[data-theme='dark'] .zenve-restricted-desc {
+  color: #c9b4ba;
+}
+
+[data-theme='dark'] .zenve-view-profile-btn {
+  border-color: #2e4438;
+  color: #a0baa9;
+}
+
+[data-theme='dark'] .zenve-view-profile-btn:hover {
+  background: #1a2a22;
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-quick-prompt-btn {
+  background: #15241d;
+  border-color: #243a2f;
+  color: #a0baa9;
+}
+
+[data-theme='dark'] .zenve-quick-prompt-btn:hover {
+  background: #1e3329;
+  color: #e2ede6;
+  border-color: #3D0D18;
+}
+
+[data-theme='dark'] .zenve-chat-composer-wrapper {
+  background: #101a15;
+  border-top-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-chat-replying-bar {
+  background: #24141a;
+  border-bottom-color: #3d1b24;
+}
+
+[data-theme='dark'] .zenve-replying-bar-icon {
+  background: #3d1b24;
+  color: #f7a8b8;
+}
+
+[data-theme='dark'] .zenve-replying-bar-author {
+  color: #f7a8b8;
+}
+
+[data-theme='dark'] .zenve-replying-bar-snippet {
+  color: #d1b4bc;
+}
+
+[data-theme='dark'] .zenve-replying-bar-close {
+  color: #c99da7;
+}
+
+[data-theme='dark'] .zenve-replying-bar-close:hover {
+  background: #3d1b24;
+  color: #ffffff;
+}
+
+[data-theme='dark'] .zenve-chat-quoted-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: #f7a8b8;
+}
+
+[data-theme='dark'] .zenve-quoted-author {
+  color: #f7a8b8;
+}
+
+[data-theme='dark'] .zenve-bubble-reply-action-btn {
+  background: #182820;
+  border-color: #2e4438;
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-bubble-reply-action-btn:hover {
+  background: #2a161e;
+  border-color: #f7a8b8;
+  color: #f7a8b8;
+}
+
+[data-theme='dark'] .zenve-click-hint {
+  color: #6d8576;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 850px) {
+  .zenve-messages-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+  }
+
+  .zenve-messages-sidebar {
+    width: 100%;
+    min-width: 0;
+    max-height: 380px;
+    border-right: none;
+    border-bottom: 1px solid #e7ede9;
+  }
+
+  .zenve-chat-history {
+    min-height: 400px;
+    max-height: 500px;
+  }
+}

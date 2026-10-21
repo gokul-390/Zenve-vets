@@ -134,7 +134,15 @@ export const DoctorProfileModal = ({ doctor, isOpen, onClose, isFollowing, onTog
             <button
               type="button"
               className="zenve-doc-msg-btn"
-              onClick={() => alert(`Opening direct clinical consultation message with ${detailedDoctor.name}...`)}
+              onClick={() => {
+                window.dispatchEvent(
+                  new CustomEvent('zenve_open_message', {
+                    detail: { doctorId: detailedDoctor.id },
+                  })
+                );
+                if (onClose) onClose();
+              }}
+              title={`Message ${detailedDoctor.name}`}
             >
               Message
             </button>

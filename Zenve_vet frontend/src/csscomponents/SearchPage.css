@@ -1,1173 +1,1172 @@
+
+
 /* =========================================================
-ZENVE VET — SEARCH & DISCOVERY
-Burgundy • Ivory • Sage • Muted Gold
-Responsive layout • Dark-mode contrast
+   ZENVE VET — SEARCH & DISCOVERY
+   Responsive layout • Burgundy • Ivory • Muted Gold
+   Light mode • Dark mode • Existing JSX class integration
 ========================================================= */
 
 /* ---------- Theme variables ---------- */
 
 .search-page {
---search-forest: #541522;
---search-forest-dark: #3d0d18;
---search-ivory: #f8f4ec;
---search-sage: #f1e8e5;
---search-gold: #c5a45b;
---search-white: #fffdf9;
---search-text: #392d2c;
---search-muted: #80716d;
---search-border: #e9dfd5;
---search-shadow: 0 6px 22px rgba(84, 21, 34, 0.055);
+  --search-forest: #541522;
+  --search-forest-dark: #3d0d18;
+  --search-ivory: #f8f4ec;
+  --search-sage: #f1e8e5;
+  --search-gold: #c5a45b;
+  --search-white: #fffdf9;
+  --search-text: #392d2c;
+  --search-muted: #80716d;
+  --search-border: #e9dfd5;
+  --search-shadow: 0 6px 22px rgba(84, 21, 34, 0.055);
 
-width: 100%;
-max-width: none;
-min-width: 0;
-margin: 0;
-padding: 24px 26px 36px 30px;
-box-sizing: border-box;
-color: var(--search-text);
-font-family: "Figtree", "Segoe UI", Arial, sans-serif;
-transition: color 180ms ease;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 24px 26px 36px 30px;
+  box-sizing: border-box;
+  color: var(--search-text);
+  font-family: "Figtree", "Segoe UI", Arial, sans-serif;
+  transition: color 180ms ease;
 }
 
 .search-page *,
 .search-page *::before,
 .search-page *::after {
-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .search-page button,
 .search-page input,
 .search-page select {
-font: inherit;
+  font: inherit;
 }
 
 .search-page button {
--webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .search-page img {
-max-width: 100%;
+  max-width: 100%;
 }
 
-/* ---------- Headings ---------- */
+/* ---------- Page heading ---------- */
 
 .search-heading {
-width: 100%;
-margin: 0 0 25px;
+  width: 100%;
+  margin: 0 0 25px;
 }
 
 .search-eyebrow {
-display: inline-flex;
-align-items: center;
-padding: 7px 11px;
-border: 1px solid var(--search-border);
-border-radius: 999px;
-background: var(--search-sage);
-color: var(--search-forest);
-font-size: 10px;
-font-weight: 800;
-letter-spacing: 0.12em;
-line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border: 1px solid var(--search-border);
+  border-radius: 999px;
+  background: var(--search-sage);
+  color: var(--search-forest);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
 }
 
 .search-heading h1 {
-max-width: 760px;
-margin: 16px 0 10px;
-color: var(--search-forest-dark);
-font-family: "Outfit", "Segoe UI", sans-serif;
-font-size: clamp(29px, 3vw, 42px);
-font-weight: 750;
-line-height: 1.16;
-letter-spacing: -0.04em;
+  max-width: 760px;
+  margin: 16px 0 10px;
+  color: var(--search-forest-dark);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: clamp(29px, 3vw, 42px);
+  font-weight: 750;
+  line-height: 1.16;
+  letter-spacing: -0.04em;
 }
 
 .search-heading p {
-max-width: 690px;
-margin: 0;
-color: var(--search-muted);
-font-size: 13px;
-line-height: 1.8;
+  max-width: 690px;
+  margin: 0;
+  color: var(--search-muted);
+  font-size: 13px;
+  line-height: 1.8;
 }
 
-/* ---------- Search controls ---------- */
+/* ---------- Search and location controls ---------- */
 
 .search-controls {
-display: grid;
-grid-template-columns: minmax(0, 1fr) 190px;
-align-items: center;
-gap: 13px;
-width: 100%;
-min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  min-width: 0;
 }
 
 .search-input-wrap {
-display: flex;
-align-items: center;
-gap: 10px;
-width: 100%;
-min-width: 0;
-min-height: 48px;
-margin: 0;
-padding: 5px 11px 5px 15px;
-border: 1px solid var(--search-border);
-border-radius: 12px;
-background: var(--search-white);
-color: var(--search-muted);
-box-shadow: 0 3px 12px rgba(84, 21, 34, 0.025);
-transition: border-color 160ms ease, box-shadow 160ms ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  margin: 0;
+  padding: 5px 11px 5px 15px;
+  border: 1px solid var(--search-border);
+  border-radius: 12px;
+  background: var(--search-white);
+  color: var(--search-muted);
+  box-shadow: 0 3px 12px rgba(84, 21, 34, 0.025);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .search-input-wrap:focus-within {
-border-color: var(--search-gold);
-box-shadow: 0 0 0 3px rgba(197, 164, 91, 0.18);
+  border-color: var(--search-gold);
+  box-shadow: 0 0 0 3px rgba(197, 164, 91, 0.18);
 }
 
 .search-input-wrap > svg {
-flex-shrink: 0;
-color: var(--search-forest);
+  flex-shrink: 0;
+  color: var(--search-forest);
 }
 
 .search-input-wrap input {
-flex: 1;
-width: 100%;
-min-width: 0;
-min-height: 35px;
-padding: 0;
-border: 0;
-outline: none;
-background: transparent;
-color: var(--search-text);
-font-size: 13px;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 35px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--search-text);
+  font-size: 13px;
 }
 
 .search-input-wrap input::placeholder {
-color: var(--search-muted);
-opacity: 0.9;
+  color: var(--search-muted);
+  opacity: 0.9;
 }
 
 .search-clear-button {
-display: grid;
-flex-shrink: 0;
-width: 30px;
-height: 30px;
-place-items: center;
-border: 0;
-border-radius: 8px;
-background: var(--search-sage);
-color: var(--search-forest);
-cursor: pointer;
+  display: grid;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: var(--search-sage);
+  color: var(--search-forest);
+  cursor: pointer;
 }
 
 .search-clear-button:hover {
-background: var(--search-border);
+  background: var(--search-border);
 }
 
 .search-city-field {
-display: flex;
-align-items: center;
-gap: 7px;
-min-width: 0;
-min-height: 48px;
-padding: 0 11px;
-border: 1px solid var(--search-border);
-border-radius: 12px;
-background: var(--search-white);
-color: var(--search-forest);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 11px;
+  border: 1px solid var(--search-border);
+  border-radius: 12px;
+  background: var(--search-white);
+  color: var(--search-forest);
 }
 
 .search-city-field > svg {
-flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .search-city-select {
-width: 100%;
-min-width: 0;
-height: 42px;
-padding: 0 3px;
-border: 0;
-outline: none;
-background: transparent;
-color: var(--search-text);
-font-size: 12px;
-cursor: pointer;
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 0 3px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--search-text);
+  font-size: 12px;
+  cursor: pointer;
 }
 
 /* ---------- Specialty filters ---------- */
 
 .search-filter-section {
-margin-top: 27px;
+  margin-top: 27px;
 }
 
 .search-filter-label {
-display: block;
-margin: 0 0 13px;
-color: var(--search-text);
-font-size: 12px;
-font-weight: 800;
+  display: block;
+  margin: 0 0 13px;
+  color: var(--search-text);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .search-specialties {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .search-specialties button {
-min-height: 35px;
-padding: 8px 13px;
-border: 1px solid var(--search-border);
-border-radius: 999px;
-background: var(--search-white);
-color: var(--search-text);
-font-size: 11px;
-font-weight: 650;
-cursor: pointer;
-transition: background 160ms ease, border-color 160ms ease,
-color 160ms ease, transform 160ms ease;
+  min-height: 35px;
+  padding: 8px 13px;
+  border: 1px solid var(--search-border);
+  border-radius: 999px;
+  background: var(--search-white);
+  color: var(--search-text);
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .search-specialties button:hover {
-transform: translateY(-1px);
-border-color: var(--search-gold);
-color: var(--search-forest);
+  transform: translateY(-1px);
+  border-color: var(--search-gold);
+  color: var(--search-forest);
 }
 
 .search-specialties button.selected {
-border-color: var(--search-forest);
-background: var(--search-forest);
-color: #fff;
+  border-color: var(--search-forest);
+  background: var(--search-forest);
+  color: #fff;
 }
 
 /* ---------- Verification options ---------- */
 
 .search-options {
-display: flex;
-align-items: center;
-flex-wrap: wrap;
-gap: 12px 19px;
-margin: 20px 0 25px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 19px;
+  margin: 20px 0 25px;
 }
 
 .search-options label {
-display: inline-flex;
-align-items: center;
-gap: 7px;
-color: var(--search-text);
-font-size: 12px;
-font-weight: 600;
-cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--search-text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .search-options label > svg {
-flex-shrink: 0;
-color: var(--search-forest);
+  flex-shrink: 0;
+  color: var(--search-forest);
 }
 
 .search-options input {
-width: 15px;
-height: 15px;
-margin: 0;
-accent-color: var(--search-forest);
-cursor: pointer;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--search-forest);
+  cursor: pointer;
 }
 
 .search-reset-button {
-min-height: 33px;
-padding: 6px 11px;
-border: 1px solid var(--search-border);
-border-radius: 8px;
-background: var(--search-white);
-color: var(--search-forest);
-font-size: 11px;
-font-weight: 750;
-cursor: pointer;
+  min-height: 33px;
+  padding: 6px 11px;
+  border: 1px solid var(--search-border);
+  border-radius: 8px;
+  background: var(--search-white);
+  color: var(--search-forest);
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
 }
 
 .search-reset-button:hover {
-border-color: var(--search-gold);
-background: var(--search-sage);
+  border-color: var(--search-gold);
+  background: var(--search-sage);
 }
 
 /* ---------- Category tabs ---------- */
 
 .search-tabs {
-display: flex;
-align-items: stretch;
-justify-content: space-between;
-gap: 8px;
-width: 100%;
-min-width: 0;
-margin-top: 8px;
-overflow-x: auto;
-border-bottom: 1px solid var(--search-border);
-scrollbar-width: thin;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 8px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--search-border);
+  scrollbar-width: thin;
 }
 
 .search-tabs button {
-position: relative;
-display: inline-flex;
-flex: 1 0 auto;
-align-items: center;
-justify-content: center;
-gap: 8px;
-min-width: max-content;
-min-height: 51px;
-padding: 0 13px;
-border: 1px solid transparent;
-border-radius: 10px 10px 0 0;
-background: transparent;
-color: var(--search-text);
-font-size: 12px;
-font-weight: 650;
-white-space: nowrap;
-cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  flex: 1 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: max-content;
+  min-height: 51px;
+  padding: 0 13px;
+  border: 1px solid transparent;
+  border-radius: 10px 10px 0 0;
+  background: transparent;
+  color: var(--search-text);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .search-tabs button:hover {
-background: var(--search-sage);
-color: var(--search-forest);
+  background: var(--search-sage);
+  color: var(--search-forest);
 }
 
 .search-tabs button.active {
-border-color: var(--search-border);
-background: var(--search-white);
-color: var(--search-forest);
-font-weight: 800;
+  border-color: var(--search-border);
+  background: var(--search-white);
+  color: var(--search-forest);
+  font-weight: 800;
 }
 
 .search-tabs button.active::after {
-position: absolute;
-right: 10px;
-bottom: -1px;
-left: 10px;
-height: 3px;
-border-radius: 3px 3px 0 0;
-background: var(--search-gold);
-content: "";
+  position: absolute;
+  right: 10px;
+  bottom: -1px;
+  left: 10px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--search-gold);
+  content: "";
 }
 
 .search-tab-label {
-display: inline-block;
+  display: inline-block;
 }
 
 .search-tab-count {
-display: inline-flex;
-flex-shrink: 0;
-align-items: center;
-justify-content: center;
-min-width: 24px;
-height: 22px;
-padding: 0 6px;
-border: 1px solid var(--search-border);
-border-radius: 999px;
-background: var(--search-sage);
-color: var(--search-forest);
-font-size: 10px;
-font-weight: 800;
-line-height: 1;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--search-border);
+  border-radius: 999px;
+  background: var(--search-sage);
+  color: var(--search-forest);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .search-tabs button.active .search-tab-count {
-border-color: var(--search-forest);
-background: var(--search-forest);
-color: #fff;
+  border-color: var(--search-forest);
+  background: var(--search-forest);
+  color: #fff;
 }
 
 /* ---------- Results headings ---------- */
 
 .search-results-section,
 .search-discovery-section {
-width: 100%;
-min-width: 0;
-margin-top: 25px;
-scroll-margin-top: 24px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 25px;
+  scroll-margin-top: 24px;
 }
 
 .search-results-heading {
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 16px;
-width: 100%;
-margin: 0 0 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin: 0 0 17px;
 }
 
 .search-results-eyebrow {
-display: inline-block;
-color: #9a8050;
-font-size: 9px;
-font-weight: 800;
-letter-spacing: 0.14em;
-text-transform: uppercase;
+  display: inline-block;
+  color: var(--search-gold);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .search-results-heading h2 {
-margin: 7px 0 0;
-color: var(--search-forest-dark);
-font-family: "Outfit", "Segoe UI", sans-serif;
-font-size: clamp(21px, 2.2vw, 26px);
-font-weight: 750;
-line-height: 1.3;
-letter-spacing: -0.025em;
+  margin: 7px 0 0;
+  color: var(--search-forest-dark);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: clamp(21px, 2.2vw, 26px);
+  font-weight: 750;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
 }
 
 .search-results-heading p {
-max-width: 620px;
-margin: 7px 0 0;
-color: var(--search-muted);
-font-size: 12px;
-line-height: 1.7;
+  max-width: 620px;
+  margin: 7px 0 0;
+  color: var(--search-muted);
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 .search-result-count {
-display: inline-flex;
-flex-shrink: 0;
-align-items: center;
-min-height: 29px;
-padding: 5px 10px;
-border: 1px solid var(--search-border);
-border-radius: 999px;
-background: var(--search-white);
-color: var(--search-text);
-font-size: 10px;
-font-weight: 750;
-white-space: nowrap;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  min-height: 29px;
+  padding: 5px 10px;
+  border: 1px solid var(--search-border);
+  border-radius: 999px;
+  background: var(--search-white);
+  color: var(--search-text);
+  font-size: 10px;
+  font-weight: 750;
+  white-space: nowrap;
 }
 
 .search-directory-controls {
-display: flex;
-align-items: center;
-justify-content: flex-end;
-flex-wrap: wrap;
-gap: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 11px;
 }
 
 .search-sort-control {
-display: inline-flex;
-align-items: center;
-gap: 8px;
-min-height: 37px;
-padding: 0 11px;
-border: 1px solid var(--search-border);
-border-radius: 10px;
-background: var(--search-white);
-color: var(--search-forest);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 37px;
+  padding: 0 11px;
+  border: 1px solid var(--search-border);
+  border-radius: 10px;
+  background: var(--search-white);
+  color: var(--search-forest);
 }
 
 .search-sort-control select {
-max-width: 155px;
-min-height: 33px;
-border: 0;
-outline: none;
-background: transparent;
-color: var(--search-text);
-font-size: 12px;
-cursor: pointer;
+  max-width: 155px;
+  min-height: 33px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--search-text);
+  font-size: 12px;
+  cursor: pointer;
 }
 
 /* ---------- Doctor directory ---------- */
 
 .doctor-scroll-container {
-width: 100%;
-max-width: 100%;
-max-height: 650px;
-min-width: 0;
-padding: 3px 5px 12px 2px;
-overflow-x: hidden;
-overflow-y: auto;
-overscroll-behavior-y: contain;
-border-radius: 14px;
-scrollbar-width: thin;
-scrollbar-color: var(--search-border) transparent;
+  width: 100%;
+  max-width: 100%;
+  max-height: 650px;
+  min-width: 0;
+  padding: 3px 5px 12px 2px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  border-radius: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--search-border) transparent;
 }
 
 .doctor-scroll-container::-webkit-scrollbar {
-width: 6px;
+  width: 6px;
 }
 
 .doctor-scroll-container::-webkit-scrollbar-thumb {
-border-radius: 10px;
-background: var(--search-border);
+  border-radius: 10px;
+  background: var(--search-border);
 }
 
 .doctor-grid {
-display: grid;
-grid-template-columns: repeat(3, minmax(0, 1fr));
-align-items: stretch;
-gap: 16px;
-width: 100%;
-min-width: 0;
-padding: 2px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  padding: 2px;
 }
 
 .doctor-card {
-display: flex;
-flex-direction: column;
-min-width: 0;
-overflow: hidden;
-border: 1px solid var(--search-border);
-border-radius: 15px;
-background: var(--search-white);
-color: var(--search-text);
-box-shadow: var(--search-shadow);
-transition: transform 180ms ease, box-shadow 180ms ease;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--search-border);
+  border-radius: 15px;
+  background: var(--search-white);
+  box-shadow: var(--search-shadow);
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .doctor-card:hover {
-transform: translateY(-2px);
-box-shadow: 0 10px 25px rgba(84, 21, 34, 0.09);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(84, 21, 34, 0.09);
 }
 
 .doctor-card-banner {
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 8px;
-min-height: 77px;
-padding: 13px 14px;
-background: linear-gradient(125deg, var(--search-sage), var(--search-ivory));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 77px;
+  padding: 13px 14px;
+  background: linear-gradient(125deg, var(--search-sage), var(--search-ivory));
 }
 
 .doctor-banner-icon {
-display: grid;
-flex-shrink: 0;
-width: 39px;
-height: 39px;
-place-items: center;
-border: 1px solid var(--search-border);
-border-radius: 11px;
-background: var(--search-white);
-color: var(--search-forest);
+  display: grid;
+  flex-shrink: 0;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border: 1px solid var(--search-border);
+  border-radius: 11px;
+  background: var(--search-white);
+  color: var(--search-forest);
 }
 
 .doctor-city-tag {
-display: inline-flex;
-align-items: center;
-gap: 5px;
-max-width: 70%;
-padding: 6px 8px;
-border: 1px solid var(--search-border);
-border-radius: 999px;
-background: var(--search-white);
-color: var(--search-text);
-font-size: 10px;
-font-weight: 750;
-overflow-wrap: anywhere;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 70%;
+  padding: 6px 8px;
+  border: 1px solid var(--search-border);
+  border-radius: 999px;
+  background: var(--search-white);
+  color: var(--search-text);
+  font-size: 10px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
 }
 
 .doctor-avatar {
-display: grid;
-flex-shrink: 0;
-width: 62px;
-height: 62px;
-margin: -29px 0 0 15px;
-place-items: center;
-overflow: hidden;
-border: 4px solid var(--search-white);
-border-radius: 16px;
-background: var(--search-sage);
-color: var(--search-forest);
-font-size: 16px;
-font-weight: 800;
+  display: grid;
+  flex-shrink: 0;
+  width: 62px;
+  height: 62px;
+  margin: -29px 0 0 15px;
+  place-items: center;
+  overflow: hidden;
+  border: 4px solid var(--search-white);
+  border-radius: 16px;
+  background: var(--search-sage);
+  color: var(--search-forest);
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .doctor-avatar img {
-display: block;
-width: 100%;
-height: 100%;
-object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .doctor-card-body {
-display: flex;
-flex: 1;
-flex-direction: column;
-min-width: 0;
-padding: 10px 15px 15px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 10px 15px 15px;
 }
 
 .doctor-label {
-display: inline-block;
-color: #9a8050;
-font-size: 8px;
-font-weight: 800;
-letter-spacing: 0.06em;
-line-height: 1.6;
+  display: inline-block;
+  color: var(--search-gold);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
 }
 
 .doctor-card-body h3 {
-margin: 7px 0 5px;
-color: var(--search-forest-dark);
-font-family: "Outfit", "Segoe UI", sans-serif;
-font-size: 16px;
-font-weight: 750;
-line-height: 1.4;
-overflow-wrap: anywhere;
+  margin: 7px 0 5px;
+  color: var(--search-forest-dark);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 750;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .doctor-specialty,
 .doctor-experience,
 .doctor-location {
-color: var(--search-muted);
-font-size: 11px;
-line-height: 1.65;
+  color: var(--search-muted);
+  font-size: 11px;
+  line-height: 1.65;
 }
 
 .doctor-specialty {
-margin: 0;
+  margin: 0;
 }
 
 .doctor-experience {
-margin-top: 7px;
+  margin-top: 7px;
 }
 
 .doctor-location {
-display: flex;
-align-items: center;
-gap: 6px;
-margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .doctor-location svg {
-flex-shrink: 0;
-color: var(--search-forest);
+  flex-shrink: 0;
+  color: var(--search-forest);
 }
 
 .doctor-verified-icon {
-display: inline-block;
-margin-left: 6px;
-color: var(--search-forest);
-vertical-align: -2px;
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--search-forest);
+  vertical-align: -2px;
 }
 
 /* ---------- Doctor card actions ---------- */
 
 .doctor-card-footer {
-display: flex;
-flex-direction: column;
-align-items: stretch;
-gap: 10px;
-margin-top: auto;
-padding-top: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 13px;
 }
 
 .doctor-community-status {
-display: inline-flex;
-align-items: center;
-gap: 6px;
-color: var(--search-muted);
-font-size: 10px;
-font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--search-muted);
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .doctor-community-status svg {
-flex-shrink: 0;
-color: var(--search-gold);
+  flex-shrink: 0;
+  color: var(--search-gold);
 }
 
 .doctor-card-actions {
-display: grid;
-grid-template-columns: repeat(2, minmax(0, 1fr));
-gap: 7px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
 }
 
 .doctor-connect-button,
 .doctor-profile-button,
 .doctor-message-button {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 6px;
-width: 100%;
-min-width: 0;
-min-height: 37px;
-padding: 7px 8px;
-border: 1px solid transparent;
-border-radius: 8px;
-font-size: 10px;
-font-weight: 750;
-line-height: 1.35;
-text-align: center;
-overflow-wrap: anywhere;
-cursor: pointer;
-transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  min-height: 37px;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease,
+    color 160ms ease;
 }
 
 .doctor-connect-button {
-grid-column: 1 / -1;
-min-height: 38px;
-border-color: var(--search-forest);
-background: var(--search-forest);
-color: #fff;
+  grid-column: 1 / -1;
+  min-height: 38px;
+  border-color: var(--search-forest);
+  background: var(--search-forest);
+  color: #fff;
 }
 
 .doctor-connect-button:hover,
 .doctor-message-button:hover {
-background: var(--search-forest-dark);
+  background: var(--search-forest-dark);
 }
 
 .doctor-connect-button.is-connected {
-border-color: var(--search-gold);
-background: var(--search-sage);
-color: var(--search-forest);
+  border-color: var(--search-gold);
+  background: var(--search-sage);
+  color: var(--search-forest);
 }
 
 .doctor-profile-button {
-border-color: var(--search-border);
-background: var(--search-white);
-color: var(--search-forest);
+  border-color: var(--search-border);
+  background: var(--search-white);
+  color: var(--search-forest);
 }
 
 .doctor-profile-button:hover {
-border-color: var(--search-gold);
-background: var(--search-sage);
+  border-color: var(--search-gold);
+  background: var(--search-sage);
 }
 
 .doctor-message-button {
-border-color: var(--search-forest);
-background: var(--search-forest);
-color: #fff;
+  border-color: var(--search-forest);
+  background: var(--search-forest);
+  color: #fff;
 }
 
 .doctor-card-actions button svg {
-flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 /* ---------- Discovery filters ---------- */
 
 .discovery-heading {
-margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .discovery-filter-row {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .discovery-filter-row button {
-min-height: 35px;
-padding: 7px 14px;
-border: 1px solid var(--search-border);
-border-radius: 999px;
-background: var(--search-white);
-color: var(--search-text);
-font-size: 11px;
-font-weight: 700;
-cursor: pointer;
+  min-height: 35px;
+  padding: 7px 14px;
+  border: 1px solid var(--search-border);
+  border-radius: 999px;
+  background: var(--search-white);
+  color: var(--search-text);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .discovery-filter-row button:hover {
-border-color: var(--search-gold);
-color: var(--search-forest);
+  border-color: var(--search-gold);
+  color: var(--search-forest);
 }
 
 .discovery-filter-row button.active {
-border-color: var(--search-forest);
-background: var(--search-forest);
-color: #fff;
+  border-color: var(--search-forest);
+  background: var(--search-forest);
+  color: #fff;
 }
 
 /* ---------- Discovery cards ---------- */
 
 .discovery-grid {
-display: grid;
-grid-template-columns: repeat(3, minmax(0, 1fr));
-align-items: stretch;
-gap: 16px;
-width: 100%;
-min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
 }
 
 .discovery-card {
-display: flex;
-flex-direction: column;
-min-width: 0;
-min-height: 220px;
-padding: 17px;
-overflow: hidden;
-border: 1px solid var(--search-border);
-border-radius: 14px;
-background: var(--search-white);
-color: var(--search-text);
-box-shadow: var(--search-shadow);
-transition: transform 160ms ease, box-shadow 160ms ease;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 220px;
+  padding: 17px;
+  overflow: hidden;
+  border: 1px solid var(--search-border);
+  border-radius: 14px;
+  background: var(--search-white);
+  box-shadow: var(--search-shadow);
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .discovery-card:hover {
-transform: translateY(-2px);
-box-shadow: 0 9px 22px rgba(84, 21, 34, 0.075);
+  transform: translateY(-2px);
+  box-shadow: 0 9px 22px rgba(84, 21, 34, 0.075);
 }
 
 .discovery-card-top {
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 8px;
-margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 15px;
 }
 
 .discovery-card-icon {
-display: grid;
-flex-shrink: 0;
-width: 42px;
-height: 42px;
-place-items: center;
-border: 1px solid var(--search-border);
-border-radius: 12px;
-background: var(--search-sage);
-color: var(--search-forest);
+  display: grid;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--search-border);
+  border-radius: 12px;
+  background: var(--search-sage);
+  color: var(--search-forest);
 }
 
 .discovery-tag {
-display: inline-flex;
-align-items: center;
-padding: 5px 8px;
-border-radius: 999px;
-background: var(--search-ivory);
-color: var(--search-forest);
-font-size: 9px;
-font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--search-ivory);
+  color: var(--search-forest);
+  font-size: 9px;
+  font-weight: 800;
 }
 
 .discovery-card h3 {
-margin: 0 0 9px;
-color: var(--search-forest-dark);
-font-family: "Outfit", "Segoe UI", sans-serif;
-font-size: 15px;
-font-weight: 750;
-line-height: 1.45;
-overflow-wrap: anywhere;
+  margin: 0 0 9px;
+  color: var(--search-forest-dark);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .discovery-card > p {
-margin: 0;
-color: var(--search-muted);
-font-size: 12px;
-line-height: 1.75;
-overflow-wrap: anywhere;
+  margin: 0;
+  color: var(--search-muted);
+  font-size: 12px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
 }
 
 .discovery-card-media {
-width: 100%;
-margin-top: 13px;
-overflow: hidden;
-border-radius: 10px;
-background: var(--search-sage);
+  width: 100%;
+  margin-top: 13px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--search-sage);
 }
 
 .discovery-card-media img {
-display: block;
-width: 100%;
-max-height: 220px;
-aspect-ratio: 16 / 10;
-object-fit: cover;
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
 }
 
 .discovery-card-footer {
-display: flex;
-flex-wrap: wrap;
-align-items: center;
-justify-content: space-between;
-gap: 8px;
-margin-top: auto;
-padding-top: 17px;
-color: var(--search-muted);
-font-size: 9px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 17px;
+  color: var(--search-muted);
+  font-size: 9px;
 }
 
 .discovery-card-footer > span:first-child {
-display: inline-flex;
-align-items: center;
-gap: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .discovery-card-footer svg {
-flex-shrink: 0;
-color: var(--search-forest);
+  flex-shrink: 0;
+  color: var(--search-forest);
 }
 
 .discovery-author {
-max-width: 100%;
-overflow-wrap: anywhere;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 /* ---------- Discovery note ---------- */
 
 .search-discovery-note {
-display: flex;
-align-items: flex-start;
-gap: 10px;
-margin-top: 18px;
-padding: 14px 15px;
-border: 1px solid var(--search-border);
-border-radius: 11px;
-background: var(--search-ivory);
-color: var(--search-text);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 14px 15px;
+  border: 1px solid var(--search-border);
+  border-radius: 11px;
+  background: var(--search-ivory);
 }
 
 .search-discovery-note > svg {
-flex-shrink: 0;
-margin-top: 2px;
-color: var(--search-forest);
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--search-forest);
 }
 
 .search-discovery-note p {
-margin: 0;
-color: var(--search-muted);
-font-size: 11px;
-line-height: 1.7;
+  margin: 0;
+  color: var(--search-muted);
+  font-size: 11px;
+  line-height: 1.7;
 }
 
 /* ---------- Empty state ---------- */
 
 .search-empty {
-display: flex;
-align-items: center;
-flex-direction: column;
-padding: 40px 20px;
-border: 1px dashed var(--search-border);
-border-radius: 15px;
-background: var(--search-white);
-color: var(--search-text);
-text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px 20px;
+  border: 1px dashed var(--search-border);
+  border-radius: 15px;
+  background: var(--search-white);
+  text-align: center;
 }
 
 .search-empty-icon {
-display: grid;
-width: 49px;
-height: 49px;
-margin-bottom: 14px;
-place-items: center;
-border-radius: 15px;
-background: var(--search-sage);
-color: var(--search-forest);
+  display: grid;
+  width: 49px;
+  height: 49px;
+  margin-bottom: 14px;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--search-sage);
+  color: var(--search-forest);
 }
 
 .search-empty h3 {
-margin: 0 0 8px;
-color: var(--search-forest-dark);
-font-family: "Outfit", "Segoe UI", sans-serif;
-font-size: 17px;
-font-weight: 750;
+  margin: 0 0 8px;
+  color: var(--search-forest-dark);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 17px;
+  font-weight: 750;
 }
 
 .search-empty p {
-max-width: 430px;
-margin: 0;
-color: var(--search-muted);
-font-size: 12px;
-line-height: 1.7;
+  max-width: 430px;
+  margin: 0;
+  color: var(--search-muted);
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 .search-empty > button {
-min-height: 39px;
-margin-top: 18px;
-padding: 0 14px;
-border: 1px solid var(--search-forest);
-border-radius: 9px;
-background: var(--search-forest);
-color: #fff;
-font-size: 11px;
-font-weight: 750;
-cursor: pointer;
+  min-height: 39px;
+  margin-top: 18px;
+  padding: 0 14px;
+  border: 1px solid var(--search-forest);
+  border-radius: 9px;
+  background: var(--search-forest);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
 }
 
 /* ---------- Doctor profile modal ---------- */
 
 .doctor-modal-backdrop {
-position: fixed;
-z-index: 1000;
-inset: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 20px;
-overflow-y: auto;
-background: rgba(36, 10, 17, 0.68);
-backdrop-filter: blur(4px);
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(36, 10, 17, 0.68);
+  backdrop-filter: blur(4px);
 }
 
 .doctor-profile-modal {
-position: relative;
-width: 100%;
-max-width: 650px;
-max-height: min(88vh, 900px);
-padding: 25px;
-overflow-y: auto;
-border: 1px solid var(--search-border);
-border-radius: 19px;
-background: var(--search-white);
-color: var(--search-text);
-box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  max-height: min(88vh, 900px);
+  padding: 25px;
+  overflow-y: auto;
+  border: 1px solid var(--search-border);
+  border-radius: 19px;
+  background: var(--search-white);
+  color: var(--search-text);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
 }
 
 .doctor-modal-header {
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 12px;
-margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
 }
 
 .doctor-modal-close {
-display: grid;
-flex-shrink: 0;
-width: 37px;
-height: 37px;
-place-items: center;
-border: 1px solid var(--search-border);
-border-radius: 10px;
-background: var(--search-ivory);
-color: var(--search-forest);
-cursor: pointer;
+  display: grid;
+  flex-shrink: 0;
+  width: 37px;
+  height: 37px;
+  place-items: center;
+  border: 1px solid var(--search-border);
+  border-radius: 10px;
+  background: var(--search-ivory);
+  color: var(--search-forest);
+  cursor: pointer;
 }
 
 .doctor-profile-identity {
-display: flex;
-align-items: center;
-gap: 18px;
-padding-bottom: 22px;
-border-bottom: 1px solid var(--search-border);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--search-border);
 }
 
 .doctor-profile-photo {
-position: relative;
-display: grid;
-flex-shrink: 0;
-width: 94px;
-height: 94px;
-place-items: center;
-border: 4px solid var(--search-white);
-border-radius: 21px;
-background: var(--search-sage);
-color: var(--search-forest);
-font-size: 25px;
-font-weight: 800;
-box-shadow: 0 0 0 1px var(--search-border);
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  width: 94px;
+  height: 94px;
+  place-items: center;
+  border: 4px solid var(--search-white);
+  border-radius: 21px;
+  background: var(--search-sage);
+  color: var(--search-forest);
+  font-size: 25px;
+  font-weight: 800;
+  box-shadow: 0 0 0 1px var(--search-border);
 }
 
 .doctor-profile-photo > img {
-display: block;
-width: 100%;
-height: 100%;
-border-radius: 15px;
-object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: cover;
 }
 
 .doctor-profile-photo > button {
-position: absolute;
-right: -9px;
-bottom: -8px;
-display: grid;
-width: 33px;
-height: 33px;
-place-items: center;
-border: 2px solid var(--search-white);
-border-radius: 50%;
-background: var(--search-forest);
-color: #fff;
-cursor: pointer;
+  position: absolute;
+  right: -9px;
+  bottom: -8px;
+  display: grid;
+  width: 33px;
+  height: 33px;
+  place-items: center;
+  border: 2px solid var(--search-white);
+  border-radius: 50%;
+  background: var(--search-forest);
+  color: #fff;
+  cursor: pointer;
 }
 
 .doctor-photo-input {
-display: none;
+  display: none;
 }
 
 .doctor-profile-identity h2 {
-margin: 0 0 6px;
-color: var(--search-forest-dark);
-font-family: "Outfit", "Segoe UI", sans-serif;
-font-size: clamp(20px, 3vw, 25px);
-font-weight: 750;
-line-height: 1.3;
-overflow-wrap: anywhere;
+  margin: 0 0 6px;
+  color: var(--search-forest-dark);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: clamp(20px, 3vw, 25px);
+  font-weight: 750;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
 }
 
 .doctor-profile-identity > div:last-child > p {
-margin: 0 0 10px;
-color: var(--search-muted);
-font-size: 13px;
-line-height: 1.6;
+  margin: 0 0 10px;
+  color: var(--search-muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .doctor-profile-stats {
-display: grid;
-grid-template-columns: repeat(2, minmax(0, 1fr));
-gap: 12px;
-margin: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
 }
 
 .doctor-profile-stats > div {
-display: flex;
-flex-direction: column;
-gap: 6px;
-min-width: 0;
-padding: 15px;
-border: 1px solid var(--search-border);
-border-radius: 12px;
-background: var(--search-ivory);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--search-border);
+  border-radius: 12px;
+  background: var(--search-ivory);
 }
 
 .doctor-profile-stats strong {
-color: var(--search-forest);
-font-size: 13px;
-overflow-wrap: anywhere;
+  color: var(--search-forest);
+  font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .doctor-profile-stats span {
-color: var(--search-muted);
-font-size: 11px;
+  color: var(--search-muted);
+  font-size: 11px;
 }
 
 .doctor-profile-detail {
-margin-top: 21px;
+  margin-top: 21px;
 }
 
 .doctor-profile-detail h3 {
-margin: 0 0 8px;
-color: var(--search-forest-dark);
-font-family: "Outfit", "Segoe UI", sans-serif;
-font-size: 15px;
+  margin: 0 0 8px;
+  color: var(--search-forest-dark);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 15px;
 }
 
 .doctor-profile-detail p {
-margin: 0 0 8px;
-color: var(--search-muted);
-font-size: 12px;
-line-height: 1.8;
-overflow-wrap: anywhere;
+  margin: 0 0 8px;
+  color: var(--search-muted);
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
 .doctor-interest-list {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .doctor-interest-list span {
-padding: 7px 10px;
-border: 1px solid var(--search-border);
-border-radius: 999px;
-background: var(--search-sage);
-color: var(--search-forest);
-font-size: 10px;
-font-weight: 700;
+  padding: 7px 10px;
+  border: 1px solid var(--search-border);
+  border-radius: 999px;
+  background: var(--search-sage);
+  color: var(--search-forest);
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .doctor-profile-actions {
-display: grid;
-grid-template-columns: repeat(2, minmax(0, 1fr));
-gap: 10px;
-margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 25px;
 }
 
 .doctor-profile-disclaimer {
-margin: 17px 0 0;
-color: var(--search-muted);
-font-size: 10px;
-line-height: 1.7;
+  margin: 17px 0 0;
+  color: var(--search-muted);
+  font-size: 10px;
+  line-height: 1.7;
 }
 
 /* ---------- Keyboard accessibility ---------- */
@@ -1175,33 +1174,447 @@ line-height: 1.7;
 .search-page button:focus-visible,
 .search-page input:focus-visible,
 .search-page select:focus-visible {
-outline: 3px solid rgba(197, 164, 91, 0.6);
-outline-offset: 3px;
+  outline: 3px solid rgba(197, 164, 91, 0.6);
+  outline-offset: 3px;
 }
 
 /* =========================================================
-DARK MODE
-Keeps burgundy theme; brightens text outside white cards.
+   DARK MODE
+   Supports common app theme selectors and OS preference.
 ========================================================= */
 
+/* System dark theme when no manual theme is set */
+@media (prefers-color-scheme: dark) {
+  .search-page:not(.light-theme) {
+    --search-forest: #e8bec9;
+    --search-forest-dark: #fff0f4;
+    --search-ivory: #292328;
+    --search-sage: #362b32;
+    --search-gold: #e1c681;
+    --search-white: #211c21;
+    --search-text: #f4edf1;
+    --search-muted: #c7b9c1;
+    --search-border: #493c45;
+    --search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
+  }
+
+  .search-page:not(.light-theme) .doctor-card-banner {
+    background: linear-gradient(125deg, #362b32, #292328);
+  }
+
+  .search-page:not(.light-theme) .doctor-city-tag,
+  .search-page:not(.light-theme) .doctor-banner-icon,
+  .search-page:not(.light-theme) .discovery-card-icon {
+    background: #362b32;
+    border-color: var(--search-border);
+    color: var(--search-forest-dark);
+  }
+
+  .search-page:not(.light-theme) .search-specialties button.selected,
+  .search-page:not(.light-theme) .search-tabs button.active .search-tab-count,
+  .search-page:not(.light-theme) .discovery-filter-row button.active,
+  .search-page:not(.light-theme) .doctor-connect-button,
+  .search-page:not(.light-theme) .doctor-message-button,
+  .search-page:not(.light-theme) .search-empty > button {
+    background: #70404e;
+    border-color: #a97584;
+    color: #fff;
+  }
+
+  .search-page:not(.light-theme) .doctor-connect-button.is-connected {
+    background: #42372c;
+    border-color: #8d774e;
+    color: #f8e7bd;
+  }
+
+  .search-page:not(.light-theme) .doctor-profile-button,
+  .search-page:not(.light-theme) .search-reset-button,
+  .search-page:not(.light-theme) .discovery-filter-row button {
+    background: var(--search-white);
+    color: var(--search-text);
+  }
+
+  .search-page:not(.light-theme) .search-discovery-note {
+    background: var(--search-ivory);
+    border-color: var(--search-border);
+  }
+
+  .search-page:not(.light-theme) .discovery-tag,
+  .search-page:not(.light-theme) .doctor-interest-list span {
+    background: #362b32;
+    border-color: var(--search-border);
+    color: #e8c989;
+  }
+}
+
+/* Manual theme class support */
 .dark .search-page,
 .dark-theme .search-page,
 [data-theme="dark"] .search-page,
-[data-mode="dark"] .search-page,
-[data-color-mode="dark"] .search-page {
---search-forest: #e8bec9;
---search-forest-dark: #fff0f4;
---search-ivory: #292328;
---search-sage: #362b32;
---search-gold: #e1c681;
---search-white: #211c21;
---search-text: #f4edf1;
---search-muted: #c7b9c1;
---search-border: #493c45;
---search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
+[data-mode="dark"] .search-page {
+  --search-forest: #e8bec9;
+  --search-forest-dark: #fff0f4;
+  --search-ivory: #292328;
+  --search-sage: #362b32;
+  --search-gold: #e1c681;
+  --search-white: #211c21;
+  --search-text: #f4edf1;
+  --search-muted: #c7b9c1;
+  --search-border: #493c45;
+  --search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
 }
 
-/* Headings and body text outside cards */
+.dark .search-page .doctor-card-banner,
+.dark-theme .search-page .doctor-card-banner,
+[data-theme="dark"] .search-page .doctor-card-banner,
+[data-mode="dark"] .search-page .doctor-card-banner {
+  background: linear-gradient(125deg, #362b32, #292328);
+}
+
+.dark .search-page .doctor-city-tag,
+.dark .search-page .doctor-banner-icon,
+.dark .search-page .discovery-card-icon,
+.dark-theme .search-page .doctor-city-tag,
+.dark-theme .search-page .doctor-banner-icon,
+.dark-theme .search-page .discovery-card-icon,
+[data-theme="dark"] .search-page .doctor-city-tag,
+[data-theme="dark"] .search-page .doctor-banner-icon,
+[data-theme="dark"] .search-page .discovery-card-icon,
+[data-mode="dark"] .search-page .doctor-city-tag,
+[data-mode="dark"] .search-page .doctor-banner-icon,
+[data-mode="dark"] .search-page .discovery-card-icon {
+  background: #362b32;
+  border-color: var(--search-border);
+  color: var(--search-forest-dark);
+}
+
+.dark .search-page .search-specialties button.selected,
+.dark .search-page .search-tabs button.active .search-tab-count,
+.dark .search-page .discovery-filter-row button.active,
+.dark .search-page .doctor-connect-button,
+.dark .search-page .doctor-message-button,
+.dark .search-page .search-empty > button,
+.dark-theme .search-page .search-specialties button.selected,
+.dark-theme .search-page .search-tabs button.active .search-tab-count,
+.dark-theme .search-page .discovery-filter-row button.active,
+.dark-theme .search-page .doctor-connect-button,
+.dark-theme .search-page .doctor-message-button,
+.dark-theme .search-page .search-empty > button,
+[data-theme="dark"] .search-page .search-specialties button.selected,
+[data-theme="dark"] .search-page .search-tabs button.active .search-tab-count,
+[data-theme="dark"] .search-page .discovery-filter-row button.active,
+[data-theme="dark"] .search-page .doctor-connect-button,
+[data-theme="dark"] .search-page .doctor-message-button,
+[data-theme="dark"] .search-page .search-empty > button,
+[data-mode="dark"] .search-page .search-specialties button.selected,
+[data-mode="dark"] .search-page .search-tabs button.active .search-tab-count,
+[data-mode="dark"] .search-page .discovery-filter-row button.active,
+[data-mode="dark"] .search-page .doctor-connect-button,
+[data-mode="dark"] .search-page .doctor-message-button,
+[data-mode="dark"] .search-page .search-empty > button {
+  background: #70404e;
+  border-color: #a97584;
+  color: #fff;
+}
+
+.dark .search-page .doctor-connect-button.is-connected,
+.dark-theme .search-page .doctor-connect-button.is-connected,
+[data-theme="dark"] .search-page .doctor-connect-button.is-connected,
+[data-mode="dark"] .search-page .doctor-connect-button.is-connected {
+  background: #42372c;
+  border-color: #8d774e;
+  color: #f8e7bd;
+}
+
+.dark .search-page .doctor-profile-button,
+.dark .search-page .search-reset-button,
+.dark .search-page .discovery-filter-row button,
+.dark-theme .search-page .doctor-profile-button,
+.dark-theme .search-page .search-reset-button,
+.dark-theme .search-page .discovery-filter-row button,
+[data-theme="dark"] .search-page .doctor-profile-button,
+[data-theme="dark"] .search-page .search-reset-button,
+[data-theme="dark"] .search-page .discovery-filter-row button,
+[data-mode="dark"] .search-page .doctor-profile-button,
+[data-mode="dark"] .search-page .search-reset-button,
+[data-mode="dark"] .search-page .discovery-filter-row button {
+  background: var(--search-white);
+  color: var(--search-text);
+}
+
+.dark .search-page .search-discovery-note,
+.dark-theme .search-page .search-discovery-note,
+[data-theme="dark"] .search-page .search-discovery-note,
+[data-mode="dark"] .search-page .search-discovery-note {
+  background: var(--search-ivory);
+  border-color: var(--search-border);
+}
+
+.dark .search-page .discovery-tag,
+.dark .search-page .doctor-interest-list span,
+.dark-theme .search-page .discovery-tag,
+.dark-theme .search-page .doctor-interest-list span,
+[data-theme="dark"] .search-page .discovery-tag,
+[data-theme="dark"] .search-page .doctor-interest-list span,
+[data-mode="dark"] .search-page .discovery-tag,
+[data-mode="dark"] .search-page .doctor-interest-list span {
+  background: #362b32;
+  border-color: var(--search-border);
+  color: #e8c989;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+========================================================= */
+
+@media (max-width: 1100px) {
+  .search-page {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .doctor-grid,
+  .discovery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .search-controls {
+    grid-template-columns: minmax(0, 1fr) 175px;
+  }
+}
+
+@media (max-width: 760px) {
+  .search-page {
+    padding: 20px 17px 30px;
+  }
+
+  .search-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .search-city-field {
+    min-height: 44px;
+  }
+
+  .search-city-select {
+    height: 38px;
+  }
+
+  .search-results-heading {
+    align-items: flex-start;
+  }
+
+  .search-directory-controls {
+    justify-content: flex-start;
+  }
+
+  .search-tabs {
+    justify-content: flex-start;
+  }
+
+  .search-tabs button {
+    flex: 0 0 auto;
+  }
+
+  .doctor-scroll-container {
+    max-height: 620px;
+  }
+}
+
+@media (max-width: 520px) {
+  .search-page {
+    padding: 17px 13px 25px;
+  }
+
+  .search-heading {
+    margin-bottom: 20px;
+  }
+
+  .search-heading h1 {
+    margin-top: 13px;
+    font-size: clamp(27px, 7vw, 34px);
+  }
+
+  .search-heading p {
+    font-size: 12px;
+  }
+
+  .search-filter-section {
+    margin-top: 23px;
+  }
+
+  .search-specialties {
+    gap: 7px;
+  }
+
+  .search-specialties button {
+    min-height: 33px;
+    padding: 7px 10px;
+  }
+
+  .search-options {
+    gap: 12px 14px;
+    margin: 17px 0 20px;
+  }
+
+  .search-tabs {
+    gap: 5px;
+  }
+
+  .search-tabs button {
+    min-height: 45px;
+    padding: 0 9px;
+    font-size: 11px;
+  }
+
+  .search-tab-count {
+    min-width: 21px;
+    height: 20px;
+    padding: 0 5px;
+    font-size: 9px;
+  }
+
+  .search-results-section,
+  .search-discovery-section {
+    margin-top: 22px;
+  }
+
+  .search-results-heading {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-results-heading h2 {
+    font-size: 21px;
+  }
+
+  .search-results-heading p {
+    font-size: 11px;
+  }
+
+  .doctor-grid,
+  .discovery-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 13px;
+  }
+
+  .doctor-scroll-container {
+    max-height: none;
+    padding-right: 2px;
+  }
+
+  .doctor-card-banner {
+    min-height: 73px;
+  }
+
+  .doctor-avatar {
+    width: 58px;
+    height: 58px;
+    margin-top: -27px;
+  }
+
+  .doctor-card-body {
+    padding: 10px 14px 14px;
+  }
+
+  .discovery-card {
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .doctor-modal-backdrop {
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .doctor-profile-modal {
+    max-height: calc(100vh - 20px);
+    padding: 19px 15px;
+    border-radius: 16px;
+  }
+
+  .doctor-profile-identity {
+    align-items: flex-start;
+    gap: 13px;
+  }
+
+  .doctor-profile-photo {
+    width: 75px;
+    height: 75px;
+    border-radius: 17px;
+    font-size: 20px;
+  }
+
+  .doctor-profile-photo > img {
+    border-radius: 12px;
+  }
+
+  .doctor-profile-stats,
+  .doctor-profile-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .search-empty {
+    padding: 30px 15px;
+  }
+}
+
+@media (max-width: 350px) {
+  .search-heading h1 {
+    font-size: 26px;
+  }
+
+  .search-options {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .search-directory-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .doctor-card-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .doctor-connect-button {
+    grid-column: auto;
+  }
+
+  .doctor-profile-identity {
+    flex-direction: column;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .search-page *,
+  .search-page *::before,
+  .search-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+/* =========================================
+   SEARCH PAGE — DARK MODE FONT VISIBILITY
+   Keep the existing theme colors and layout.
+   Only improve text contrast.
+========================================= */
+
+/* Support common manual dark-mode selectors */
+.dark .search-page,
+.dark-theme .search-page,
+[data-theme="dark"] .search-page,
+[data-mode="dark"] .search-page {
+  color: #f4edf0;
+}
+
+/* Main headings: replace dark burgundy with light text */
 .dark .search-page .search-heading h1,
 .dark .search-page .search-results-heading h2,
 .dark .search-page .doctor-card-body h3,
@@ -1229,22 +1642,15 @@ Keeps burgundy theme; brightens text outside white cards.
 [data-mode="dark"] .search-page .discovery-card h3,
 [data-mode="dark"] .search-page .doctor-profile-identity h2,
 [data-mode="dark"] .search-page .doctor-profile-detail h3,
-[data-mode="dark"] .search-page .search-empty h3,
-[data-color-mode="dark"] .search-page .search-heading h1,
-[data-color-mode="dark"] .search-page .search-results-heading h2,
-[data-color-mode="dark"] .search-page .doctor-card-body h3,
-[data-color-mode="dark"] .search-page .discovery-card h3,
-[data-color-mode="dark"] .search-page .doctor-profile-identity h2,
-[data-color-mode="dark"] .search-page .doctor-profile-detail h3,
-[data-color-mode="dark"] .search-page .search-empty h3 {
-color: #fff0f4;
+[data-mode="dark"] .search-page .search-empty h3 {
+  color: #f7e9ed;
 }
 
+/* Body text: improve visibility outside white cards */
 .dark .search-page .search-heading p,
 .dark .search-page .search-results-heading p,
 .dark .search-page .search-filter-label,
 .dark .search-page .search-options label,
-.dark .search-page .search-results-eyebrow,
 .dark .search-page .doctor-specialty,
 .dark .search-page .doctor-experience,
 .dark .search-page .doctor-location,
@@ -1257,7 +1663,6 @@ color: #fff0f4;
 .dark-theme .search-page .search-results-heading p,
 .dark-theme .search-page .search-filter-label,
 .dark-theme .search-page .search-options label,
-.dark-theme .search-page .search-results-eyebrow,
 .dark-theme .search-page .doctor-specialty,
 .dark-theme .search-page .doctor-experience,
 .dark-theme .search-page .doctor-location,
@@ -1270,7 +1675,6 @@ color: #fff0f4;
 [data-theme="dark"] .search-page .search-results-heading p,
 [data-theme="dark"] .search-page .search-filter-label,
 [data-theme="dark"] .search-page .search-options label,
-[data-theme="dark"] .search-page .search-results-eyebrow,
 [data-theme="dark"] .search-page .doctor-specialty,
 [data-theme="dark"] .search-page .doctor-experience,
 [data-theme="dark"] .search-page .doctor-location,
@@ -1283,7 +1687,6 @@ color: #fff0f4;
 [data-mode="dark"] .search-page .search-results-heading p,
 [data-mode="dark"] .search-page .search-filter-label,
 [data-mode="dark"] .search-page .search-options label,
-[data-mode="dark"] .search-page .search-results-eyebrow,
 [data-mode="dark"] .search-page .doctor-specialty,
 [data-mode="dark"] .search-page .doctor-experience,
 [data-mode="dark"] .search-page .doctor-location,
@@ -1291,24 +1694,11 @@ color: #fff0f4;
 [data-mode="dark"] .search-page .discovery-card > p,
 [data-mode="dark"] .search-page .discovery-card-footer,
 [data-mode="dark"] .search-page .search-discovery-note p,
-[data-mode="dark"] .search-page .search-empty p,
-[data-color-mode="dark"] .search-page .search-heading p,
-[data-color-mode="dark"] .search-page .search-results-heading p,
-[data-color-mode="dark"] .search-page .search-filter-label,
-[data-color-mode="dark"] .search-page .search-options label,
-[data-color-mode="dark"] .search-page .search-results-eyebrow,
-[data-color-mode="dark"] .search-page .doctor-specialty,
-[data-color-mode="dark"] .search-page .doctor-experience,
-[data-color-mode="dark"] .search-page .doctor-location,
-[data-color-mode="dark"] .search-page .doctor-community-status,
-[data-color-mode="dark"] .search-page .discovery-card > p,
-[data-color-mode="dark"] .search-page .discovery-card-footer,
-[data-color-mode="dark"] .search-page .search-discovery-note p,
-[data-color-mode="dark"] .search-page .search-empty p {
-color: #d4c7cd;
+[data-mode="dark"] .search-page .search-empty p {
+  color: #d4c7cd;
 }
 
-/* Input text and select menus */
+/* Controls and filters: prevent black text in dark mode */
 .dark .search-page .search-input-wrap input,
 .dark .search-page .search-city-select,
 .dark .search-page .search-sort-control select,
@@ -1336,66 +1726,48 @@ color: #d4c7cd;
 [data-mode="dark"] .search-page .search-tabs button,
 [data-mode="dark"] .search-page .search-specialties button,
 [data-mode="dark"] .search-page .discovery-filter-row button,
-[data-mode="dark"] .search-page .search-result-count,
-[data-color-mode="dark"] .search-page .search-input-wrap input,
-[data-color-mode="dark"] .search-page .search-city-select,
-[data-color-mode="dark"] .search-page .search-sort-control select,
-[data-color-mode="dark"] .search-page .search-tabs button,
-[data-color-mode="dark"] .search-page .search-specialties button,
-[data-color-mode="dark"] .search-page .discovery-filter-row button,
-[data-color-mode="dark"] .search-page .search-result-count {
-color: #f4edf1;
+[data-mode="dark"] .search-page .search-result-count {
+  color: #f4edf0;
 }
 
+/* Input placeholder */
 .dark .search-page .search-input-wrap input::placeholder,
 .dark-theme .search-page .search-input-wrap input::placeholder,
 [data-theme="dark"] .search-page .search-input-wrap input::placeholder,
-[data-mode="dark"] .search-page .search-input-wrap input::placeholder,
-[data-color-mode="dark"] .search-page .search-input-wrap input::placeholder {
-color: #c7b9c1;
-opacity: 1;
+[data-mode="dark"] .search-page .search-input-wrap input::placeholder {
+  color: #c4b4bd;
+  opacity: 1;
 }
 
-/* Preserve readable button labels on burgundy backgrounds */
+/* Preserve burgundy backgrounds while keeping button labels readable */
 .dark .search-page .search-specialties button.selected,
 .dark .search-page .search-tabs button.active,
-.dark .search-page .search-tabs button.active .search-tab-count,
 .dark .search-page .discovery-filter-row button.active,
 .dark .search-page .doctor-connect-button,
 .dark .search-page .doctor-message-button,
 .dark .search-page .search-empty > button,
 .dark-theme .search-page .search-specialties button.selected,
 .dark-theme .search-page .search-tabs button.active,
-.dark-theme .search-page .search-tabs button.active .search-tab-count,
 .dark-theme .search-page .discovery-filter-row button.active,
 .dark-theme .search-page .doctor-connect-button,
 .dark-theme .search-page .doctor-message-button,
 .dark-theme .search-page .search-empty > button,
 [data-theme="dark"] .search-page .search-specialties button.selected,
 [data-theme="dark"] .search-page .search-tabs button.active,
-[data-theme="dark"] .search-page .search-tabs button.active .search-tab-count,
 [data-theme="dark"] .search-page .discovery-filter-row button.active,
 [data-theme="dark"] .search-page .doctor-connect-button,
 [data-theme="dark"] .search-page .doctor-message-button,
 [data-theme="dark"] .search-page .search-empty > button,
 [data-mode="dark"] .search-page .search-specialties button.selected,
 [data-mode="dark"] .search-page .search-tabs button.active,
-[data-mode="dark"] .search-page .search-tabs button.active .search-tab-count,
 [data-mode="dark"] .search-page .discovery-filter-row button.active,
 [data-mode="dark"] .search-page .doctor-connect-button,
 [data-mode="dark"] .search-page .doctor-message-button,
-[data-mode="dark"] .search-page .search-empty > button,
-[data-color-mode="dark"] .search-page .search-specialties button.selected,
-[data-color-mode="dark"] .search-page .search-tabs button.active,
-[data-color-mode="dark"] .search-page .search-tabs button.active .search-tab-count,
-[data-color-mode="dark"] .search-page .discovery-filter-row button.active,
-[data-color-mode="dark"] .search-page .doctor-connect-button,
-[data-color-mode="dark"] .search-page .doctor-message-button,
-[data-color-mode="dark"] .search-page .search-empty > button {
-color: #fff;
+[data-mode="dark"] .search-page .search-empty > button {
+  color: #ffffff;
 }
 
-/* Modal supporting text */
+/* Modal text */
 .dark .search-page .doctor-profile-detail p,
 .dark .search-page .doctor-profile-stats span,
 .dark .search-page .doctor-profile-disclaimer,
@@ -1407,261 +1779,6 @@ color: #fff;
 [data-theme="dark"] .search-page .doctor-profile-disclaimer,
 [data-mode="dark"] .search-page .doctor-profile-detail p,
 [data-mode="dark"] .search-page .doctor-profile-stats span,
-[data-mode="dark"] .search-page .doctor-profile-disclaimer,
-[data-color-mode="dark"] .search-page .doctor-profile-detail p,
-[data-color-mode="dark"] .search-page .doctor-profile-stats span,
-[data-color-mode="dark"] .search-page .doctor-profile-disclaimer {
-color: #d4c7cd;
-}
-
-/* OS dark theme fallback */
-@media (prefers-color-scheme: dark) {
-.search-page:not(.light-theme) {
---search-forest: #e8bec9;
---search-forest-dark: #fff0f4;
---search-ivory: #292328;
---search-sage: #362b32;
---search-gold: #e1c681;
---search-white: #211c21;
---search-text: #f4edf1;
---search-muted: #c7b9c1;
---search-border: #493c45;
---search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
-}
-}
-
-/* ---------- Responsive layout ---------- */
-
-@media (max-width: 1100px) {
-.search-page {
-padding-left: 22px;
-padding-right: 22px;
-}
-
-.doctor-grid,
-.discovery-grid {
-grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.search-controls {
-grid-template-columns: minmax(0, 1fr) 175px;
-}
-}
-
-@media (max-width: 760px) {
-.search-page {
-padding: 20px 17px 30px;
-}
-
-.search-controls {
-grid-template-columns: minmax(0, 1fr);
-gap: 10px;
-}
-
-.search-city-field {
-min-height: 44px;
-}
-
-.search-city-select {
-height: 38px;
-}
-
-.search-results-heading {
-align-items: flex-start;
-}
-
-.search-directory-controls {
-justify-content: flex-start;
-}
-
-.search-tabs {
-justify-content: flex-start;
-}
-
-.search-tabs button {
-flex: 0 0 auto;
-}
-
-.doctor-scroll-container {
-max-height: 620px;
-}
-}
-
-@media (max-width: 520px) {
-.search-page {
-padding: 17px 13px 25px;
-}
-
-.search-heading {
-margin-bottom: 20px;
-}
-
-.search-heading h1 {
-margin-top: 13px;
-font-size: clamp(27px, 7vw, 34px);
-}
-
-.search-heading p {
-font-size: 12px;
-}
-
-.search-filter-section {
-margin-top: 23px;
-}
-
-.search-specialties {
-gap: 7px;
-}
-
-.search-specialties button {
-min-height: 33px;
-padding: 7px 10px;
-}
-
-.search-options {
-gap: 12px 14px;
-margin: 17px 0 20px;
-}
-
-.search-tabs {
-gap: 5px;
-}
-
-.search-tabs button {
-min-height: 45px;
-padding: 0 9px;
-font-size: 11px;
-}
-
-.search-tab-count {
-min-width: 21px;
-height: 20px;
-padding: 0 5px;
-font-size: 9px;
-}
-
-.search-results-section,
-.search-discovery-section {
-margin-top: 22px;
-}
-
-.search-results-heading {
-flex-direction: column;
-gap: 10px;
-}
-
-.search-results-heading h2 {
-font-size: 21px;
-}
-
-.search-results-heading p {
-font-size: 11px;
-}
-
-.doctor-grid,
-.discovery-grid {
-grid-template-columns: minmax(0, 1fr);
-gap: 13px;
-}
-
-.doctor-scroll-container {
-max-height: none;
-padding-right: 2px;
-}
-
-.doctor-card-banner {
-min-height: 73px;
-}
-
-.doctor-avatar {
-width: 58px;
-height: 58px;
-margin-top: -27px;
-}
-
-.doctor-card-body {
-padding: 10px 14px 14px;
-}
-
-.discovery-card {
-min-height: 0;
-padding: 16px;
-}
-
-.doctor-modal-backdrop {
-align-items: flex-start;
-padding: 10px;
-}
-
-.doctor-profile-modal {
-max-height: calc(100vh - 20px);
-padding: 19px 15px;
-border-radius: 16px;
-}
-
-.doctor-profile-identity {
-align-items: flex-start;
-gap: 13px;
-}
-
-.doctor-profile-photo {
-width: 75px;
-height: 75px;
-border-radius: 17px;
-font-size: 20px;
-}
-
-.doctor-profile-photo > img {
-border-radius: 12px;
-}
-
-.doctor-profile-stats,
-.doctor-profile-actions {
-grid-template-columns: minmax(0, 1fr);
-}
-
-.search-empty {
-padding: 30px 15px;
-}
-}
-
-@media (max-width: 350px) {
-.search-heading h1 {
-font-size: 26px;
-}
-
-.search-options {
-align-items: flex-start;
-flex-direction: column;
-}
-
-.search-directory-controls {
-align-items: stretch;
-flex-direction: column;
-}
-
-.doctor-card-actions {
-grid-template-columns: minmax(0, 1fr);
-}
-
-.doctor-connect-button {
-grid-column: auto;
-}
-
-.doctor-profile-identity {
-flex-direction: column;
-}
-}
-
-/* ---------- Reduced motion ---------- */
-
-@media (prefers-reduced-motion: reduce) {
-.search-page *,
-.search-page *::before,
-.search-page *::after {
-scroll-behavior: auto !important;
-transition-duration: 0.01ms !important;
-animation-duration: 0.01ms !important;
-animation-iteration-count: 1 !important;
-}
+[data-mode="dark"] .search-page .doctor-profile-disclaimer {
+  color: #d4c7cd;
 }
