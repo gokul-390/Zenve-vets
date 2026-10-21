@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { X, Sparkles, ArrowUpRight } from 'lucide-react';
 import { doctorsApi } from '../api';
 import '../csscomponents/CreateProfileModal.css';
 
@@ -136,7 +137,13 @@ export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
   };
 
   return (
-    <div className="zenve-modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
+    <div
+      className="zenve-modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Create Your Professional Profile"
+    >
       <div
         className="zenve-modal-card"
         onClick={(e) => e.stopPropagation()}
@@ -148,134 +155,157 @@ export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
           onClick={onClose}
           aria-label="Close dialog"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <X size={20} />
         </button>
 
         {/* Modal Header */}
-        <div className="zenve-modal-header" style={{ backgroundImage: "url('your-image-url.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="zenve-modal-header">
-          <h2 className="zenve-modal-title">Make your professional mark.</h2>
+          <div className="zenve-modal-header-badge">
+            <Sparkles size={13} />
+            <span>PRACTITIONER PROFILE</span>
+          </div>
+          <h2 className="zenve-modal-title">Make your professional mark</h2>
           <p className="zenve-modal-subtitle">
             Your own public veterinary page. Free, with no login required.
           </p>
         </div>
+
+        {/* Modal Scrollable Body */}
+        <div className="zenve-modal-body">
+          {/* Notice Box matching Join Community */}
+          <div className="zenve-modal-notice">
+            <p>
+              Your page is published to the Zenve Veterinary directory. Clinical colleagues and pet parents can view your verified expertise across India.
+            </p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="zenve-modal-form">
+            <div className="zenve-form-grid">
+              {/* Full Name */}
+              <div className="zenve-form-group">
+                <label htmlFor="fullName" className="zenve-form-label">Full name</label>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  className="zenve-form-input"
+                  placeholder="Dr. Your name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* City & State */}
+              <div className="zenve-form-group">
+                <label htmlFor="cityState" className="zenve-form-label">City &amp; state</label>
+                <input
+                  id="cityState"
+                  name="cityState"
+                  type="text"
+                  className="zenve-form-input"
+                  placeholder="Bengaluru, Karnataka"
+                  value={formData.cityState}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="zenve-form-grid">
+              {/* Specialty */}
+              <div className="zenve-form-group">
+                <label htmlFor="specialty" className="zenve-form-label">Specialty</label>
+                <input
+                  id="specialty"
+                  name="specialty"
+                  type="text"
+                  className="zenve-form-input"
+                  placeholder="Small Animal Medicine"
+                  value={formData.specialty}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* Experience */}
+              <div className="zenve-form-group">
+                <label htmlFor="experience" className="zenve-form-label">Experience</label>
+                <input
+                  id="experience"
+                  name="experience"
+                  type="text"
+                  className="zenve-form-input"
+                  placeholder="e.g. 5+ years"
+                  value={formData.experience}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Working Place */}
+            <div className="zenve-form-group">
+              <label htmlFor="workingPlace" className="zenve-form-label">Working place</label>
+              <input
+                id="workingPlace"
+                name="workingPlace"
+                type="text"
+                className="zenve-form-input"
+                placeholder="e.g. PetCare Veterinary Clinic / Animal Hospital"
+                value={formData.workingPlace}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* About You */}
+            <div className="zenve-form-group">
+              <label htmlFor="aboutYou" className="zenve-form-label">About you</label>
+              <textarea
+                id="aboutYou"
+                name="aboutYou"
+                rows="3"
+                className="zenve-form-textarea"
+                placeholder="Your approach to care, interests and professional story"
+                value={formData.aboutYou}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Disclaimer Text */}
+            <p className="zenve-modal-disclaimer">
+              Your page and posts are public and unverified. Publishing access stays in this browser; keep its data to retain access.
+            </p>
+
+            {/* Actions */}
+            <div className="zenve-modal-actions">
+              <button
+                type="submit"
+                className="zenve-modal-submit-btn"
+                disabled={isSubmitted || isSubmitting}
+              >
+                <span>
+                  {isSubmitting
+                    ? 'Connecting to ZenveVet...'
+                    : isSubmitted
+                      ? 'Creating your page...'
+                      : 'Create my professional page'}
+                </span>
+                {!isSubmitted && !isSubmitting && <ArrowUpRight size={17} />}
+              </button>
+
+              <button
+                type="button"
+                className="zenve-modal-cancel-btn"
+                onClick={onClose}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="zenve-modal-form">
-          {/* Full Name */}
-          <div className="zenve-form-group">
-            <label htmlFor="fullName" className="zenve-form-label">Full name</label>
-            <input
-              id="fullName"
-              name="fullName"
-              type="text"
-              className="zenve-form-input"
-              placeholder="Dr. Your name"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* City & State */}
-          <div className="zenve-form-group">
-            <label htmlFor="cityState" className="zenve-form-label">City &amp; state</label>
-            <input
-              id="cityState"
-              name="cityState"
-              type="text"
-              className="zenve-form-input"
-              placeholder="Bengaluru, Karnataka"
-              value={formData.cityState}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Specialty */}
-          <div className="zenve-form-group">
-            <label htmlFor="specialty" className="zenve-form-label">Specialty</label>
-            <input
-              id="specialty"
-              name="specialty"
-              type="text"
-              className="zenve-form-input"
-              placeholder="Small Animal Medicine"
-              value={formData.specialty}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Working Place */}
-          <div className="zenve-form-group">
-            <label htmlFor="workingPlace" className="zenve-form-label">Working place</label>
-            <input
-              id="workingPlace"
-              name="workingPlace"
-              type="text"
-              className="zenve-form-input"
-              placeholder="e.g. PetCare Veterinary Clinic / Animal Hospital"
-              value={formData.workingPlace}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Experience */}
-          <div className="zenve-form-group">
-            <label htmlFor="experience" className="zenve-form-label">Experience</label>
-            <input
-              id="experience"
-              name="experience"
-              type="text"
-              className="zenve-form-input"
-              placeholder="e.g. 5+ years in clinical practice"
-              value={formData.experience}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* About You */}
-          <div className="zenve-form-group">
-            <label htmlFor="aboutYou" className="zenve-form-label">About you</label>
-            <textarea
-              id="aboutYou"
-              name="aboutYou"
-              rows="4"
-              className="zenve-form-textarea"
-              placeholder="Your approach to care, interests and professional story"
-              value={formData.aboutYou}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Disclaimer Text */}
-          <p className="zenve-modal-disclaimer">
-            Your page and posts are public and unverified. Publishing access stays in this browser; keep its data to retain access.
-          </p>
-
-          {/* Submit Action */}
-          <button
-            type="submit"
-            className="zenve-modal-submit-btn"
-            disabled={isSubmitted || isSubmitting}
-          >
-            <span>
-              {isSubmitting
-                ? 'Connecting to ZenveVet...'
-                : isSubmitted
-                ? 'Creating your page...'
-                : 'Create my professional page'}
-            </span>
-            {!isSubmitted && !isSubmitting && <span className="zenve-submit-arrow">↗</span>}
-          </button>
-        </form>
       </div>
     </div>
   );
