@@ -5,7 +5,7 @@
   max-width: 1140px;
   margin: 0 auto;
   box-sizing: border-box;
-  color: #17241e;
+  color: var(--color-text-dark, #17241e);
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   padding-bottom: 50px;
 }
@@ -16,21 +16,37 @@
   width: 100%;
   min-height: 420px;
   border-radius: 20px;
-  background-position: center right;
+  background-position: right center;
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
   display: flex;
   align-items: center;
   box-shadow: 0 16px 40px -12px rgba(8, 38, 28, 0.22);
-  border: 1px solid rgba(196, 147, 56, 0.15);
+  border: none;
+}
+
+/* Gradient overlay seamlessly fitting the deep forest clinic background of the image */
+.zenve-Member-benefits::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(98deg,
+      rgba(8, 34, 26, 0.96) 0%,
+      rgba(8, 34, 26, 0.88) 36%,
+      rgba(8, 34, 26, 0.58) 58%,
+      rgba(8, 34, 26, 0.18) 78%,
+      rgba(8, 34, 26, 0.04) 92%,
+      transparent 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .zenve-Member-benefits-content {
   position: relative;
   z-index: 2;
   padding: 56px 64px;
-  max-width: 620px;
+  max-width: 580px;
   box-sizing: border-box;
 }
 
@@ -75,6 +91,8 @@
   font-weight: 600;
   padding: 13px 26px;
   border-radius: 8px;
+  border: none;
+  outline: none;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
@@ -110,14 +128,14 @@
   font-weight: 500;
   line-height: 1.22;
   letter-spacing: -0.6px;
-  color: #17241e;
+  color: var(--color-text-dark, #17241e);
 }
 
 .zenve-benefits-tagline {
   margin: 0;
   font-size: 14px;
   font-weight: 500;
-  color: #718078;
+  color: var(--color-text-muted, #718078);
   letter-spacing: 0.2px;
 }
 
@@ -161,7 +179,7 @@
   font-size: 18px;
   font-weight: 600;
   line-height: 1.35;
-  color: #192620;
+  color: var(--color-text-dark, #192620);
   letter-spacing: -0.2px;
 }
 
@@ -169,7 +187,7 @@
   margin: 0;
   font-size: 13.5px;
   line-height: 1.62;
-  color: #5c6861;
+  color: var(--color-text-muted, #5c6861);
 }
 
 /* 4. BOTTOM CENTER CALL TO ACTION */
@@ -177,7 +195,7 @@
   text-align: center;
   margin-top: 36px;
   padding: 48px 24px;
-  border-top: 1px solid #edf1ee;
+  border-top: 1px solid var(--color-border, #edf1ee);
 }
 
 .zenve-benefits-cta-heading {
@@ -186,7 +204,7 @@
   font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 500;
   letter-spacing: -0.4px;
-  color: #17241e;
+  color: var(--color-text-dark, #17241e);
   line-height: 1.25;
 }
 
@@ -207,13 +225,23 @@
   font-weight: 600;
   padding: 14px 24px;
   border-radius: 10px;
+  border: none;
+  outline: none;
   cursor: pointer;
   box-shadow: 0 4px 18px rgba(13, 56, 43, 0.22);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .zenve-benefits-join-btn:hover {
   background-color: #771b26;
+  border: none;
+  transform: translateY(-1px);
+}
+
+.zenve-benefits-join-btn:focus,
+.zenve-benefits-join-btn:focus-visible {
+  outline: none;
+  border: none;
 }
 
 .zenve-benefits-join-icon {
@@ -237,6 +265,14 @@
   .zenve-Member-benefits {
     min-height: auto;
     border-radius: 16px;
+    background-position: center;
+  }
+
+  .zenve-Member-benefits::before {
+    background: linear-gradient(180deg,
+        rgba(8, 34, 26, 0.94) 0%,
+        rgba(8, 34, 26, 0.86) 55%,
+        rgba(8, 34, 26, 0.60) 100%);
   }
 
   .zenve-Member-benefits-content {
@@ -280,4 +316,383 @@
     width: 100%;
     max-width: 320px;
   }
+}
+
+/* 6. DARK THEME STYLES */
+[data-theme='dark'] .zenve-benefits-container,
+.dark .zenve-benefits-container {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-Member-benefits,
+.dark .zenve-Member-benefits {
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6);
+  border: none;
+}
+
+[data-theme='dark'] .zenve-Member-benefits-btn,
+.dark .zenve-Member-benefits-btn {
+  background-color: #ebdfce;
+  color: #12281e;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='dark'] .zenve-Member-benefits-btn:hover,
+.dark .zenve-Member-benefits-btn:hover {
+  background-color: #ffffff;
+  color: #0b1a13;
+}
+
+[data-theme='dark'] .zenve-benefits-gold-tag,
+.dark .zenve-benefits-gold-tag {
+  color: #f0b429;
+}
+
+[data-theme='dark'] .zenve-benefits-main-title,
+.dark .zenve-benefits-main-title {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .zenve-benefits-tagline,
+.dark .zenve-benefits-tagline {
+  color: #9dbdad;
+}
+
+[data-theme='dark'] .zenve-benefit-icon-wrapper,
+.dark .zenve-benefit-icon-wrapper {
+  color: #f0b429;
+}
+
+[data-theme='dark'] .zenve-benefit-icon-wrapper svg,
+.dark .zenve-benefit-icon-wrapper svg {
+  stroke: #f0b429;
+}
+
+[data-theme='dark'] .zenve-benefit-card-title,
+.dark .zenve-benefit-card-title {
+  color: #eaf2ed;
+}
+
+[data-theme='dark'] .zenve-benefit-card:hover .zenve-benefit-card-title,
+.dark .zenve-benefit-card:hover .zenve-benefit-card-title {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .zenve-benefit-card-desc,
+.dark .zenve-benefit-card-desc {
+  color: #9dbdad;
+}
+
+[data-theme='dark'] .zenve-benefits-footer-cta,
+.dark .zenve-benefits-footer-cta {
+  border-top-color: #1e3028;
+}
+
+[data-theme='dark'] .zenve-benefits-cta-heading,
+.dark .zenve-benefits-cta-heading {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .zenve-benefits-join-btn,
+.dark .zenve-benefits-join-btn {
+  background-color: #5a1720;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='dark'] .zenve-benefits-join-btn:hover,
+.dark .zenve-benefits-join-btn:hover {
+  background-color: #771b26;
+  border: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* 8. BUTTON MICRO-INTERACTIONS */
+.zenve-benefits-btn-arrow {
+  transition: transform 0.2s ease;
+}
+
+.zenve-Member-benefits-btn:hover .zenve-benefits-btn-arrow {
+  transform: translate(2px, -2px);
+}
+
+.zenve-benefits-join-arrow {
+  transition: transform 0.2s ease;
+}
+
+.zenve-benefits-join-btn:hover .zenve-benefits-join-arrow {
+  transform: translateX(3px);
+}
+
+/* 9. LOGIN PROMPT MODAL (LOGGED-OUT USERS CLICKING 'JOIN THE COMMUNITY') */
+.zenve-benefits-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(18, 26, 22, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  animation: zenveFadeIn 0.2s ease-out forwards;
+}
+
+@keyframes zenveFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.zenve-login-prompt-card {
+  width: 94%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  animation: zenveModalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-sizing: border-box;
+}
+
+@keyframes zenveModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.zenve-login-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  z-index: 10;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.zenve-login-modal-close:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.05);
+}
+
+.zenve-login-prompt-header {
+  background: linear-gradient(135deg, #54131B 0%, #3D0D18 100%);
+  padding: 34px 34px 26px;
+  color: #ffffff;
+  position: relative;
+}
+
+.zenve-login-prompt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #f7cb08;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.zenve-login-prompt-title {
+  margin: 0 0 8px 0;
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  line-height: 1.25;
+}
+
+.zenve-login-prompt-subtitle {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.zenve-login-prompt-body {
+  padding: 26px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background-color: #ffffff;
+}
+
+.zenve-login-prompt-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: #fcf7f5;
+  border-left: 4px solid #54131B;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+.zenve-login-prompt-notice p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #2e3e36;
+}
+
+.zenve-login-prompt-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+.zenve-login-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #2e3e36;
+  line-height: 1.4;
+}
+
+.zenve-login-feature-check {
+  color: #54131B;
+  flex-shrink: 0;
+}
+
+.zenve-login-prompt-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.zenve-login-prompt-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #54131B;
+  color: #ffffff;
+  padding: 13px 20px;
+  border-radius: 9px;
+  border: none;
+  font-size: 14.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 4px 14px rgba(84, 19, 27, 0.25);
+}
+
+.zenve-login-prompt-btn-primary:hover {
+  background-color: #771b26;
+  transform: translateY(-1px);
+}
+
+.zenve-login-prompt-btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1.5px solid #d5dfd9;
+  color: #5c6861;
+  padding: 11px 20px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zenve-login-prompt-btn-secondary:hover {
+  background-color: #edf1ee;
+  color: #17241e;
+}
+
+/* 10. MODAL RESPONSIVE BREAKPOINT */
+@media (max-width: 600px) {
+  .zenve-login-prompt-header {
+    padding: 26px 22px 20px;
+  }
+
+  .zenve-login-prompt-title {
+    font-size: 22px;
+  }
+
+  .zenve-login-prompt-body {
+    padding: 20px 20px 24px;
+    gap: 16px;
+  }
+}
+
+/* 11. DARK THEME OVERRIDES FOR LOGIN PROMPT */
+[data-theme='dark'] .zenve-login-prompt-card,
+.dark .zenve-login-prompt-card {
+  background-color: #13241d;
+  color: #e2ede6;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme='dark'] .zenve-login-prompt-body,
+.dark .zenve-login-prompt-body {
+  background-color: #13241d;
+}
+
+[data-theme='dark'] .zenve-login-prompt-notice,
+.dark .zenve-login-prompt-notice {
+  background-color: rgba(84, 19, 27, 0.25);
+  border-left-color: #771b26;
+}
+
+[data-theme='dark'] .zenve-login-prompt-notice p,
+.dark .zenve-login-prompt-notice p {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-login-feature-item,
+.dark .zenve-login-feature-item {
+  color: #c9dbd1;
+}
+
+[data-theme='dark'] .zenve-login-feature-check,
+.dark .zenve-login-feature-check {
+  color: #f0b429;
+}
+
+[data-theme='dark'] .zenve-login-prompt-btn-secondary,
+.dark .zenve-login-prompt-btn-secondary {
+  border-color: #253d32;
+  color: #9dbdad;
+}
+
+[data-theme='dark'] .zenve-login-prompt-btn-secondary:hover,
+.dark .zenve-login-prompt-btn-secondary:hover {
+  background-color: #1a3026;
+  color: #ffffff;
 }
