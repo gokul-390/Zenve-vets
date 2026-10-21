@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -10,37 +10,36 @@ import AdvertiserDashboard from './components/AdvertiserDashboard';
 import MemberBenefitsPage from './components/MemberBenefitsPage';
 import CreateProfileModal from './components/CreateProfileModal';
 import VetNetwork from './components/VetNetwork';
-<<<<<<< HEAD
 import ClinicalCases from './components/ClinicalCases';
-
-=======
 import MessagesPage from './components/MessagesPage';
->>>>>>> 08e585c629f5206a10481b6e090cff58f70cff4d
+
 import './csscomponents/App.css';
 
 export function App() {
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeMessageDoctorId, setActiveMessageDoctorId] = useState(null);
+  const [showAdvertiserDashboard, setShowAdvertiserDashboard] = useState(false);
 
-  // Global event listener to switch to messages page for a specific doctor
-  React.useEffect(() => {
-    const handleOpenMessageEvent = (e) => {
-      if (e.detail?.doctorId) {
-        setActiveMessageDoctorId(e.detail.doctorId);
+  useEffect(() => {
+    const handleOpenMessageEvent = (event) => {
+      if (event.detail?.doctorId) {
+        setActiveMessageDoctorId(event.detail.doctorId);
       }
+
       setActiveTab('messages');
     };
+
     window.addEventListener('zenve_open_message', handleOpenMessageEvent);
-    return () => window.removeEventListener('zenve_open_message', handleOpenMessageEvent);
+
+    return () => {
+      window.removeEventListener(
+        'zenve_open_message',
+        handleOpenMessageEvent
+      );
+    };
   }, []);
 
-  // Switch between the Advertise page and its dashboard.
-  // The global Header and Sidebar remain mounted.
-  const [showAdvertiserDashboard, setShowAdvertiserDashboard] =
-    useState(false);
-
-  // Load the latest saved veterinarian profile.
   const [customVets, setCustomVets] = useState(() => {
     try {
       const stored = localStorage.getItem('zenve_custom_vets');
@@ -67,7 +66,6 @@ export function App() {
     }
   });
 
-  // Save a newly created veterinarian profile.
   const handleProfileCreated = (newVet) => {
     const updated = [newVet];
 
@@ -86,7 +84,6 @@ export function App() {
     setIsModalOpen(false);
   };
 
-  // Handle sidebar navigation.
   const handleSelectTab = (tab) => {
     if (tab !== 'advertise') {
       setShowAdvertiserDashboard(false);
@@ -95,33 +92,25 @@ export function App() {
     setActiveTab(tab);
   };
 
-  // Open the advertiser dashboard in the main workspace.
   const handleOpenAdvertiserDashboard = () => {
     setShowAdvertiserDashboard(true);
   };
 
-  // Return from the dashboard to the Advertise page.
   const handleBackToAdvertise = () => {
     setShowAdvertiserDashboard(false);
   };
 
   return (
     <div className="zenve-app-container">
-      {/* Global Header */}
-      <Header
-        onCreateProfile={() => setIsModalOpen(true)}
-      />
+      <Header onCreateProfile={() => setIsModalOpen(true)} />
 
-      {/* Main Application Layout */}
       <div className="zenve-main-layout">
-        {/* Existing Left Sidebar */}
         <Sidebar
           activeTab={activeTab}
           onSelectTab={handleSelectTab}
           onOpenCreateProfile={() => setIsModalOpen(true)}
         />
 
-        {/* Main Workspace */}
         <main className="zenve-content-workspace">
           {activeTab === 'feed' || activeTab === 'videos' ? (
             <div className="zenve-feed-layout-columns">
@@ -145,56 +134,50 @@ export function App() {
             <ClinicalCases />
           ) : activeTab === 'search' ? (
             <SearchPage />
-          ) : activeTab === 'benefits' ? (
-            <MemberBenefitsPage
-              onOpenCreateProfile={() => setIsModalOpen(true)}
-            />
-          ) : activeTab === 'advertise' ? (
-<<<<<<< HEAD
-            showAdvertiserDashboard ? (
-              <AdvertiserDashboard
-                onBack={handleBackToAdvertise}
-              />
-            ) : (
-              <AdvertisePage
-                onOpenDashboard={handleOpenAdvertiserDashboard}
-              />
-            )
-=======
-            <AdvertisePage />
           ) : activeTab === 'messages' ? (
             <MessagesPage
               initialDoctorId={activeMessageDoctorId}
               onDoctorChanged={setActiveMessageDoctorId}
             />
->>>>>>> 08e585c629f5206a10481b6e090cff58f70cff4d
+          ) : activeTab === 'benefits' ? (
+            <MemberBenefitsPage
+              onOpenCreateProfile={() => setIsModalOpen(true)}
+              onSelectTab={handleSelectTab}
+              onNavigateToNetwork={() => handleSelectTab('network')}
+              onNavigateToFeed={() => handleSelectTab('feed')}
+              onNavigateToMessages={() => handleSelectTab('messages')}
+            />
+          ) : activeTab === 'advertise' ? (
+            showAdvertiserDashboard ? (
+              <AdvertiserDashboard onBack={handleBackToAdvertise} />
+            ) : (
+              <AdvertisePage
+                onOpenDashboard={handleOpenAdvertiserDashboard}
+              />
+            )
           ) : (
             <div className="zenve-section-placeholder-view">
-              <span className="zenve-indicator-tag">
-                ACTIVE VIEW
-              </span>
+              <span className="zenve-indicator-tag">ACTIVE VIEW</span>
 
               <h2 className="zenve-section-placeholder-title">
-<<<<<<< HEAD
                 {activeTab === 'messages' &&
                   'Direct Messages & Consultations'}
-=======
-                {activeTab === 'clinical' && 'Clinical Cases & Case Discussions'}
-                {activeTab === 'benefits' && 'Exclusive Member Benefits'}
->>>>>>> 08e585c629f5206a10481b6e090cff58f70cff4d
+                {activeTab === 'clinical' &&
+                  'Clinical Cases & Case Discussions'}
+                {activeTab === 'benefits' &&
+                  'Exclusive Member Benefits'}
               </h2>
 
               <p className="zenve-section-placeholder-desc">
-                Switch back to the <strong>Feed</strong> tab to
-                explore moments from the community, people to know,
-                and the full Zenve advantage.
+                Switch back to the <strong>Feed</strong> tab to explore
+                moments from the community, people to know, and the full
+                Zenve advantage.
               </p>
             </div>
           )}
         </main>
       </div>
 
-      {/* Existing Profile Modal */}
       <CreateProfileModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

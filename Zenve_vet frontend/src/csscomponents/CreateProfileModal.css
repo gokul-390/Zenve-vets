@@ -1,23 +1,23 @@
-/* Create Profile Modal Overlay & Card */
+/* Create Profile Modal Overlay & Card - Matching Join Community Design */
 .zenve-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 999;
-  background-color: rgba(18, 26, 22, 0.45);
-  backdrop-filter: blur(2px);
+  z-index: 1000;
+  background-color: rgba(18, 26, 22, 0.55);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   overflow-y: auto;
-  animation: modalFadeIn 0.2s ease-out;
+  box-sizing: border-box;
+  animation: zenveModalFadeIn 0.2s ease-out forwards;
 }
 
-@keyframes modalFadeIn {
+@keyframes zenveModalFadeIn {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
@@ -25,91 +25,158 @@
 
 .zenve-modal-card {
   position: relative;
-  background-color: #ffffff;
-  width: 100%;
-  max-width: 520px;
+  width: 94%;
+  max-width: 540px;
   max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 16px;
-  padding: 36px 36px 32px 36px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
-  animation: modalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: zenveModalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-@keyframes modalScaleUp {
+@keyframes zenveModalPop {
   from {
     opacity: 0;
     transform: scale(0.96) translateY(8px);
   }
-
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
   }
 }
 
-/* Close Button */
+/* Close Button - Translucent white round button matching Join Community */
 .zenve-modal-close {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  background: transparent;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.15);
   border: none;
   cursor: pointer;
-  color: #5c6861;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  transition: all 0.15s ease;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  z-index: 10;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .zenve-modal-close:hover {
-  background-color: #f1f4f1;
-  color: #17211c;
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.05);
 }
 
-/* Header */
+/* Modal Header - Burgundy Gradient */
 .zenve-modal-header {
-  margin-bottom: 24px;
-  padding-right: 28px;
+  background: linear-gradient(135deg, #54131B 0%, #3D0D18 100%);
+  padding: 32px 32px 24px;
+  color: #ffffff;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.zenve-modal-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #f7cb08;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
 }
 
 .zenve-modal-title {
-  font-size: 27px;
-  font-weight: 700;
-  color: #151e19;
-  letter-spacing: -0.025em;
+  margin: 0 0 8px 0;
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.4px;
   line-height: 1.25;
-  margin-bottom: 8px;
 }
 
 .zenve-modal-subtitle {
-  font-size: 14.5px;
-  color: #526058;
-  line-height: 1.45;
   margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Modal Scrollable Body */
+.zenve-modal-body {
+  padding: 24px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+.zenve-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.zenve-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.zenve-modal-body::-webkit-scrollbar-thumb {
+  background-color: rgba(84, 19, 27, 0.18);
+  border-radius: 10px;
+}
+
+/* Notice Box - Matching Join Community Notice */
+.zenve-modal-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: #fcf7f5;
+  border-left: 4px solid #54131B;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+.zenve-modal-notice p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #2e3e36;
 }
 
 /* Form */
 .zenve-modal-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+}
+
+.zenve-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
 
 .zenve-form-group {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 }
 
 .zenve-form-label {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: #2b3630;
   letter-spacing: -0.01em;
@@ -120,9 +187,9 @@
   width: 100%;
   background-color: #f6f7f5;
   border: 1px solid #e4e7e3;
-  border-radius: 8px;
-  padding: 12px 14px;
-  font-size: 14px;
+  border-radius: 9px;
+  padding: 11px 13px;
+  font-size: 13.5px;
   font-family: inherit;
   color: #1c2621;
   outline: none;
@@ -139,45 +206,57 @@
 .zenve-form-input:focus,
 .zenve-form-textarea:focus {
   background-color: #ffffff;
-  border-color: #0d382b;
-  box-shadow: 0 0 0 3px rgba(13, 56, 43, 0.08);
+  border-color: #54131B;
+  box-shadow: 0 0 0 3px rgba(84, 19, 27, 0.08);
 }
 
 .zenve-form-textarea {
   resize: vertical;
-  min-height: 85px;
+  min-height: 75px;
   line-height: 1.45;
 }
 
 /* Disclaimer text */
 .zenve-modal-disclaimer {
-  font-size: 12.5px;
+  font-size: 12px;
   color: #5c6861;
   line-height: 1.45;
-  margin: 4px 0 6px 0;
+  margin: 2px 0 4px 0;
 }
 
-/* Submit Button */
+/* Actions Group */
+.zenve-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 4px;
+}
+
+/* Submit Button - Matching Primary Button in Join Community */
 .zenve-modal-submit-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   width: 100%;
-  height: 48px;
-  background-color: #3D0D18;;
-  border: 1px solid #ded0c0;
-  border-radius: 8px;
-  color: white;
+  background-color: #54131B;
+  color: #ffffff;
+  padding: 13px 20px;
+  border-radius: 9px;
+  border: none;
   font-size: 14.5px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.18s ease;
-  margin-top: 4px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 4px 14px rgba(84, 19, 27, 0.25);
+  box-sizing: border-box;
 }
 
-
+.zenve-modal-submit-btn:hover:not(:disabled) {
+  background-color: #771b26;
+  transform: translateY(-1px);
+}
 
 .zenve-modal-submit-btn:active:not(:disabled) {
   transform: translateY(0);
@@ -188,18 +267,123 @@
   cursor: not-allowed;
 }
 
-.zenve-submit-arrow {
-  font-size: 15px;
-  font-weight: 700;
+/* Cancel Button - Matching Secondary Button in Join Community */
+.zenve-modal-cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: transparent;
+  border: 1.5px solid #d5dfd9;
+  color: #5c6861;
+  padding: 11px 20px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
+.zenve-modal-cancel-btn:hover {
+  background-color: #edf1ee;
+  color: #17241e;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
-  .zenve-modal-card {
-    padding: 24px 20px;
-    border-radius: 12px;
+  .zenve-modal-header {
+    padding: 24px 22px 18px;
   }
 
   .zenve-modal-title {
-    font-size: 22px;
+    font-size: 21px;
   }
+
+  .zenve-modal-body {
+    padding: 18px 20px 22px;
+    gap: 14px;
+  }
+
+  .zenve-form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Dark Theme Overrides - Matching Join Community */
+[data-theme='dark'] .zenve-modal-card,
+.dark .zenve-modal-card {
+  background-color: #13241d;
+  color: #e2ede6;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme='dark'] .zenve-modal-body,
+.dark .zenve-modal-body {
+  background-color: #13241d;
+}
+
+[data-theme='dark'] .zenve-modal-body::-webkit-scrollbar-thumb,
+.dark .zenve-modal-body::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme='dark'] .zenve-modal-notice,
+.dark .zenve-modal-notice {
+  background-color: rgba(84, 19, 27, 0.25);
+  border-left-color: #771b26;
+}
+
+[data-theme='dark'] .zenve-modal-notice p,
+.dark .zenve-modal-notice p {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-form-label,
+.dark .zenve-form-label {
+  color: #c9dbd1;
+}
+
+[data-theme='dark'] .zenve-form-input,
+.dark .zenve-form-input,
+[data-theme='dark'] .zenve-form-textarea,
+.dark .zenve-form-textarea {
+  background-color: #1a3026;
+  border-color: #264335;
+  color: #ffffff;
+}
+
+[data-theme='dark'] .zenve-form-input::placeholder,
+.dark .zenve-form-input::placeholder,
+[data-theme='dark'] .zenve-form-textarea::placeholder,
+.dark .zenve-form-textarea::placeholder {
+  color: #71887c;
+}
+
+[data-theme='dark'] .zenve-form-input:focus,
+.dark .zenve-form-input:focus,
+[data-theme='dark'] .zenve-form-textarea:focus,
+.dark .zenve-form-textarea:focus {
+  background-color: #1e382c;
+  border-color: #771b26;
+  box-shadow: 0 0 0 3px rgba(119, 27, 38, 0.25);
+}
+
+[data-theme='dark'] .zenve-modal-disclaimer,
+.dark .zenve-modal-disclaimer {
+  color: #9dbdad;
+}
+
+[data-theme='dark'] .zenve-modal-cancel-btn,
+.dark .zenve-modal-cancel-btn {
+  border-color: #253d32;
+  color: #9dbdad;
+}
+
+[data-theme='dark'] .zenve-modal-cancel-btn:hover,
+.dark .zenve-modal-cancel-btn:hover {
+  background-color: #1a3026;
+  color: #ffffff;
 }

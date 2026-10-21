@@ -1230,3 +1230,696 @@
     transition-duration: 0.01ms !important;
   }
 } 
+
+/* =========================================
+DARK MODE — TEXT VISIBILITY ONLY
+Preserve existing Burgundy • Ivory • Sage • Gold
+Append at the END of SearchPage.css
+========================================= */
+
+/* Dark mode applied through a parent class */
+.dark .search-page,
+.dark-theme .search-page,
+[data-theme="dark"] .search-page,
+[data-mode="dark"] .search-page,
+[data-color-mode="dark"] .search-page {
+--search-text: #f4edf1;
+--search-muted: #c9bbc1;
+}
+
+/* Page heading and section headings */
+.dark .search-page .search-heading h1,
+.dark-theme .search-page .search-heading h1,
+[data-theme="dark"] .search-page .search-heading h1,
+[data-mode="dark"] .search-page .search-heading h1,
+[data-color-mode="dark"] .search-page .search-heading h1,
+.dark .search-page .search-results-heading h2,
+.dark-theme .search-page .search-results-heading h2,
+[data-theme="dark"] .search-page .search-results-heading h2,
+[data-mode="dark"] .search-page .search-results-heading h2,
+[data-color-mode="dark"] .search-page .search-results-heading h2,
+.dark .search-page .doctor-card-body h3,
+.dark-theme .search-page .doctor-card-body h3,
+[data-theme="dark"] .search-page .doctor-card-body h3,
+[data-mode="dark"] .search-page .doctor-card-body h3,
+[data-color-mode="dark"] .search-page .doctor-card-body h3,
+.dark .search-page .discovery-card h3,
+.dark-theme .search-page .discovery-card h3,
+[data-theme="dark"] .search-page .discovery-card h3,
+[data-mode="dark"] .search-page .discovery-card h3,
+[data-color-mode="dark"] .search-page .discovery-card h3,
+.dark .search-page .search-empty h3,
+.dark-theme .search-page .search-empty h3,
+[data-theme="dark"] .search-page .search-empty h3,
+[data-mode="dark"] .search-page .search-empty h3,
+[data-color-mode="dark"] .search-page .search-empty h3,
+.dark .search-page .doctor-profile-identity h2,
+.dark-theme .search-page .doctor-profile-identity h2,
+[data-theme="dark"] .search-page .doctor-profile-identity h2,
+[data-mode="dark"] .search-page .doctor-profile-identity h2,
+[data-color-mode="dark"] .search-page .doctor-profile-identity h2,
+.dark .search-page .doctor-profile-detail h3,
+.dark-theme .search-page .doctor-profile-detail h3,
+[data-theme="dark"] .search-page .doctor-profile-detail h3,
+[data-mode="dark"] .search-page .doctor-profile-detail h3,
+[data-color-mode="dark"] .search-page .doctor-profile-detail h3 {
+color: #f4dce4;
+}
+
+/* Supporting paragraphs, labels, descriptions and metadata */
+.dark .search-page .search-heading p,
+.dark-theme .search-page .search-heading p,
+[data-theme="dark"] .search-page .search-heading p,
+[data-mode="dark"] .search-page .search-heading p,
+[data-color-mode="dark"] .search-page .search-heading p,
+.dark .search-page .search-results-heading p,
+.dark-theme .search-page .search-results-heading p,
+[data-theme="dark"] .search-page .search-results-heading p,
+[data-mode="dark"] .search-page .search-results-heading p,
+[data-color-mode="dark"] .search-page .search-results-heading p,
+.dark .search-page .doctor-specialty,
+.dark-theme .search-page .doctor-specialty,
+[data-theme="dark"] .search-page .doctor-specialty,
+[data-mode="dark"] .search-page .doctor-specialty,
+[data-color-mode="dark"] .search-page .doctor-specialty,
+.dark .search-page .doctor-experience,
+.dark-theme .search-page .doctor-experience,
+[data-theme="dark"] .search-page .doctor-experience,
+[data-mode="dark"] .search-page .doctor-experience,
+[data-color-mode="dark"] .search-page .doctor-experience,
+.dark .search-page .doctor-location,
+.dark-theme .search-page .doctor-location,
+[data-theme="dark"] .search-page .doctor-location,
+[data-mode="dark"] .search-page .doctor-location,
+[data-color-mode="dark"] .search-page .doctor-location,
+.dark .search-page .doctor-community-status,
+.dark-theme .search-page .doctor-community-status,
+[data-theme="dark"] .search-page .doctor-community-status,
+[data-mode="dark"] .search-page .doctor-community-status,
+[data-color-mode="dark"] .search-page .doctor-community-status,
+.dark .search-page .discovery-card > p,
+.dark-theme .search-page .discovery-card > p,
+[data-theme="dark"] .search-page .discovery-card > p,
+[data-mode="dark"] .search-page .discovery-card > p,
+[data-color-mode="dark"] .search-page .discovery-card > p,
+.dark .search-page .discovery-card-footer,
+.dark-theme .search-page .discovery-card-footer,
+[data-theme="dark"] .search-page .discovery-card-footer,
+[data-mode="dark"] .search-page .discovery-card-footer,
+[data-color-mode="dark"] .search-page .discovery-card-footer,
+.dark .search-page .search-discovery-note p,
+.dark-theme .search-page .search-discovery-note p,
+[data-theme="dark"] .search-page .search-discovery-note p,
+[data-mode="dark"] .search-page .search-discovery-note p,
+[data-color-mode="dark"] .search-page .search-discovery-note p,
+.dark .search-page .search-empty p,
+.dark-theme .search-page .search-empty p,
+[data-theme="dark"] .search-page .search-empty p,
+[data-mode="dark"] .search-page .search-empty p,
+[data-color-mode="dark"] .search-page .search-empty p,
+.dark .search-page .doctor-profile-detail p,
+.dark-theme .search-page .doctor-profile-detail p,
+[data-theme="dark"] .search-page .doctor-profile-detail p,
+[data-mode="dark"] .search-page .doctor-profile-detail p,
+[data-color-mode="dark"] .search-page .doctor-profile-detail p,
+.dark .search-page .doctor-profile-identity > div:last-child > p,
+.dark-theme .search-page .doctor-profile-identity > div:last-child > p,
+[data-theme="dark"] .search-page .doctor-profile-identity > div:last-child > p,
+[data-mode="dark"] .search-page .doctor-profile-identity > div:last-child > p,
+[data-color-mode="dark"] .search-page .doctor-profile-identity > div:last-child > p,
+.dark .search-page .doctor-profile-disclaimer,
+.dark-theme .search-page .doctor-profile-disclaimer,
+[data-theme="dark"] .search-page .doctor-profile-disclaimer,
+[data-mode="dark"] .search-page .doctor-profile-disclaimer,
+[data-color-mode="dark"] .search-page .doctor-profile-disclaimer {
+color: #c9bbc1;
+}
+
+/* Filters, inactive tabs and other controls */
+.dark .search-page .search-filter-label,
+.dark-theme .search-page .search-filter-label,
+[data-theme="dark"] .search-page .search-filter-label,
+[data-mode="dark"] .search-page .search-filter-label,
+[data-color-mode="dark"] .search-page .search-filter-label,
+.dark .search-page .search-options label,
+.dark-theme .search-page .search-options label,
+[data-theme="dark"] .search-page .search-options label,
+[data-mode="dark"] .search-page .search-options label,
+[data-color-mode="dark"] .search-page .search-options label,
+.dark .search-page .search-specialties button:not(.selected),
+.dark-theme .search-page .search-specialties button:not(.selected),
+[data-theme="dark"] .search-page .search-specialties button:not(.selected),
+[data-mode="dark"] .search-page .search-specialties button:not(.selected),
+[data-color-mode="dark"] .search-page .search-specialties button:not(.selected),
+.dark .search-page .search-tabs button:not(.active),
+.dark-theme .search-page .search-tabs button:not(.active),
+[data-theme="dark"] .search-page .search-tabs button:not(.active),
+[data-mode="dark"] .search-page .search-tabs button:not(.active),
+[data-color-mode="dark"] .search-page .search-tabs button:not(.active),
+.dark .search-page .discovery-filter-row button:not(.active),
+.dark-theme .search-page .discovery-filter-row button:not(.active),
+[data-theme="dark"] .search-page .discovery-filter-row button:not(.active),
+[data-mode="dark"] .search-page .discovery-filter-row button:not(.active),
+[data-color-mode="dark"] .search-page .discovery-filter-row button:not(.active),
+.dark .search-page .search-result-count,
+.dark-theme .search-page .search-result-count,
+[data-theme="dark"] .search-page .search-result-count,
+[data-mode="dark"] .search-page .search-result-count,
+[data-color-mode="dark"] .search-page .search-result-count {
+color: #c9bbc1;
+}
+
+/* Burgundy text and icons on white/ivory surfaces */
+.dark .search-page .search-input-wrap > svg,
+.dark-theme .search-page .search-input-wrap > svg,
+[data-theme="dark"] .search-page .search-input-wrap > svg,
+[data-mode="dark"] .search-page .search-input-wrap > svg,
+[data-color-mode="dark"] .search-page .search-input-wrap > svg,
+.dark .search-page .search-city-field,
+.dark-theme .search-page .search-city-field,
+[data-theme="dark"] .search-page .search-city-field,
+[data-mode="dark"] .search-city-field,
+[data-color-mode="dark"] .search-page .search-city-field,
+.dark .search-page .search-city-select,
+.dark-theme .search-page .search-city-select,
+[data-theme="dark"] .search-page .search-city-select,
+[data-mode="dark"] .search-page .search-city-select,
+[data-color-mode="dark"] .search-page .search-city-select,
+.dark .search-page .doctor-banner-icon,
+.dark-theme .search-page .doctor-banner-icon,
+[data-theme="dark"] .search-page .doctor-banner-icon,
+[data-mode="dark"] .search-page .doctor-banner-icon,
+[data-color-mode="dark"] .search-page .doctor-banner-icon,
+.dark .search-page .doctor-city-tag,
+.dark-theme .search-page .doctor-city-tag,
+[data-theme="dark"] .search-page .doctor-city-tag,
+[data-mode="dark"] .search-page .doctor-city-tag,
+[data-color-mode="dark"] .search-page .doctor-city-tag,
+.dark .search-page .doctor-verified-icon,
+.dark-theme .search-page .doctor-verified-icon,
+[data-theme="dark"] .search-page .doctor-verified-icon,
+[data-mode="dark"] .search-page .doctor-verified-icon,
+[data-color-mode="dark"] .search-page .doctor-verified-icon,
+.dark .search-page .doctor-location svg,
+.dark-theme .search-page .doctor-location svg,
+[data-theme="dark"] .search-page .doctor-location svg,
+[data-mode="dark"] .search-page .doctor-location svg,
+[data-color-mode="dark"] .search-page .doctor-location svg,
+.dark .search-page .discovery-card-icon,
+.dark-theme .search-page .discovery-card-icon,
+[data-theme="dark"] .search-page .discovery-card-icon,
+[data-mode="dark"] .search-page .discovery-card-icon,
+[data-color-mode="dark"] .search-page .discovery-card-icon,
+.dark .search-page .discovery-card-footer svg,
+.dark-theme .search-page .discovery-card-footer svg,
+[data-theme="dark"] .search-page .discovery-card-footer svg,
+[data-mode="dark"] .search-page .discovery-card-footer svg,
+[data-color-mode="dark"] .search-page .discovery-card-footer svg,
+.dark .search-page .search-reset-button,
+.dark-theme .search-page .search-reset-button,
+[data-theme="dark"] .search-page .search-reset-button,
+[data-mode="dark"] .search-page .search-reset-button,
+[data-color-mode="dark"] .search-page .search-reset-button,
+.dark .search-page .search-sort-control,
+.dark-theme .search-page .search-sort-control,
+[data-theme="dark"] .search-page .search-sort-control,
+[data-mode="dark"] .search-page .search-sort-control,
+[data-color-mode="dark"] .search-page .search-sort-control {
+color: #f4dce4;
+}
+
+/* Text inside the profile modal */
+.dark .search-page .doctor-profile-stats strong,
+.dark-theme .search-page .doctor-profile-stats strong,
+[data-theme="dark"] .search-page .doctor-profile-stats strong,
+[data-mode="dark"] .search-page .doctor-profile-stats strong,
+[data-color-mode="dark"] .search-page .doctor-profile-stats strong {
+color: #f4dce4;
+}
+
+/* Gold labels remain gold, but brighter for dark mode */
+.dark .search-page .search-results-eyebrow,
+.dark-theme .search-page .search-results-eyebrow,
+[data-theme="dark"] .search-page .search-results-eyebrow,
+[data-mode="dark"] .search-page .search-results-eyebrow,
+[data-color-mode="dark"] .search-page .search-results-eyebrow,
+.dark .search-page .doctor-label,
+.dark-theme .search-page .doctor-label,
+[data-theme="dark"] .search-page .doctor-label,
+[data-mode="dark"] .search-page .doctor-label,
+[data-color-mode="dark"] .search-page .doctor-label {
+color: #d9bd79;
+}
+
+/* Placeholder text */
+.dark .search-page .search-input-wrap input::placeholder,
+.dark-theme .search-page .search-input-wrap input::placeholder,
+[data-theme="dark"] .search-page .search-input-wrap input::placeholder,
+[data-mode="dark"] .search-page .search-input-wrap input::placeholder,
+[data-color-mode="dark"] .search-page .search-input-wrap input::placeholder {
+color: #c9bbc1;
+}
+
+/* Keep existing selected-button contrast and palette intact */
+.dark .search-page .search-specialties button.selected,
+.dark-theme .search-page .search-specialties button.selected,
+[data-theme="dark"] .search-page .search-specialties button.selected,
+[data-mode="dark"] .search-page .search-specialties button.selected,
+[data-color-mode="dark"] .search-page .search-specialties button.selected,
+.dark .search-page .search-tabs button.active,
+.dark-theme .search-page .search-tabs button.active,
+[data-theme="dark"] .search-page .search-tabs button.active,
+[data-mode="dark"] .search-page .search-tabs button.active,
+[data-color-mode="dark"] .search-page .search-tabs button.active,
+.dark .search-page .discovery-filter-row button.active,
+.dark-theme .search-page .discovery-filter-row button.active,
+[data-theme="dark"] .search-page .discovery-filter-row button.active,
+[data-mode="dark"] .search-page .discovery-filter-row button.active,
+[data-color-mode="dark"] .search-page .discovery-filter-row button.active,
+.dark .search-page .doctor-connect-button,
+.dark-theme .search-page .doctor-connect-button,
+[data-theme="dark"] .search-page .doctor-connect-button,
+[data-mode="dark"] .search-page .doctor-connect-button,
+[data-color-mode="dark"] .search-page .doctor-connect-button,
+.dark .search-page .doctor-message-button,
+.dark-theme .search-page .doctor-message-button,
+[data-theme="dark"] .search-page .doctor-message-button,
+[data-mode="dark"] .search-page .doctor-message-button,
+[data-color-mode="dark"] .search-page .doctor-message-button,
+.dark .search-page .search-empty > button,
+.dark-theme .search-page .search-empty > button,
+[data-theme="dark"] .search-page .search-empty > button,
+[data-mode="dark"] .search-page .search-empty > button,
+[data-color-mode="dark"] .search-page .search-empty > button {
+color: #fffdf9;
+}
+
+/* System dark mode fallback, without overriding explicit light mode */
+@media (prefers-color-scheme: dark) {
+.search-page:not(.light-theme) {
+--search-text: #f4edf1;
+--search-muted: #c9bbc1;
+}
+
+.search-page:not(.light-theme) .search-heading h1,
+.search-page:not(.light-theme) .search-results-heading h2,
+.search-page:not(.light-theme) .doctor-card-body h3,
+.search-page:not(.light-theme) .discovery-card h3,
+.search-page:not(.light-theme) .search-empty h3,
+.search-page:not(.light-theme) .doctor-profile-identity h2,
+.search-page:not(.light-theme) .doctor-profile-detail h3 {
+color: #f4dce4;
+}
+
+.search-page:not(.light-theme) .search-heading p,
+.search-page:not(.light-theme) .search-results-heading p,
+.search-page:not(.light-theme) .doctor-specialty,
+.search-page:not(.light-theme) .doctor-experience,
+.search-page:not(.light-theme) .doctor-location,
+.search-page:not(.light-theme) .doctor-community-status,
+.search-page:not(.light-theme) .discovery-card > p,
+.search-page:not(.light-theme) .discovery-card-footer,
+.search-page:not(.light-theme) .search-discovery-note p,
+.search-page:not(.light-theme) .search-empty p,
+.search-page:not(.light-theme) .doctor-profile-detail p,
+.search-page:not(.light-theme) .doctor-profile-disclaimer {
+color: #c9bbc1;
+}
+}
+/* =========================================
+ZENVE VET SEARCH — DARK MODE
+Preserve Burgundy • Ivory • Sage • Gold
+========================================= */
+
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page {
+--search-forest: #c58a99;
+--search-forest-dark: #e5b9c5;
+--search-ivory: #241a1e;
+--search-sage: #342329;
+--search-gold: #c5a45b;
+--search-white: #21191d;
+--search-text: #f6edf0;
+--search-muted: #c6b5bb;
+--search-border: #4b353d;
+--search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
+
+color: var(--search-text);
+}
+
+/* Page and section headings */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-heading h1,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-results-heading h2,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-card-body h3,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .discovery-card h3,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-empty h3,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-profile-identity h2,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-profile-detail h3 {
+color: #f0d6de;
+}
+
+/* Main page copy and supporting text */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-heading p,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-results-heading p,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-specialty,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-experience,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-location,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-community-status,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .discovery-card > p,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .discovery-card-footer,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-discovery-note p,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-empty p,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-profile-detail p,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-profile-disclaimer {
+color: #c6b5bb;
+}
+
+/* Search inputs */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-input-wrap input,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-city-select,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-sort-control select {
+color: #f6edf0;
+}
+
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-input-wrap input::placeholder {
+color: #bba7af;
+}
+
+/* Filter controls and inactive tabs */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-filter-label,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-options label,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-specialties button:not(.selected),
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-tabs button:not(.active),
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .discovery-filter-row button:not(.active),
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-result-count {
+color: #d6c5cb;
+}
+
+/* Doctor card banner keeps the same burgundy/ivory/sage identity */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-card-banner {
+background: linear-gradient(125deg, #342329, #241a1e);
+}
+
+/* Make the gold labels legible without changing the gold palette */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-results-eyebrow,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-label {
+color: #d9bd79;
+}
+
+/* Icons on dark surfaces */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-input-wrap > svg,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-options label > svg,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-location svg,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .discovery-card-footer svg,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-discovery-note > svg {
+color: #d9bd79;
+}
+
+/* Selected filters and primary actions retain burgundy backgrounds */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-specialties button.selected,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-tabs button.active,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .discovery-filter-row button.active,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-connect-button:not(.is-connected),
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-message-button,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-empty > button {
+background-color: #541522;
+border-color: #541522;
+color: #fffdf9;
+}
+
+/* Keep connected-state colours within the original palette */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .doctor-connect-button.is-connected {
+background: #342329;
+border-color: #c5a45b;
+color: #f0d6de;
+}
+
+/* Discovery note and empty state */
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-discovery-note,
+:is(.dark, .dark-theme, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"]) .search-page .search-empty {
+background: #241a1e;
+border-color: #4b353d;
+}
+
+/* System dark mode fallback, when the app follows device settings */
+@media (prefers-color-scheme: dark) {
+.search-page:not(.light-theme) {
+--search-text: #f6edf0;
+--search-muted: #c6b5bb;
+}
+
+.search-page:not(.light-theme) .search-heading h1,
+.search-page:not(.light-theme) .search-results-heading h2,
+.search-page:not(.light-theme) .doctor-card-body h3,
+.search-page:not(.light-theme) .discovery-card h3,
+.search-page:not(.light-theme) .search-empty h3,
+.search-page:not(.light-theme) .doctor-profile-identity h2,
+.search-page:not(.light-theme) .doctor-profile-detail h3 {
+color: #f0d6de;
+}
+
+.search-page:not(.light-theme) .search-heading p,
+.search-page:not(.light-theme) .search-results-heading p,
+.search-page:not(.light-theme) .doctor-specialty,
+.search-page:not(.light-theme) .doctor-experience,
+.search-page:not(.light-theme) .doctor-location,
+.search-page:not(.light-theme) .doctor-community-status,
+.search-page:not(.light-theme) .discovery-card > p,
+.search-page:not(.light-theme) .discovery-card-footer,
+.search-page:not(.light-theme) .search-discovery-note p,
+.search-page:not(.light-theme) .search-empty p,
+.search-page:not(.light-theme) .doctor-profile-detail p,
+.search-page:not(.light-theme) .doctor-profile-disclaimer {
+color: #c6b5bb;
+}
+}
+/* =========================================
+SEARCH PAGE — LIGHT THEME READABILITY
+Preserve the original brand palette
+========================================= */
+
+.search-page:not(.dark):not(.dark-theme):not(.light-theme) {
+--search-forest: #541522;
+--search-forest-dark: #3d0d18;
+--search-ivory: #f8f4ec;
+--search-sage: #f1e8e5;
+--search-gold: #c5a45b;
+--search-white: #fffdf9;
+--search-text: #392d2c;
+--search-muted: #70615d;
+--search-border: #e9dfd5;
+}
+
+.search-page .search-heading h1,
+.search-page .search-results-heading h2,
+.search-page .doctor-card-body h3,
+.search-page .discovery-card h3,
+.search-page .search-empty h3,
+.search-page .doctor-profile-identity h2,
+.search-page .doctor-profile-detail h3 {
+color: #3d0d18;
+}
+
+.search-page .search-heading p,
+.search-page .search-results-heading p,
+.search-page .doctor-specialty,
+.search-page .doctor-experience,
+.search-page .doctor-location,
+.search-page .doctor-community-status,
+.search-page .discovery-card > p,
+.search-page .discovery-card-footer,
+.search-page .search-discovery-note p,
+.search-page .search-empty p,
+.search-page .doctor-profile-detail p {
+color: #70615d;
+}
+
+.search-page .search-specialties button:not(.selected),
+.search-page .search-options label,
+.search-page .search-tabs button:not(.active),
+.search-page .discovery-filter-row button:not(.active) {
+color: #554542;
+}
+
+.search-page .search-results-eyebrow,
+.search-page .doctor-label {
+color: #92733c;
+}
+/* =========================================
+ZENVE VET — SEARCH PAGE THEME FIX
+Brand: Burgundy • Ivory • Sage • Gold
+========================================= */
+
+/* LIGHT THEME — richer, more readable typography */
+.search-page {
+--search-forest: #541522;
+--search-forest-dark: #3d0d18;
+--search-ivory: #f8f4ec;
+--search-sage: #f1e8e5;
+--search-gold: #c5a45b;
+--search-white: #fffdf9;
+--search-text: #392d2c;
+--search-muted: #70605d;
+--search-border: #e9dfd5;
+}
+
+.search-page .search-heading h1,
+.search-page .search-results-heading h2,
+.search-page .doctor-card-body h3,
+.search-page .discovery-card h3,
+.search-page .search-empty h3,
+.search-page .doctor-profile-identity h2,
+.search-page .doctor-profile-detail h3 {
+color: #3d0d18;
+}
+
+.search-page .search-heading p,
+.search-page .search-results-heading p,
+.search-page .doctor-specialty,
+.search-page .doctor-experience,
+.search-page .doctor-location,
+.search-page .doctor-community-status,
+.search-page .discovery-card > p,
+.search-page .discovery-card-footer,
+.search-page .search-discovery-note p,
+.search-page .search-empty p,
+.search-page .doctor-profile-detail p,
+.search-page .doctor-profile-disclaimer {
+color: #70605d;
+}
+
+.search-page .search-results-eyebrow,
+.search-page .doctor-label {
+color: #92733c;
+}
+
+.search-page .search-filter-label,
+.search-page .search-options label,
+.search-page .search-specialties button:not(.selected),
+.search-page .search-tabs button:not(.active),
+.search-page .discovery-filter-row button:not(.active) {
+color: #554542;
+}
+
+/* DARK THEME — support common app theme selectors */
+:is(
+html.dark,
+body.dark,
+html.dark-mode,
+body.dark-mode,
+.dark,
+.dark-theme,
+.dark-mode,
+[data-theme="dark"],
+[data-mode="dark"],
+[data-color-mode="dark"],
+[data-bs-theme="dark"]
+) .search-page,
+.search-page:is(.dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"]) {
+--search-forest: #c58a99;
+--search-forest-dark: #e5b9c5;
+--search-ivory: #241a1e;
+--search-sage: #342329;
+--search-gold: #c5a45b;
+--search-white: #2b2025;
+--search-text: #f6edf0;
+--search-muted: #c6b5bb;
+--search-border: #4b353d;
+--search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
+
+color: #f6edf0;
+}
+
+/* Dark page headings */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-heading h1,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-results-heading h2,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-card-body h3,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .discovery-card h3,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-empty h3,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-profile-identity h2,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-profile-detail h3 {
+color: #f0d6de;
+}
+
+/* Dark theme supporting text */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-heading p,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-results-heading p,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-specialty,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-experience,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-location,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-community-status,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .discovery-card > p,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .discovery-card-footer,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-discovery-note p,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-empty p,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-profile-detail p,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-profile-disclaimer {
+color: #c6b5bb;
+}
+
+/* Dark card surfaces — preserve card layout and imagery */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-card,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .discovery-card,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-input-wrap,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-city-field,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-sort-control,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-profile-stats > div {
+background-color: #2b2025;
+border-color: #4b353d;
+}
+
+/* Dark banner surfaces retain the burgundy/sage look */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-card-banner {
+background: linear-gradient(125deg, #342329, #241a1e);
+}
+
+/* Search inputs and dropdowns */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-input-wrap input,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-city-select,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-sort-control select {
+color: #f6edf0;
+background-color: transparent;
+}
+
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page input::placeholder {
+color: #bba7af;
+}
+
+/* Muted gold accents */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-results-eyebrow,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-label {
+color: #d9bd79;
+}
+
+/* Keep primary buttons burgundy with ivory text */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-connect-button:not(.is-connected),
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-message-button,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-empty > button {
+background-color: #541522;
+border-color: #541522;
+color: #fffdf9;
+}
+
+/* Gold selected state outline; preserve palette */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .doctor-connect-button.is-connected {
+background-color: #342329;
+border-color: #c5a45b;
+color: #f0d6de;
+}
+
+/* Dark filters and tabs */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-filter-label,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-options label,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-specialties button:not(.selected),
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-tabs button:not(.active),
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .discovery-filter-row button:not(.active) {
+color: #d6c5cb;
+}
+
+/* Selected items keep the brand burgundy */
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-specialties button.selected,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .search-tabs button.active,
+:is(html.dark, body.dark, html.dark-mode, body.dark-mode, .dark, .dark-theme, .dark-mode, [data-theme="dark"], [data-mode="dark"], [data-color-mode="dark"], [data-bs-theme="dark"]) .search-page .discovery-filter-row button.active {
+background-color: #541522;
+border-color: #c5a45b;
+color: #fffdf9;
+}

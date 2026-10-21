@@ -1,8 +1,12 @@
-/* =========================================
+
+
+/* =========================================================
    ZENVE VET — SEARCH & DISCOVERY
-   Clean, responsive, professional styling
-   Burgundy • Ivory • Muted Gold
-========================================= */
+   Responsive layout • Burgundy • Ivory • Muted Gold
+   Light mode • Dark mode • Existing JSX class integration
+========================================================= */
+
+/* ---------- Theme variables ---------- */
 
 .search-page {
   --search-forest: #541522;
@@ -20,10 +24,11 @@
   max-width: none;
   min-width: 0;
   margin: 0;
-  padding: 0 0 36px;
+  padding: 24px 26px 36px 30px;
   box-sizing: border-box;
   color: var(--search-text);
-  font-family: "Figtree", "Segoe UI", sans-serif;
+  font-family: "Figtree", "Segoe UI", Arial, sans-serif;
+  transition: color 180ms ease;
 }
 
 .search-page *,
@@ -38,70 +43,74 @@
   font: inherit;
 }
 
-/* =========================================
-   PAGE HEADING
-========================================= */
+.search-page button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.search-page img {
+  max-width: 100%;
+}
+
+/* ---------- Page heading ---------- */
 
 .search-heading {
   width: 100%;
-  margin: 0 0 24px;
+  margin: 0 0 25px;
 }
 
 .search-eyebrow {
   display: inline-flex;
   align-items: center;
   padding: 7px 11px;
-  border: 1px solid #e9d9d8;
+  border: 1px solid var(--search-border);
   border-radius: 999px;
   background: var(--search-sage);
   color: var(--search-forest);
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.12em;
   line-height: 1.4;
 }
 
 .search-heading h1 {
   max-width: 760px;
-  margin: 17px 0 10px;
+  margin: 16px 0 10px;
   color: var(--search-forest-dark);
   font-family: "Outfit", "Segoe UI", sans-serif;
-  font-size: clamp(30px, 3.5vw, 43px);
+  font-size: clamp(29px, 3vw, 42px);
   font-weight: 750;
-  line-height: 1.15;
+  line-height: 1.16;
   letter-spacing: -0.04em;
 }
 
 .search-heading p {
-  max-width: 680px;
+  max-width: 690px;
   margin: 0;
   color: var(--search-muted);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.8;
 }
 
-/* =========================================
-   SEARCH INPUT AND LOCATION
-========================================= */
+/* ---------- Search and location controls ---------- */
 
 .search-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 200px;
+  grid-template-columns: minmax(0, 1fr) 190px;
   align-items: center;
-  gap: 14px;
+  gap: 13px;
   width: 100%;
-  max-width: none;
+  min-width: 0;
 }
 
 .search-input-wrap {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   width: 100%;
   min-width: 0;
   min-height: 48px;
   margin: 0;
-  padding: 5px 10px 5px 15px;
+  padding: 5px 11px 5px 15px;
   border: 1px solid var(--search-border);
   border-radius: 12px;
   background: var(--search-white);
@@ -111,8 +120,8 @@
 }
 
 .search-input-wrap:focus-within {
-  border-color: #a66f7b;
-  box-shadow: 0 0 0 3px rgba(84, 21, 34, 0.09);
+  border-color: var(--search-gold);
+  box-shadow: 0 0 0 3px rgba(197, 164, 91, 0.18);
 }
 
 .search-input-wrap > svg {
@@ -124,7 +133,7 @@
   flex: 1;
   width: 100%;
   min-width: 0;
-  min-height: 36px;
+  min-height: 35px;
   padding: 0;
   border: 0;
   outline: none;
@@ -134,7 +143,8 @@
 }
 
 .search-input-wrap input::placeholder {
-  color: #968984;
+  color: var(--search-muted);
+  opacity: 0.9;
 }
 
 .search-clear-button {
@@ -145,13 +155,13 @@
   place-items: center;
   border: 0;
   border-radius: 8px;
-  background: var(--search-ivory);
+  background: var(--search-sage);
   color: var(--search-forest);
   cursor: pointer;
 }
 
 .search-clear-button:hover {
-  background: var(--search-sage);
+  background: var(--search-border);
 }
 
 .search-city-field {
@@ -160,7 +170,7 @@
   gap: 7px;
   min-width: 0;
   min-height: 48px;
-  padding: 0 10px;
+  padding: 0 11px;
   border: 1px solid var(--search-border);
   border-radius: 12px;
   background: var(--search-white);
@@ -175,26 +185,24 @@
   width: 100%;
   min-width: 0;
   height: 42px;
-  padding: 0 4px;
+  padding: 0 3px;
   border: 0;
   outline: none;
   background: transparent;
-  color: var(--search-forest);
+  color: var(--search-text);
   font-size: 12px;
   cursor: pointer;
 }
 
-/* =========================================
-   SPECIALTY FILTERS
-========================================= */
+/* ---------- Specialty filters ---------- */
 
 .search-filter-section {
-  margin-top: 30px;
+  margin-top: 27px;
 }
 
 .search-filter-label {
   display: block;
-  margin: 0 0 15px;
+  margin: 0 0 13px;
   color: var(--search-text);
   font-size: 12px;
   font-weight: 800;
@@ -203,25 +211,21 @@
 .search-specialties {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
-  row-gap: 10px;
+  gap: 8px;
 }
 
 .search-specialties button {
   min-height: 35px;
-  padding: 8px 14px;
+  padding: 8px 13px;
   border: 1px solid var(--search-border);
   border-radius: 999px;
   background: var(--search-white);
-  color: #655653;
+  color: var(--search-text);
   font-size: 11px;
   font-weight: 650;
   cursor: pointer;
-  transition:
-    background 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
 }
 
 .search-specialties button:hover {
@@ -233,27 +237,24 @@
 .search-specialties button.selected {
   border-color: var(--search-forest);
   background: var(--search-forest);
-  color: var(--search-white);
-  box-shadow: 0 2px 7px rgba(84, 21, 34, 0.12);
+  color: #fff;
 }
 
-/* =========================================
-   VERIFICATION AND TAKEAWAYS
-========================================= */
+/* ---------- Verification options ---------- */
 
 .search-options {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 13px 20px;
-  margin: 22px 0 27px;
+  gap: 12px 19px;
+  margin: 20px 0 25px;
 }
 
 .search-options label {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #655653;
+  color: var(--search-text);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -273,8 +274,8 @@
 }
 
 .search-reset-button {
-  min-height: 32px;
-  padding: 6px 10px;
+  min-height: 33px;
+  padding: 6px 11px;
   border: 1px solid var(--search-border);
   border-radius: 8px;
   background: var(--search-white);
@@ -285,65 +286,52 @@
 }
 
 .search-reset-button:hover {
+  border-color: var(--search-gold);
   background: var(--search-sage);
 }
 
-/* =========================================
-   CATEGORY TABS
-========================================= */
+/* ---------- Category tabs ---------- */
 
 .search-tabs {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
   min-width: 0;
   margin-top: 8px;
-  padding: 0;
   overflow-x: auto;
   border-bottom: 1px solid var(--search-border);
   scrollbar-width: thin;
-  scrollbar-color: #d6c1b9 transparent;
 }
 
 .search-tabs button {
   position: relative;
   display: inline-flex;
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   min-width: max-content;
-  min-height: 52px;
-  padding: 0 14px;
+  min-height: 51px;
+  padding: 0 13px;
   border: 1px solid transparent;
   border-radius: 10px 10px 0 0;
   background: transparent;
-  color: var(--search-muted);
+  color: var(--search-text);
   font-size: 12px;
   font-weight: 650;
   white-space: nowrap;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
-}
-
-.search-tabs button > svg {
-  flex-shrink: 0;
-}
-
-.search-tab-label {
-  display: inline-block;
 }
 
 .search-tabs button:hover {
-  background: var(--search-ivory);
+  background: var(--search-sage);
   color: var(--search-forest);
 }
 
 .search-tabs button.active {
   border-color: var(--search-border);
-  border-bottom-color: var(--search-white);
   background: var(--search-white);
   color: var(--search-forest);
   font-weight: 800;
@@ -360,33 +348,34 @@
   content: "";
 }
 
+.search-tab-label {
+  display: inline-block;
+}
+
 .search-tab-count {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  min-width: 25px;
-  height: 23px;
-  padding: 0 7px;
-  border: 1px solid #e9d9d8;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--search-border);
   border-radius: 999px;
   background: var(--search-sage);
   color: var(--search-forest);
   font-size: 10px;
   font-weight: 800;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
 }
 
 .search-tabs button.active .search-tab-count {
-  border-color: var(--search-gold);
+  border-color: var(--search-forest);
   background: var(--search-forest);
-  color: var(--search-white);
+  color: #fff;
 }
 
-/* =========================================
-   RESULTS HEADINGS AND COUNTS
-========================================= */
+/* ---------- Results headings ---------- */
 
 .search-results-section,
 .search-discovery-section {
@@ -402,12 +391,12 @@
   justify-content: space-between;
   gap: 16px;
   width: 100%;
-  margin: 0 0 16px;
+  margin: 0 0 17px;
 }
 
 .search-results-eyebrow {
   display: inline-block;
-  color: #9a8050;
+  color: var(--search-gold);
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -441,26 +430,26 @@
   border: 1px solid var(--search-border);
   border-radius: 999px;
   background: var(--search-white);
-  color: var(--search-muted);
+  color: var(--search-text);
   font-size: 10px;
   font-weight: 750;
+  white-space: nowrap;
 }
 
-/* Optional directory sorting controls */
 .search-directory-controls {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 11px;
 }
 
 .search-sort-control {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 38px;
-  padding: 0 12px;
+  min-height: 37px;
+  padding: 0 11px;
   border: 1px solid var(--search-border);
   border-radius: 10px;
   background: var(--search-white);
@@ -469,7 +458,7 @@
 
 .search-sort-control select {
   max-width: 155px;
-  min-height: 34px;
+  min-height: 33px;
   border: 0;
   outline: none;
   background: transparent;
@@ -478,46 +467,30 @@
   cursor: pointer;
 }
 
-/* =========================================
-   DOCTOR DIRECTORY SCROLL AREA
-========================================= */
+/* ---------- Doctor directory ---------- */
 
 .doctor-scroll-container {
   width: 100%;
   max-width: 100%;
   max-height: 650px;
   min-width: 0;
-  padding: 3px 6px 12px 2px;
+  padding: 3px 5px 12px 2px;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior-y: contain;
   border-radius: 14px;
   scrollbar-width: thin;
-  scrollbar-color: #cdb8b0 var(--search-ivory);
+  scrollbar-color: var(--search-border) transparent;
 }
 
 .doctor-scroll-container::-webkit-scrollbar {
-  width: 7px;
-}
-
-.doctor-scroll-container::-webkit-scrollbar-track {
-  border-radius: 10px;
-  background: var(--search-ivory);
+  width: 6px;
 }
 
 .doctor-scroll-container::-webkit-scrollbar-thumb {
-  border: 1px solid var(--search-ivory);
   border-radius: 10px;
-  background: #cdb8b0;
+  background: var(--search-border);
 }
-
-.doctor-scroll-container::-webkit-scrollbar-thumb:hover {
-  background: #a98c84;
-}
-
-/* =========================================
-   DOCTOR CARDS
-========================================= */
 
 .doctor-grid {
   display: grid;
@@ -538,16 +511,12 @@
   border-radius: 15px;
   background: var(--search-white);
   box-shadow: var(--search-shadow);
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .doctor-card:hover {
   transform: translateY(-2px);
-  border-color: #d6c1b9;
-  box-shadow: 0 10px 25px rgba(84, 21, 34, 0.085);
+  box-shadow: 0 10px 25px rgba(84, 21, 34, 0.09);
 }
 
 .doctor-card-banner {
@@ -555,8 +524,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-height: 78px;
-  padding: 13px 15px;
+  min-height: 77px;
+  padding: 13px 14px;
   background: linear-gradient(125deg, var(--search-sage), var(--search-ivory));
 }
 
@@ -568,7 +537,7 @@
   place-items: center;
   border: 1px solid var(--search-border);
   border-radius: 11px;
-  background: rgba(255, 253, 249, 0.85);
+  background: var(--search-white);
   color: var(--search-forest);
 }
 
@@ -576,32 +545,31 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  max-width: 65%;
-  padding: 6px 9px;
+  max-width: 70%;
+  padding: 6px 8px;
   border: 1px solid var(--search-border);
   border-radius: 999px;
-  background: rgba(255, 253, 249, 0.9);
-  color: var(--search-forest);
+  background: var(--search-white);
+  color: var(--search-text);
   font-size: 10px;
   font-weight: 750;
   overflow-wrap: anywhere;
 }
 
 .doctor-avatar {
-  position: relative;
   display: grid;
   flex-shrink: 0;
   width: 62px;
   height: 62px;
-  margin: -30px 0 0 16px;
+  margin: -29px 0 0 15px;
   place-items: center;
   overflow: hidden;
   border: 4px solid var(--search-white);
   border-radius: 16px;
+  background: var(--search-sage);
   color: var(--search-forest);
   font-size: 16px;
   font-weight: 800;
-  letter-spacing: -0.03em;
 }
 
 .doctor-avatar img {
@@ -621,7 +589,7 @@
 
 .doctor-label {
   display: inline-block;
-  color: #9a8050;
+  color: var(--search-gold);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -634,31 +602,31 @@
   font-family: "Outfit", "Segoe UI", sans-serif;
   font-size: 16px;
   font-weight: 750;
-  line-height: 1.35;
-  letter-spacing: -0.02em;
+  line-height: 1.4;
   overflow-wrap: anywhere;
+}
+
+.doctor-specialty,
+.doctor-experience,
+.doctor-location {
+  color: var(--search-muted);
+  font-size: 11px;
+  line-height: 1.65;
 }
 
 .doctor-specialty {
   margin: 0;
-  color: var(--search-muted);
-  font-size: 11px;
-  line-height: 1.6;
 }
 
 .doctor-experience {
   margin-top: 7px;
-  color: var(--search-muted);
-  font-size: 11px;
 }
 
 .doctor-location {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 9px;
-  color: var(--search-muted);
-  font-size: 10px;
+  margin-top: 8px;
 }
 
 .doctor-location svg {
@@ -673,9 +641,7 @@
   vertical-align: -2px;
 }
 
-/* =========================================
-   DOCTOR CARD ACTIONS
-========================================= */
+/* ---------- Doctor card actions ---------- */
 
 .doctor-card-footer {
   display: flex;
@@ -690,7 +656,6 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-width: 0;
   color: var(--search-muted);
   font-size: 10px;
   font-weight: 600;
@@ -698,7 +663,7 @@
 
 .doctor-community-status svg {
   flex-shrink: 0;
-  color: #8b7541;
+  color: var(--search-gold);
 }
 
 .doctor-card-actions {
@@ -716,7 +681,7 @@
   gap: 6px;
   width: 100%;
   min-width: 0;
-  min-height: 36px;
+  min-height: 37px;
   padding: 7px 8px;
   border: 1px solid transparent;
   border-radius: 8px;
@@ -726,11 +691,8 @@
   text-align: center;
   overflow-wrap: anywhere;
   cursor: pointer;
-  transition:
-    background 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease,
+    color 160ms ease;
 }
 
 .doctor-connect-button {
@@ -738,22 +700,18 @@
   min-height: 38px;
   border-color: var(--search-forest);
   background: var(--search-forest);
-  color: var(--search-white);
+  color: #fff;
 }
 
-.doctor-connect-button:hover {
-  transform: translateY(-1px);
+.doctor-connect-button:hover,
+.doctor-message-button:hover {
   background: var(--search-forest-dark);
 }
 
 .doctor-connect-button.is-connected {
-  border-color: #e0d0a8;
-  background: #f5eedc;
+  border-color: var(--search-gold);
+  background: var(--search-sage);
   color: var(--search-forest);
-}
-
-.doctor-connect-button.is-connected:hover {
-  background: #eee2c6;
 }
 
 .doctor-profile-button {
@@ -764,26 +722,20 @@
 
 .doctor-profile-button:hover {
   border-color: var(--search-gold);
-  background: var(--search-ivory);
+  background: var(--search-sage);
 }
 
 .doctor-message-button {
   border-color: var(--search-forest);
   background: var(--search-forest);
-  color: var(--search-white);
-}
-
-.doctor-message-button:hover {
-  background: var(--search-forest-dark);
+  color: #fff;
 }
 
 .doctor-card-actions button svg {
   flex-shrink: 0;
 }
 
-/* =========================================
-   CASES, STORIES AND VIDEO FILTERS
-========================================= */
+/* ---------- Discovery filters ---------- */
 
 .discovery-heading {
   margin-bottom: 16px;
@@ -792,7 +744,7 @@
 .discovery-filter-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 8px;
   margin-bottom: 18px;
 }
 
@@ -802,11 +754,10 @@
   border: 1px solid var(--search-border);
   border-radius: 999px;
   background: var(--search-white);
-  color: var(--search-muted);
+  color: var(--search-text);
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
 .discovery-filter-row button:hover {
@@ -817,12 +768,10 @@
 .discovery-filter-row button.active {
   border-color: var(--search-forest);
   background: var(--search-forest);
-  color: var(--search-white);
+  color: #fff;
 }
 
-/* =========================================
-   DISCOVERY CARDS
-========================================= */
+/* ---------- Discovery cards ---------- */
 
 .discovery-grid {
   display: grid;
@@ -838,7 +787,8 @@
   flex-direction: column;
   min-width: 0;
   min-height: 220px;
-  padding: 18px;
+  padding: 17px;
+  overflow: hidden;
   border: 1px solid var(--search-border);
   border-radius: 14px;
   background: var(--search-white);
@@ -856,7 +806,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 17px;
+  margin-bottom: 15px;
 }
 
 .discovery-card-icon {
@@ -876,11 +826,10 @@
   align-items: center;
   padding: 5px 8px;
   border-radius: 999px;
-  background: #f5eedc;
+  background: var(--search-ivory);
   color: var(--search-forest);
   font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.04em;
 }
 
 .discovery-card h3 {
@@ -898,6 +847,23 @@
   color: var(--search-muted);
   font-size: 12px;
   line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.discovery-card-media {
+  width: 100%;
+  margin-top: 13px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--search-sage);
+}
+
+.discovery-card-media img {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
 }
 
 .discovery-card-footer {
@@ -907,7 +873,7 @@
   justify-content: space-between;
   gap: 8px;
   margin-top: auto;
-  padding-top: 18px;
+  padding-top: 17px;
   color: var(--search-muted);
   font-size: 9px;
 }
@@ -928,9 +894,7 @@
   overflow-wrap: anywhere;
 }
 
-/* =========================================
-   DISCOVERY NOTE
-========================================= */
+/* ---------- Discovery note ---------- */
 
 .search-discovery-note {
   display: flex;
@@ -956,18 +920,16 @@
   line-height: 1.7;
 }
 
-/* =========================================
-   EMPTY SEARCH STATE
-========================================= */
+/* ---------- Empty state ---------- */
 
 .search-empty {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 42px 22px;
-  border: 1px dashed #d8c7bd;
+  padding: 40px 20px;
+  border: 1px dashed var(--search-border);
   border-radius: 15px;
-  background: rgba(255, 253, 249, 0.8);
+  background: var(--search-white);
   text-align: center;
 }
 
@@ -1005,19 +967,13 @@
   border: 1px solid var(--search-forest);
   border-radius: 9px;
   background: var(--search-forest);
-  color: var(--search-white);
+  color: #fff;
   font-size: 11px;
   font-weight: 750;
   cursor: pointer;
 }
 
-.search-empty > button:hover {
-  background: var(--search-forest-dark);
-}
-
-/* =========================================
-   DOCTOR PROFILE MODAL
-========================================= */
+/* ---------- Doctor profile modal ---------- */
 
 .doctor-modal-backdrop {
   position: fixed;
@@ -1028,7 +984,7 @@
   justify-content: center;
   padding: 20px;
   overflow-y: auto;
-  background: rgba(36, 10, 17, 0.62);
+  background: rgba(36, 10, 17, 0.68);
   backdrop-filter: blur(4px);
 }
 
@@ -1037,11 +993,12 @@
   width: 100%;
   max-width: 650px;
   max-height: min(88vh, 900px);
-  padding: 26px;
+  padding: 25px;
   overflow-y: auto;
   border: 1px solid var(--search-border);
   border-radius: 19px;
   background: var(--search-white);
+  color: var(--search-text);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
 }
 
@@ -1066,10 +1023,6 @@
   cursor: pointer;
 }
 
-.doctor-modal-close:hover {
-  background: var(--search-sage);
-}
-
 .doctor-profile-identity {
   display: flex;
   align-items: center;
@@ -1087,6 +1040,7 @@
   place-items: center;
   border: 4px solid var(--search-white);
   border-radius: 21px;
+  background: var(--search-sage);
   color: var(--search-forest);
   font-size: 25px;
   font-weight: 800;
@@ -1112,12 +1066,8 @@
   border: 2px solid var(--search-white);
   border-radius: 50%;
   background: var(--search-forest);
-  color: var(--search-white);
+  color: #fff;
   cursor: pointer;
-}
-
-.doctor-profile-photo > button:hover {
-  background: var(--search-forest-dark);
 }
 
 .doctor-photo-input {
@@ -1139,10 +1089,6 @@
   color: var(--search-muted);
   font-size: 13px;
   line-height: 1.6;
-}
-
-.doctor-profile-identity .doctor-location {
-  margin-top: 0;
 }
 
 .doctor-profile-stats {
@@ -1201,7 +1147,7 @@
 
 .doctor-interest-list span {
   padding: 7px 10px;
-  border: 1px solid #e9d9d8;
+  border: 1px solid var(--search-border);
   border-radius: 999px;
   background: var(--search-sage);
   color: var(--search-forest);
@@ -1223,24 +1169,208 @@
   line-height: 1.7;
 }
 
-/* =========================================
-   ACCESSIBILITY
-========================================= */
+/* ---------- Keyboard accessibility ---------- */
 
 .search-page button:focus-visible,
 .search-page input:focus-visible,
 .search-page select:focus-visible {
-  outline: 3px solid rgba(197, 164, 91, 0.45);
+  outline: 3px solid rgba(197, 164, 91, 0.6);
   outline-offset: 3px;
 }
 
-/* =========================================
-   TABLET
-========================================= */
+/* =========================================================
+   DARK MODE
+   Supports common app theme selectors and OS preference.
+========================================================= */
 
-@media (max-width: 1050px) {
-  .search-controls {
-    grid-template-columns: minmax(0, 1fr) 180px;
+/* System dark theme when no manual theme is set */
+@media (prefers-color-scheme: dark) {
+  .search-page:not(.light-theme) {
+    --search-forest: #e8bec9;
+    --search-forest-dark: #fff0f4;
+    --search-ivory: #292328;
+    --search-sage: #362b32;
+    --search-gold: #e1c681;
+    --search-white: #211c21;
+    --search-text: #f4edf1;
+    --search-muted: #c7b9c1;
+    --search-border: #493c45;
+    --search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
+  }
+
+  .search-page:not(.light-theme) .doctor-card-banner {
+    background: linear-gradient(125deg, #362b32, #292328);
+  }
+
+  .search-page:not(.light-theme) .doctor-city-tag,
+  .search-page:not(.light-theme) .doctor-banner-icon,
+  .search-page:not(.light-theme) .discovery-card-icon {
+    background: #362b32;
+    border-color: var(--search-border);
+    color: var(--search-forest-dark);
+  }
+
+  .search-page:not(.light-theme) .search-specialties button.selected,
+  .search-page:not(.light-theme) .search-tabs button.active .search-tab-count,
+  .search-page:not(.light-theme) .discovery-filter-row button.active,
+  .search-page:not(.light-theme) .doctor-connect-button,
+  .search-page:not(.light-theme) .doctor-message-button,
+  .search-page:not(.light-theme) .search-empty > button {
+    background: #70404e;
+    border-color: #a97584;
+    color: #fff;
+  }
+
+  .search-page:not(.light-theme) .doctor-connect-button.is-connected {
+    background: #42372c;
+    border-color: #8d774e;
+    color: #f8e7bd;
+  }
+
+  .search-page:not(.light-theme) .doctor-profile-button,
+  .search-page:not(.light-theme) .search-reset-button,
+  .search-page:not(.light-theme) .discovery-filter-row button {
+    background: var(--search-white);
+    color: var(--search-text);
+  }
+
+  .search-page:not(.light-theme) .search-discovery-note {
+    background: var(--search-ivory);
+    border-color: var(--search-border);
+  }
+
+  .search-page:not(.light-theme) .discovery-tag,
+  .search-page:not(.light-theme) .doctor-interest-list span {
+    background: #362b32;
+    border-color: var(--search-border);
+    color: #e8c989;
+  }
+}
+
+/* Manual theme class support */
+.dark .search-page,
+.dark-theme .search-page,
+[data-theme="dark"] .search-page,
+[data-mode="dark"] .search-page {
+  --search-forest: #e8bec9;
+  --search-forest-dark: #fff0f4;
+  --search-ivory: #292328;
+  --search-sage: #362b32;
+  --search-gold: #e1c681;
+  --search-white: #211c21;
+  --search-text: #f4edf1;
+  --search-muted: #c7b9c1;
+  --search-border: #493c45;
+  --search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
+}
+
+.dark .search-page .doctor-card-banner,
+.dark-theme .search-page .doctor-card-banner,
+[data-theme="dark"] .search-page .doctor-card-banner,
+[data-mode="dark"] .search-page .doctor-card-banner {
+  background: linear-gradient(125deg, #362b32, #292328);
+}
+
+.dark .search-page .doctor-city-tag,
+.dark .search-page .doctor-banner-icon,
+.dark .search-page .discovery-card-icon,
+.dark-theme .search-page .doctor-city-tag,
+.dark-theme .search-page .doctor-banner-icon,
+.dark-theme .search-page .discovery-card-icon,
+[data-theme="dark"] .search-page .doctor-city-tag,
+[data-theme="dark"] .search-page .doctor-banner-icon,
+[data-theme="dark"] .search-page .discovery-card-icon,
+[data-mode="dark"] .search-page .doctor-city-tag,
+[data-mode="dark"] .search-page .doctor-banner-icon,
+[data-mode="dark"] .search-page .discovery-card-icon {
+  background: #362b32;
+  border-color: var(--search-border);
+  color: var(--search-forest-dark);
+}
+
+.dark .search-page .search-specialties button.selected,
+.dark .search-page .search-tabs button.active .search-tab-count,
+.dark .search-page .discovery-filter-row button.active,
+.dark .search-page .doctor-connect-button,
+.dark .search-page .doctor-message-button,
+.dark .search-page .search-empty > button,
+.dark-theme .search-page .search-specialties button.selected,
+.dark-theme .search-page .search-tabs button.active .search-tab-count,
+.dark-theme .search-page .discovery-filter-row button.active,
+.dark-theme .search-page .doctor-connect-button,
+.dark-theme .search-page .doctor-message-button,
+.dark-theme .search-page .search-empty > button,
+[data-theme="dark"] .search-page .search-specialties button.selected,
+[data-theme="dark"] .search-page .search-tabs button.active .search-tab-count,
+[data-theme="dark"] .search-page .discovery-filter-row button.active,
+[data-theme="dark"] .search-page .doctor-connect-button,
+[data-theme="dark"] .search-page .doctor-message-button,
+[data-theme="dark"] .search-page .search-empty > button,
+[data-mode="dark"] .search-page .search-specialties button.selected,
+[data-mode="dark"] .search-page .search-tabs button.active .search-tab-count,
+[data-mode="dark"] .search-page .discovery-filter-row button.active,
+[data-mode="dark"] .search-page .doctor-connect-button,
+[data-mode="dark"] .search-page .doctor-message-button,
+[data-mode="dark"] .search-page .search-empty > button {
+  background: #70404e;
+  border-color: #a97584;
+  color: #fff;
+}
+
+.dark .search-page .doctor-connect-button.is-connected,
+.dark-theme .search-page .doctor-connect-button.is-connected,
+[data-theme="dark"] .search-page .doctor-connect-button.is-connected,
+[data-mode="dark"] .search-page .doctor-connect-button.is-connected {
+  background: #42372c;
+  border-color: #8d774e;
+  color: #f8e7bd;
+}
+
+.dark .search-page .doctor-profile-button,
+.dark .search-page .search-reset-button,
+.dark .search-page .discovery-filter-row button,
+.dark-theme .search-page .doctor-profile-button,
+.dark-theme .search-page .search-reset-button,
+.dark-theme .search-page .discovery-filter-row button,
+[data-theme="dark"] .search-page .doctor-profile-button,
+[data-theme="dark"] .search-page .search-reset-button,
+[data-theme="dark"] .search-page .discovery-filter-row button,
+[data-mode="dark"] .search-page .doctor-profile-button,
+[data-mode="dark"] .search-page .search-reset-button,
+[data-mode="dark"] .search-page .discovery-filter-row button {
+  background: var(--search-white);
+  color: var(--search-text);
+}
+
+.dark .search-page .search-discovery-note,
+.dark-theme .search-page .search-discovery-note,
+[data-theme="dark"] .search-page .search-discovery-note,
+[data-mode="dark"] .search-page .search-discovery-note {
+  background: var(--search-ivory);
+  border-color: var(--search-border);
+}
+
+.dark .search-page .discovery-tag,
+.dark .search-page .doctor-interest-list span,
+.dark-theme .search-page .discovery-tag,
+.dark-theme .search-page .doctor-interest-list span,
+[data-theme="dark"] .search-page .discovery-tag,
+[data-theme="dark"] .search-page .doctor-interest-list span,
+[data-mode="dark"] .search-page .discovery-tag,
+[data-mode="dark"] .search-page .doctor-interest-list span {
+  background: #362b32;
+  border-color: var(--search-border);
+  color: #e8c989;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+========================================================= */
+
+@media (max-width: 1100px) {
+  .search-page {
+    padding-left: 22px;
+    padding-right: 22px;
   }
 
   .doctor-grid,
@@ -1248,36 +1378,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .search-tabs button {
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .doctor-scroll-container {
-    max-height: 620px;
+  .search-controls {
+    grid-template-columns: minmax(0, 1fr) 175px;
   }
 }
 
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 650px) {
+@media (max-width: 760px) {
   .search-page {
-    padding-bottom: 26px;
-  }
-
-  .search-heading {
-    margin-bottom: 20px;
-  }
-
-  .search-heading h1 {
-    margin-top: 14px;
-    font-size: clamp(28px, 7vw, 36px);
-  }
-
-  .search-heading p {
-    font-size: 13px;
+    padding: 20px 17px 30px;
   }
 
   .search-controls {
@@ -1285,20 +1393,55 @@
     gap: 10px;
   }
 
-  .search-input-wrap {
-    min-height: 46px;
-  }
-
   .search-city-field {
     min-height: 44px;
   }
 
   .search-city-select {
-    height: 40px;
+    height: 38px;
+  }
+
+  .search-results-heading {
+    align-items: flex-start;
+  }
+
+  .search-directory-controls {
+    justify-content: flex-start;
+  }
+
+  .search-tabs {
+    justify-content: flex-start;
+  }
+
+  .search-tabs button {
+    flex: 0 0 auto;
+  }
+
+  .doctor-scroll-container {
+    max-height: 620px;
+  }
+}
+
+@media (max-width: 520px) {
+  .search-page {
+    padding: 17px 13px 25px;
+  }
+
+  .search-heading {
+    margin-bottom: 20px;
+  }
+
+  .search-heading h1 {
+    margin-top: 13px;
+    font-size: clamp(27px, 7vw, 34px);
+  }
+
+  .search-heading p {
+    font-size: 12px;
   }
 
   .search-filter-section {
-    margin-top: 24px;
+    margin-top: 23px;
   }
 
   .search-specialties {
@@ -1307,40 +1450,38 @@
 
   .search-specialties button {
     min-height: 33px;
-    padding: 7px 11px;
+    padding: 7px 10px;
   }
 
   .search-options {
-    gap: 12px 15px;
+    gap: 12px 14px;
     margin: 17px 0 20px;
   }
 
   .search-tabs {
-    justify-content: flex-start;
-    gap: 8px;
+    gap: 5px;
   }
 
   .search-tabs button {
-    flex: 0 0 auto;
     min-height: 45px;
-    padding: 0 10px;
+    padding: 0 9px;
     font-size: 11px;
   }
 
   .search-tab-count {
-    min-width: 23px;
-    height: 21px;
+    min-width: 21px;
+    height: 20px;
     padding: 0 5px;
     font-size: 9px;
   }
 
   .search-results-section,
   .search-discovery-section {
-    margin-top: 24px;
+    margin-top: 22px;
   }
 
   .search-results-heading {
-    align-items: flex-start;
+    flex-direction: column;
     gap: 10px;
   }
 
@@ -1352,52 +1493,34 @@
     font-size: 11px;
   }
 
-  .search-result-count {
-    font-size: 9px;
-  }
-
-  .search-directory-controls {
-    justify-content: flex-start;
-  }
-
-  .doctor-scroll-container {
-    max-height: 590px;
-    padding-right: 3px;
-  }
-
   .doctor-grid,
   .discovery-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 13px;
   }
 
+  .doctor-scroll-container {
+    max-height: none;
+    padding-right: 2px;
+  }
+
   .doctor-card-banner {
-    min-height: 75px;
-    padding: 12px 15px;
+    min-height: 73px;
   }
 
   .doctor-avatar {
     width: 58px;
     height: 58px;
-    margin-top: -28px;
-    margin-left: 15px;
+    margin-top: -27px;
   }
 
   .doctor-card-body {
-    padding: 10px 15px 14px;
-  }
-
-  .doctor-card-body h3 {
-    font-size: 16px;
+    padding: 10px 14px 14px;
   }
 
   .discovery-card {
     min-height: 0;
-    padding: 17px;
-  }
-
-  .discovery-card-footer {
-    padding-top: 15px;
+    padding: 16px;
   }
 
   .doctor-modal-backdrop {
@@ -1407,7 +1530,7 @@
 
   .doctor-profile-modal {
     max-height: calc(100vh - 20px);
-    padding: 20px 16px;
+    padding: 19px 15px;
     border-radius: 16px;
   }
 
@@ -1417,8 +1540,8 @@
   }
 
   .doctor-profile-photo {
-    width: 74px;
-    height: 74px;
+    width: 75px;
+    height: 75px;
     border-radius: 17px;
     font-size: 20px;
   }
@@ -1433,25 +1556,17 @@
   }
 
   .search-empty {
-    padding: 32px 16px;
+    padding: 30px 15px;
   }
 }
 
-/* =========================================
-   VERY SMALL PHONES
-========================================= */
-
-@media (max-width: 360px) {
+@media (max-width: 350px) {
   .search-heading h1 {
-    font-size: 27px;
+    font-size: 26px;
   }
 
   .search-options {
     align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .search-results-heading {
     flex-direction: column;
   }
 
@@ -1473,9 +1588,7 @@
   }
 }
 
-/* =========================================
-   REDUCED MOTION
-========================================= */
+/* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
   .search-page *,
@@ -1486,4 +1599,186 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+}
+/* =========================================
+   SEARCH PAGE — DARK MODE FONT VISIBILITY
+   Keep the existing theme colors and layout.
+   Only improve text contrast.
+========================================= */
+
+/* Support common manual dark-mode selectors */
+.dark .search-page,
+.dark-theme .search-page,
+[data-theme="dark"] .search-page,
+[data-mode="dark"] .search-page {
+  color: #f4edf0;
+}
+
+/* Main headings: replace dark burgundy with light text */
+.dark .search-page .search-heading h1,
+.dark .search-page .search-results-heading h2,
+.dark .search-page .doctor-card-body h3,
+.dark .search-page .discovery-card h3,
+.dark .search-page .doctor-profile-identity h2,
+.dark .search-page .doctor-profile-detail h3,
+.dark .search-page .search-empty h3,
+.dark-theme .search-page .search-heading h1,
+.dark-theme .search-page .search-results-heading h2,
+.dark-theme .search-page .doctor-card-body h3,
+.dark-theme .search-page .discovery-card h3,
+.dark-theme .search-page .doctor-profile-identity h2,
+.dark-theme .search-page .doctor-profile-detail h3,
+.dark-theme .search-page .search-empty h3,
+[data-theme="dark"] .search-page .search-heading h1,
+[data-theme="dark"] .search-page .search-results-heading h2,
+[data-theme="dark"] .search-page .doctor-card-body h3,
+[data-theme="dark"] .search-page .discovery-card h3,
+[data-theme="dark"] .search-page .doctor-profile-identity h2,
+[data-theme="dark"] .search-page .doctor-profile-detail h3,
+[data-theme="dark"] .search-page .search-empty h3,
+[data-mode="dark"] .search-page .search-heading h1,
+[data-mode="dark"] .search-page .search-results-heading h2,
+[data-mode="dark"] .search-page .doctor-card-body h3,
+[data-mode="dark"] .search-page .discovery-card h3,
+[data-mode="dark"] .search-page .doctor-profile-identity h2,
+[data-mode="dark"] .search-page .doctor-profile-detail h3,
+[data-mode="dark"] .search-page .search-empty h3 {
+  color: #f7e9ed;
+}
+
+/* Body text: improve visibility outside white cards */
+.dark .search-page .search-heading p,
+.dark .search-page .search-results-heading p,
+.dark .search-page .search-filter-label,
+.dark .search-page .search-options label,
+.dark .search-page .doctor-specialty,
+.dark .search-page .doctor-experience,
+.dark .search-page .doctor-location,
+.dark .search-page .doctor-community-status,
+.dark .search-page .discovery-card > p,
+.dark .search-page .discovery-card-footer,
+.dark .search-page .search-discovery-note p,
+.dark .search-page .search-empty p,
+.dark-theme .search-page .search-heading p,
+.dark-theme .search-page .search-results-heading p,
+.dark-theme .search-page .search-filter-label,
+.dark-theme .search-page .search-options label,
+.dark-theme .search-page .doctor-specialty,
+.dark-theme .search-page .doctor-experience,
+.dark-theme .search-page .doctor-location,
+.dark-theme .search-page .doctor-community-status,
+.dark-theme .search-page .discovery-card > p,
+.dark-theme .search-page .discovery-card-footer,
+.dark-theme .search-page .search-discovery-note p,
+.dark-theme .search-page .search-empty p,
+[data-theme="dark"] .search-page .search-heading p,
+[data-theme="dark"] .search-page .search-results-heading p,
+[data-theme="dark"] .search-page .search-filter-label,
+[data-theme="dark"] .search-page .search-options label,
+[data-theme="dark"] .search-page .doctor-specialty,
+[data-theme="dark"] .search-page .doctor-experience,
+[data-theme="dark"] .search-page .doctor-location,
+[data-theme="dark"] .search-page .doctor-community-status,
+[data-theme="dark"] .search-page .discovery-card > p,
+[data-theme="dark"] .search-page .discovery-card-footer,
+[data-theme="dark"] .search-page .search-discovery-note p,
+[data-theme="dark"] .search-page .search-empty p,
+[data-mode="dark"] .search-page .search-heading p,
+[data-mode="dark"] .search-page .search-results-heading p,
+[data-mode="dark"] .search-page .search-filter-label,
+[data-mode="dark"] .search-page .search-options label,
+[data-mode="dark"] .search-page .doctor-specialty,
+[data-mode="dark"] .search-page .doctor-experience,
+[data-mode="dark"] .search-page .doctor-location,
+[data-mode="dark"] .search-page .doctor-community-status,
+[data-mode="dark"] .search-page .discovery-card > p,
+[data-mode="dark"] .search-page .discovery-card-footer,
+[data-mode="dark"] .search-page .search-discovery-note p,
+[data-mode="dark"] .search-page .search-empty p {
+  color: #d4c7cd;
+}
+
+/* Controls and filters: prevent black text in dark mode */
+.dark .search-page .search-input-wrap input,
+.dark .search-page .search-city-select,
+.dark .search-page .search-sort-control select,
+.dark .search-page .search-tabs button,
+.dark .search-page .search-specialties button,
+.dark .search-page .discovery-filter-row button,
+.dark .search-page .search-result-count,
+.dark-theme .search-page .search-input-wrap input,
+.dark-theme .search-page .search-city-select,
+.dark-theme .search-page .search-sort-control select,
+.dark-theme .search-page .search-tabs button,
+.dark-theme .search-page .search-specialties button,
+.dark-theme .search-page .discovery-filter-row button,
+.dark-theme .search-page .search-result-count,
+[data-theme="dark"] .search-page .search-input-wrap input,
+[data-theme="dark"] .search-page .search-city-select,
+[data-theme="dark"] .search-page .search-sort-control select,
+[data-theme="dark"] .search-page .search-tabs button,
+[data-theme="dark"] .search-page .search-specialties button,
+[data-theme="dark"] .search-page .discovery-filter-row button,
+[data-theme="dark"] .search-page .search-result-count,
+[data-mode="dark"] .search-page .search-input-wrap input,
+[data-mode="dark"] .search-page .search-city-select,
+[data-mode="dark"] .search-page .search-sort-control select,
+[data-mode="dark"] .search-page .search-tabs button,
+[data-mode="dark"] .search-page .search-specialties button,
+[data-mode="dark"] .search-page .discovery-filter-row button,
+[data-mode="dark"] .search-page .search-result-count {
+  color: #f4edf0;
+}
+
+/* Input placeholder */
+.dark .search-page .search-input-wrap input::placeholder,
+.dark-theme .search-page .search-input-wrap input::placeholder,
+[data-theme="dark"] .search-page .search-input-wrap input::placeholder,
+[data-mode="dark"] .search-page .search-input-wrap input::placeholder {
+  color: #c4b4bd;
+  opacity: 1;
+}
+
+/* Preserve burgundy backgrounds while keeping button labels readable */
+.dark .search-page .search-specialties button.selected,
+.dark .search-page .search-tabs button.active,
+.dark .search-page .discovery-filter-row button.active,
+.dark .search-page .doctor-connect-button,
+.dark .search-page .doctor-message-button,
+.dark .search-page .search-empty > button,
+.dark-theme .search-page .search-specialties button.selected,
+.dark-theme .search-page .search-tabs button.active,
+.dark-theme .search-page .discovery-filter-row button.active,
+.dark-theme .search-page .doctor-connect-button,
+.dark-theme .search-page .doctor-message-button,
+.dark-theme .search-page .search-empty > button,
+[data-theme="dark"] .search-page .search-specialties button.selected,
+[data-theme="dark"] .search-page .search-tabs button.active,
+[data-theme="dark"] .search-page .discovery-filter-row button.active,
+[data-theme="dark"] .search-page .doctor-connect-button,
+[data-theme="dark"] .search-page .doctor-message-button,
+[data-theme="dark"] .search-page .search-empty > button,
+[data-mode="dark"] .search-page .search-specialties button.selected,
+[data-mode="dark"] .search-page .search-tabs button.active,
+[data-mode="dark"] .search-page .discovery-filter-row button.active,
+[data-mode="dark"] .search-page .doctor-connect-button,
+[data-mode="dark"] .search-page .doctor-message-button,
+[data-mode="dark"] .search-page .search-empty > button {
+  color: #ffffff;
+}
+
+/* Modal text */
+.dark .search-page .doctor-profile-detail p,
+.dark .search-page .doctor-profile-stats span,
+.dark .search-page .doctor-profile-disclaimer,
+.dark-theme .search-page .doctor-profile-detail p,
+.dark-theme .search-page .doctor-profile-stats span,
+.dark-theme .search-page .doctor-profile-disclaimer,
+[data-theme="dark"] .search-page .doctor-profile-detail p,
+[data-theme="dark"] .search-page .doctor-profile-stats span,
+[data-theme="dark"] .search-page .doctor-profile-disclaimer,
+[data-mode="dark"] .search-page .doctor-profile-detail p,
+[data-mode="dark"] .search-page .doctor-profile-stats span,
+[data-mode="dark"] .search-page .doctor-profile-disclaimer {
+  color: #d4c7cd;
 }

@@ -506,7 +506,7 @@ export default function AdvertisePage({ onOpenDashboard }) {
                 </p>
 
                 <a href="mailto:zenvefashions@gmail.com">
-                  zenvefashions@gmail.com
+                  zenvevet@gmail.com
                   <ArrowUpRight size={14} aria-hidden="true" />
                 </a>
               </div>

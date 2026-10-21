@@ -279,36 +279,25 @@ export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
               Your page and posts are public and unverified. Publishing access stays in this browser; keep its data to retain access.
             </p>
 
-            {/* Actions */}
-            <div className="zenve-modal-actions">
-              <button
-                type="submit"
-                className="zenve-modal-submit-btn"
-                disabled={isSubmitted || isSubmitting}
-              >
-                <span>
-                  {isSubmitting
-                    ? 'Connecting to ZenveVet...'
-                    : isSubmitted
-                      ? 'Creating your page...'
-                      : 'Create my professional page'}
-                </span>
-                {!isSubmitted && !isSubmitting && <ArrowUpRight size={17} />}
-              </button>
-
-              <button
-                type="button"
-                className="zenve-modal-cancel-btn"
-                onClick={onClose}
-              >
-                Cancel
-              </button>
-            </div>
+            {/* Submit Action */}
+            <button
+              type="submit"
+              className="zenve-modal-submit-btn"
+              disabled={isSubmitted || isSubmitting}
+            >
+              <span>
+                {isSubmitting
+                  ? 'Connecting to ZenveVet...'
+                  : isSubmitted
+                    ? 'Creating your page...'
+                    : 'Create my professional page'}
+              </span>
+              {!isSubmitted && !isSubmitting && <span className="zenve-submit-arrow">↗</span>}
+            </button>
           </form>
         </div>
       </div>
-    </div>
-  );
+      );
 };
 
-export default CreateProfileModal;
+      export default CreateProfileModal;
