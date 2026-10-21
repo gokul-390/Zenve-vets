@@ -297,7 +297,9 @@ export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
           </form>
         </div>
       </div>
-      );
+    </div>
+  );
 };
 
-      export default CreateProfileModal;
+export default CreateProfileModal;
+
