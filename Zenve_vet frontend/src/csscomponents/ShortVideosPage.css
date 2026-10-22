@@ -19,6 +19,7 @@
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -110,10 +111,12 @@
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.75);
   }
+
   70% {
     transform: scale(1);
     box-shadow: 0 0 0 8px rgba(251, 113, 133, 0);
   }
+
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(251, 113, 133, 0);
@@ -192,8 +195,10 @@
 }
 
 .zenve-hero-cta-btn:hover {
-  background: linear-gradient(135deg, #ffe685 0%, #ffd700 48%, #f0a80d 100%) !important; /* Radiant Rich 24K Gold */
-  color: #440c18 !important;      /* Deep Burgundy text */
+  background: linear-gradient(135deg, #ffe685 0%, #ffd700 48%, #f0a80d 100%) !important;
+  /* Radiant Rich 24K Gold */
+  color: #440c18 !important;
+  /* Deep Burgundy text */
   border-color: #ffd700 !important;
   transform: translateY(-2px) scale(1.02) !important;
   box-shadow: 0 8px 26px rgba(255, 215, 0, 0.48), 0 4px 14px rgba(68, 12, 24, 0.35) !important;
@@ -473,6 +478,7 @@
   .zenve-view-btn span {
     display: none;
   }
+
   .zenve-view-btn {
     padding: 7px 9px;
   }
@@ -624,6 +630,7 @@
 }
 
 @media (max-width: 1199px) and (min-width: 860px) {
+
   .zenve-shorts-grid.view-grid,
   .zenve-shorts-grid.view-standard {
     grid-template-columns: repeat(3, 1fr);
@@ -631,6 +638,7 @@
 }
 
 @media (max-width: 859px) and (min-width: 580px) {
+
   .zenve-shorts-grid.view-grid,
   .zenve-shorts-grid.view-standard {
     grid-template-columns: repeat(2, 1fr);
@@ -638,6 +646,7 @@
 }
 
 @media (max-width: 579px) {
+
   .zenve-shorts-grid.view-grid,
   .zenve-shorts-grid.view-standard {
     grid-template-columns: 1fr;
@@ -1148,10 +1157,12 @@
   .zenve-short-list-card {
     flex-direction: column;
   }
+
   .zenve-list-card-media {
     width: 100%;
     aspect-ratio: 16 / 9;
   }
+
   .zenve-list-footer-right {
     width: 100%;
     justify-content: space-between;
@@ -1347,14 +1358,34 @@
   animation: waveDance 1s ease-in-out infinite alternate;
 }
 
-.zenve-sound-bar:nth-child(1) { height: 6px; animation-delay: 0.1s; }
-.zenve-sound-bar:nth-child(2) { height: 14px; animation-delay: 0.3s; }
-.zenve-sound-bar:nth-child(3) { height: 9px; animation-delay: 0.2s; }
-.zenve-sound-bar:nth-child(4) { height: 16px; animation-delay: 0.4s; }
+.zenve-sound-bar:nth-child(1) {
+  height: 6px;
+  animation-delay: 0.1s;
+}
+
+.zenve-sound-bar:nth-child(2) {
+  height: 14px;
+  animation-delay: 0.3s;
+}
+
+.zenve-sound-bar:nth-child(3) {
+  height: 9px;
+  animation-delay: 0.2s;
+}
+
+.zenve-sound-bar:nth-child(4) {
+  height: 16px;
+  animation-delay: 0.4s;
+}
 
 @keyframes waveDance {
-  0% { transform: scaleY(0.4); }
-  100% { transform: scaleY(1); }
+  0% {
+    transform: scaleY(0.4);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 /* ── Quick Action Rail (Slide In on Hover) ── */
@@ -1535,8 +1566,13 @@
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .zenve-modal-close-btn {
@@ -1769,8 +1805,15 @@
 }
 
 @keyframes qualityMenuPop {
-  from { opacity: 0; transform: translateY(-8px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .zenve-quality-menu-header {
@@ -1899,9 +1942,17 @@
 }
 
 @keyframes heartPop {
-  0% { transform: scale(0.8); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.8);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .zenve-reel-circle-btn.is-active-save {
@@ -2314,8 +2365,15 @@
 }
 
 @keyframes popIn {
-  from { transform: scale(0.6); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* ── Toast Alert ── */
@@ -2344,6 +2402,7 @@
     opacity: 0;
     transform: translate(-50%, 20px);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, 0);
@@ -2384,7 +2443,7 @@
   .zenve-modal-side-drawer {
     display: none;
   }
-  
+
   .zenve-shorts-modal-stage {
     justify-content: center;
   }
