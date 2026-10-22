@@ -11,19 +11,13 @@
   display: flex;
   flex: 1;
   width: 100%;
+  align-items: flex-start;
 }
 
 .zenve-content-workspace {
   flex: 1;
   padding: 24px 32px 90px 32px;
-  overflow-y: auto;
   min-width: 0;
-}
-
-@media (min-width: 769px) {
-  .zenve-content-workspace {
-    margin-left: 76px;
-  }
 }
 
 /* Feed layout with center content + right rail */
@@ -97,26 +91,11 @@ width: 100%;
 min-width: 0;
 }
 
-/* Default: sidebar is collapsed to 76px */
 .zenve-main-layout .zenve-content-workspace {
 flex: 1 1 auto;
-width: calc(100% - 76px);
 min-width: 0;
-margin-left: 76px;
 max-width: none;
 box-sizing: border-box;
-transition:
-margin-left 0.22s ease,
-width 0.22s ease;
-}
-
-/* Expand content spacing when sidebar is hovered */
-.zenve-main-layout:has(.zenve-sidenav:hover)
-.zenve-content-workspace,
-.zenve-main-layout:has(.zenve-sidenav:focus-within)
-.zenve-content-workspace {
-width: calc(100% - 260px);
-margin-left: 260px;
 }
 
 /* Search page fills its available workspace */
