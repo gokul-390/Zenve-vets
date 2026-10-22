@@ -85,6 +85,16 @@ function asArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
+useEffect(() => {
+  if (!selectedDoctor) return;
+
+  document.body.classList.add('doctor-profile-open');
+
+  return () => {
+    document.body.classList.remove('doctor-profile-open');
+  };
+}, [selectedDoctor]);
+
 function getInitials(name = '') {
   const parts = name.trim().split(/\s+/).filter(Boolean);
 
@@ -1044,22 +1054,7 @@ export default function SearchPage() {
             </span>
           </div>
 
-          <div
-            className="discovery-filter-row"
-            aria-label="Filter discovery content"
-          >
-            {CONTENT_FILTERS.map((item) => (
-              <button
-                type="button"
-                key={item}
-                className={discoveryFilter === item ? 'active' : ''}
-                aria-pressed={discoveryFilter === item}
-                onClick={() => setDiscoveryFilter(item)}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
+          
 
           {visibleDiscoveryItems.length > 0 ? (
             <div className="discovery-grid">
@@ -1091,14 +1086,7 @@ export default function SearchPage() {
             </div>
           )}
 
-          <div className="search-discovery-note">
-            <Eye size={16} aria-hidden="true" />
-            <p>
-              Search reads locally stored posts, stories, and clinical cases.
-              Content not saved on this device, including backend-only content,
-              will not appear until it is connected to the data source.
-            </p>
-          </div>
+          
         </section>
       )}
 
