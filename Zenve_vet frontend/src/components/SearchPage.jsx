@@ -871,6 +871,7 @@ export default function SearchPage() {
     };
   }, []);
 
+
   const doctors = useMemo(() => {
     const directory = getDoctorDirectory();
     const clinicalDoctors = getClinicalDoctors();
@@ -882,6 +883,19 @@ export default function SearchPage() {
       return true;
     });
   }, [contentVersion]);
+
+  useEffect(() => {
+    if (!selectedDoctor) return;
+
+    document.body.classList.add('doctor-profile-open');
+
+    return () => {
+      document.body.classList.remove('doctor-profile-open');
+    };
+  }, [selectedDoctor]);
+
+  const doctors = useMemo(() => getDoctorDirectory(), []);
+
 
   const discoveryItems = useMemo(
     () => getDiscoveryContent(),
