@@ -312,7 +312,7 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
       caption:
         'Hydrotherapy day with sweet Bruno! Swimming takes all pressure off joints while strengthening core spinal stabilizers. Sound ON to hear Bruno splash! 🌊🐕',
       mediaUrl: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
-      videoUrl: '/assets/community-moment-OzvSkOwI.webm',
+      videoUrl: null,
       isVideoShort: true,
       audioTitle: '♫ Happy Paws Melodies • sweet_Sneha',
       audioTheme: 'playful',
@@ -350,7 +350,7 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
       caption:
         'Feline dermatology case checkup: Leo’s chronic pruritus and skin lesions have completely healed. Tap audio button to hear his peaceful purrs 🐱✨',
       mediaUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
-      videoUrl: '/__l5e/assets-v1/917a25fc-5887-4372-ba01-7e6d08a13e4a/demo-video-2.webm',
+      videoUrl: null,
       isVideoShort: true,
       audioTitle: '♫ Relaxing Feline Vibes • Dr. Priya',
       audioTheme: 'calm',
@@ -387,7 +387,7 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
       caption:
         'Gait kinematics and stride symmetry analysis on an Arabian stallion. Sound ON to hear the hoofbeats rhythm across the paddock track 🐴🌾',
       mediaUrl: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
-      videoUrl: '/__l5e/assets-v1/777ea1ef-de4b-4958-b8f2-6ef1387ad2b0/demo-video-1.webm',
+      videoUrl: null,
       isVideoShort: true,
       audioTitle: '♫ Hoofbeats & Wind • Dr. Sanjay',
       audioTheme: 'equine',

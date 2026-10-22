@@ -12,9 +12,12 @@ import CreateProfileModal from './components/CreateProfileModal';
 import VetNetwork from './components/VetNetwork';
 import ClinicalCases from './components/ClinicalCases';
 import MessagesPage from './components/MessagesPage';
+import { useTheme } from './context/ThemeContext';
 
 import './csscomponents/App.css';
- export function App() {
+
+export function App() {
+  const { isDark } = useTheme();
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeMessageDoctorId, setActiveMessageDoctorId] = useState(null);
@@ -100,7 +103,10 @@ import './csscomponents/App.css';
   };
 
   return (
-    <div className="zenve-app-container">
+    <div
+      className={`zenve-app-container ${isDark ? 'dark dark-theme' : ''}`}
+      data-theme={isDark ? 'dark' : 'light'}
+    >
       <Header onCreateProfile={() => setIsModalOpen(true)} />
 
       <div className="zenve-main-layout">

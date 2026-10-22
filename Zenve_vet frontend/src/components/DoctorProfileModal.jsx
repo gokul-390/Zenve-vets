@@ -49,7 +49,7 @@ export const DoctorProfileModal = ({ doctor, isOpen, onClose, isFollowing, onTog
         id: `${doctor.id}-video-1`,
         title: 'Clinical Practice & Patient Reel',
         thumbnail: doctor.img || 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=600&q=80',
-        videoUrl: '/assets/community-moment-OzvSkOwI.webm',
+        videoUrl: null,
         views: '3.2k views',
         likes: 420,
         duration: '0:18',

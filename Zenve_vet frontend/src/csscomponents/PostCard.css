@@ -558,4 +558,222 @@
   cursor: pointer;
   padding: 0 4px;
   font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.zenve-post-comment-btn:hover {
+  color: #185a44;
+}
+
+/* =========================================================
+   DARK / NIGHT MODE OVERRIDES FOR POST CARDS
+   ========================================================= */
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-card,
+[data-theme='dark'] .zenve-post-card {
+  background-color: #13221b !important;
+  border-color: #24382d !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-header,
+[data-theme='dark'] .zenve-post-header {
+  background-color: transparent !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-author-avatar,
+[data-theme='dark'] .zenve-post-author-avatar {
+  border-color: #13221b !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-author-name,
+[data-theme='dark'] .zenve-post-author-name {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-author:hover .zenve-post-author-name,
+[data-theme='dark'] .zenve-post-author:hover .zenve-post-author-name {
+  color: #e2ba6d !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-author-meta,
+[data-theme='dark'] .zenve-post-author-meta {
+  color: #8ca898 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-options-btn,
+[data-theme='dark'] .zenve-post-options-btn {
+  color: #8ca898 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-options-btn:hover,
+[data-theme='dark'] .zenve-post-options-btn:hover {
+  background-color: #1c3026 !important;
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-media-box,
+[data-theme='dark'] .zenve-post-media-box {
+  background-color: #0d1712 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-media-img,
+[data-theme='dark'] .zenve-post-media-img {
+  background-color: #0d1712 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-shorts-video-btn-pill,
+[data-theme='dark'] .zenve-shorts-video-btn-pill {
+  background: #1a2e24 !important;
+  border-color: #2e4d3d !important;
+  color: #4ade80 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-shorts-video-btn-pill:hover,
+[data-theme='dark'] .zenve-shorts-video-btn-pill:hover {
+  background: #244234 !important;
+  border-color: #4ade80 !important;
+  color: #ffffff !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-action-btn,
+[data-theme='dark'] .zenve-post-action-btn {
+  color: #b5c7bd !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-action-btn:hover,
+[data-theme='dark'] .zenve-post-action-btn:hover {
+  background-color: #1c3026 !important;
+  color: #ffffff !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-saved-btn,
+[data-theme='dark'] .zenve-saved-btn {
+  color: #e2ba6d !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-likes,
+[data-theme='dark'] .zenve-post-likes {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-caption-box,
+[data-theme='dark'] .zenve-post-caption-box {
+  color: #c8dcd1 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-caption-author,
+[data-theme='dark'] .zenve-post-caption-author {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-tag,
+[data-theme='dark'] .zenve-post-tag {
+  color: #4ade80 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-tag:hover,
+[data-theme='dark'] .zenve-post-tag:hover {
+  color: #86efac !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-view-comments-btn,
+[data-theme='dark'] .zenve-view-comments-btn {
+  color: #8ca898 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-view-comments-btn:hover,
+[data-theme='dark'] .zenve-view-comments-btn:hover {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-comment-item,
+[data-theme='dark'] .zenve-comment-item {
+  color: #c8dcd1 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-comment-author,
+[data-theme='dark'] .zenve-comment-author {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-add-comment-form,
+[data-theme='dark'] .zenve-add-comment-form {
+  border-top-color: #22352b !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-add-comment-input,
+[data-theme='dark'] .zenve-add-comment-input {
+  color: #e2ede6 !important;
+  background: transparent !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-add-comment-input::placeholder,
+[data-theme='dark'] .zenve-add-comment-input::placeholder {
+  color: #5c786a !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-comment-btn,
+[data-theme='dark'] .zenve-post-comment-btn {
+  color: #4ade80 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-comment-btn:hover,
+[data-theme='dark'] .zenve-post-comment-btn:hover {
+  color: #86efac !important;
+}
+
+/* =========================================================
+   RESPONSIVE MEDIA QUERIES FOR POST CARDS
+   ========================================================= */
+@media (max-width: 640px) {
+  .zenve-post-card {
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+
+  .zenve-post-header {
+    padding: 10px 12px;
+  }
+
+  .zenve-post-author-avatar-ring {
+    width: 36px;
+    height: 36px;
+  }
+
+  .zenve-post-author-name {
+    font-size: 13px;
+  }
+
+  .zenve-post-author-meta {
+    font-size: 11px;
+  }
+
+  .zenve-post-actions-bar {
+    padding: 8px 12px 6px 12px;
+  }
+
+  .zenve-post-action-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .zenve-post-likes {
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .zenve-post-caption-box {
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .zenve-post-comments-wrapper {
+    padding: 6px 12px 12px 12px;
+  }
+
+  .zenve-shorts-video-btn-pill {
+    height: 24px;
+    padding: 0 8px;
+    font-size: 10px;
+  }
 }

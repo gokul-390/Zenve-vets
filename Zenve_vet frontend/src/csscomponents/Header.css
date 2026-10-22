@@ -94,8 +94,8 @@
 }
 
 .zenve-search-bar:hover {
-  box-shadow: 2px 1px 2px 1px green;
-  border-color: green;
+  border-color: #0d382b;
+  box-shadow: 0 2px 6px rgba(13, 56, 43, 0.08);
 }
 
 .zenve-search-bar:focus-within {
@@ -108,8 +108,7 @@
   display: flex;
   align-items: center;
   margin-right: 10px;
-  color: green;
-
+  color: #7D8983;
 }
 
 .zenve-search-input {
@@ -124,7 +123,7 @@
 }
 
 .zenve-search-input::placeholder {
-  color: green;
+  color: #7D8983;
   font-weight: 400;
 }
 
@@ -413,12 +412,27 @@
     gap: 12px;
   }
 
+  .zenve-header-brand {
+    min-width: auto;
+  }
+
   .zenve-header-search-wrapper {
-    margin: 0 12px;
+    margin: 0 10px;
+    max-width: 380px;
+  }
+
+  .zenve-header-actions {
+    gap: 14px;
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
+  .zenve-header {
+    height: 62px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
   .zenve-community-badge {
     display: none;
   }
@@ -426,6 +440,200 @@
   .zenve-brand-subtitle {
     display: none;
   }
+
+  .zenve-country-text {
+    display: none;
+  }
+
+  .zenve-country-selector {
+    padding: 5px 4px;
+  }
+
+  .zenve-header-search-wrapper {
+    margin: 0 6px;
+  }
+
+  .zenve-create-profile-btn {
+    height: 36px;
+    padding: 0 12px;
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 580px) {
+  .zenve-header {
+    height: 56px;
+    padding: 0 8px;
+  }
+
+  .zenve-brand-title {
+    font-size: 15px;
+  }
+
+  .zenve-trademark {
+    font-size: 7px;
+  }
+
+  .zenve-logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .zenve-search-bar {
+    height: 36px;
+    padding: 0 8px 0 10px;
+  }
+
+  .zenve-search-input {
+    font-size: 12px;
+  }
+
+  .zenve-search-divider {
+    margin: 0 4px;
+  }
+
+  .zenve-header-actions {
+    gap: 8px;
+  }
+
+  .zenve-create-profile-btn {
+    padding: 0 10px;
+  }
+
+  .zenve-create-profile-btn span {
+    display: none;
+  }
+}
+
+/* =========================================================
+   DARK / NIGHT MODE OVERRIDES FOR NAVBAR / HEADER
+   ========================================================= */
+[data-theme='dark'] .zenve-header {
+  background-color: #121e18;
+  border-bottom: 1px solid #1f2f28;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='dark'] .zenve-brand-title {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-trademark {
+  color: #c9a94a;
+}
+
+[data-theme='dark'] .zenve-brand-subtitle {
+  color: #8ca898;
+}
+
+[data-theme='dark'] .zenve-search-bar {
+  background-color: #182820;
+  border-color: #273b30;
+  box-shadow: none;
+}
+
+[data-theme='dark'] .zenve-search-bar:hover {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.3);
+}
+
+[data-theme='dark'] .zenve-search-bar:focus-within {
+  background-color: #1b2e25;
+  border-color: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.15);
+}
+
+[data-theme='dark'] .zenve-search-icon {
+  color: #8ca898;
+}
+
+[data-theme='dark'] .zenve-search-input {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-search-input::placeholder {
+  color: #5c786a;
+}
+
+[data-theme='dark'] .zenve-search-divider {
+  background-color: #273b30;
+}
+
+[data-theme='dark'] .zenve-country-selector {
+  color: #c8e6d4;
+}
+
+[data-theme='dark'] .zenve-country-selector:hover,
+[data-theme='dark'] .zenve-country-selector-active {
+  background-color: #22372c;
+}
+
+[data-theme='dark'] .zenve-country-text {
+  color: #c8e6d4;
+}
+
+[data-theme='dark'] .zenve-country-dropdown-menu {
+  background-color: #14221b;
+  border-color: #273b30;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme='dark'] .zenve-country-search-box {
+  background-color: #1b2e25;
+  border-color: #273b30;
+}
+
+[data-theme='dark'] .zenve-country-filter-input {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-country-filter-input::placeholder {
+  color: #678274;
+}
+
+[data-theme='dark'] .zenve-country-option:hover {
+  background-color: #1f342a;
+}
+
+[data-theme='dark'] .zenve-country-option-selected {
+  background-color: #1a3a2a;
+}
+
+[data-theme='dark'] .zenve-option-name {
+  color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-country-option-selected .zenve-option-name {
+  color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-option-code {
+  color: #799486;
+}
+
+[data-theme='dark'] .zenve-option-check {
+  color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-country-no-results {
+  color: #799486;
+}
+
+[data-theme='dark'] .zenve-community-text {
+  color: #8ca898;
+}
+
+[data-theme='dark'] .zenve-create-profile-btn {
+  background-color: #3D0D18;
+  border-color: #5c1827;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .zenve-create-profile-btn:hover {
+  background-color: #521322;
+  border-color: #772134;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
 }
 
 /* ── Dark / Light Mode Toggle ──────────────────────────── */
