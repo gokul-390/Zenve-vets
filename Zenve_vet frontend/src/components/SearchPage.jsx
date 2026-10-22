@@ -894,7 +894,7 @@ export default function SearchPage() {
     };
   }, [selectedDoctor]);
 
-  const doctors = useMemo(() => getDoctorDirectory(), []);
+ 
 
 
   const discoveryItems = useMemo(
