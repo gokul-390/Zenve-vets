@@ -7,7 +7,10 @@ import {
   Lock,
   CheckCircle2,
 } from 'lucide-react';
-import heroImage from '../assets/Member-benefits.jpg';
+
+import heroImage from '../assets/Member-benefits-dark.jpg';
+import heroImageDark from '../assets/Member-benefits-dark.jpg';
+import { useTheme } from '../context/ThemeContext';
 import CreateProfileModal from './CreateProfileModal';
 import VetProfileModal from './VetProfileModal';
 import '../csscomponents/MemberBenefitsPage.css';
@@ -128,15 +131,18 @@ export const MemberBenefitsPage = ({
   isLoggedIn: propIsLoggedIn,
   user: propUser,
 }) => {
-  // Modals state
+  const themeContext = useTheme();
+  const isDark = Boolean(themeContext?.isDark);
+
   const [isCreateProfileOpen, setIsCreateProfileOpen] = useState(false);
   const [isViewProfileOpen, setIsViewProfileOpen] = useState(false);
   const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
 
-  // Authentication and user profile state
   const [token, setToken] = useState(() => {
     try {
-      return typeof window !== 'undefined' ? localStorage.getItem('zenve_token') : null;
+      return typeof window !== 'undefined'
+        ? localStorage.getItem('zenve_token')
+        : null;
     } catch {
       return null;
     }
@@ -145,8 +151,8 @@ export const MemberBenefitsPage = ({
   const [storedUser, setStoredUser] = useState(() => {
     try {
       if (typeof window === 'undefined') return null;
-      const u = localStorage.getItem('zenve_user');
-      return u ? JSON.parse(u) : null;
+      const user = localStorage.getItem('zenve_user');
+      return user ? JSON.parse(user) : null;
     } catch {
       return null;
     }
@@ -155,30 +161,39 @@ export const MemberBenefitsPage = ({
   const [storedProfile, setStoredProfile] = useState(() => {
     try {
       if (typeof window === 'undefined') return null;
+
       const stored = localStorage.getItem('zenve_custom_vets');
+
       if (stored) {
         const parsed = JSON.parse(stored);
+
         if (Array.isArray(parsed) && parsed.length > 0) {
           return parsed[0];
         }
       }
+
       return null;
     } catch {
       return null;
     }
   });
 
-  // Sync state if localStorage changes or window gains focus
+  // Sync state when localStorage changes or the window regains focus.
   useEffect(() => {
     const syncState = () => {
       try {
         if (typeof window === 'undefined') return;
+
         setToken(localStorage.getItem('zenve_token'));
-        const u = localStorage.getItem('zenve_user');
-        setStoredUser(u ? JSON.parse(u) : null);
+
+        const user = localStorage.getItem('zenve_user');
+        setStoredUser(user ? JSON.parse(user) : null);
+
         const vets = localStorage.getItem('zenve_custom_vets');
+
         if (vets) {
           const parsed = JSON.parse(vets);
+
           if (Array.isArray(parsed) && parsed.length > 0) {
             setStoredProfile(parsed[0]);
           } else {
@@ -187,48 +202,56 @@ export const MemberBenefitsPage = ({
         } else {
           setStoredProfile(null);
         }
-      } catch (err) {
-        console.warn('Storage sync issue:', err);
+      } catch (error) {
+        console.warn('Storage sync issue:', error);
       }
     };
 
     window.addEventListener('storage', syncState);
     window.addEventListener('focus', syncState);
+
     return () => {
       window.removeEventListener('storage', syncState);
       window.removeEventListener('focus', syncState);
     };
   }, []);
 
-  // Close login prompt on Escape key
+  // Close the login prompt when Escape is pressed.
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isLoginPromptOpen) {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && isLoginPromptOpen) {
         setIsLoginPromptOpen(false);
       }
     };
+
     if (isLoginPromptOpen) {
       window.addEventListener('keydown', handleKeyDown);
     }
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isLoginPromptOpen]);
 
-  // Check if the user has already created their profilegit
+  // Check whether the user has already created a profile.
   const checkHasProfile = useCallback(() => {
     try {
       if (typeof window !== 'undefined') {
         const vets = localStorage.getItem('zenve_custom_vets');
+
         if (vets) {
           const parsed = JSON.parse(vets);
+
           if (Array.isArray(parsed) && parsed.length > 0) {
             return true;
           }
         }
-        const u = localStorage.getItem('zenve_user');
-        if (u) {
-          const parsedUser = JSON.parse(u);
+
+        const user = localStorage.getItem('zenve_user');
+
+        if (user) {
+          const parsedUser = JSON.parse(user);
+
           if (
             parsedUser &&
             (parsedUser.profileCreated ||
@@ -240,7 +263,9 @@ export const MemberBenefitsPage = ({
           }
         }
       }
+
       if (storedProfile) return true;
+
       if (
         propUser &&
         (propUser.name ||
@@ -250,6 +275,7 @@ export const MemberBenefitsPage = ({
       ) {
         return true;
       }
+
       return false;
     } catch {
       return Boolean(storedProfile);
@@ -258,124 +284,128 @@ export const MemberBenefitsPage = ({
 
   const hasCreatedProfile = Boolean(storedProfile || checkHasProfile());
 
-  // Compute login/profile status
   const isLoggedIn = Boolean(
     propIsLoggedIn !== undefined
       ? propIsLoggedIn
-      : propUser || (token && token.trim() !== '') || storedUser || storedProfile || hasCreatedProfile
+      : propUser ||
+      (token && token.trim() !== '') ||
+      storedUser ||
+      storedProfile ||
+      hasCreatedProfile
   );
 
   const activeProfile = storedProfile;
 
-  // Open the profile creation form modal
   const openProfileCreationForm = useCallback(() => {
-    setIsCreateProfileOpen(true);
-  }, []);
+    if (typeof onOpenCreateProfile === 'function') {
+      onOpenCreateProfile();
+    } else {
+      setIsCreateProfileOpen(true);
+    }
+  }, [onOpenCreateProfile]);
 
-  // Navigate to the user's existing profile page (Vet Network page / profile modal)
+  // Navigate to the user's existing professional profile.
   const navigateToProfile = useCallback(() => {
-    // 1. If explicit callback passed
     if (typeof onNavigateToNetwork === 'function') {
       onNavigateToNetwork();
       return;
     }
+
     if (typeof onSelectTab === 'function') {
       onSelectTab('network');
       return;
     }
 
-    // 2. Click the sidebar "Vet network" navigation button directly
     const navButtons = document.querySelectorAll(
       '.zenve-nav-item, .zenve-sidenav button, aside button, nav button'
     );
-    for (const btn of navButtons) {
-      const text = btn.textContent ? btn.textContent.toLowerCase() : '';
+
+    for (const button of navButtons) {
+      const text = button.textContent?.toLowerCase() || '';
+
       if (text.includes('vet network') || text.includes('network')) {
-        btn.click();
+        button.click();
         return;
       }
     }
 
-    // 3. Fallback: if user has a profile, open their profile modal
     if (activeProfile) {
       setIsViewProfileOpen(true);
       return;
     }
 
-    // 4. Custom event fallback
-    window.dispatchEvent(new CustomEvent('zenve:switch-tab', { detail: 'network' }));
+    window.dispatchEvent(
+      new CustomEvent('zenve:switch-tab', { detail: 'network' })
+    );
   }, [onNavigateToNetwork, onSelectTab, activeProfile]);
 
-  // Navigate to the Messages page
   const navigateToMessages = useCallback(() => {
-    // 1. If explicit callback passed
     if (typeof onNavigateToMessages === 'function') {
       onNavigateToMessages();
       return;
     }
+
     if (typeof onSelectTab === 'function') {
       onSelectTab('messages');
       return;
     }
 
-    // 2. Click the sidebar "Messages" navigation button directly
     const navButtons = document.querySelectorAll(
       '.zenve-nav-item, .zenve-sidenav button, aside button, nav button'
     );
-    for (const btn of navButtons) {
-      const text = btn.textContent ? btn.textContent.toLowerCase().trim() : '';
+
+    for (const button of navButtons) {
+      const text = button.textContent?.toLowerCase().trim() || '';
+
       if (text.includes('messages') || text.includes('message')) {
-        btn.click();
+        button.click();
         return;
       }
     }
 
-    // 3. Fallback custom event
     window.dispatchEvent(
       new CustomEvent('zenve:switch-tab', { detail: 'messages' })
     );
   }, [onNavigateToMessages, onSelectTab]);
 
-  // Navigate to the existing Vet Network / community page
   const navigateToCommunity = useCallback(() => {
-    // 1. If explicit callback passed
     if (typeof onNavigateToFeed === 'function') {
       onNavigateToFeed();
       return;
     }
+
     if (typeof onSelectTab === 'function') {
       onSelectTab('feed');
       return;
     }
 
-    // 2. Click the sidebar "Feed" navigation button directly
     const navButtons = document.querySelectorAll(
       '.zenve-nav-item, .zenve-sidenav button, aside button, nav button'
     );
-    for (const btn of navButtons) {
-      const text = btn.textContent ? btn.textContent.toLowerCase() : '';
+
+    for (const button of navButtons) {
+      const text = button.textContent?.toLowerCase() || '';
+
       if (text.includes('feed')) {
-        btn.click();
+        button.click();
         return;
       }
     }
 
-    // 3. Fallback to Vet network navigation button
-    for (const btn of navButtons) {
-      const text = btn.textContent ? btn.textContent.toLowerCase() : '';
+    for (const button of navButtons) {
+      const text = button.textContent?.toLowerCase() || '';
+
       if (text.includes('vet network') || text.includes('network')) {
-        btn.click();
+        button.click();
         return;
       }
     }
 
-    // 4. Custom event fallback
-    window.dispatchEvent(new CustomEvent('zenve:switch-tab', { detail: 'feed' }));
+    window.dispatchEvent(
+      new CustomEvent('zenve:switch-tab', { detail: 'feed' })
+    );
   }, [onNavigateToFeed, onSelectTab]);
 
-  // ── BUTTON 1: Create Your Free Profile ─────────────────────────
-  // Case A: User has not created profile -> Open professional profile creation form
-  // Case B: User has created profile -> Navigate to user's existing profile page
   const handleCreateProfileClick = () => {
     if (checkHasProfile()) {
       navigateToProfile();
@@ -384,9 +414,6 @@ export const MemberBenefitsPage = ({
     }
   };
 
-  // ── BUTTON 2: Join the Community ───────────────────────────────
-  // Case A: User has not created profile -> Pop up Create Your Profile form
-  // Case B: User has created profile already -> Go to Messages page
   const handleJoinCommunityClick = () => {
     if (checkHasProfile()) {
       navigateToMessages();
@@ -395,20 +422,25 @@ export const MemberBenefitsPage = ({
     }
   };
 
-  // Handle profile creation callback
   const handleProfileCreated = (newDoctor) => {
     const updated = [newDoctor];
+
     setStoredProfile(newDoctor);
+
     try {
-      localStorage.setItem('zenve_custom_vets', JSON.stringify(updated));
+      localStorage.setItem(
+        'zenve_custom_vets',
+        JSON.stringify(updated)
+      );
+
       window.dispatchEvent(new Event('storage'));
-    } catch (err) {
-      console.error('Failed to save to localStorage:', err);
+    } catch (error) {
+      console.error('Failed to save to localStorage:', error);
     }
+
     setIsCreateProfileOpen(false);
   };
 
-  // Benefits feature cards data
   const benefitsList = [
     {
       id: 'page',
@@ -455,21 +487,19 @@ export const MemberBenefitsPage = ({
   ];
 
   return (
-    <div className="zenve-benefits-container">
-      {/* 1. Hero Banner: THE ZENVE ADVANTAGE */}
+    <div className={`zenve-benefits-container ${isDark ? 'zenve-dark-theme' : ''}`}>
       <section
-        className="zenve-Member-benefits"
+        className={`zenve-Member-benefits ${isDark ? 'zenve-dark-hero' : ''}`}
         style={{
-          backgroundImage: `linear-gradient(105deg,
-           rgba(13, 56, 43, 0.80) 0%, 
-           rgba(13, 56, 43, 0.68) 45%,
-           rgba(13, 56, 43, 0.45) 75%, 
-           rgba(13, 56, 43, 0.09) 100%),  
-           url(${heroImage})`,
+          '--hero-image': `url(${heroImage})`,
+          '--hero-image-dark': `url(${heroImageDark})`,
         }}
       >
+        <div className="zenve-Member-benefits-bg" aria-hidden="true" />
         <div className="zenve-Member-benefits-content">
-          <span className="zenve-benefits-eyebrow">THE ZENVE ADVANTAGE</span>
+          <span className="zenve-benefits-eyebrow">
+            THE ZENVE ADVANTAGE
+          </span>
 
           <h1 className="zenve-Member-benefits-title">
             More than a network.
@@ -483,7 +513,6 @@ export const MemberBenefitsPage = ({
             Create what comes next for animal health.
           </p>
 
-          {/* Button 1: Create Your Free Profile */}
           <button
             type="button"
             className="zenve-Member-benefits-btn"
@@ -491,65 +520,87 @@ export const MemberBenefitsPage = ({
             aria-label="Create Your Free Profile"
           >
             <span>Create Your Free Profile</span>
-            <ArrowUpRight size={18} className="zenve-benefits-btn-arrow" />
+            <ArrowUpRight
+              size={18}
+              className="zenve-benefits-btn-arrow"
+            />
           </button>
         </div>
       </section>
 
-      {/* 2. Middle Section: YOUR MEMBERSHIP, REIMAGINED */}
       <section className="zenve-benefits-header-section">
-        <span className="zenve-benefits-gold-tag">YOUR MEMBERSHIP, REIMAGINED</span>
+        <span className="zenve-benefits-gold-tag">
+          YOUR MEMBERSHIP, REIMAGINED
+        </span>
+
         <h2 className="zenve-benefits-main-title">
           Space for your work.
           <br />
           Support for your ambition.
         </h2>
+
         <p className="zenve-benefits-tagline">
           ₹0 membership · No login required
         </p>
       </section>
 
-      {/* 3. 6 Benefits Grid with Icons */}
-      <section className="zenve-benefits-grid" aria-label="Zenve Member Benefits">
+      <section
+        className="zenve-benefits-grid"
+        aria-label="Zenve Member Benefits"
+      >
         {benefitsList.map((item) => (
           <div key={item.id} className="zenve-benefit-card">
-            <div className="zenve-benefit-icon-wrapper" aria-hidden="true">
+            <div
+              className="zenve-benefit-icon-wrapper"
+              aria-hidden="true"
+            >
               {item.icon}
             </div>
-            <h3 className="zenve-benefit-card-title">{item.title}</h3>
-            <p className="zenve-benefit-card-desc">{item.description}</p>
+
+            <h3 className="zenve-benefit-card-title">
+              {item.title}
+            </h3>
+
+            <p className="zenve-benefit-card-desc">
+              {item.description}
+            </p>
           </div>
         ))}
       </section>
 
-      {/* 4. Bottom Centered Call to Action */}
       <section className="zenve-benefits-footer-cta">
         <h2 className="zenve-benefits-cta-heading">
           Your work deserves a wider world.
         </h2>
+
         <div className="zenve-benefits-cta-btn-wrapper">
-          {/* Button 2: Join the Community */}
           <button
             type="button"
             className="zenve-benefits-join-btn"
             onClick={handleJoinCommunityClick}
             aria-label="Join the Community"
           >
-            <Users size={18} className="zenve-benefits-join-icon" />
+            <Users
+              size={18}
+              className="zenve-benefits-join-icon"
+            />
             <span>Join the Community</span>
-            <ArrowRight size={16} className="zenve-benefits-join-arrow" />
+            <ArrowRight
+              size={16}
+              className="zenve-benefits-join-arrow"
+            />
           </button>
         </div>
       </section>
 
-      {/* ── MODAL 1: Existing Professional Profile Creation Form ── */}
+      {/* Profile creation modal */}
       <CreateProfileModal
         isOpen={isCreateProfileOpen}
         onClose={() => setIsCreateProfileOpen(false)}
         onProfileCreated={handleProfileCreated}
       />
 
-      {/* ── MODAL 2: Existing User Profile Modal ── */}
+      {/* Existing professional profile modal */}
       {isViewProfileOpen && activeProfile && (
         <VetProfileModal
           doctor={activeProfile}
@@ -560,7 +611,7 @@ export const MemberBenefitsPage = ({
         />
       )}
 
-      {/* ── MODAL 3: Login Prompt Modal (Logged-out user clicking "Join the Community") ── */}
+      {/* Login prompt modal */}
       {isLoginPromptOpen && (
         <div
           className="zenve-modal-overlay zenve-benefits-modal-overlay"
@@ -571,7 +622,7 @@ export const MemberBenefitsPage = ({
         >
           <div
             className="zenve-login-prompt-card"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
             <button
               type="button"
@@ -587,31 +638,57 @@ export const MemberBenefitsPage = ({
                 <Lock size={13} />
                 <span>MEMBER ACCESS</span>
               </div>
-              <h2 className="zenve-login-prompt-title">Join the Community</h2>
+
+              <h2 className="zenve-login-prompt-title">
+                Join the Community
+              </h2>
+
               <p className="zenve-login-prompt-subtitle">
-                Connect with verified veterinary specialists, discuss clinical cases, and collaborate across India.
+                Connect with verified veterinary specialists, discuss
+                clinical cases, and collaborate across India.
               </p>
             </div>
 
             <div className="zenve-login-prompt-body">
               <div className="zenve-login-prompt-notice">
                 <p>
-                  Please sign in with your verified practitioner account to participate in community discussions, connect with colleagues, and publish clinical observations.
+                  Please sign in with your verified practitioner account
+                  to participate in community discussions, connect with
+                  colleagues, and publish clinical observations.
                 </p>
               </div>
 
               <div className="zenve-login-prompt-features">
                 <div className="zenve-login-feature-item">
-                  <CheckCircle2 size={16} className="zenve-login-feature-check" />
-                  <span>Peer-to-peer discussions on challenging diagnostics &amp; surgeries</span>
+                  <CheckCircle2
+                    size={16}
+                    className="zenve-login-feature-check"
+                  />
+                  <span>
+                    Peer-to-peer discussions on challenging diagnostics
+                    &amp; surgeries
+                  </span>
                 </div>
+
                 <div className="zenve-login-feature-item">
-                  <CheckCircle2 size={16} className="zenve-login-feature-check" />
-                  <span>Verified professional badge across the Zenve network</span>
+                  <CheckCircle2
+                    size={16}
+                    className="zenve-login-feature-check"
+                  />
+                  <span>
+                    Verified professional badge across the Zenve network
+                  </span>
                 </div>
+
                 <div className="zenve-login-feature-item">
-                  <CheckCircle2 size={16} className="zenve-login-feature-check" />
-                  <span>Personal public veterinary page to share your clinical story</span>
+                  <CheckCircle2
+                    size={16}
+                    className="zenve-login-feature-check"
+                  />
+                  <span>
+                    Personal public veterinary page to share your
+                    clinical story
+                  </span>
                 </div>
               </div>
 
@@ -627,6 +704,7 @@ export const MemberBenefitsPage = ({
                   <span>Sign In / Create Profile</span>
                   <ArrowRight size={16} />
                 </button>
+
                 <button
                   type="button"
                   className="zenve-login-prompt-btn-secondary"

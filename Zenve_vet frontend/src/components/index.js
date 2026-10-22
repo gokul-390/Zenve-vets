@@ -9,6 +9,7 @@ export { CreateProfileModal } from './CreateProfileModal';
 export { StoryViewerModal } from './StoryViewerModal';
 export { DoctorProfileModal } from './DoctorProfileModal';
 export { VetNetwork } from './VetNetwork';
+export { NetworkPage } from './NetworkPage';
 export { VetCard } from './VetCard';
 export { VetProfileModal } from './VetProfileModal';
 export * from './Icons';
