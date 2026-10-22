@@ -975,39 +975,78 @@
 
 /* ---------- Doctor profile modal ---------- */
 
+/* ---------- Doctor profile modal: independent scrolling ---------- */
+
 .doctor-modal-backdrop {
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   inset: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  overflow-y: auto;
+
+  padding: 10px;
+  overflow: hidden;
+  overscroll-behavior: none;
+
   background: rgba(36, 10, 17, 0.68);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .doctor-profile-modal {
   position: relative;
+  flex: 0 1 650px;
   width: 100%;
+  min-width: 0;
   max-width: 650px;
-  max-height: min(88vh, 900px);
+
+  max-height: calc(100vh - 20px);
+  max-height: calc(100dvh - 20px);
+
+  margin: 0;
   padding: 25px;
+
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+
   border: 1px solid var(--search-border);
   border-radius: 19px;
   background: var(--search-white);
   color: var(--search-text);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+  scrollbar-width: thin;
+  scrollbar-color: var(--search-gold) transparent;
 }
 
+.doctor-profile-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.doctor-profile-modal::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--search-gold);
+}
+
+/* Sticky header stays visible while the profile scrolls */
 .doctor-modal-header {
+  position: sticky;
+  top: -25px;
+  z-index: 5;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 22px;
+
+  margin: -25px -25px 22px;
+  padding: 16px 25px;
+
+  background: var(--search-white);
 }
 
 .doctor-modal-close {
@@ -3116,4 +3155,8 @@
   .search-page .discovery-card {
     border-radius: 14px;
   }
+}
+/* Lock background scrolling while doctor profile is open */
+body.doctor-profile-open {
+  overflow: hidden !important;
 }

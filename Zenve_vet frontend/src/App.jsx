@@ -12,6 +12,8 @@ import CreateProfileModal from './components/CreateProfileModal';
 import VetNetwork from './components/VetNetwork';
 import ClinicalCases from './components/ClinicalCases';
 import MessagesPage from './components/MessagesPage';
+import ShortVideosPage from './components/ShortVideosPage';
+import { useTheme } from './context/ThemeContext';
 
 import './csscomponents/App.css';
 
