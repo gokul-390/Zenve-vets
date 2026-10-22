@@ -582,7 +582,7 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
       authorId: 'you',
       authorName: 'Dr. You (Your Practice)',
       authorImg:
-        'https://images.unsplash.com/photo-1594824813686-271790ee1078?auto=format&fit=crop&w=150&h=150&q=80',
+        '/images/doctors/arun.jpg',
       authorSpecialty: 'Veterinary Professional • Clinical Practice',
       timeAgo: 'Just now',
       caption: postText.trim() || 'Sharing a clinical case picture from our veterinary practice 🐾',

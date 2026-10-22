@@ -159,7 +159,7 @@ const BASE_DOCTORS = [
       'Reptile Care',
       'Psittacine Nutrition',
     ],
-    img: 'https://images.unsplash.com/photo-1594824813686-271790ee1078?auto=format&fit=crop&w=120&h=120&q=80',
+    img: '/images/doctors/karthika.jpg',
   },
   {
     id: 'sanjay',

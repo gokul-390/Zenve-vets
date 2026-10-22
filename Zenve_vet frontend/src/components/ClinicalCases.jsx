@@ -153,7 +153,13 @@ const PRIORITY_COLOR = {
 };
 
 /* ── Storage helpers ──────────────────────────────────────────────────── */
-
+function notifyClinicalCasesUpdated() {
+  window.dispatchEvent(
+    new CustomEvent('zenve:community-content-updated', {
+      detail: { type: 'clinical-cases' },
+    })
+  );
+}
 function loadFromStorage(key, fallback) {
   try {
     const stored = localStorage.getItem(key);
