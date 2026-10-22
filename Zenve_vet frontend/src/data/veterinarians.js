@@ -202,7 +202,7 @@ export const VETERINARIANS = [
     mutualConnectionsText: 'Dr. Aarthi Raman, Dr. Karthika Iyer, and 3 others',
     mutualAvatars: [
       'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=100&h=100&q=80',
-      'https://images.unsplash.com/photo-1594824813686-271790ee1078?auto=format&fit=crop&w=100&h=100&q=80',
+      '/images/doctors/karthika.jpg',
     ],
     initialStatus: 'not_connected',
     initialFollowing: true,
@@ -230,7 +230,7 @@ export const VETERINARIANS = [
       'Beak Conditioning',
       'Reptile Care',
     ],
-    img: 'https://images.unsplash.com/photo-1594824813686-271790ee1078?auto=format&fit=crop&w=150&h=150&q=80',
+    img: '/images/doctors/karthika.jpg',
     coverImg: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=80',
     mutualCount: 4,
     mutualConnectionsText: 'Dr. Nidhi Sharma and 3 other colleagues',
