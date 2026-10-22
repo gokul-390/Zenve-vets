@@ -50,7 +50,7 @@ export const Header = ({ onCreateProfile }) => {
   const [filterQuery, setFilterQuery] = useState('');
   const [imgError, setImgError] = useState(false);
 
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef(null); 
 
   // Close dropdown when clicking outside
   useEffect(() => {

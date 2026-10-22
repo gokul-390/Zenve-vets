@@ -13,8 +13,7 @@ import VetNetwork from './components/VetNetwork';
 import ClinicalCases from './components/ClinicalCases';
 import MessagesPage from './components/MessagesPage';
 import './csscomponents/App.css';
-
-export function App() {
+ export function App() {
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeMessageDoctorId, setActiveMessageDoctorId] = useState(null);
