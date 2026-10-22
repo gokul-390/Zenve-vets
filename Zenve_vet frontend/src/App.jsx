@@ -180,7 +180,7 @@ export function App() {
               </h2>
 
               <p className="zenve-section-placeholder-desc">
-                Switch back to the <strong>Feed</strong> tab to explore
+                Switch back to the <strong>Home</strong> tab to explore
                 moments from the community, people to know, and the full
                 Zenve advantage.
               </p>
