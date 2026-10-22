@@ -368,18 +368,8 @@ export const ClinicalCases = () => {
     setTimeout(() => setDocFormSuccess(false), 3500);
   };
 
-  useEffect(() => {
-    if (panel === 'edit-profile' && !docEditData && doctors.length > 0) {
-      setDocEditData({ ...doctors[0] });
-      setDocEditMode('edit');
-    }
-  }, [panel, docEditData, doctors]);
-
   const openAddDoctor = () => {
     openAddDoctorSection();
-  };
-  const openEditDoctor = (d) => {
-    openEditProfileSection(d);
   };
   const openViewDoctor = (d) => {
     setDocView(d);

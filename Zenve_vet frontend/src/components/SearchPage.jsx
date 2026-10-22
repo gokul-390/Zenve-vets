@@ -85,16 +85,6 @@ function asArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
-useEffect(() => {
-  if (!selectedDoctor) return;
-
-  document.body.classList.add('doctor-profile-open');
-
-  return () => {
-    document.body.classList.remove('doctor-profile-open');
-  };
-}, [selectedDoctor]);
-
 function getInitials(name = '') {
   const parts = name.trim().split(/\s+/).filter(Boolean);
 
@@ -563,6 +553,16 @@ export default function SearchPage() {
       window.removeEventListener('focus', refreshContent);
     };
   }, []);
+
+  useEffect(() => {
+    if (!selectedDoctor) return;
+
+    document.body.classList.add('doctor-profile-open');
+
+    return () => {
+      document.body.classList.remove('doctor-profile-open');
+    };
+  }, [selectedDoctor]);
 
   const doctors = useMemo(() => getDoctorDirectory(), []);
 
