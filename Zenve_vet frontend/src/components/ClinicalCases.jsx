@@ -283,6 +283,17 @@ export const ClinicalCases = () => {
     return { all, active, resolved, critical };
   }, [cases]);
 
+  /* ── Lock background scroll when Add Case / modal is open ── */
+  useEffect(() => {
+    if (caseMode || docMode || docView) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [caseMode, docMode, docView]);
+
   /* ── Case CRUD ── */
   const openAddCase = () => {
     setCaseEditData({ ...BLANK_CASE });
