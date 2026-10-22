@@ -15,8 +15,7 @@ import MessagesPage from './components/MessagesPage';
 import ShortVideosPage from './components/ShortVideosPage';
 
 import './csscomponents/App.css';
-
-export function App() {
+ export function App() {
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeMessageDoctorId, setActiveMessageDoctorId] = useState(null);

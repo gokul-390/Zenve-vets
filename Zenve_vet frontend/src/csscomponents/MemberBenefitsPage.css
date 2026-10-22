@@ -335,7 +335,7 @@
   }
 }
 
-/* 6. DARK THEME STYLES (MEMBER BENEFITS ONLY) */
+/* 6. DARK THEME STYLES (MEMBER BENEFITS ONLY) - PURE COLOR ADAPTATION */
 [data-theme='dark'] .zenve-benefits-container,
 .dark .zenve-benefits-container,
 .zenve-benefits-container.zenve-dark-theme {
@@ -344,19 +344,17 @@
 
 [data-theme='dark'] .zenve-Member-benefits,
 .dark .zenve-Member-benefits,
-.zenve-Member-benefits.zenve-dark-hero {
-  background-color: #07130e;
-  border: 1px solid rgba(74, 222, 128, 0.16);
-  box-shadow:
-    0 24px 60px -12px rgba(0, 0, 0, 0.85),
-    0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 0 50px -15px rgba(74, 222, 128, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.zenve-Member-benefits.zenve-dark-hero,
+.zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits {
+  background-color: #0d382b;
+  border: 1px solid transparent;
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.45);
 }
 
 [data-theme='dark'] .zenve-Member-benefits-bg,
 .dark .zenve-Member-benefits-bg,
-.zenve-Member-benefits.zenve-dark-hero .zenve-Member-benefits-bg {
+.zenve-Member-benefits.zenve-dark-hero .zenve-Member-benefits-bg,
+.zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits-bg {
   background-image:
     linear-gradient(98deg,
       #1A0F14 0%,
@@ -372,7 +370,8 @@
 
 [data-theme='dark'] .zenve-Member-benefits::before,
 .dark .zenve-Member-benefits::before,
-.zenve-Member-benefits.zenve-dark-hero::before {
+.zenve-Member-benefits.zenve-dark-hero::before,
+.zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits::before {
   background:
     radial-gradient(ellipse at 85% 50%, transparent 40%, rgba(7, 19, 14, 0.72) 100%),
     linear-gradient(180deg, rgba(7, 19, 14, 0.45) 0%, transparent 28%, transparent 72%, rgba(7, 19, 14, 0.65) 100%);
@@ -380,146 +379,162 @@
 
 [data-theme='dark'] .zenve-benefits-eyebrow,
 .dark .zenve-benefits-eyebrow,
-.zenve-Member-benefits.zenve-dark-hero .zenve-benefits-eyebrow {
-  color: #f0b429;
-  text-shadow: 0 0 16px rgba(240, 180, 41, 0.4);
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-eyebrow {
+  color: #f7cb08;
+  text-shadow: none;
 }
 
 [data-theme='dark'] .zenve-Member-benefits-title,
 .dark .zenve-Member-benefits-title,
-.zenve-Member-benefits.zenve-dark-hero .zenve-Member-benefits-title {
+.zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits-title {
   color: #ffffff;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 [data-theme='dark'] .zenve-Member-benefits-subtitle,
 .dark .zenve-Member-benefits-subtitle,
-.zenve-Member-benefits.zenve-dark-hero .zenve-Member-benefits-subtitle {
-  color: rgba(226, 237, 230, 0.9);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+.zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits-subtitle {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
 }
 
 [data-theme='dark'] .zenve-Member-benefits-btn,
 .dark .zenve-Member-benefits-btn,
-.zenve-Member-benefits.zenve-dark-hero .zenve-Member-benefits-btn {
-  background: linear-gradient(135deg, #f6eee3 0%, #e6d7c3 100%);
-  color: #0b1a13;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 20px rgba(246, 238, 227, 0.15);
+.zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits-btn {
+  background-color: #ebdfce;
+  color: #12281e;
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 [data-theme='dark'] .zenve-Member-benefits-btn:hover,
 .dark .zenve-Member-benefits-btn:hover,
-.zenve-Member-benefits.zenve-dark-hero .zenve-Member-benefits-btn:hover {
-  background: #ffffff;
-  color: #07130e;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), 0 0 28px rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+.zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits-btn:hover {
+  background-color: #f6efe4;
+  color: #000000;
+  transform: none;
 }
 
 /* Section 2: Header Section in Dark Mode */
 [data-theme='dark'] .zenve-benefits-gold-tag,
-.dark .zenve-benefits-gold-tag {
+.dark .zenve-benefits-gold-tag,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-gold-tag {
   color: #f0b429;
-  text-shadow: 0 0 14px rgba(240, 180, 41, 0.3);
+  text-shadow: none;
 }
 
 [data-theme='dark'] .zenve-benefits-main-title,
-.dark .zenve-benefits-main-title {
+.dark .zenve-benefits-main-title,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-main-title {
   color: #ffffff;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  text-shadow: none;
 }
 
 [data-theme='dark'] .zenve-benefits-tagline,
-.dark .zenve-benefits-tagline {
+.dark .zenve-benefits-tagline,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-tagline {
   color: #8faa99;
 }
 
-/* Section 3: Benefits Grid in Dark Mode */
+/* Section 3: Benefits Grid in Dark Mode (keeps identical layout, no card box, no border, exact same padding and icon sizing) */
 [data-theme='dark'] .zenve-benefit-card,
-.dark .zenve-benefit-card {
-  background: linear-gradient(145deg, rgba(18, 32, 25, 0.55) 0%, rgba(13, 23, 18, 0.4) 100%);
-  border: 1px solid rgba(74, 222, 128, 0.08);
-  border-radius: 16px;
-  padding: 24px 22px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+.dark .zenve-benefit-card,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 12px 10px;
+  box-shadow: none;
 }
 
 [data-theme='dark'] .zenve-benefit-card:hover,
-.dark .zenve-benefit-card:hover {
-  background: linear-gradient(145deg, rgba(24, 44, 34, 0.7) 0%, rgba(16, 30, 23, 0.55) 100%);
-  border-color: rgba(74, 222, 128, 0.24);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 24px rgba(74, 222, 128, 0.08);
+.dark .zenve-benefit-card:hover,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-card:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transform: translateY(-2px);
 }
 
 [data-theme='dark'] .zenve-benefit-icon-wrapper,
-.dark .zenve-benefit-icon-wrapper {
-  background: rgba(240, 180, 41, 0.1);
-  border: 1px solid rgba(240, 180, 41, 0.22);
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+.dark .zenve-benefit-icon-wrapper,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-icon-wrapper {
+  background: transparent;
+  border: none;
+  width: auto;
+  height: auto;
+  border-radius: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #f0b429;
-  margin-bottom: 16px;
-  box-shadow: 0 0 16px rgba(240, 180, 41, 0.12);
+  margin-bottom: 18px;
+  box-shadow: none;
 }
 
 [data-theme='dark'] .zenve-benefit-icon-wrapper svg,
-.dark .zenve-benefit-icon-wrapper svg {
+.dark .zenve-benefit-icon-wrapper svg,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-icon-wrapper svg {
   stroke: #f0b429;
 }
 
+[data-theme='dark'] .zenve-benefit-card:hover .zenve-benefit-icon-wrapper,
+.dark .zenve-benefit-card:hover .zenve-benefit-icon-wrapper,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-card:hover .zenve-benefit-icon-wrapper {
+  transform: scale(1.08);
+}
+
 [data-theme='dark'] .zenve-benefit-card-title,
-.dark .zenve-benefit-card-title {
-  color: #eaf2ed;
+.dark .zenve-benefit-card-title,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-card-title {
+  color: #ffffff;
 }
 
 [data-theme='dark'] .zenve-benefit-card:hover .zenve-benefit-card-title,
-.dark .zenve-benefit-card:hover .zenve-benefit-card-title {
+.dark .zenve-benefit-card:hover .zenve-benefit-card-title,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-card:hover .zenve-benefit-card-title {
   color: #ffffff;
 }
 
 [data-theme='dark'] .zenve-benefit-card-desc,
-.dark .zenve-benefit-card-desc {
+.dark .zenve-benefit-card-desc,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefit-card-desc {
   color: #9dbdad;
 }
 
-/* Section 4: Footer CTA in Dark Mode */
+/* Section 4: Footer CTA in Dark Mode (clean line divider matching light theme) */
 [data-theme='dark'] .zenve-benefits-footer-cta,
-.dark .zenve-benefits-footer-cta {
-  border-top: 1px solid rgba(74, 222, 128, 0.12);
-  background: linear-gradient(180deg, transparent 0%, rgba(18, 30, 24, 0.35) 100%);
-  border-radius: 20px;
-  padding: 52px 24px;
-  margin-top: 48px;
+.dark .zenve-benefits-footer-cta,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-footer-cta {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  border-radius: 0;
+  padding: 48px 24px;
+  margin-top: 36px;
 }
 
 [data-theme='dark'] .zenve-benefits-cta-heading,
-.dark .zenve-benefits-cta-heading {
+.dark .zenve-benefits-cta-heading,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-cta-heading {
   color: #ffffff;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+  text-shadow: none;
 }
 
 [data-theme='dark'] .zenve-benefits-join-btn,
-.dark .zenve-benefits-join-btn {
-  background: linear-gradient(135deg, #6e1823 0%, #4a1017 100%);
+.dark .zenve-benefits-join-btn,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-join-btn {
+  background-color: #54131B;
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(110, 24, 35, 0.3);
+  border: none;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 [data-theme='dark'] .zenve-benefits-join-btn:hover,
-.dark .zenve-benefits-join-btn:hover {
-  background: linear-gradient(135deg, #87202d 0%, #5d141e 100%);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 28px rgba(135, 32, 45, 0.4);
-  transform: translateY(-2px);
+.dark .zenve-benefits-join-btn:hover,
+.zenve-benefits-container.zenve-dark-theme .zenve-benefits-join-btn:hover {
+  background-color: #771b26;
+  border: none;
+  transform: translateY(-1px);
 }
 
 /* 8. BUTTON MICRO-INTERACTIONS */
