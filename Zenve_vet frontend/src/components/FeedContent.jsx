@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import StoryViewerModal from './StoryViewerModal';
 import PostCard from './PostCard';
 import DoctorProfileModal from './DoctorProfileModal';
@@ -275,9 +275,31 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   // Story Viewer modal state
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
+  const [modalStories, setModalStories] = useState([]);
 
-  // Set of story IDs that have been visited/viewed
-  const [viewedStoryIds, setViewedStoryIds] = useState({});
+  // Set of story IDs that have been visited/viewed (persisted in localStorage)
+  const [viewedStoryIds, setViewedStoryIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('zenve_viewed_stories');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  // Sort community stories: remaining (unwatched) stories first, watched (viewed) stories at the end
+  const sortedCommunityStories = useMemo(() => {
+    const unviewed = [];
+    const viewed = [];
+    COMMUNITY_STORIES.forEach((docStory) => {
+      if (viewedStoryIds[docStory.id]) {
+        viewed.push(docStory);
+      } else {
+        unviewed.push(docStory);
+      }
+    });
+    return [...unviewed, ...viewed];
+  }, [viewedStoryIds]);
 
   // Combined active stories: user's stories grouped as 1 person with multiple slides, followed by community doctors
   const userStoryGroup = userStories.length > 0 ? [{
@@ -293,7 +315,9 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
     isUserStory: true,
   }] : [];
 
-  const allActiveStories = [...userStoryGroup, ...COMMUNITY_STORIES];
+  const allActiveStories = useMemo(() => {
+    return [...userStoryGroup, ...sortedCommunityStories];
+  }, [userStoryGroup, sortedCommunityStories]);
 
   // 7 Doctor Posts with Video Shorts & Sound Toggle
   const INITIAL_POSTS = [
@@ -449,7 +473,15 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   }, []);
 
   const handleMarkAsViewed = async (storyId) => {
-    setViewedStoryIds((prev) => ({ ...prev, [storyId]: true }));
+    setViewedStoryIds((prev) => {
+      const next = { ...prev, [storyId]: true };
+      try {
+        localStorage.setItem('zenve_viewed_stories', JSON.stringify(next));
+      } catch (err) {
+        console.warn('Could not save viewed stories to localStorage:', err);
+      }
+      return next;
+    });
     try {
       await storiesApi.markViewed(storyId);
     } catch {
@@ -458,7 +490,9 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   };
 
   const handleOpenStory = (indexInActiveList) => {
-    const story = allActiveStories[indexInActiveList];
+    const storyList = allActiveStories;
+    setModalStories(storyList);
+    const story = storyList[indexInActiveList];
     if (story) {
       handleMarkAsViewed(story.id);
     }
@@ -784,8 +818,8 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
             </div>
           )}
 
-          {/* Community Doctor Stories */}
-          {COMMUNITY_STORIES.map((docStory, docIdx) => {
+          {/* Community Doctor Stories: unwatched first, watched (viewed) stories at the end */}
+          {sortedCommunityStories.map((docStory, docIdx) => {
             const storyActiveIndex = userStoryGroup.length + docIdx;
             const isViewed = !!viewedStoryIds[docStory.id];
 
