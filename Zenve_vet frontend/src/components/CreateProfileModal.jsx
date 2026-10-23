@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Sparkles, ArrowUpRight } from 'lucide-react';
 import { doctorsApi } from '../api';
+import { getDoctorFallbackImage } from '../utils/doctorImages.js';
 import '../csscomponents/CreateProfileModal.css';
 
 export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
@@ -95,7 +96,7 @@ export const CreateProfileModal = ({ isOpen, onClose, onProfileCreated }) => {
         'Patient Wellness',
         'Emergency Care',
       ],
-      img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&h=150&q=80',
+      img: getDoctorFallbackImage({ name: formattedName }),
       coverImg: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
       mutualCount: 1,
       mutualConnectionsText: 'Zenvevet Community Member',

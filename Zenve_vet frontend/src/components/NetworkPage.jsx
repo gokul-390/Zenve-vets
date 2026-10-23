@@ -4,6 +4,7 @@ import {
   getFollowMap,
   toggleFollow as toggleFollowStore,
 } from '../data/profilesData';
+import { getDoctorImage, getDoctorFallbackImage } from '../utils/doctorImages.js';
 import DoctorProfileModal from './DoctorProfileModal';
 import { SearchIcon, PlusIcon } from './Icons';
 import '../csscomponents/NetworkPage.css';
@@ -77,17 +78,18 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
                   .toUpperCase()
               : 'DV'),
           color: v.color || '#DCE9E0',
+          img: getDoctorImage(v),
           verified: v.verified !== undefined ? v.verified : true,
         }));
       return [...formatted, ...all];
     }
-    return all;
+    return all.map((p) => ({ ...p, img: getDoctorImage(p) }));
   });
   const [followingMap, setFollowingMap] = useState(() => getFollowMap());
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Sync customVets prop updates
+  // Sync customVets prop updates with guaranteed photos
   useEffect(() => {
     if (customVets && customVets.length > 0) {
       setProfiles((prev) => {
@@ -109,12 +111,43 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
                     .toUpperCase()
                 : 'DV'),
             color: v.color || '#DCE9E0',
+            img: getDoctorImage(v),
             verified: v.verified !== undefined ? v.verified : true,
           }));
         return [...formatted, ...prev];
       });
     }
   }, [customVets]);
+
+  // Ensure any existing stored profiles in browser localStorage get permanent photos
+  useEffect(() => {
+    try {
+      const keys = ['zenve_custom_vets', 'zenve_custom_profiles'];
+      keys.forEach((key) => {
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            let changed = false;
+            const sanitized = parsed.map((v) => {
+              const currentImg = v.img;
+              const validImg = getDoctorImage(v);
+              if (!currentImg || currentImg !== validImg) {
+                changed = true;
+                return { ...v, img: validImg };
+              }
+              return v;
+            });
+            if (changed) {
+              localStorage.setItem(key, JSON.stringify(sanitized));
+            }
+          }
+        }
+      });
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
 
   // Navigation tab bar state (Pure Vet Network Categories)
   const [activeNavTab, setActiveNavTab] = useState('all');
@@ -154,7 +187,10 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
   };
 
   const handleOpenDoctorModal = (doctor) => {
-    setSelectedDoctor(doctor);
+    setSelectedDoctor({
+      ...doctor,
+      img: getDoctorImage(doctor),
+    });
     setIsModalOpen(true);
   };
 
@@ -459,29 +495,23 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
               <article key={doctor.id} className="zenve-network-card">
                 {/* Doctor Avatar Header */}
                 <div className="zenve-network-card-header">
-                  <div className="zenve-network-avatar-wrap">
-                    {doctor.img ? (
-                      <img
-                        src={doctor.img}
-                        alt={doctor.name}
-                        className="zenve-network-avatar-img"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          if (e.target.nextSibling) {
-                            e.target.nextSibling.style.display = 'flex';
-                          }
-                        }}
-                      />
-                    ) : null}
-                    <div
-                      className="zenve-network-avatar-initials"
-                      style={{
-                        backgroundColor: doctor.color || '#DCE9E0',
-                        display: doctor.img ? 'none' : 'flex',
+                  <div
+                    className="zenve-network-avatar-wrap"
+                    onClick={() => handleOpenDoctorModal(doctor)}
+                    title={`View ${doctor.name}'s profile photo`}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <img
+                      src={getDoctorImage(doctor)}
+                      alt={doctor.name}
+                      className="zenve-network-avatar-img"
+                      onError={(e) => {
+                        const fallback = getDoctorFallbackImage(doctor);
+                        if (e.currentTarget.src !== fallback) {
+                          e.currentTarget.src = fallback;
+                        }
                       }}
-                    >
-                      {doctor.initials || 'DV'}
-                    </div>
+                    />
                     <span className="zenve-network-online-dot" title="Available for consult" />
                   </div>
 
