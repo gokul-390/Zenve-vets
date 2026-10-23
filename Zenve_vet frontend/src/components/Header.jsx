@@ -1,9 +1,45 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ZenveLogo, SearchIcon, PlusIcon, ChevronDownIcon } from './Icons';
+import { ZenveLogo, SearchIcon, PlusIcon, ChevronDownIcon, NotificationIcon } from './Icons';
 import '../csscomponents/Header.css';
 import image from '../assets/image.jpg';
 import { COUNTRIES } from '../data/countries';
 import { useTheme } from '../context/ThemeContext';
+
+const INITIAL_NOTIFICATIONS = [
+  {
+    id: 'n1',
+    title: 'Dr. Aarthi sent a clinical update',
+    description: 'Minimal effusion, patient is very comfortable on carprofen and restricted leash walks.',
+    time: '5m ago',
+    unread: true,
+    type: 'message',
+    doctorId: 'aarthi',
+  },
+  {
+    id: 'n2',
+    title: 'New Clinical Case Published',
+    description: 'Dr. Arun Mehta shared "Emergency Laparoscopic Intervention in Canine Splenic Torsion".',
+    time: '45m ago',
+    unread: true,
+    type: 'case',
+  },
+  {
+    id: 'n3',
+    title: 'New Peer Follower',
+    description: 'Dr. Priya Nair started following your veterinary surgery network.',
+    time: '2h ago',
+    unread: true,
+    type: 'follower',
+  },
+  {
+    id: 'n4',
+    title: 'Veterinary Summit Registration',
+    description: 'Registration opens tomorrow for the National Veterinary Multi-Specialty Conference.',
+    time: '1d ago',
+    unread: false,
+    type: 'event',
+  },
+];
 
 /* ── Theme Toggle Button ─────────────────────────────────── */
 const ThemeToggleButton = () => {
@@ -50,13 +86,38 @@ export const Header = ({ onCreateProfile }) => {
   const [filterQuery, setFilterQuery] = useState('');
   const [imgError, setImgError] = useState(false);
 
-  const dropdownRef = useRef(null); 
+  const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
-  // Close dropdown when clicking outside
+  const dropdownRef = useRef(null); 
+  const notificationsRef = useRef(null);
+
+  const unreadCount = notifications.filter((n) => n.unread).length;
+
+  const handleMarkAllRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
+  };
+
+  const handleNotificationClick = (item) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === item.id ? { ...n, unread: false } : n))
+    );
+    if (item.doctorId) {
+      window.dispatchEvent(
+        new CustomEvent('zenve_open_message', { detail: { doctorId: item.doctorId } })
+      );
+      setIsNotificationsOpen(false);
+    }
+  };
+
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
+        setIsNotificationsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -199,6 +260,83 @@ export const Header = ({ onCreateProfile }) => {
         <div className="zenve-community-badge">
           <span className="zenve-status-dot" />
           <span className="zenve-community-text">Open community</span>
+        </div>
+
+        {/* Notification Bell Icon & Interactive Dropdown */}
+        <div className="zenve-notification-wrapper" ref={notificationsRef}>
+          <button
+            type="button"
+            className={`zenve-notification-btn ${isNotificationsOpen ? 'active' : ''}`}
+            onClick={() => setIsNotificationsOpen((prev) => !prev)}
+            title="Notifications"
+            aria-label="Notifications"
+            aria-expanded={isNotificationsOpen}
+          >
+            <NotificationIcon size={19} color="currentColor" />
+            {unreadCount > 0 && (
+              <span className="zenve-notification-badge" aria-label={`${unreadCount} unread notifications`}>
+                {unreadCount}
+              </span>
+            )}
+          </button>
+
+          {isNotificationsOpen && (
+            <div className="zenve-notifications-dropdown" role="dialog" aria-label="Notifications panel">
+              <div className="zenve-notifications-header">
+                <div className="zenve-notifications-title-row">
+                  <h4 className="zenve-notifications-title">Notifications</h4>
+                  {unreadCount > 0 && (
+                    <span className="zenve-notifications-unread-pill">{unreadCount} new</span>
+                  )}
+                </div>
+                {unreadCount > 0 && (
+                  <button
+                    type="button"
+                    className="zenve-notifications-mark-read"
+                    onClick={handleMarkAllRead}
+                  >
+                    Mark all read
+                  </button>
+                )}
+              </div>
+
+              <div className="zenve-notifications-list">
+                {notifications.length > 0 ? (
+                  notifications.map((item) => (
+                    <div
+                      key={item.id}
+                      className={`zenve-notification-item ${item.unread ? 'unread' : ''}`}
+                      onClick={() => handleNotificationClick(item)}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      <div className="zenve-notification-icon-wrap">
+                        {item.type === 'message' ? (
+                          <span className="zenve-notif-type-icon msg">💬</span>
+                        ) : item.type === 'case' ? (
+                          <span className="zenve-notif-type-icon case">🩺</span>
+                        ) : item.type === 'follower' ? (
+                          <span className="zenve-notif-type-icon user">👤</span>
+                        ) : (
+                          <span className="zenve-notif-type-icon alert">🔔</span>
+                        )}
+                      </div>
+                      <div className="zenve-notification-content">
+                        <p className="zenve-notification-item-title">{item.title}</p>
+                        <p className="zenve-notification-item-desc">{item.description}</p>
+                        <span className="zenve-notification-time">{item.time}</span>
+                      </div>
+                      {item.unread && <span className="zenve-notification-dot" />}
+                    </div>
+                  ))
+                ) : (
+                  <div className="zenve-notifications-empty">
+                    No new notifications right now
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Dark / Light Mode Toggle */}
