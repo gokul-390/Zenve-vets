@@ -20,24 +20,21 @@ import {
   SlidersHorizontal,
   Activity,
   AlertCircle,
-  Newspaper,
 } from 'lucide-react';
 
 import { VETERINARIANS } from '../data/veterinarians';
 import { DOCTORS_DATABASE } from '../data/doctorsData';
-import {SHORT_VIDEOS_DATA} from '../data/shortVideosData';
+import { SHORT_VIDEOS_DATA } from '../data/shortVideosData';
 
 import '../csscomponents/SearchPage.css';
 
 const STORAGE_KEYS = {
-  posts: 'zenve_community_posts',
   stories: 'zenve_user_stories',
   cases: 'zenve_clinical_cases',
   doctors: 'zenve_clinical_doctors',
 };
 
 const CONTENT_UPDATED_EVENT = 'zenve:community-content-updated';
-const FEED_SAMPLES_EVENT = 'zenve:feed-samples-ready';
 const CASE_SAMPLES_EVENT = 'zenve:clinical-samples-ready';
 
 const AVATAR_COLORS = [
@@ -63,14 +60,10 @@ const SPECIALTY_CHIPS = [
 const CONTENT_TABS = [
   { label: 'All', icon: LayoutGrid },
   { label: 'Doctors', icon: Stethoscope },
-  { label: 'Feed', icon: Newspaper },
   { label: 'Clinical Cases', icon: FileText },
   { label: 'Short Videos', icon: PlayCircle },
-  { label: 'Stories', icon: Heart },
 ];
 
-// Fallback sample cases ensure Search works even before
-// ClinicalCases.jsx has mounted and exposed its sample data.
 const FALLBACK_CASES = [
   {
     id: 'case-001',
@@ -148,7 +141,6 @@ function readStoredArray(key) {
 
 function readWindowArray(key) {
   if (typeof window === 'undefined') return [];
-
   return Array.isArray(window[key]) ? window[key] : [];
 }
 
@@ -257,76 +249,6 @@ function getClinicalDoctors() {
   );
 }
 
-function getDoctorProfileContent() {
-  const posts = [];
-  const videos = [];
-
-  getStoredDoctorContent().forEach((doctor, doctorIndex) => {
-    const author = asText(doctor.name, 'Veterinary professional');
-    const authorId = asText(doctor.id, `profile-${doctorIndex}`);
-
-    asArray(doctor.posts).forEach((post, postIndex) => {
-      const isVideo = Boolean(
-        post?.isVideoShort ||
-          post?.videoUrl ||
-          post?.mediaType === 'video' ||
-          post?.type === 'video'
-      );
-
-      const title = asText(
-        post?.title || post?.caption || post?.description || post?.content,
-        'Veterinary community post'
-      );
-
-      const item = {
-        id: asText(post?.id, `${authorId}-post-${postIndex}`),
-        type: isVideo ? 'Short Videos' : 'Feed',
-        title,
-        description: asText(
-          post?.description || post?.caption || post?.content,
-          title
-        ),
-        author,
-        time: asText(post?.timeAgo || post?.createdAt, 'Profile post'),
-        image: asText(
-          post?.thumbnailUrl ||
-            post?.imageUrl ||
-            post?.mediaUrl ||
-            post?.image
-        ),
-        videoUrl: asText(post?.videoUrl),
-        searchText: `${title} ${author} ${asArray(post?.tags).join(' ')}`,
-      };
-
-      if (isVideo) videos.push(item);
-      else posts.push(item);
-    });
-
-    asArray(doctor.videos).forEach((video, videoIndex) => {
-      const title = asText(
-        video?.title || video?.caption || video?.description,
-        'Veterinary educational video'
-      );
-
-      videos.push({
-        id: asText(video?.id, `${authorId}-video-${videoIndex}`),
-        type: 'Short Videos',
-        title,
-        description: asText(video?.description || video?.caption, title),
-        author,
-        time: asText(video?.timeAgo || video?.createdAt, 'Profile video'),
-        image: asText(
-          video?.thumbnailUrl || video?.imageUrl || video?.thumbnail
-        ),
-        videoUrl: asText(video?.videoUrl || video?.url),
-        searchText: `${title} ${author}`,
-      });
-    });
-  });
-
-  return { posts, videos };
-}
-
 function normalizeCase(item, index) {
   const title = asText(
     item?.title || item?.caseNumber,
@@ -394,56 +316,6 @@ function normalizeCase(item, index) {
   };
 }
 
-function normalizePost(item, index) {
-  const title = asText(
-    item?.title || item?.caption || item?.description || item?.content,
-    'Community post'
-  );
-
-  const isVideo = Boolean(
-    item?.isVideoShort ||
-      item?.videoUrl ||
-      item?.mediaType === 'video' ||
-      item?.type === 'video'
-  );
-
-  return {
-    id: asText(item?.id, `post-${index}`),
-    type: isVideo ? 'Short Videos' : 'Feed',
-    title,
-    description: asText(
-      item?.description || item?.caption || item?.content,
-      title
-    ),
-    author: asText(
-      item?.authorName || item?.author?.name || item?.name,
-      'Community member'
-    ),
-    time: asText(
-      item?.timeAgo || item?.createdAt || item?.time,
-      'Community post'
-    ),
-    image: asText(
-      item?.thumbnailUrl ||
-        item?.mediaUrl ||
-        item?.imageUrl ||
-        item?.image
-    ),
-    videoUrl: asText(item?.videoUrl),
-    searchText: [
-      title,
-      item?.authorName,
-      item?.authorSpecialty,
-      item?.caption,
-      item?.description,
-      item?.audioTitle,
-      asArray(item?.tags).join(' '),
-    ]
-      .map((value) => asText(value))
-      .join(' '),
-  };
-}
-
 function normalizeStory(item, index) {
   const title = asText(
     item?.title || item?.caption || item?.name || item?.authorName,
@@ -458,10 +330,7 @@ function normalizeStory(item, index) {
       item?.description || item?.caption,
       'A story shared by the veterinary community.'
     ),
-    author: asText(
-      item?.authorName || item?.name,
-      'Community member'
-    ),
+    author: asText(item?.authorName || item?.name, 'Community member'),
     time: asText(
       item?.timeAgo || item?.createdAt || item?.time,
       'Community story'
@@ -540,9 +409,9 @@ function uniqueItems(items) {
     return true;
   });
 }
+
 function normalizeShortVideo(video, index) {
   const author = video?.author || {};
-
   const title = asText(video?.title, `Clinical video ${index + 1}`);
   const videoUrl = asText(video?.videoUrl);
 
@@ -572,50 +441,19 @@ function normalizeShortVideo(video, index) {
       .join(' '),
   };
 }
+
 function getDiscoveryContent() {
   if (typeof window === 'undefined') return [];
 
-  const storedPosts = readStoredArray(STORAGE_KEYS.posts);
   const storedStories = readStoredArray(STORAGE_KEYS.stories);
   const storedCases = readStoredArray(STORAGE_KEYS.cases);
-
-  const feedSamples = window.__ZENVE_FEED_SAMPLES__ || {};
-  const samplePosts = asArray(feedSamples.posts);
-  const sampleStories = asArray(feedSamples.stories);
-
   const caseSamples = readWindowArray('__ZENVE_CASE_SAMPLES__');
-  const profileContent = getDoctorProfileContent();
 
-  // Include videos from the dedicated Short Videos page.
-  const dedicatedShortVideos = asArray(SHORT_VIDEOS_DATA).map(
-    normalizeShortVideo
-  );
-
-  const posts = uniqueItems(
-    [...storedPosts, ...samplePosts].map((item, index) =>
-      normalizePost(item, index)
-    )
-  );
-
-  const storedStoryItems = storedStories.flatMap((story, storyIndex) => {
-    if (Array.isArray(story?.items)) {
-      return story.items.map((item, itemIndex) => ({
-        ...item,
-        authorName: story.name || item.authorName,
-        id:
-          item.id ||
-          `${story.id || story.name || `story-${storyIndex}`}-${itemIndex}`,
-      }));
-    }
-
-    return [story];
-  });
+  const storyGroups = window.__ZENVE_FEED_SAMPLES__?.stories || [];
 
   const stories = uniqueItems([
-    ...storedStoryItems.map((item, index) =>
-      normalizeStory(item, index)
-    ),
-    ...normalizeStoryGroups(sampleStories),
+    ...storedStories.map((item, index) => normalizeStory(item, index)),
+    ...normalizeStoryGroups(storyGroups),
   ]);
 
   const cases = uniqueItems(
@@ -624,31 +462,15 @@ function getDiscoveryContent() {
     )
   );
 
-  // Separate regular feed posts from video posts.
-  const feedItems = [
-    ...posts.filter((item) => item.type === 'Feed'),
-    ...profileContent.posts,
-  ];
+  const videos = asArray(SHORT_VIDEOS_DATA).map(normalizeShortVideo);
 
-  const videoItems = [
-    ...posts.filter((item) => item.type === 'Short Videos'),
-    ...profileContent.videos,
-  ];
-
-  return uniqueItems([
-    ...cases,
-    ...stories,
-    ...feedItems,
-    ...videoItems,
-    ...dedicatedShortVideos,
-  ]);
+  return uniqueItems([...cases, ...videos, ...stories]);
 }
 
 function getContentIcon(type) {
   if (type === 'Clinical Cases') return FileText;
   if (type === 'Short Videos') return PlayCircle;
-  if (type === 'Stories') return Heart;
-  return Newspaper;
+  return Heart;
 }
 
 function getPriorityClass(priority) {
@@ -773,41 +595,41 @@ function DiscoveryCard({ item }) {
         </div>
       )}
 
-{item.image && !isVideo && (
-  <div className="discovery-card-media">
-    <img
-      src={item.image}
-      alt={item.title}
-      loading="lazy"
-      onError={(event) => {
-        event.currentTarget.style.display = 'none';
-      }}
-    />
-  </div>
-)}
-
-{isVideo && (
-  <div className="discovery-video-player">
-    <video
-      controls
-      playsInline
-      preload="metadata"
-      poster={item.image || undefined}
-    >
-      {item.videoUrl && (
-        <source
-          src={item.videoUrl}
-          type={
-            item.videoUrl.toLowerCase().endsWith('.webm')
-              ? 'video/webm'
-              : 'video/mp4'
-          }
-        />
+      {item.image && !isVideo && (
+        <div className="discovery-card-media">
+          <img
+            src={item.image}
+            alt={item.title}
+            loading="lazy"
+            onError={(event) => {
+              event.currentTarget.style.display = 'none';
+            }}
+          />
+        </div>
       )}
-      Your browser does not support embedded video.
-    </video>
-  </div>
-)}
+
+      {isVideo && (
+        <div className="discovery-video-player">
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            poster={item.image || undefined}
+          >
+            {item.videoUrl && (
+              <source
+                src={item.videoUrl}
+                type={
+                  item.videoUrl.toLowerCase().endsWith('.webm')
+                    ? 'video/webm'
+                    : 'video/mp4'
+                }
+              />
+            )}
+            Your browser does not support embedded video.
+          </video>
+        </div>
+      )}
 
       <div className="discovery-card-footer">
         <span>
@@ -832,7 +654,7 @@ export default function SearchPage() {
   const [profilePhotos, setProfilePhotos] = useState({});
   const [contentVersion, setContentVersion] = useState(0);
   const [sortBy, setSortBy] = useState('relevant');
-
+  const [viewingPhoto, setViewingPhoto] = useState(null);
   const photoInputRef = useRef(null);
 
   useEffect(() => {
@@ -858,19 +680,16 @@ export default function SearchPage() {
 
     window.addEventListener('storage', handleStorage);
     window.addEventListener(CONTENT_UPDATED_EVENT, refreshContent);
-    window.addEventListener(FEED_SAMPLES_EVENT, refreshContent);
     window.addEventListener(CASE_SAMPLES_EVENT, refreshContent);
     window.addEventListener('focus', refreshContent);
 
     return () => {
       window.removeEventListener('storage', handleStorage);
       window.removeEventListener(CONTENT_UPDATED_EVENT, refreshContent);
-      window.removeEventListener(FEED_SAMPLES_EVENT, refreshContent);
       window.removeEventListener(CASE_SAMPLES_EVENT, refreshContent);
       window.removeEventListener('focus', refreshContent);
     };
   }, []);
-
 
   const doctors = useMemo(() => {
     const directory = getDoctorDirectory();
@@ -883,19 +702,6 @@ export default function SearchPage() {
       return true;
     });
   }, [contentVersion]);
-
-  useEffect(() => {
-    if (!selectedDoctor) return;
-
-    document.body.classList.add('doctor-profile-open');
-
-    return () => {
-      document.body.classList.remove('doctor-profile-open');
-    };
-  }, [selectedDoctor]);
-
- 
-
 
   const discoveryItems = useMemo(
     () => getDiscoveryContent(),
@@ -995,10 +801,8 @@ export default function SearchPage() {
 
       const matchesTab =
         tab === 'All' ||
-        (tab === 'Feed' && item.type === 'Feed') ||
         (tab === 'Clinical Cases' && item.type === 'Clinical Cases') ||
-        (tab === 'Short Videos' && item.type === 'Short Videos') ||
-        (tab === 'Stories' && item.type === 'Stories');
+        (tab === 'Short Videos' && item.type === 'Short Videos');
 
       return matchesSearch && matchesTab;
     });
@@ -1008,10 +812,12 @@ export default function SearchPage() {
     () => ({
       all: doctors.length + discoveryItems.length,
       doctors: doctors.length,
-      feed: discoveryItems.filter((item) => item.type === 'Feed').length,
-      cases: discoveryItems.filter((item) => item.type === 'Clinical Cases').length,
-      videos: discoveryItems.filter((item) => item.type === 'Short Videos').length,
-      stories: discoveryItems.filter((item) => item.type === 'Stories').length,
+      cases: discoveryItems.filter(
+        (item) => item.type === 'Clinical Cases'
+      ).length,
+      videos: discoveryItems.filter(
+        (item) => item.type === 'Short Videos'
+      ).length,
     }),
     [doctors, discoveryItems]
   );
@@ -1023,13 +829,9 @@ export default function SearchPage() {
         ? contentCounts.all
         : item.label === 'Doctors'
           ? contentCounts.doctors
-          : item.label === 'Feed'
-            ? contentCounts.feed
-            : item.label === 'Clinical Cases'
-              ? contentCounts.cases
-              : item.label === 'Short Videos'
-                ? contentCounts.videos
-                : contentCounts.stories,
+          : item.label === 'Clinical Cases'
+            ? contentCounts.cases
+            : contentCounts.videos,
   }));
 
   function toggleConnection(doctorId) {
@@ -1095,8 +897,8 @@ export default function SearchPage() {
         <span className="search-eyebrow">DISCOVER THE COMMUNITY</span>
         <h1>Find people, cases &amp; answers.</h1>
         <p>
-          Search the veterinary network, community feed, clinical cases,
-          short videos, and stories in one place.
+          Search veterinary professionals, clinical cases, short videos, and
+          community stories in one place.
         </p>
       </header>
 
@@ -1106,8 +908,8 @@ export default function SearchPage() {
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search people, posts, cases, videos, stories..."
-            aria-label="Search all Zenve Vet content"
+            placeholder="Search doctors, cases, videos, and stories..."
+            aria-label="Search Zenve Vet content"
           />
 
           {query && (
@@ -1264,16 +1066,37 @@ export default function SearchPage() {
                       </div>
 
                       <div
-                        className="doctor-avatar"
-                        style={{ backgroundColor: doctor.color }}
-                        aria-label={`${doctor.name} profile`}
-                      >
-                        {photo ? (
-                          <img src={photo} alt={`${doctor.name} profile`} />
-                        ) : (
-                          doctor.initials
-                        )}
-                      </div>
+  className="doctor-avatar"
+  style={{ backgroundColor: doctor.color }}
+  aria-label={`${doctor.name} profile`}
+>
+  {photo ? (
+    <img
+  src={photo}
+  alt={`${doctor.name} profile`}
+  onClick={() =>
+    setViewingPhoto({
+      src: photo,
+      name: doctor.name,
+    })
+  }
+  title={`View ${doctor.name}'s photo`}
+  tabIndex={0}
+  role="button"
+  onKeyDown={(event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setViewingPhoto({
+        src: photo,
+        name: doctor.name,
+      });
+    }
+  }}
+/>
+  ) : (
+    doctor.initials
+  )}
+</div>
 
                       <div className="doctor-card-body">
                         <span className="doctor-label">
@@ -1370,17 +1193,13 @@ export default function SearchPage() {
         <section className="search-discovery-section">
           <div className="search-results-heading discovery-heading">
             <div>
-              <span className="search-results-eyebrow">COMMUNITY CONTENT</span>
+              <span className="search-results-eyebrow">DISCOVER</span>
               <h2>
-                {tab === 'Feed'
-                  ? 'Feed posts'
-                  : tab === 'Clinical Cases'
-                    ? 'Clinical cases'
-                    : tab === 'Short Videos'
-                      ? 'Short videos'
-                      : tab === 'Stories'
-                        ? 'Community stories'
-                        : 'Feed, cases, short videos & stories'}
+                {tab === 'Clinical Cases'
+                  ? 'Clinical cases'
+                  : tab === 'Short Videos'
+                    ? 'Short videos'
+                    : 'Clinical cases, short videos & stories'}
               </h2>
             </div>
 
@@ -1422,6 +1241,15 @@ export default function SearchPage() {
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
               setSelectedDoctor(null);
+            }
+          }}
+          onWheel={(event) => {
+            const modal = event.currentTarget.querySelector(
+              '.doctor-profile-modal'
+            );
+
+            if (modal && !modal.contains(event.target)) {
+              modal.scrollTop += event.deltaY;
             }
           }}
         >
@@ -1570,6 +1398,41 @@ export default function SearchPage() {
           </section>
         </div>
       )}
+      {viewingPhoto && (
+  <div
+    className="doctor-photo-lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label={`${viewingPhoto.name}'s profile photo`}
+    onClick={() => setViewingPhoto(null)}
+    onKeyDown={(event) => {
+      if (event.key === 'Escape') {
+        setViewingPhoto(null);
+      }
+    }}
+    tabIndex={-1}
+  >
+    <button
+      type="button"
+      className="doctor-photo-lightbox-close"
+      aria-label="Close photo"
+      onClick={() => setViewingPhoto(null)}
+    >
+      <X size={25} />
+    </button>
+
+    <img
+      className="doctor-photo-lightbox-image"
+      src={viewingPhoto.src}
+      alt={`${viewingPhoto.name} profile`}
+      onClick={(event) => event.stopPropagation()}
+    />
+
+    <p className="doctor-photo-lightbox-name">
+      {viewingPhoto.name}
+    </p>
+  </div>
+)}
     </section>
   );
 }
