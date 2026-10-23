@@ -12,10 +12,10 @@ import CreateProfileModal from './components/CreateProfileModal';
 import VetNetwork from './components/VetNetwork';
 import ClinicalCases from './components/ClinicalCases';
 import MessagesPage from './components/MessagesPage';
+import ShortVideosPage from './components/ShortVideosPage';
 
 import './csscomponents/App.css';
-
-export function App() {
+ export function App() {
   const [activeTab, setActiveTab] = useState('feed');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeMessageDoctorId, setActiveMessageDoctorId] = useState(null);
@@ -112,7 +112,7 @@ export function App() {
         />
 
         <main className="zenve-content-workspace">
-          {activeTab === 'feed' || activeTab === 'videos' ? (
+          {activeTab === 'feed' ? (
             <div className="zenve-feed-layout-columns">
               <FeedContent
                 onOpenCreateProfile={() => setIsModalOpen(true)}
@@ -125,6 +125,11 @@ export function App() {
                 onSelectTab={handleSelectTab}
               />
             </div>
+          ) : activeTab === 'videos' ? (
+            <ShortVideosPage
+              onSelectTab={handleSelectTab}
+              onOpenCreateProfile={() => setIsModalOpen(true)}
+            />
           ) : activeTab === 'network' ? (
             <VetNetwork
               customVets={customVets}

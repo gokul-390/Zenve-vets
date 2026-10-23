@@ -447,42 +447,42 @@ export const MemberBenefitsPage = ({
       icon: <GlobeIcon />,
       title: 'A page that is entirely you',
       description:
-        'A shareable professional presence with your story, specialty, clinical journal and community contributions.',
+        'A shareable professional presence showcasing your clinical journey, specialty expertise, journal entries, and contributions to animal health.',
     },
     {
       id: 'peers',
       icon: <PeersIcon />,
       title: 'Peers beyond your postcode',
       description:
-        'Discover doctors across India, make connections and bring new perspectives into your practice.',
+        'Discover verified veterinary doctors across India, cultivate lasting peer connections, and bring collaborative perspectives into your daily practice.',
     },
     {
       id: 'knowledge',
       icon: <KnowledgeIcon />,
       title: 'Knowledge that travels',
       description:
-        'Share de-identified cases, discuss clinical questions and learn through thoughtful conversations.',
+        'Share de-identified diagnostic cases, discuss complex clinical questions, and advance patient care through thoughtful collegial conversations.',
     },
     {
       id: 'voice',
       icon: <VoiceIcon />,
       title: 'Your voice, in every format',
       description:
-        'Publish photos, stories and short videos that bring your practice and ideas to life.',
+        'Publish operative photos, clinical case stories, and engaging short videos that bring your veterinary practice, expertise, and ideas to life.',
     },
     {
       id: 'ideas',
       icon: <FutureIdeasIcon />,
       title: 'Ideas with a future',
       description:
-        'Explore innovation scholarship, technology guidance and pilot pathways. Selection and support are subject to program criteria.',
+        'Explore veterinary innovation scholarships, clinical technology guidance, and emerging pilot pathways designed to accelerate your practice\'s growth.',
     },
     {
       id: 'growth',
       icon: <RoomToGrowIcon />,
       title: 'Room to grow',
       description:
-        'Discover potential mentorship, research collaboration and professional visibility through the Zenve community. Program opportunities are not guaranteed.',
+        'Discover tailored clinical mentorship, collaborative research initiatives, and elevated professional visibility across the nationwide Zenve community.',
     },
   ];
 
@@ -504,7 +504,7 @@ export const MemberBenefitsPage = ({
           <h1 className="zenve-Member-benefits-title">
             More than a network.
             <br />
-            A place to become.
+            <span>A place to become.</span>
           </h1>
 
           <p className="zenve-Member-benefits-subtitle">

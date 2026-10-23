@@ -5,9 +5,12 @@ ZENVE VET SIDENAV STYLES
 .zenve-sidenav {
 width: 260px;
 min-width: 260px;
+flex-shrink: 0;
 height: calc(100vh - 68px);
 position: sticky;
 top: 68px;
+align-self: flex-start;
+z-index: 50;
 background-color: #FFFDF9;
 border-right: 1px solid #E9DFD5;
 padding: 26px 16px 28px 24px;
@@ -26,7 +29,9 @@ width 0.22s ease,
 min-width 0.22s ease,
 padding 0.22s ease,
 box-shadow 0.22s ease,
-scrollbar-color 0.2s ease;
+scrollbar-color 0.2s ease,
+background-color 0.25s ease,
+border-color 0.25s ease;
 }
 
 .zenve-sidenav:hover {
@@ -399,6 +404,7 @@ line-height: 1.45;
 }
 
 /* =========================================
+<<<<<<< HEAD
 DESKTOP SIDEBAR: COLLAPSED / EXPANDED
 ========================================= */
 
@@ -432,15 +438,20 @@ margin-right: 12px;
 }
 
 /* =========================================
+=======
+>>>>>>> d151aa7d4e0f923c03bd7f73696637a60c9c4389
 TABLET AND MOBILE SIDEBAR
 ========================================= */
 
 @media (max-width: 768px) {
 .zenve-sidenav {
-position: static;
+position: sticky;
+top: 68px;
+align-self: flex-start;
+flex-shrink: 0;
 width: 74px;
 min-width: 74px;
-height: auto;
+height: calc(100vh - 68px);
 padding: 20px 10px;
 box-shadow: none;
 }
@@ -487,4 +498,158 @@ height: 42px;
 width: 20px;
 height: 20px;
 }
+}
+
+/* =========================================
+DARK MODE STYLES FOR SIDENAV
+========================================= */
+
+[data-theme='dark'] .zenve-sidenav {
+background-color: #121e18;
+border-right-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-sidenav:hover {
+scrollbar-color: #2a3d34 transparent;
+}
+
+[data-theme='dark'] .zenve-sidenav:hover::-webkit-scrollbar-thumb {
+background-color: #2a3d34;
+}
+
+[data-theme='dark'] .zenve-sidenav-section-title {
+color: #7d9987;
+}
+
+[data-theme='dark'] .zenve-sidenav-headline {
+color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-nav-item {
+color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-nav-item:hover:not(.zenve-nav-item-active) {
+background-color: #182820;
+}
+
+[data-theme='dark'] .zenve-nav-item:hover:not(.zenve-nav-item-active) .zenve-nav-label {
+color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-nav-item:hover:not(.zenve-nav-item-active) .zenve-nav-icon,
+[data-theme='dark'] .zenve-nav-item:hover:not(.zenve-nav-item-active) .zenve-nav-icon svg {
+color: #4ade80;
+stroke: #4ade80;
+}
+
+[data-theme='dark'] .zenve-nav-item-active {
+background-color: #193325;
+}
+
+[data-theme='dark'] .zenve-nav-icon {
+color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-nav-icon svg {
+stroke: currentColor;
+}
+
+[data-theme='dark'] .zenve-nav-item-active .zenve-nav-icon,
+[data-theme='dark'] .zenve-nav-item-active .zenve-nav-icon svg {
+color: #4ade80;
+stroke: #4ade80;
+}
+
+[data-theme='dark'] .zenve-nav-label {
+color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-nav-item-active .zenve-nav-label {
+color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-active-pill {
+background-color: #4ade80;
+box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+}
+
+[data-theme='dark'] .zenve-sidenav-divider {
+border-top-color: #1f2f28;
+}
+
+[data-theme='dark'] .zenve-discover-link-item {
+color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-discover-link-item:hover {
+background-color: #182820;
+color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-discover-link-icon {
+color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-discover-link-item:hover .zenve-discover-link-icon {
+color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-discover-link-arrow {
+color: #6a8070;
+}
+
+[data-theme='dark'] .zenve-discover-link-item:hover .zenve-discover-link-arrow {
+color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-sidenav-promo-card {
+background-color: #16261e;
+border-color: #23372c;
+}
+
+[data-theme='dark'] .zenve-promo-sparkle-icon {
+color: #f0b429;
+}
+
+[data-theme='dark'] .zenve-promo-title {
+color: #e2ede6;
+}
+
+[data-theme='dark'] .zenve-promo-desc {
+color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-promo-join-btn {
+background-color: #1f3328;
+border-color: #c9a94a;
+color: #f0b429;
+}
+
+[data-theme='dark'] .zenve-promo-join-btn:hover {
+background-color: #274234;
+border-color: #4ade80;
+color: #4ade80;
+}
+
+[data-theme='dark'] .zenve-promo-subtext {
+color: #6a8070;
+}
+
+[data-theme='dark'] .zenve-sidenav-credits {
+color: #6a8070;
+}
+
+[data-theme='dark'] .zenve-credits-categories,
+[data-theme='dark'] .zenve-credits-copy,
+[data-theme='dark'] .zenve-credits-disclaimer {
+color: #6a8070;
+}
+
+[data-theme='dark'] .zenve-credits-link {
+color: #8faa99;
+}
+
+[data-theme='dark'] .zenve-credits-link:hover {
+color: #4ade80;
 }

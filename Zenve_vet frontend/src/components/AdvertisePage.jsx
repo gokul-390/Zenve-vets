@@ -170,10 +170,7 @@ export default function AdvertisePage({ onOpenDashboard }) {
             </h2>
           </div>
 
-          <p>
-            Built around relevant communication, responsible review, and
-            campaign performance visibility.
-          </p>
+         
         </div>
 
         <div className="advertise-benefits">
@@ -241,10 +238,6 @@ export default function AdvertisePage({ onOpenDashboard }) {
 
           <h2>Let's build your campaign.</h2>
 
-          <p>
-            Share your brand details and campaign preferences. You can
-            refine the plan with the Zenve Vet team.
-          </p>
         </div>
 
         <div className="advertiser-panels">

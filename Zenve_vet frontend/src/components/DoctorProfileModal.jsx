@@ -390,7 +390,7 @@ export const DoctorProfileModal = ({ doctor, isOpen, onClose, isFollowing, onTog
             <div className="zenve-doc-current-user-follow-card">
               <div className="zenve-doc-user-follow-avatar">
                 <img
-                  src="https://images.unsplash.com/photo-1594824813686-271790ee1078?auto=format&fit=crop&w=150&h=150&q=80"
+                  src="/images/doctors/arun.jpg"
                   alt="You"
                 />
               </div>

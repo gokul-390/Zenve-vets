@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { SearchIcon, PlusIcon } from './Icons';
 import '../csscomponents/ClinicalCases.css';
 
@@ -153,7 +153,13 @@ const PRIORITY_COLOR = {
 };
 
 /* ── Storage helpers ──────────────────────────────────────────────────── */
-
+function notifyClinicalCasesUpdated() {
+  window.dispatchEvent(
+    new CustomEvent('zenve:community-content-updated', {
+      detail: { type: 'clinical-cases' },
+    })
+  );
+}
 function loadFromStorage(key, fallback) {
   try {
     const stored = localStorage.getItem(key);
@@ -234,6 +240,8 @@ export const ClinicalCases = () => {
   const [docEditData, setDocEditData] = useState(null);
   const [docMode, setDocMode] = useState(null); // 'add' | 'edit' | 'view'
   const [docFormError, setDocFormError] = useState('');
+  const [docFormSuccess, setDocFormSuccess] = useState(false);
+  const [docEditMode, setDocEditMode] = useState('edit'); // 'add' | 'edit'
 
   /* ── Derived ── */
   const filteredCases = useMemo(() => {
@@ -274,6 +282,17 @@ export const ClinicalCases = () => {
     const critical = cases.filter((c) => c.priority === 'Critical').length;
     return { all, active, resolved, critical };
   }, [cases]);
+
+  /* ── Lock background scroll when Add Case / modal is open ── */
+  useEffect(() => {
+    if (caseMode || docMode || docView) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [caseMode, docMode, docView]);
 
   /* ── Case CRUD ── */
   const openAddCase = () => {
@@ -321,16 +340,47 @@ export const ClinicalCases = () => {
     closeCaseModal();
   };
 
-  /* ── Doctor CRUD ── */
-  const openAddDoctor = () => {
-    setDocEditData({ ...BLANK_DOCTOR });
-    setDocMode('add');
-    setDocFormError('');
-  };
-  const openEditDoctor = (d) => {
+  /* ── Doctor CRUD & Profile Section ── */
+  const openEditProfileSection = (d) => {
     setDocEditData({ ...d });
-    setDocMode('edit');
+    setDocEditMode('edit');
     setDocFormError('');
+    setDocFormSuccess(false);
+    setPanel('edit-profile');
+  };
+
+  const openAddDoctorSection = () => {
+    setDocEditData({ ...BLANK_DOCTOR });
+    setDocEditMode('add');
+    setDocFormError('');
+    setDocFormSuccess(false);
+    setPanel('edit-profile');
+  };
+
+  const saveDoctorProfileSection = () => {
+    if (!docEditData?.name?.trim() || !docEditData?.doctorId?.trim()) {
+      setDocFormError('Doctor Name and Doctor ID are required.');
+      setDocFormSuccess(false);
+      return;
+    }
+    let updated;
+    if (docEditMode === 'add') {
+      const newDoc = { ...docEditData, id: genId('doc') };
+      updated = [newDoc, ...doctors];
+      setDocEditData(newDoc);
+      setDocEditMode('edit');
+    } else {
+      updated = doctors.map((d) => (d.id === docEditData.id ? { ...docEditData } : d));
+    }
+    setDoctors(updated);
+    saveToStorage('zenve_clinical_doctors', updated);
+    setDocFormError('');
+    setDocFormSuccess(true);
+    setTimeout(() => setDocFormSuccess(false), 3500);
+  };
+
+  const openAddDoctor = () => {
+    openAddDoctorSection();
   };
   const openViewDoctor = (d) => {
     setDocView(d);
@@ -339,7 +389,6 @@ export const ClinicalCases = () => {
   const closeDocModal = () => {
     setDocMode(null);
     setDocView(null);
-    setDocEditData(null);
     setDocFormError('');
   };
 
@@ -364,6 +413,15 @@ export const ClinicalCases = () => {
     const updated = doctors.filter((d) => d.id !== id);
     setDoctors(updated);
     saveToStorage('zenve_clinical_doctors', updated);
+    if (docEditData?.id === id) {
+      if (updated.length > 0) {
+        setDocEditData({ ...updated[0] });
+        setDocEditMode('edit');
+      } else {
+        setDocEditData({ ...BLANK_DOCTOR });
+        setDocEditMode('add');
+      }
+    }
     closeDocModal();
   };
 
@@ -427,6 +485,25 @@ export const ClinicalCases = () => {
             </svg>
             Doctors
             <span className="cc-panel-tab-badge">{doctors.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`cc-panel-tab ${panel === 'edit-profile' ? 'cc-panel-tab--active' : ''}`}
+            onClick={() => {
+              if (!docEditData && doctors.length > 0) {
+                openEditProfileSection(doctors[0]);
+              } else {
+                setDocFormError('');
+                setDocFormSuccess(false);
+                setPanel('edit-profile');
+              }
+            }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+            Edit Profile
           </button>
         </div>
       </div>
@@ -657,25 +734,15 @@ export const ClinicalCases = () => {
                     <div className="cc-doctor-card-actions">
                       <button
                         type="button"
-                        className="cc-icon-btn"
-                        title="View doctor"
-                        onClick={() => openViewDoctor(d)}
+                        className="cc-doctor-edit-btn"
+                        title="Edit Doctor Profile"
+                        onClick={() => openEditProfileSection(d)}
                       >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                          <circle cx="12" cy="12" r="3" />
-                        </svg>
-                      </button>
-                      <button
-                        type="button"
-                        className="cc-icon-btn"
-                        title="Edit doctor"
-                        onClick={() => openEditDoctor(d)}
-                      >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                           <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                         </svg>
+                        <span>Edit Profile</span>
                       </button>
                       <button
                         type="button"
@@ -718,6 +785,274 @@ export const ClinicalCases = () => {
             </div>
           )}
         </>
+      )}
+
+      {/* ══ EDIT PROFILE SECTION ═════════════════════════════════════════ */}
+      {panel === 'edit-profile' && (
+        <section className="cc-edit-profile-section" aria-label="Edit Doctor Profile">
+          {/* Header Bar */}
+          <div className="cc-edit-profile-header">
+            <button
+              type="button"
+              className="cc-edit-back-btn"
+              onClick={() => setPanel('doctors')}
+            >
+              ← Back to Doctors
+            </button>
+
+            <div className="cc-edit-profile-selector-wrap">
+              <span className="cc-edit-selector-label">Select Doctor:</span>
+              <select
+                className="cc-doctor-select"
+                value={docEditData?.id || ''}
+                onChange={(e) => {
+                  const targetDoc = doctors.find((doc) => doc.id === e.target.value);
+                  if (targetDoc) {
+                    openEditProfileSection(targetDoc);
+                  }
+                }}
+              >
+                {doctors.map((doc) => (
+                  <option key={doc.id} value={doc.id}>
+                    {doc.name} ({doc.doctorId}) – {doc.specialization}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                className="cc-new-doctor-btn"
+                onClick={openAddDoctorSection}
+              >
+                + New Doctor
+              </button>
+            </div>
+          </div>
+
+          {/* Section Main Workspace Grid */}
+          <div className="cc-edit-profile-container">
+            {/* Left Rail: Live Doctor Card Preview */}
+            <div className="cc-edit-preview-column">
+              <div className="cc-edit-preview-card">
+                <span className="cc-preview-badge">Live Profile Preview</span>
+                <div className="cc-preview-avatar-wrap">
+                  <img
+                    src={docEditData?.img || 'https://via.placeholder.com/84'}
+                    alt={docEditData?.name || 'Doctor'}
+                    className="cc-preview-avatar"
+                    onError={(e) => { e.target.src = 'https://via.placeholder.com/84'; }}
+                  />
+                </div>
+                <h3 className="cc-preview-name">{docEditData?.name || 'Doctor Name'}</h3>
+                <span className="cc-doctor-id-badge">{docEditData?.doctorId || 'ZV-DR-XXX'}</span>
+                <p className="cc-preview-spec">{docEditData?.specialization || 'Specialization'}</p>
+
+                <div className="cc-preview-details">
+                  <div className="cc-preview-detail-item">
+                    <span className="cc-preview-item-icon">🎓</span>
+                    <span className="cc-preview-item-text">{docEditData?.qualification || 'Not specified'}</span>
+                  </div>
+                  <div className="cc-preview-detail-item">
+                    <span className="cc-preview-item-icon">🏥</span>
+                    <span className="cc-preview-item-text">{docEditData?.clinic || 'Not specified'}</span>
+                  </div>
+                  <div className="cc-preview-detail-item">
+                    <span className="cc-preview-item-icon">📍</span>
+                    <span className="cc-preview-item-text">{docEditData?.location || 'Not specified'}</span>
+                  </div>
+                  <div className="cc-preview-detail-item">
+                    <span className="cc-preview-item-icon">📞</span>
+                    <span className="cc-preview-item-text">{docEditData?.contact || 'Not specified'}</span>
+                  </div>
+                  <div className="cc-preview-detail-item">
+                    <span className="cc-preview-item-icon">✉️</span>
+                    <span className="cc-preview-item-text">{docEditData?.email || 'Not specified'}</span>
+                  </div>
+                  <div className="cc-preview-detail-item">
+                    <span className="cc-preview-item-icon">🕐</span>
+                    <span className="cc-preview-item-text">{docEditData?.availability || 'Not specified'}</span>
+                  </div>
+                </div>
+
+                {docEditData?.id && (
+                  <div className="cc-preview-cases-box">
+                    <span className="cc-preview-cases-label">Assigned Cases:</span>
+                    <span className="cc-preview-cases-count">
+                      {cases.filter((c) => c.assignedDoctorId === docEditData.id).length} Active Case(s)
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Right Column: Edit Profile Form Card */}
+            <div className="cc-edit-form-column">
+              <div className="cc-edit-form-card">
+                <div className="cc-edit-form-card-header">
+                  <div>
+                    <h2 className="cc-edit-form-title">
+                      {docEditMode === 'add' ? 'Add New Doctor Profile' : `Edit Doctor Profile: ${docEditData?.name || ''}`}
+                    </h2>
+                    <p className="cc-edit-form-subtitle">
+                      Modify doctor credentials, contact details, clinic details, and availability schedule.
+                    </p>
+                  </div>
+                </div>
+
+                {docFormSuccess && (
+                  <div className="cc-form-success">
+                    ✓ Doctor profile updated successfully!
+                  </div>
+                )}
+                {docFormError && (
+                  <div className="cc-form-error">{docFormError}</div>
+                )}
+
+                <div className="cc-form-grid">
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Doctor Name *</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.name || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, name: e.target.value }))}
+                      placeholder="e.g. Dr. Aarthi"
+                    />
+                  </div>
+
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Doctor ID *</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.doctorId || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, doctorId: e.target.value }))}
+                      placeholder="e.g. ZV-DR-001"
+                    />
+                  </div>
+
+                  <div className="cc-form-group cc-form-group--full">
+                    <label className="cc-form-label">Qualification</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.qualification || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, qualification: e.target.value }))}
+                      placeholder="e.g. BVSc & AH, MVSc (Orthopedic Surgery)"
+                    />
+                  </div>
+
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Specialization</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.specialization || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, specialization: e.target.value }))}
+                      placeholder="e.g. Orthopedic Surgery"
+                    />
+                  </div>
+
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Clinic / Hospital</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.clinic || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, clinic: e.target.value }))}
+                      placeholder="e.g. Bengaluru Pet Orthopedics Centre"
+                    />
+                  </div>
+
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Location</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.location || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, location: e.target.value }))}
+                      placeholder="e.g. Bengaluru, Karnataka"
+                    />
+                  </div>
+
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Contact Number</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.contact || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, contact: e.target.value }))}
+                      placeholder="e.g. +91 98451 10001"
+                    />
+                  </div>
+
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Email Address</label>
+                    <input
+                      type="email"
+                      className="cc-form-input"
+                      value={docEditData?.email || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, email: e.target.value }))}
+                      placeholder="e.g. doctor@zenvevet.in"
+                    />
+                  </div>
+
+                  <div className="cc-form-group">
+                    <label className="cc-form-label">Availability Schedule</label>
+                    <input
+                      type="text"
+                      className="cc-form-input"
+                      value={docEditData?.availability || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, availability: e.target.value }))}
+                      placeholder="e.g. Mon–Sat, 9 AM – 6 PM"
+                    />
+                  </div>
+
+                  <div className="cc-form-group cc-form-group--full">
+                    <label className="cc-form-label">Profile Image URL</label>
+                    <input
+                      type="url"
+                      className="cc-form-input"
+                      value={docEditData?.img || ''}
+                      onChange={(e) => setDocEditData((p) => ({ ...p, img: e.target.value }))}
+                      placeholder="https://images.unsplash.com/..."
+                    />
+                  </div>
+                </div>
+
+                <div className="cc-edit-form-actions">
+                  <button
+                    type="button"
+                    className="cc-save-profile-btn"
+                    onClick={saveDoctorProfileSection}
+                  >
+                    Save Profile Changes
+                  </button>
+                  <button
+                    type="button"
+                    className="cc-cancel-profile-btn"
+                    onClick={() => setPanel('doctors')}
+                  >
+                    Back to Doctors
+                  </button>
+                  {docEditMode === 'edit' && docEditData?.id && (
+                    <button
+                      type="button"
+                      className="cc-delete-profile-btn"
+                      onClick={() => {
+                        if (window.confirm(`Are you sure you want to delete ${docEditData.name}?`)) {
+                          deleteDoctor(docEditData.id);
+                        }
+                      }}
+                    >
+                      Delete Doctor
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* ══ MODAL: VIEW CASE ═════════════════════════════════════════════ */}
@@ -1060,7 +1395,6 @@ export const ClinicalCases = () => {
             </div>
             <div className="cc-modal-footer">
               <button type="button" className="cc-modal-btn cc-modal-btn--secondary" onClick={closeDocModal}>Close</button>
-              <button type="button" className="cc-modal-btn cc-modal-btn--primary" onClick={() => { closeDocModal(); openEditDoctor(docView); }}>Edit Profile</button>
             </div>
           </div>
         </div>

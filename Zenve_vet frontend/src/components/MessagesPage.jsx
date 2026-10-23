@@ -411,7 +411,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       if (saved) {
         return JSON.parse(saved);
       }
-    } catch {}
+    } catch { }
     // Initial defaults for followed doctors
     const initial = {};
     ALL_DIRECTORY_DOCTORS.forEach((d) => {
@@ -427,7 +427,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       if (saved) {
         return JSON.parse(saved);
       }
-    } catch {}
+    } catch { }
     return INITIAL_CONVERSATIONS;
   });
 
@@ -474,6 +474,14 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     window.addEventListener('zenve_open_message', handleOpenMessageEvent);
     return () => window.removeEventListener('zenve_open_message', handleOpenMessageEvent);
   }, [onDoctorChanged]);
+
+  // Fit messages page to viewport and prevent outer page scrolling
+  useEffect(() => {
+    document.body.classList.add('zenve-messages-mode');
+    return () => {
+      document.body.classList.remove('zenve-messages-mode');
+    };
+  }, []);
 
   // Auto scroll to bottom of chat history when messages change or typing toggles
   useEffect(() => {
@@ -583,10 +591,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       time: timeString,
       replyTo: currentQuoted
         ? {
-            id: currentQuoted.id,
-            senderName: currentQuoted.senderName,
-            text: currentQuoted.text,
-          }
+          id: currentQuoted.id,
+          senderName: currentQuoted.senderName,
+          text: currentQuoted.text,
+        }
         : null,
     };
 
@@ -625,10 +633,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         time: replyTime,
         replyTo: currentQuoted
           ? {
-              id: currentQuoted.id,
-              senderName: currentQuoted.senderName,
-              text: currentQuoted.text,
-            }
+            id: currentQuoted.id,
+            senderName: currentQuoted.senderName,
+            text: currentQuoted.text,
+          }
           : null,
       };
 
@@ -637,7 +645,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const nextAll = { ...prev, [selectedDoctor.id]: nextChat };
         try {
           localStorage.setItem('zenve_chat_messages', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     }, replyDelay);
@@ -760,9 +768,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                             : doc.specialty}
                         </p>
                         <span
-                          className={`zenve-contact-status-chip ${
-                            isFollowing ? 'zenve-status-following' : 'zenve-status-not-following'
-                          }`}
+                          className={`zenve-contact-status-chip ${isFollowing ? 'zenve-status-following' : 'zenve-status-not-following'
+                            }`}
                         >
                           {isFollowing ? 'Following' : doc.isFollower ? 'Follower' : 'Connect'}
                         </span>
@@ -870,9 +877,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 </button>
                 <button
                   type="button"
-                  className={`zenve-follow-toggle-btn ${
-                    isFollowingSelected ? 'following' : 'not-following'
-                  }`}
+                  className={`zenve-follow-toggle-btn ${isFollowingSelected ? 'following' : 'not-following'
+                    }`}
                   onClick={() => handleToggleFollow(selectedDoctor.id)}
                   title={isFollowingSelected ? 'Click to Unfollow' : 'Follow to enable messaging'}
                 >
@@ -894,9 +900,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 return (
                   <div
                     key={msg.id}
-                    className={`zenve-chat-bubble-wrap ${isMe ? 'sent' : 'received'} ${
-                      isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
-                    }`}
+                    className={`zenve-chat-bubble-wrap ${isMe ? 'sent' : 'received'} ${isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
+                      }`}
                     onClick={() => handleSelectMessageToReply(msg)}
                     title="Click this message to reply to it"
                     role="button"
