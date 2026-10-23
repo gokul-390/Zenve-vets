@@ -60,7 +60,7 @@ export const Sidebar = ({ activeTab = 'feed', onSelectTab, onOpenCreateProfile }
               <span className="zenve-nav-icon">
                 <IconComponent
                   size={20}
-                  color={isActive ? '#0f4333' : '#495650'}
+                  color="currentColor"
                 />
               </span>
               <span className="zenve-nav-label">{item.label}</span>
