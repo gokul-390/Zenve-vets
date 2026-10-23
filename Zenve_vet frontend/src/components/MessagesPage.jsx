@@ -553,7 +553,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       text: msg.text,
     });
     if (chatInputRef.current) {
-      chatInputRef.current.focus();
+      chatInputRef.current.focus({ preventScroll: true });
     }
   };
 
@@ -894,33 +894,12 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 return (
                   <div
                     key={msg.id}
-                    className={`zenve-chat-bubble-wrap ${isMe ? 'sent' : 'received'} ${
+                    className={`zenve-chat-msg-row ${isMe ? 'sent' : 'received'} ${
                       isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
                     }`}
-                    onClick={() => handleSelectMessageToReply(msg)}
-                    title="Click this message to reply to it"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleSelectMessageToReply(msg);
-                    }}
                   >
-                    {/* Quoted Reply Reference Box */}
-                    {msg.replyTo && (
-                      <div className="zenve-chat-quoted-box">
-                        <div className="zenve-quoted-author">
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="9 17 4 12 9 7" />
-                            <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                          </svg>
-                          <span>{msg.replyTo.senderName}</span>
-                        </div>
-                        <p className="zenve-quoted-text">{msg.replyTo.text}</p>
-                      </div>
-                    )}
-
-                    <div className={`zenve-chat-bubble ${isMe ? 'sent' : 'received'}`}>
-                      <span>{msg.text}</span>
+                    {/* Reply icon button for sent messages (placed left of bubble) */}
+                    {isMe && (
                       <button
                         type="button"
                         className="zenve-bubble-reply-action-btn"
@@ -931,19 +910,65 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         title="Reply to message"
                         aria-label="Reply to message"
                       >
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="9 17 4 12 9 7" />
                           <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
                         </svg>
-                        <span>Reply</span>
                       </button>
+                    )}
+
+                    <div
+                      className={`zenve-chat-bubble-wrap ${isMe ? 'sent' : 'received'}`}
+                      onClick={() => handleSelectMessageToReply(msg)}
+                      title="Click message or reply icon to reply"
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleSelectMessageToReply(msg);
+                      }}
+                    >
+                      {/* Quoted Reply Reference Box */}
+                      {msg.replyTo && (
+                        <div className="zenve-chat-quoted-box">
+                          <div className="zenve-quoted-author">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="9 17 4 12 9 7" />
+                              <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+                            </svg>
+                            <span>{msg.replyTo.senderName}</span>
+                          </div>
+                          <p className="zenve-quoted-text">{msg.replyTo.text}</p>
+                        </div>
+                      )}
+
+                      <div className={`zenve-chat-bubble ${isMe ? 'sent' : 'received'}`}>
+                        <span>{msg.text}</span>
+                      </div>
+
+                      <div className="zenve-chat-meta">
+                        <span>{msg.time}</span>
+                        {isMe && <span className="zenve-chat-check">✓✓</span>}
+                      </div>
                     </div>
 
-                    <div className="zenve-chat-meta">
-                      <span>{msg.time}</span>
-                      {isMe && <span className="zenve-chat-check">✓✓</span>}
-                      <span className="zenve-click-hint">💬 Click to reply</span>
-                    </div>
+                    {/* Reply icon button for received messages (placed right of bubble) */}
+                    {!isMe && (
+                      <button
+                        type="button"
+                        className="zenve-bubble-reply-action-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectMessageToReply(msg);
+                        }}
+                        title="Reply to message"
+                        aria-label="Reply to message"
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="9 17 4 12 9 7" />
+                          <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                 );
               })}

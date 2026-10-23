@@ -139,7 +139,23 @@
 .zenve-messages-list {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 8px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(61, 13, 24, 0.2) transparent;
+}
+
+.zenve-messages-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.zenve-messages-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.zenve-messages-list::-webkit-scrollbar-thumb {
+  background: rgba(61, 13, 24, 0.2);
+  border-radius: 4px;
 }
 
 .zenve-messages-section-label {
@@ -398,11 +414,28 @@
 .zenve-chat-history {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   background: #fbfdfc;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(61, 13, 24, 0.2) transparent;
+}
+
+.zenve-chat-history::-webkit-scrollbar {
+  width: 6px;
+}
+
+.zenve-chat-history::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.zenve-chat-history::-webkit-scrollbar-thumb {
+  background: rgba(61, 13, 24, 0.2);
+  border-radius: 4px;
 }
 
 .zenve-chat-encrypted-notice {
@@ -418,32 +451,49 @@
   gap: 6px;
 }
 
-.zenve-chat-bubble-wrap {
+/* Chat Message Row - Stably holds bubble + reply icon without layout shift */
+.zenve-chat-msg-row {
   display: flex;
-  flex-direction: column;
-  max-width: 72%;
-  cursor: pointer;
-  transition: transform 0.15s ease;
+  align-items: center;
+  gap: 8px;
+  max-width: 78%;
   position: relative;
 }
 
-.zenve-chat-bubble-wrap:hover {
-  transform: translateY(-1px);
+.zenve-chat-msg-row.sent {
+  align-self: flex-end;
+  justify-content: flex-end;
 }
 
-.zenve-chat-bubble-wrap.zenve-bubble-selected-reply .zenve-chat-bubble {
-  outline: 2px solid #e07a5f;
-  box-shadow: 0 0 0 4px rgba(224, 122, 95, 0.25);
+.zenve-chat-msg-row.received {
+  align-self: flex-start;
+  justify-content: flex-start;
+}
+
+.zenve-chat-bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+  max-width: 100%;
 }
 
 .zenve-chat-bubble-wrap.sent {
-  align-self: flex-end;
   align-items: flex-end;
 }
 
 .zenve-chat-bubble-wrap.received {
-  align-self: flex-start;
   align-items: flex-start;
+}
+
+/* Stable hover state with NO translateY to prevent shake */
+.zenve-chat-bubble-wrap:hover {
+  /* No transform - completely prevents hover jitter / vibration */
+}
+
+.zenve-chat-bubble-wrap.zenve-bubble-selected-reply .zenve-chat-bubble {
+  outline: 2px solid #e07a5f;
+  box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.2);
 }
 
 .zenve-chat-bubble {
@@ -459,46 +509,35 @@
   gap: 4px;
 }
 
-.zenve-chat-bubble:hover .zenve-bubble-reply-action-btn {
-  opacity: 1;
-  pointer-events: auto;
-}
-
+/* Dedicated Reply Icon Button - Clean, stable circular action button */
 .zenve-bubble-reply-action-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-  background: #ffffff;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: #f1f6f3;
   border: 1px solid #d4ded8;
-  border-radius: 14px;
-  padding: 3px 9px;
-  font-size: 11px;
-  font-weight: 600;
   color: #3D0D18;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  z-index: 5;
-  white-space: nowrap;
+  opacity: 0.45;
+  transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  padding: 0;
 }
 
-.zenve-chat-bubble-wrap.sent .zenve-bubble-reply-action-btn {
-  left: -74px;
-}
-
-.zenve-chat-bubble-wrap.received .zenve-bubble-reply-action-btn {
-  right: -74px;
+.zenve-chat-msg-row:hover .zenve-bubble-reply-action-btn {
+  opacity: 1;
 }
 
 .zenve-bubble-reply-action-btn:hover {
-  background: #fdf2f4;
+  background: #3D0D18;
+  color: #ffffff;
   border-color: #3D0D18;
-  transform: translateY(-50%) scale(1.06);
+  box-shadow: 0 2px 6px rgba(61, 13, 24, 0.25);
 }
 
 /* Quoted Reply Reference Inside Bubble */
@@ -671,17 +710,15 @@
   padding: 8px 24px;
   background: #fdf5f6;
   border-bottom: 1px solid #f8e1e5;
-  animation: slideDownReply 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fadeInReply 0.15s ease-out;
 }
 
-@keyframes slideDownReply {
+@keyframes fadeInReply {
   from {
     opacity: 0;
-    transform: translateY(-6px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -1056,16 +1093,27 @@
   color: #f7a8b8;
 }
 
+[data-theme='dark'] .zenve-messages-list,
+[data-theme='dark'] .zenve-chat-history {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+[data-theme='dark'] .zenve-messages-list::-webkit-scrollbar-thumb,
+[data-theme='dark'] .zenve-chat-history::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 [data-theme='dark'] .zenve-bubble-reply-action-btn {
   background: #182820;
   border-color: #2e4438;
-  color: #e2ede6;
+  color: #a0baa9;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme='dark'] .zenve-bubble-reply-action-btn:hover {
-  background: #2a161e;
-  border-color: #f7a8b8;
-  color: #f7a8b8;
+  background: #3D0D18;
+  border-color: #e07a5f;
+  color: #ffffff;
 }
 
 [data-theme='dark'] .zenve-click-hint {
