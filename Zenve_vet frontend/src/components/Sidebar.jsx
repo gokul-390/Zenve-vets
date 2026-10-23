@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  HomeIcon,
   FeedIcon,
   VetNetworkIcon,
   ClinicalCasesIcon,
@@ -15,7 +16,7 @@ export const Sidebar = ({ activeTab = 'feed', onSelectTab, onOpenCreateProfile }
   const currentTab = activeTab;
 
   const navItems = [
-    { id: 'feed', label: 'Feed', icon: FeedIcon },
+    { id: 'feed', label: 'Home', icon: HomeIcon },
     { id: 'network', label: 'Vet network', icon: VetNetworkIcon },
     { id: 'clinical', label: 'Clinical cases', icon: ClinicalCasesIcon },
     { id: 'videos', label: 'Short videos', icon: ShortVideosIcon },

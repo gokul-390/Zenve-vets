@@ -41,6 +41,23 @@ export const ZenveLogo = ({ className = '', size = 38 }) => (
   </svg>
 );
 
+// Home Icon: Modern house outline matching ZenveVet icon style
+export const HomeIcon = ({ size = 20, color = 'currentColor', className = '' }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M3 10.5L12 3L21 10.5V20C21 20.55 20.55 21 20 21H15C14.45 21 14 20.55 14 20V15C14 14.45 13.55 14 13 14H11C10.45 14 10 14.45 10 15V20C10 20.55 9.55 21 9 21H4C3.45 21 3 20.55 3 20V10.5Z" />
+  </svg>
+);
+
 // Feed Icon: Leaf inside angled oval
 export const FeedIcon = ({ size = 20, color = 'currentColor', className = '' }) => (
   <svg
@@ -234,5 +251,23 @@ export const ChevronDownIcon = ({ size = 14, color = 'currentColor', className =
     className={className}
   >
     <polyline points="6 9 12 15 18 9" />
+  </svg>
+);
+
+// Notification / Bell Icon
+export const NotificationIcon = ({ size = 20, color = 'currentColor', className = '' }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
   </svg>
 );

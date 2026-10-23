@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import StoryViewerModal from './StoryViewerModal';
 import PostCard from './PostCard';
 import DoctorProfileModal from './DoctorProfileModal';
@@ -184,182 +184,41 @@ const COMMUNITY_STORIES = [
   },
 ];
 
-// Default sample feed content.
-const INITIAL_POSTS = [
-  {
-    id: 'post-1',
-    authorId: 'aarthi',
-    authorName: 'Dr. Aarthi',
-    authorImg: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
-    authorSpecialty: 'Orthopedic Surgery • Bengaluru',
-    timeAgo: '1 hour ago',
-    caption: 'Successful TPLO knee stabilization on this 4-year-old German Shepherd. Early ambulation protocol initiated with excellent gait recovery.',
-    mediaUrl: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
-    isVideoShort: false,
-    likes: 342,
-    tags: ['#OrthopedicSurgery', '#VeterinaryMedicine', '#CanineHealth', '#ZenveVet'],
-    initialComments: [
-      { id: 101, author: 'Dr. Arun', text: 'Splendid plate positioning! How long was the recovery?' },
-      { id: 102, author: 'Dr. Priya', text: 'Remarkable alignment, great job Dr. Aarthi!' },
-    ],
-  },
-  {
-    id: 'post-2',
-    authorId: 'sweet_heart',
-    authorName: 'sweet_Sneha',
-    authorImg: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80',
-    authorSpecialty: 'Animal Rehabilitation • Delhi NCR',
-    timeAgo: '2 hours ago',
-    caption: 'Hydrotherapy day with sweet Bruno! Swimming takes all pressure off joints while strengthening core spinal stabilizers. Sound ON to hear Bruno splash! 🌊🐕',
-    mediaUrl: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
-    videoUrl: '/assets/community-moment-OzvSkOwI.webm',
-    isVideoShort: true,
-    audioTitle: '♫ Happy Paws Melodies • sweet_Sneha',
-    audioTheme: 'playful',
-    likes: 914,
-    tags: ['#Hydrotherapy', '#RehabReels', '#SoundOn', '#VetShorts'],
-    initialComments: [
-      { id: 201, author: 'Dr. Nidhi', text: 'Look at that tail wagging! Pure joy.' },
-      { id: 202, author: 'Dr. Sanjay', text: 'Water buoyancy is truly therapeutic.' },
-    ],
-  },
-  {
-    id: 'post-3',
-    authorId: 'arun',
-    authorName: 'Dr. Arun',
-    authorImg: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&h=150&q=80',
-    authorSpecialty: 'Veterinary Surgeon • Mumbai',
-    timeAgo: '4 hours ago',
-    caption: 'Oral surgery and periodontal treatment completed for this brave rescue dog. Dental health directly prevents secondary cardiac and renal burdens.',
-    mediaUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
-    isVideoShort: false,
-    likes: 218,
-    tags: ['#VetDental', '#SurgeryCases', '#OralCare', '#MumbaiVets'],
-    initialComments: [
-      { id: 301, author: 'Dr. Aarthi', text: 'Essential work. Clean recovery ahead!' },
-    ],
-  },
-  {
-    id: 'post-4',
-    authorId: 'priya_123',
-    authorName: 'Dr. Priya',
-    authorImg: 'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=150&h=150&q=80',
-    authorSpecialty: 'Veterinary Dermatology • Kochi',
-    timeAgo: '5 hours ago',
-    caption: 'Feline dermatology case checkup: Leo’s chronic pruritus and skin lesions have completely healed. Tap audio button to hear his peaceful purrs 🐱✨',
-    mediaUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
-    videoUrl: '/__l5e/assets-v1/917a25fc-5887-4372-ba01-7e6d08a13e4a/demo-video-2.webm',
-    isVideoShort: true,
-    audioTitle: '♫ Relaxing Feline Vibes • Dr. Priya',
-    audioTheme: 'calm',
-    likes: 678,
-    tags: ['#Dermatology', '#CatCare', '#SoundOn', '#ZenveVetReels'],
-    initialComments: [
-      { id: 401, author: 'sweet_Sneha', text: 'Healthy coat and a peaceful heart!' },
-    ],
-  },
-  {
-    id: 'post-5',
-    authorId: 'nidhi',
-    authorName: 'Dr. Nidhi',
-    authorImg: 'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=150&h=150&q=80',
-    authorSpecialty: 'Small Animal Medicine • Hyderabad',
-    timeAgo: '7 hours ago',
-    caption: 'Pediatric wellness examination for 6 golden retriever puppies! Heart sounds clear, healthy coat, and bright puppy curiosity. Starting life strong!',
-    mediaUrl: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=900&q=80',
-    isVideoShort: false,
-    likes: 540,
-    tags: ['#PuppyCare', '#PediatricVet', '#AnimalWellness', '#ZenveCommunity'],
-    initialComments: [
-      { id: 501, author: 'Dr. Karthika', text: 'Cutest patient lineup ever!' },
-    ],
-  },
-  {
-    id: 'post-6',
-    authorId: 'sanjay',
-    authorName: 'Dr. Sanjay',
-    authorImg: 'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=150&h=150&q=80',
-    authorSpecialty: 'Equine Specialist • Jaipur',
-    timeAgo: '9 hours ago',
-    caption: 'Gait kinematics and stride symmetry analysis on an Arabian stallion. Sound ON to hear the hoofbeats rhythm across the paddock track 🐴🌾',
-    mediaUrl: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
-    videoUrl: '/__l5e/assets-v1/777ea1ef-de4b-4958-b8f2-6ef1387ad2b0/demo-video-1.webm',
-    isVideoShort: true,
-    audioTitle: '♫ Hoofbeats & Wind • Dr. Sanjay',
-    audioTheme: 'equine',
-    likes: 890,
-    tags: ['#EquineMedicine', '#HorseReel', '#SoundTrack', '#EquineOrthopedics'],
-    initialComments: [
-      { id: 601, author: 'Dr. Arun', text: 'Breathtaking rhythm and symmetry.' },
-    ],
-  },
-  {
-    id: 'post-7',
-    authorId: 'karthika',
-    authorName: 'Dr. Karthika',
-    authorImg: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
-    authorSpecialty: 'Avian & Exotic Care • Bengaluru',
-    timeAgo: '11 hours ago',
-    caption: 'Comprehensive wellness check for this splendid Scarlet Macaw. Feather luster indicates optimal nutritional balance and mental stimulation! 🦜',
-    mediaUrl: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=80',
-    isVideoShort: false,
-    likes: 412,
-    tags: ['#AvianMedicine', '#ExoticVet', '#MacawCare', '#BirdHealth'],
-    initialComments: [
-      { id: 701, author: 'Dr. Nidhi', text: 'Those plumage colors are majestic!' },
-    ],
-  },
-];
-
-// Expose read-only sample content to Search without duplicating its data.
-if (typeof window !== 'undefined') {
-  window.dispatchEvent(
-    new CustomEvent('zenve:feed-samples-ready', {
-      detail: {
-        posts: INITIAL_POSTS,
-        stories: COMMUNITY_STORIES,
-      },
-    })
-  );
-}
-
-export const FeedContent = ({
-  onOpenCreateProfile,
-  activeMainTab = 'feed',
-  onSelectMainTab,
-}) => {
+export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSelectMainTab }) => {
   const [feedFilterTab, setFeedFilterTab] = useState('for-you');
   const [activePostType, setActivePostType] = useState('photo');
   const [postText, setPostText] = useState('');
 
+  // Keep feed tab in sync with left sidebar navigation
   const activeTab = activeMainTab === 'videos' ? 'videos' : feedFilterTab;
 
   const handleTabChange = (tabId) => {
     setFeedFilterTab(tabId);
-
     if (tabId === 'videos') {
       if (onSelectMainTab) onSelectMainTab('videos');
-    } else if (onSelectMainTab && activeMainTab === 'videos') {
-      onSelectMainTab('feed');
+    } else {
+      if (onSelectMainTab && activeMainTab === 'videos') onSelectMainTab('feed');
     }
   };
 
+  // User's own stories (persisted in localStorage)
   const [userStories, setUserStories] = useState(() => {
     try {
       const saved = localStorage.getItem('zenve_user_stories');
-      const parsed = saved ? JSON.parse(saved) : [];
-      return Array.isArray(parsed) ? parsed : [];
+      return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
     }
   });
 
+  // Gallery file input ref & modal states for adding a story
   const storyFileInputRef = useRef(null);
   const [isAddStoryModalOpen, setIsAddStoryModalOpen] = useState(false);
   const [selectedStoryImage, setSelectedStoryImage] = useState(null);
   const [storyCaption, setStoryCaption] = useState('');
   const [storyToastMessage, setStoryToastMessage] = useState(null);
 
+  // Gallery file input ref & states for creating a post picture
   const postFileInputRef = useRef(null);
   const feedTopRef = useRef(null);
   const [selectedPostImage, setSelectedPostImage] = useState(null);
@@ -367,9 +226,9 @@ export const FeedContent = ({
   const [selectedPostTags, setSelectedPostTags] = useState(['#ClinicalCase']);
   const [postToastMessage, setPostToastMessage] = useState(null);
 
+  // Doctor Profile Modal State (opens on clicking doctor ID / header in posts)
   const [selectedProfileDoctor, setSelectedProfileDoctor] = useState(null);
   const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
-
   const [doctorFollowingMap, setDoctorFollowingMap] = useState(() => {
     try {
       const saved = localStorage.getItem('zenve_following_doctors');
@@ -382,13 +241,11 @@ export const FeedContent = ({
   const handleToggleDoctorFollow = (doctorId) => {
     setDoctorFollowingMap((prev) => {
       const next = { ...prev, [doctorId]: !prev[doctorId] };
-
       try {
         localStorage.setItem('zenve_following_doctors', JSON.stringify(next));
       } catch (err) {
-        console.warn('Could not save doctor following state:', err);
+        console.warn('Could not save doctor following state to localStorage:', err);
       }
-
       return next;
     });
   };
@@ -396,12 +253,10 @@ export const FeedContent = ({
   const handleDoctorProfileClick = (doctorId, post) => {
     const doc = DOCTORS_DATABASE[doctorId] || {
       id: doctorId,
-      name: post?.authorName || `Dr. ${doctorId}`,
+      name: post?.authorName || 'Dr. ' + doctorId,
       specialty: post?.authorSpecialty || 'Veterinary Specialist',
       location: post?.authorSpecialty?.split('•')?.[1]?.trim() || 'India',
-      img:
-        post?.authorImg ||
-        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+      img: post?.authorImg || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
       clinic: 'Apex Veterinary Multi-Specialty Clinic',
       education: 'BVSc & AH, MVSc',
       experience: '8+ years clinical experience',
@@ -409,46 +264,194 @@ export const FeedContent = ({
       followers: '1.8k',
       followingCount: '210',
       rating: '4.9 ★',
-      about: `${post?.authorName || 'Doctor'} is a veterinary specialist providing compassionate and evidence-based clinical veterinary care.`,
-      focusAreas: [
-        'Clinical Diagnostics',
-        'Patient Care',
-        'Surgical Protocols',
-        'Animal Welfare',
-      ],
+      about: `${post?.authorName || 'Doctor'} is a verified veterinary specialist providing compassionate and evidence-based clinical veterinary care across the Zenve Vet network.`,
+      focusAreas: ['Clinical Diagnostics', 'Patient Care', 'Surgical Protocols', 'Animal Welfare'],
     };
 
     setSelectedProfileDoctor(doc);
     setIsDoctorModalOpen(true);
   };
 
+  // Story Viewer modal state
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
-  const [viewedStoryIds, setViewedStoryIds] = useState({});
+  const [modalStories, setModalStories] = useState([]);
 
-  const userStoryGroup =
-    userStories.length > 0
-      ? [
-          {
-            id: 'user',
-            name: 'Your story',
-            authorName: 'Dr. You (Your Practice)',
-            specialty: 'Veterinary Professional',
-            time: userStories[userStories.length - 1]?.time || 'Just now',
-            img:
-              userStories[userStories.length - 1]?.storyMedia ||
-              userStories[userStories.length - 1]?.img,
-            storyMedia:
-              userStories[userStories.length - 1]?.storyMedia ||
-              userStories[userStories.length - 1]?.img,
-            caption: userStories[userStories.length - 1]?.caption || '',
-            items: userStories,
-            isUserStory: true,
-          },
-        ]
-      : [];
+  // Set of story IDs that have been visited/viewed (persisted in localStorage)
+  const [viewedStoryIds, setViewedStoryIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('zenve_viewed_stories');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
 
-  const allActiveStories = [...userStoryGroup, ...COMMUNITY_STORIES];
+  // Sort community stories: remaining (unwatched) stories first, watched (viewed) stories at the end
+  const sortedCommunityStories = useMemo(() => {
+    const unviewed = [];
+    const viewed = [];
+    COMMUNITY_STORIES.forEach((docStory) => {
+      if (viewedStoryIds[docStory.id]) {
+        viewed.push(docStory);
+      } else {
+        unviewed.push(docStory);
+      }
+    });
+    return [...unviewed, ...viewed];
+  }, [viewedStoryIds]);
+
+  // Combined active stories: user's stories grouped as 1 person with multiple slides, followed by community doctors
+  const userStoryGroup = userStories.length > 0 ? [{
+    id: 'user',
+    name: 'Your story',
+    authorName: 'Dr. You (Your Practice)',
+    specialty: 'Veterinary Professional',
+    time: userStories[userStories.length - 1]?.time || 'Just now',
+    img: userStories[userStories.length - 1]?.storyMedia || userStories[userStories.length - 1]?.img,
+    storyMedia: userStories[userStories.length - 1]?.storyMedia || userStories[userStories.length - 1]?.img,
+    caption: userStories[userStories.length - 1]?.caption || '',
+    items: userStories,
+    isUserStory: true,
+  }] : [];
+
+  const allActiveStories = useMemo(() => {
+    return [...userStoryGroup, ...sortedCommunityStories];
+  }, [userStoryGroup, sortedCommunityStories]);
+
+  // 7 Doctor Posts with Video Shorts & Sound Toggle
+  const INITIAL_POSTS = [
+    {
+      id: 'post-1',
+      authorId: 'aarthi',
+      authorName: 'Dr. Aarthi',
+      authorImg: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Orthopedic Surgery • Bengaluru',
+      timeAgo: '1 hour ago',
+      caption:
+        'Successful TPLO knee stabilization on this 4-year-old German Shepherd. Early ambulation protocol initiated with excellent gait recovery.',
+      mediaUrl: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=900&q=80',
+      isVideoShort: false,
+      likes: 342,
+      tags: ['#OrthopedicSurgery', '#VeterinaryMedicine', '#CanineHealth', '#ZenveVet'],
+      initialComments: [
+        { id: 101, author: 'Dr. Arun', text: 'Splendid plate positioning! How long was the recovery?' },
+        { id: 102, author: 'Dr. Priya', text: 'Remarkable alignment, great job Dr. Aarthi!' },
+      ],
+    },
+    {
+      id: 'post-2',
+      authorId: 'sweet_heart',
+      authorName: 'sweet_Sneha',
+      authorImg: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Animal Rehabilitation • Delhi NCR',
+      timeAgo: '2 hours ago',
+      caption:
+        'Hydrotherapy day with sweet Bruno! Swimming takes all pressure off joints while strengthening core spinal stabilizers. Sound ON to hear Bruno splash! 🌊🐕',
+      mediaUrl: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=80',
+      videoUrl: '/assets/community-moment-OzvSkOwI.webm',
+      isVideoShort: true,
+      audioTitle: '♫ Happy Paws Melodies • sweet_Sneha',
+      audioTheme: 'playful',
+      likes: 914,
+      tags: ['#Hydrotherapy', '#RehabReels', '#SoundOn', '#VetShorts'],
+      initialComments: [
+        { id: 201, author: 'Dr. Nidhi', text: 'Look at that tail wagging! Pure joy.' },
+        { id: 202, author: 'Dr. Sanjay', text: 'Water buoyancy is truly therapeutic.' },
+      ],
+    },
+    {
+      id: 'post-3',
+      authorId: 'arun',
+      authorName: 'Dr. Arun',
+      authorImg: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Veterinary Surgeon • Mumbai',
+      timeAgo: '4 hours ago',
+      caption:
+        'Oral surgery and periodontal treatment completed for this brave rescue dog. Dental health directly prevents secondary cardiac and renal burdens.',
+      mediaUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80',
+      isVideoShort: false,
+      likes: 218,
+      tags: ['#VetDental', '#SurgeryCases', '#OralCare', '#MumbaiVets'],
+      initialComments: [
+        { id: 301, author: 'Dr. Aarthi', text: 'Essential work. Clean recovery ahead!' },
+      ],
+    },
+    {
+      id: 'post-4',
+      authorId: 'priya_123',
+      authorName: 'Dr. Priya',
+      authorImg: 'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Veterinary Dermatology • Kochi',
+      timeAgo: '5 hours ago',
+      caption:
+        'Feline dermatology case checkup: Leo’s chronic pruritus and skin lesions have completely healed. Tap audio button to hear his peaceful purrs 🐱✨',
+      mediaUrl: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=900&q=80',
+      videoUrl: '/__l5e/assets-v1/917a25fc-5887-4372-ba01-7e6d08a13e4a/demo-video-2.webm',
+      isVideoShort: true,
+      audioTitle: '♫ Relaxing Feline Vibes • Dr. Priya',
+      audioTheme: 'calm',
+      likes: 678,
+      tags: ['#Dermatology', '#CatCare', '#SoundOn', '#ZenveVetReels'],
+      initialComments: [
+        { id: 401, author: 'sweet_Sneha', text: 'Healthy coat and a peaceful heart!' },
+      ],
+    },
+    {
+      id: 'post-5',
+      authorId: 'nidhi',
+      authorName: 'Dr. Nidhi',
+      authorImg: 'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Small Animal Medicine • Hyderabad',
+      timeAgo: '7 hours ago',
+      caption:
+        'Pediatric wellness examination for 6 golden retriever puppies! Heart sounds clear, healthy coat, and bright puppy curiosity. Starting life strong!',
+      mediaUrl: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=900&q=80',
+      isVideoShort: false,
+      likes: 540,
+      tags: ['#PuppyCare', '#PediatricVet', '#AnimalWellness', '#ZenveCommunity'],
+      initialComments: [
+        { id: 501, author: 'Dr. Karthika', text: 'Cutest patient lineup ever!' },
+      ],
+    },
+    {
+      id: 'post-6',
+      authorId: 'sanjay',
+      authorName: 'Dr. Sanjay',
+      authorImg: 'https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Equine Specialist • Jaipur',
+      timeAgo: '9 hours ago',
+      caption:
+        'Gait kinematics and stride symmetry analysis on an Arabian stallion. Sound ON to hear the hoofbeats rhythm across the paddock track 🐴🌾',
+      mediaUrl: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=900&q=80',
+      videoUrl: '/__l5e/assets-v1/777ea1ef-de4b-4958-b8f2-6ef1387ad2b0/demo-video-1.webm',
+      isVideoShort: true,
+      audioTitle: '♫ Hoofbeats & Wind • Dr. Sanjay',
+      audioTheme: 'equine',
+      likes: 890,
+      tags: ['#EquineMedicine', '#HorseReel', '#SoundTrack', '#EquineOrthopedics'],
+      initialComments: [
+        { id: 601, author: 'Dr. Arun', text: 'Breathtaking rhythm and symmetry.' },
+      ],
+    },
+    {
+      id: 'post-7',
+      authorId: 'karthika',
+      authorName: 'Dr. Karthika',
+      authorImg: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+      authorSpecialty: 'Avian & Exotic Care • Bengaluru',
+      timeAgo: '11 hours ago',
+      caption:
+        'Comprehensive wellness check for this splendid Scarlet Macaw. Feather luster indicates optimal nutritional balance and mental stimulation! 🦜',
+      mediaUrl: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=900&q=80',
+      isVideoShort: false,
+      likes: 412,
+      tags: ['#AvianMedicine', '#ExoticVet', '#MacawCare', '#BirdHealth'],
+      initialComments: [
+        { id: 701, author: 'Dr. Nidhi', text: 'Those plumage colors are majestic!' },
+      ],
+    },
+  ];
 
   const [feedPosts, setFeedPosts] = useState(() => {
     try {
@@ -470,8 +473,15 @@ export const FeedContent = ({
   }, []);
 
   const handleMarkAsViewed = async (storyId) => {
-    setViewedStoryIds((prev) => ({ ...prev, [storyId]: true }));
-
+    setViewedStoryIds((prev) => {
+      const next = { ...prev, [storyId]: true };
+      try {
+        localStorage.setItem('zenve_viewed_stories', JSON.stringify(next));
+      } catch (err) {
+        console.warn('Could not save viewed stories to localStorage:', err);
+      }
+      return next;
+    });
     try {
       await storiesApi.markViewed(storyId);
     } catch {
@@ -480,8 +490,9 @@ export const FeedContent = ({
   };
 
   const handleOpenStory = (indexInActiveList) => {
-    const story = allActiveStories[indexInActiveList];
-
+    const storyList = allActiveStories;
+    setModalStories(storyList);
+    const story = storyList[indexInActiveList];
     if (story) {
       handleMarkAsViewed(story.id);
     }
@@ -748,14 +759,12 @@ export const FeedContent = ({
                   type="button"
                   className="zenve-story-avatar-btn-wrapper"
                   onClick={() => handleOpenStory(0)}
-                  title={`View your story (${userStories.length} ${
-                    userStories.length > 1 ? 'stories' : 'story'
-                  })`}
+                  title={`View your story (${userStories.length} ${userStories.length > 1 ? 'stories' : 'story'
+                    })`}
                 >
                   <div
-                    className={`zenve-story-avatar-wrapper ${
-                      viewedStoryIds.user ? 'zenve-story-avatar-viewed' : ''
-                    }`}
+                    className={`zenve-story-avatar-wrapper ${viewedStoryIds.user ? 'zenve-story-avatar-viewed' : ''
+                      }`}
                   >
                     <img
                       src={
@@ -780,9 +789,8 @@ export const FeedContent = ({
               </div>
 
               <span
-                className={`zenve-story-name ${
-                  viewedStoryIds.user ? 'zenve-story-name-viewed' : ''
-                }`}
+                className={`zenve-story-name ${viewedStoryIds.user ? 'zenve-story-name-viewed' : ''
+                  }`}
                 onClick={() => handleOpenStory(0)}
               >
                 Your story
@@ -810,9 +818,10 @@ export const FeedContent = ({
             </div>
           )}
 
-          {COMMUNITY_STORIES.map((docStory, docIdx) => {
+          {/* Community Doctor Stories: unwatched first, watched (viewed) stories at the end */}
+          {sortedCommunityStories.map((docStory, docIdx) => {
             const storyActiveIndex = userStoryGroup.length + docIdx;
-            const isViewed = Boolean(viewedStoryIds[docStory.id]);
+            const isViewed = !!viewedStoryIds[docStory.id];
 
             return (
               <div key={docStory.id} className="zenve-story-item">
@@ -823,9 +832,8 @@ export const FeedContent = ({
                   title={`View ${docStory.name}'s story`}
                 >
                   <div
-                    className={`zenve-story-avatar-wrapper ${
-                      isViewed ? 'zenve-story-avatar-viewed' : ''
-                    }`}
+                    className={`zenve-story-avatar-wrapper ${isViewed ? 'zenve-story-avatar-viewed' : ''
+                      }`}
                   >
                     <img
                       src={docStory.img}
@@ -842,9 +850,8 @@ export const FeedContent = ({
                 </button>
 
                 <span
-                  className={`zenve-story-name ${
-                    isViewed ? 'zenve-story-name-viewed' : ''
-                  }`}
+                  className={`zenve-story-name ${isViewed ? 'zenve-story-name-viewed' : ''
+                    }`}
                   onClick={() => handleOpenStory(storyActiveIndex)}
                 >
                   {docStory.name}
@@ -972,9 +979,8 @@ export const FeedContent = ({
           <div className="zenve-post-actions-pills">
             <button
               type="button"
-              className={`zenve-post-pill ${
-                selectedPostImage ? 'zenve-post-pill-active' : ''
-              }`}
+              className={`zenve-post-pill ${selectedPostImage ? 'zenve-post-pill-active' : ''
+                }`}
               onClick={handleOpenPostGallery}
               title="Open gallery to select a picture"
             >
@@ -1002,9 +1008,8 @@ export const FeedContent = ({
                 <button
                   key={tag}
                   type="button"
-                  className={`zenve-post-tag-chip ${
-                    isSelected ? 'zenve-tag-chip-selected' : ''
-                  }`}
+                  className={`zenve-post-tag-chip ${isSelected ? 'zenve-tag-chip-selected' : ''
+                    }`}
                   onClick={() => handleTogglePostTag(tag)}
                   title={`Toggle ${tag}`}
                 >
@@ -1016,9 +1021,8 @@ export const FeedContent = ({
 
           <button
             type="button"
-            className={`zenve-post-submit-btn ${
-              selectedPostImage ? 'zenve-post-submit-ready' : ''
-            }`}
+            className={`zenve-post-submit-btn ${selectedPostImage ? 'zenve-post-submit-ready' : ''
+              }`}
             onClick={handlePostButtonClick}
             title={
               selectedPostImage
@@ -1036,9 +1040,8 @@ export const FeedContent = ({
         <div className="zenve-feed-tabs-left">
           <button
             type="button"
-            className={`zenve-feed-tab-btn ${
-              activeTab === 'for-you' ? 'zenve-feed-tab-active' : ''
-            }`}
+            className={`zenve-feed-tab-btn ${activeTab === 'for-you' ? 'zenve-feed-tab-active' : ''
+              }`}
             onClick={() => handleTabChange('for-you')}
           >
             For you
@@ -1046,9 +1049,8 @@ export const FeedContent = ({
 
           <button
             type="button"
-            className={`zenve-feed-tab-btn zenve-feed-tab-shorts ${
-              activeTab === 'videos' ? 'zenve-feed-tab-active' : ''
-            }`}
+            className={`zenve-feed-tab-btn zenve-feed-tab-shorts ${activeTab === 'videos' ? 'zenve-feed-tab-active' : ''
+              }`}
             onClick={() => handleTabChange('videos')}
           >
             <span className="zenve-tab-shorts-icon">▶</span>
@@ -1060,9 +1062,8 @@ export const FeedContent = ({
 
           <button
             type="button"
-            className={`zenve-feed-tab-btn ${
-              activeTab === 'popular' ? 'zenve-feed-tab-active' : ''
-            }`}
+            className={`zenve-feed-tab-btn ${activeTab === 'popular' ? 'zenve-feed-tab-active' : ''
+              }`}
             onClick={() => handleTabChange('popular')}
           >
             Popular
@@ -1070,9 +1071,8 @@ export const FeedContent = ({
 
           <button
             type="button"
-            className={`zenve-feed-tab-btn ${
-              activeTab === 'following' ? 'zenve-feed-tab-active' : ''
-            }`}
+            className={`zenve-feed-tab-btn ${activeTab === 'following' ? 'zenve-feed-tab-active' : ''
+              }`}
             onClick={() => handleTabChange('following')}
           >
             Following
@@ -1150,10 +1150,13 @@ export const FeedContent = ({
       {isStoryModalOpen && (
         <StoryViewerModal
           key={selectedStoryIndex}
-          stories={allActiveStories}
+          stories={modalStories.length > 0 ? modalStories : allActiveStories}
           initialStoryIndex={selectedStoryIndex}
           isOpen={isStoryModalOpen}
-          onClose={() => setIsStoryModalOpen(false)}
+          onClose={() => {
+            setIsStoryModalOpen(false);
+            setModalStories([]);
+          }}
           onStoryViewed={handleMarkAsViewed}
           onAddStory={handleTriggerStoryUpload}
         />

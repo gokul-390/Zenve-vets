@@ -435,3 +435,291 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+/* =========================================
+   ZENVE VET — ADVERTISER DASHBOARD DARK MODE
+   Synced with Membership theme
+   Forest Green • Burgundy • Ivory • Gold
+========================================= */
+
+:is(
+  html.dark,
+  body.dark,
+  html.dark-mode,
+  body.dark-mode,
+  .dark,
+  .dark-theme,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  [data-color-mode="dark"],
+  [data-bs-theme="dark"]
+) .advertiser-dashboard {
+  --dash-primary: #54131B;
+  --dash-primary-dark: #F8F4EC;
+  --dash-gold: #F0B429;
+  --dash-ivory: #1A3026;
+  --dash-white: #13241D;
+  --dash-text: #E2EDE6;
+  --dash-muted: #9DBDAD;
+  --dash-border: #30483B;
+
+  color: var(--dash-text);
+}
+
+/* Main headings */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard :is(
+  .ad-dashboard-topline h1,
+  .ad-dashboard-welcome h2,
+  .ad-dashboard-card-heading h3,
+  .ad-dashboard-metric > strong,
+  .ad-budget-total,
+  .ad-budget-legend strong,
+  .ad-campaign-table td:first-child strong
+) {
+  color: #F8F4EC;
+}
+
+/* Supporting text */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard :is(
+  .ad-dashboard-topline p,
+  .ad-dashboard-welcome p,
+  .ad-dashboard-card-heading p,
+  .ad-dashboard-metric > span,
+  .ad-dashboard-metric > small,
+  .ad-dashboard-date,
+  .ad-chart-column > span,
+  .ad-chart-footnote,
+  .ad-budget-caption,
+  .ad-budget-legend,
+  .ad-campaign-table td:first-child span
+) {
+  color: #9DBDAD;
+}
+
+/* Eyebrows and gold accents */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard :is(
+  .ad-dashboard-eyebrow,
+  .ad-dashboard-welcome > div > span,
+  .ad-dashboard-card-heading > svg
+) {
+  color: #F0B429;
+}
+
+/* Dashboard cards and metric panels */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard :is(
+  .ad-dashboard-metric,
+  .ad-dashboard-card
+) {
+  background: #13241D;
+  border-color: #30483B;
+  color: #E2EDE6;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25);
+}
+
+/* Back button */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-dashboard-back {
+  background: #1A3026;
+  border-color: #30483B;
+  color: #F8F4EC;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-dashboard-back:hover {
+  background: #20372E;
+  border-color: #F0B429;
+}
+
+/* Demo notice */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-demo-notice {
+  background: #1A3026;
+  border-color: #6D5B32;
+  color: #F0B429;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-demo-notice p {
+  color: #9DBDAD;
+}
+
+/* Reporting period */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-dashboard-date {
+  background: #1A3026;
+  border-color: #30483B;
+}
+
+/* Metric icons */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-metric-icon {
+  background: #20372E;
+  border-color: #3A5546;
+  color: #F0B429;
+}
+
+/* Weekly chart */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-chart-track {
+  background: #20372E;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-chart-bar {
+  background: linear-gradient(180deg, #C5A45B, #54131B);
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-demo-chart {
+  border-bottom-color: #30483B;
+}
+
+/* Budget progress */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-budget-progress {
+  background: #20372E;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-budget-progress span {
+  background: #54131B;
+}
+
+/* Demo record count */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-demo-count {
+  background: #20372E;
+  color: #F0B429;
+}
+
+/* Campaign table */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-campaign-table th {
+  background: #1A3026;
+  border-bottom-color: #30483B;
+  color: #F0B429;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-campaign-table td {
+  border-bottom-color: #30483B;
+  color: #E2EDE6;
+}
+
+/* Status badges retain distinct status colors */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-status-active {
+  background: #183D2B;
+  color: #A8E0B9;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-status-under-review {
+  background: #3A321C;
+  color: #F0D58B;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard .ad-status-completed {
+  background: #20372E;
+  color: #C6D5CC;
+}
+
+/* Keyboard focus */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertiser-dashboard button:focus-visible {
+  outline: 3px solid rgba(240, 180, 41, 0.75);
+  outline-offset: 3px;
+}

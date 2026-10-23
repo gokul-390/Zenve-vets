@@ -75,6 +75,59 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
   // Dynamic comments state mapping per video
   const [customCommentsMap, setCustomCommentsMap] = useState({});
 
+  // ── Uploaded Reels persisted in localStorage ──
+  const [uploadedVideos, setUploadedVideos] = useState(() => {
+    try {
+      const saved = localStorage.getItem('zenve_uploaded_shorts');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Combine user-uploaded clinical reels with pre-curated procedures
+  const allReelVideos = useMemo(() => {
+    return [...uploadedVideos, ...SHORT_VIDEOS_DATA];
+  }, [uploadedVideos]);
+
+  // ── Upload Reel Studio State ──
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [uploadVideoFile, setUploadVideoFile] = useState(null);
+  const [uploadVideoUrl, setUploadVideoUrl] = useState('');
+  const [uploadThumbnail, setUploadThumbnail] = useState('');
+  const [uploadTitle, setUploadTitle] = useState('');
+  const [uploadCategory, setUploadCategory] = useState('Surgery');
+  const [uploadSpecialty, setUploadSpecialty] = useState('Chief Orthopedic Surgeon');
+  const [uploadQuality, setUploadQuality] = useState('4K');
+  const [uploadPearls, setUploadPearls] = useState('');
+  const [uploadTags, setUploadTags] = useState(['#ClinicalPearl', '#VeterinarySurgery', '#CaseStudy']);
+  const [uploadTagInput, setUploadTagInput] = useState('');
+  const [uploadDuration, setUploadDuration] = useState('0:45');
+  const [uploadDurationSec, setUploadDurationSec] = useState(45);
+  const [uploadDoctorName, setUploadDoctorName] = useState('Dr. You');
+  const [uploadDoctorClinic, setUploadDoctorClinic] = useState('Zenve Specialist Hospital & Surgery Centre');
+  const [uploadDoctorLocation, setUploadDoctorLocation] = useState('Bengaluru, Karnataka');
+  const [uploadConsentChecked, setUploadConsentChecked] = useState(true);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [isPreviewMuted, setIsPreviewMuted] = useState(true);
+  const [isPreviewPlaying, setIsPreviewPlaying] = useState(true);
+
+  const uploadVideoRef = useRef(null);
+  const fileInputRef = useRef(null);
+
+  const handleTogglePreviewPlay = (e) => {
+    if (e) e.stopPropagation();
+    if (uploadVideoRef.current) {
+      if (uploadVideoRef.current.paused) {
+        uploadVideoRef.current.play().catch(() => {});
+        setIsPreviewPlaying(true);
+      } else {
+        uploadVideoRef.current.pause();
+        setIsPreviewPlaying(false);
+      }
+    }
+  };
+
   const modalVideoRef = useRef(null);
   const pageContainerRef = useRef(null);
 
@@ -102,6 +155,18 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
   };
 
   // ── Sort & View Handlers ──
+  const SORT_LABELS = {
+    popular: 'Most Viewed',
+    likes: 'Most Appreciated',
+    comments: 'Most Discussed',
+    recent: 'Recently Shared',
+    oldest: 'Oldest First',
+    'duration-asc': 'Quick Pearls (< 45s)',
+    'duration-desc': 'In-Depth Cases (> 45s)',
+    'title-asc': 'Title (A → Z)',
+    'title-desc': 'Title (Z → A)',
+  };
+
   const handleSortChange = (newSort) => {
     setSortBy(newSort);
     try {
@@ -109,18 +174,7 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
     } catch (err) {
       console.warn('LocalStorage error:', err);
     }
-    const sortLabels = {
-      popular: 'Most Viewed',
-      likes: 'Most Appreciated',
-      comments: 'Most Discussed',
-      recent: 'Recently Shared',
-      oldest: 'Oldest First',
-      'duration-asc': 'Quick Pearls (Shortest)',
-      'duration-desc': 'In-Depth Cases (Longest)',
-      'title-asc': 'Title (A → Z)',
-      'title-desc': 'Title (Z → A)',
-    };
-    showToast(`Sorted by ${sortLabels[newSort] || newSort}`);
+    showToast(`Sorted by ${SORT_LABELS[newSort] || newSort}`);
   };
 
   const handleViewModeChange = (newMode) => {
@@ -235,9 +289,211 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
     }, 60);
   };
 
-  // ── Filter & Sort Pipeline ──
+  // ── Upload Video Processing ──
+  const processVideoFile = (file) => {
+    if (!file || !file.type.startsWith('video/')) {
+      showToast('Please select a valid clinical video file (MP4, WebM, MOV)');
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    setUploadVideoFile(file);
+    setUploadVideoUrl(url);
+
+    const tempVid = document.createElement('video');
+    tempVid.preload = 'metadata';
+    tempVid.src = url;
+    tempVid.onloadedmetadata = () => {
+      const dur = Math.round(tempVid.duration) || 45;
+      setUploadDurationSec(dur);
+      const mins = Math.floor(dur / 60);
+      const secs = Math.floor(dur % 60);
+      setUploadDuration(`${mins}:${secs < 10 ? '0' : ''}${secs}`);
+      tempVid.currentTime = Math.min(1, dur / 2);
+    };
+    tempVid.onseeked = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = tempVid.videoWidth || 720;
+        canvas.height = tempVid.videoHeight || 1280;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(tempVid, 0, 0, canvas.width, canvas.height);
+        setUploadThumbnail(canvas.toDataURL('image/jpeg', 0.82));
+      } catch {
+        setUploadThumbnail('https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80');
+      }
+    };
+    showToast(`Loaded video: ${file.name} 🎬`);
+  };
+
+  const handleFileDrop = (e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      processVideoFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileInputChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      processVideoFile(e.target.files[0]);
+    }
+  };
+
+  const handleLoadSampleProcedure = (type = 'emergency') => {
+    setUploadVideoFile(null);
+    setIsPreviewPlaying(true);
+    if (type === 'ultrasound') {
+      setUploadVideoUrl('/videos/clinical-ultrasound-feline.webm');
+      setUploadThumbnail('https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=800&q=80');
+      setUploadTitle('Feline Cardiac Echocardiography: Left Atrial Spontaneous Contrast (SEC) Loop');
+      setUploadCategory('Imaging');
+      setUploadSpecialty('Veterinary Cardiology & Diagnostic Imaging');
+      setUploadDuration('0:15');
+      setUploadDurationSec(15);
+      setUploadQuality('1080p');
+      setUploadDoctorName('Dr. Sneha Reddy');
+      setUploadDoctorClinic('Zenve Advanced Imaging & Cardiac Centre');
+      setUploadDoctorLocation('Delhi NCR');
+      setUploadPearls('B-mode echocardiographic loop demonstrating spontaneous smoke contrast in the left atrium, indicating severe blood stasis and urgent thromboembolism prophylaxis.');
+      setUploadTags(['#Echocardiography', '#FelineCardiology', '#DiagnosticUltrasound', '#VetImaging']);
+      setUploadConsentChecked(true);
+      showToast('Loaded clinical cardiac echocardiogram sample ✨');
+    } else {
+      setUploadVideoUrl('/videos/clinical-procedure-emergency.webm');
+      setUploadThumbnail('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80');
+      setUploadTitle('Canine Acute Trauma Resuscitation: Emergency Vascular Access & Airway Stabilization');
+      setUploadCategory('Emergency');
+      setUploadSpecialty('Senior Veterinary Trauma Surgeon');
+      setUploadDuration('1:00');
+      setUploadDurationSec(60);
+      setUploadQuality('1080p');
+      setUploadDoctorName('Dr. Fathima Rahman');
+      setUploadDoctorClinic('Kozhikode Veterinary Trauma Hospital');
+      setUploadDoctorLocation('Kozhikode, Kerala');
+      setUploadPearls('High-acuity ABCDE trauma resuscitation protocol: rapid vascular access, continuous capnography monitoring, and point-of-care patient stabilization under sterile operating suite conditions.');
+      setUploadTags(['#EmergencyVet', '#ClinicalTrauma', '#CriticalCare', '#SurgicalAirway', '#VetMed']);
+      setUploadConsentChecked(true);
+      showToast('Loaded clinical emergency trauma procedure sample ✨');
+    }
+  };
+
+  const handleAddTag = (tagText) => {
+    const clean = tagText.trim().startsWith('#') ? tagText.trim() : `#${tagText.trim()}`;
+    if (clean.length > 1 && !uploadTags.includes(clean)) {
+      setUploadTags((prev) => [...prev, clean]);
+      setUploadTagInput('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    setUploadTags((prev) => prev.filter((t) => t !== tagToRemove));
+  };
+
+  const handlePublishReel = (e) => {
+    e.preventDefault();
+    if (!uploadVideoUrl) {
+      showToast('Please upload or select a clinical video file');
+      return;
+    }
+    if (!uploadTitle.trim()) {
+      showToast('Please enter a clinical case title');
+      return;
+    }
+    if (!uploadConsentChecked) {
+      showToast('Please certify de-identification & peer consent');
+      return;
+    }
+
+    const doctorAvatar =
+      uploadDoctorName.includes('Fathima')
+        ? '/images/doctors/fathima.jpg'
+        : uploadDoctorName.includes('Sneha')
+        ? '/images/doctors/sneha.jpg'
+        : uploadDoctorName.includes('Arun')
+        ? '/images/doctors/arun.jpg'
+        : '/images/doctors/aarthi.jpg';
+
+    const newReel = {
+      id: `sv-user-${Date.now()}`,
+      title: uploadTitle.trim(),
+      category: uploadCategory,
+      specialtyTag: uploadSpecialty,
+      duration: uploadDuration,
+      durationSec: uploadDurationSec,
+      views: '1',
+      viewsRaw: 1,
+      likes: 0,
+      commentsCount: 0,
+      sharesCount: 0,
+      defaultQuality: uploadQuality,
+      thumbnail: uploadThumbnail || 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80',
+      videoUrl: uploadVideoUrl,
+      author: {
+        id: 'user-doctor',
+        name: uploadDoctorName,
+        degrees: 'BVSc & AH, MVSc',
+        specialty: uploadSpecialty,
+        clinic: uploadDoctorClinic,
+        location: uploadDoctorLocation,
+        avatar: doctorAvatar,
+        isVerified: true,
+      },
+      clinicalPearls: uploadPearls.trim() || 'De-identified clinical demonstration showing operative surgical technique and diagnostic accuracy.',
+      tags: uploadTags.length > 0 ? uploadTags : ['#ClinicalReel', '#CaseStudy'],
+      date: 'Just now',
+      hoursAgo: 0,
+      timestamp: Date.now(),
+      publishedAt: new Date().toISOString(),
+      featured: true,
+      isUserUploaded: true,
+      comments: [],
+    };
+
+    setUploadedVideos((prev) => {
+      const updated = [newReel, ...prev];
+      try {
+        const toSave = updated.map((v) => ({
+          ...v,
+          thumbnail: v.thumbnail && v.thumbnail.startsWith('data:')
+            ? 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80'
+            : v.thumbnail,
+        }));
+        localStorage.setItem('zenve_uploaded_shorts', JSON.stringify(toSave));
+      } catch (err) {
+        console.warn('Storage warning', err);
+      }
+      return updated;
+    });
+
+    setIsUploadModalOpen(false);
+    setSortBy('recent'); // Automatically sort by recent so it's Card #1
+    showToast('Clinical Reel published to Zenve Vet™ Network! 🚀');
+
+    // Reset fields
+    setUploadTitle('');
+    setUploadPearls('');
+    setUploadVideoFile(null);
+    setUploadVideoUrl('');
+    setUploadThumbnail('');
+  };
+
+  const handleDeleteUploadedReel = (e, reelId) => {
+    e.stopPropagation();
+    setUploadedVideos((prev) => {
+      const updated = prev.filter((v) => v.id !== reelId);
+      try {
+        localStorage.setItem('zenve_uploaded_shorts', JSON.stringify(updated));
+      } catch (err) {
+        console.warn('Storage error', err);
+      }
+      return updated;
+    });
+    showToast('Uploaded clinical reel removed');
+  };
+
+  // ── Filter & Sort Pipeline (100% Precise & Reactive) ──
   const filteredVideos = useMemo(() => {
-    return SHORT_VIDEOS_DATA.filter((video) => {
+    return allReelVideos.filter((video) => {
       // Category match
       if (selectedCategory !== 'all') {
         if (video.category !== selectedCategory) {
@@ -260,40 +516,76 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
 
       return true;
     }).sort((a, b) => {
+      // 1. Most Viewed: Highest raw view count first
       if (sortBy === 'popular') {
+        const diff = (b.viewsRaw || 0) - (a.viewsRaw || 0);
+        if (diff !== 0) return diff;
+        return (b.timestamp || 0) - (a.timestamp || 0);
+      }
+
+      // 2. Most Appreciated: Highest likes first (includes active user likes dynamically)
+      if (sortBy === 'likes') {
+        const likesA = (a.likes || 0) + (likedVideosMap[a.id] ? 1 : 0);
+        const likesB = (b.likes || 0) + (likedVideosMap[b.id] ? 1 : 0);
+        const diff = likesB - likesA;
+        if (diff !== 0) return diff;
         return (b.viewsRaw || 0) - (a.viewsRaw || 0);
       }
-      if (sortBy === 'likes') {
-        return (b.likes || 0) - (a.likes || 0);
-      }
+
+      // 3. Most Discussed: Highest peer comment count first (includes user posted comments)
       if (sortBy === 'comments') {
-        return (b.commentsCount || 0) - (a.commentsCount || 0);
+        const commentsA = (a.commentsCount || 0) + (customCommentsMap[a.id]?.length || 0);
+        const commentsB = (b.commentsCount || 0) + (customCommentsMap[b.id]?.length || 0);
+        const diff = commentsB - commentsA;
+        if (diff !== 0) return diff;
+        return (b.viewsRaw || 0) - (a.viewsRaw || 0);
       }
+
+      // 4. Recently Shared: Newest cases first (e.g. 2h ago before 6d ago)
       if (sortBy === 'recent') {
-        const idA = parseInt(String(a.id).replace(/\D/g, ''), 10) || 0;
-        const idB = parseInt(String(b.id).replace(/\D/g, ''), 10) || 0;
-        return idB - idA;
+        if (b.timestamp !== undefined && a.timestamp !== undefined) {
+          const diff = b.timestamp - a.timestamp;
+          if (diff !== 0) return diff;
+        }
+        return (a.hoursAgo || 0) - (b.hoursAgo || 0);
       }
+
+      // 5. Oldest First: Earliest archived cases first (e.g. 6d ago before 2h ago)
       if (sortBy === 'oldest') {
-        const idA = parseInt(String(a.id).replace(/\D/g, ''), 10) || 0;
-        const idB = parseInt(String(b.id).replace(/\D/g, ''), 10) || 0;
-        return idA - idB;
+        if (a.timestamp !== undefined && b.timestamp !== undefined) {
+          const diff = a.timestamp - b.timestamp;
+          if (diff !== 0) return diff;
+        }
+        return (b.hoursAgo || 0) - (a.hoursAgo || 0);
       }
+
+      // 6. Quick Pearls: Shortest duration in seconds first
       if (sortBy === 'duration-asc') {
-        return (a.durationSec || 0) - (b.durationSec || 0);
+        const diff = (a.durationSec || 0) - (b.durationSec || 0);
+        if (diff !== 0) return diff;
+        return (b.viewsRaw || 0) - (a.viewsRaw || 0);
       }
+
+      // 7. In-Depth Cases: Longest duration in seconds first
       if (sortBy === 'duration-desc') {
-        return (b.durationSec || 0) - (a.durationSec || 0);
+        const diff = (b.durationSec || 0) - (a.durationSec || 0);
+        if (diff !== 0) return diff;
+        return (b.viewsRaw || 0) - (a.viewsRaw || 0);
       }
+
+      // 8. Title A → Z: Natural case-insensitive alphabetical
       if (sortBy === 'title-asc') {
-        return a.title.localeCompare(b.title);
+        return a.title.localeCompare(b.title, undefined, { sensitivity: 'base', numeric: true });
       }
+
+      // 9. Title Z → A: Reverse alphabetical
       if (sortBy === 'title-desc') {
-        return b.title.localeCompare(a.title);
+        return b.title.localeCompare(a.title, undefined, { sensitivity: 'base', numeric: true });
       }
+
       return 0;
     });
-  }, [searchQuery, selectedCategory, sortBy]);
+  }, [allReelVideos, searchQuery, selectedCategory, sortBy, likedVideosMap, customCommentsMap]);
 
   // ── Open Fullscreen Reel Modal ──
   const openModal = (video) => {
@@ -433,7 +725,7 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
 
           <div className="zenve-shorts-stats-row">
             <div className="zenve-stat-chip">
-              <span className="zenve-stat-num">26</span>
+              <span className="zenve-stat-num">{allReelVideos.length}</span>
               <span>Curated Clinical Cases</span>
             </div>
             <div className="zenve-stat-chip">
@@ -444,6 +736,14 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
               <span className="zenve-stat-num">100%</span>
               <span>Peer-Reviewed Discussion</span>
             </div>
+            <button
+              type="button"
+              className="zenve-stat-chip zenve-hero-upload-btn"
+              onClick={() => setIsUploadModalOpen(true)}
+              title="Share and publish your clinical video reel"
+            >
+              📹 + Upload Clinical Reel
+            </button>
             {typeof onOpenCreateProfile === 'function' && (
               <button
                 type="button"
@@ -586,6 +886,23 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                 <span>List</span>
               </button>
             </div>
+
+            {/* ── Ultra-Premium Upload Clinical Reel Button ── */}
+            <button
+              type="button"
+              className="zenve-upload-reel-btn"
+              onClick={() => setIsUploadModalOpen(true)}
+              title="Upload and Share Clinical Reel"
+              id="upload-clinical-reel-btn"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M23 7l-7 5 7 5V7z" />
+                <rect x="1" y="5" width="15" height="14" rx="3" ry="3" />
+                <line x1="8.5" y1="9" x2="8.5" y2="15" />
+                <line x1="5.5" y1="12" x2="11.5" y2="12" />
+              </svg>
+              <span>+ Upload Reel</span>
+            </button>
           </div>
         </div>
 
@@ -614,6 +931,9 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
           Showing <strong>{filteredVideos.length}</strong> clinical video reels
           {selectedCategory !== 'all' && ` in "${selectedCategory}"`}
           {searchQuery && ` matching "${searchQuery}"`}
+          <span className="zenve-active-sort-tag">
+            • Sorted by: <strong>{SORT_LABELS[sortBy] || sortBy}</strong>
+          </span>
           <span className="zenve-active-layout-tag">
             • {viewMode === 'large' ? 'Large Grid (2-3 Cols)' : viewMode === 'compact' ? 'Compact Grid (5-6 Cols)' : viewMode === 'list' ? 'Detailed List View' : 'Standard Grid (4 Cols)'}
           </span>
@@ -671,11 +991,21 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
 
                   <div className="zenve-list-media-top-badges">
                     <span className="zenve-card-category-tag">{video.category}</span>
-                    <span className="zenve-card-duration-badge">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-                        <polygon points="5,3 19,12 5,21" />
-                      </svg>
-                      <span>{video.duration}</span>
+                    <span
+                      className={`zenve-card-duration-badge ${sortBy === 'duration-asc' || sortBy === 'duration-desc' ? 'is-active-sort-metric' : ''}`}
+                      title={`Video duration: ${video.duration}`}
+                    >
+                      <span className="zenve-duration-icon-container" aria-hidden="true">
+                        <svg className="zenve-play-arrow" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="5,3 19,12 5,21" />
+                        </svg>
+                        <span className="zenve-soundwave-bars">
+                          <span className="zenve-sound-bar" />
+                          <span className="zenve-sound-bar" />
+                          <span className="zenve-sound-bar" />
+                        </span>
+                      </span>
+                      <span className="zenve-duration-value">{video.duration}</span>
                     </span>
                   </div>
 
@@ -695,7 +1025,13 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                   <div className="zenve-list-card-header">
                     <div className="zenve-list-spec-badge-group">
                       <span className="zenve-list-spec-tag">{video.specialtyTag}</span>
-                      <span className="zenve-list-date-tag">⏱️ {video.date || 'Recent Case'}</span>
+                      <span className={`zenve-list-date-tag ${sortBy === 'recent' || sortBy === 'oldest' ? 'is-active-sort-metric' : ''}`}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ verticalAlign: '-1px', marginRight: '4px' }}>
+                          <circle cx="12" cy="12" r="10" />
+                          <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        <span>{video.date || 'Recent Case'}</span>
+                      </span>
                     </div>
 
                     <div className="zenve-list-quick-actions" onClick={(e) => e.stopPropagation()}>
@@ -739,7 +1075,9 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                     </div>
                   </div>
 
-                  <h3 className="zenve-list-card-title">{video.title}</h3>
+                  <h3 className={`zenve-list-card-title ${sortBy === 'title-asc' || sortBy === 'title-desc' ? 'is-active-sort-metric' : ''}`}>
+                    {video.title}
+                  </h3>
 
                   {/* Author Bio Row */}
                   <div
@@ -803,24 +1141,33 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
 
                     <div className="zenve-list-footer-right">
                       <div className="zenve-card-metrics-row">
-                        <span className="zenve-card-metric-item" title="Views">
+                        <span
+                          className={`zenve-card-metric-item ${sortBy === 'popular' ? 'is-active-sort-metric' : ''}`}
+                          title={`Total Views: ${video.viewsRaw?.toLocaleString() || video.views}`}
+                        >
                           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                             <circle cx="12" cy="12" r="3" />
                           </svg>
                           <span>{video.views}</span>
                         </span>
-                        <span className="zenve-card-metric-item" title="Likes">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill={isLiked ? '#ff4757' : 'none'} stroke={isLiked ? '#ff4757' : 'currentColor'} strokeWidth="2">
+                        <span
+                          className={`zenve-card-metric-item ${sortBy === 'likes' ? 'is-active-sort-metric' : ''}`}
+                          title={`Specialist Likes: ${(video.likes + (isLiked ? 1 : 0)).toLocaleString()}`}
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill={isLiked || sortBy === 'likes' ? '#ff4757' : 'none'} stroke={isLiked || sortBy === 'likes' ? '#ff4757' : 'currentColor'} strokeWidth="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                           </svg>
                           <span>{video.likes + (isLiked ? 1 : 0)}</span>
                         </span>
-                        <span className="zenve-card-metric-item" title="Comments">
+                        <span
+                          className={`zenve-card-metric-item ${sortBy === 'comments' ? 'is-active-sort-metric' : ''}`}
+                          title={`Clinical Comments: ${(video.commentsCount + (customCommentsMap[video.id]?.length || 0)).toLocaleString()}`}
+                        >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                           </svg>
-                          <span>{video.commentsCount}</span>
+                          <span>{video.commentsCount + (customCommentsMap[video.id]?.length || 0)}</span>
                         </span>
                       </div>
 
@@ -889,26 +1236,52 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
               <div className="zenve-card-overlay-top" />
               <div className="zenve-card-overlay-bottom" />
 
-              {/* Top Bar inside Card */}
-              <div className="zenve-card-top-bar">
-                <span className="zenve-card-category-tag">{video.category}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span className="zenve-card-quality-tag">{video.defaultQuality || '1080p'}</span>
-                  <span className="zenve-card-duration-badge">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-                      <polygon points="5,3 19,12 5,21" />
-                    </svg>
-                    <span>{video.duration}</span>
-                  </span>
+              {/* Top Header inside Card (Multi-Row Guaranteed Alignment) */}
+              <div className="zenve-card-top-header">
+                {/* Row 1: Category on left, Quality Tag & Duration on right */}
+                <div className="zenve-card-top-bar">
+                  <span className="zenve-card-category-tag">{video.category}</span>
+                  <div className="zenve-card-top-right">
+                    <span className="zenve-card-quality-tag">{video.defaultQuality || '1080p'}</span>
+                    <span
+                      className={`zenve-card-duration-badge ${sortBy === 'duration-asc' || sortBy === 'duration-desc' ? 'is-active-sort-metric' : ''}`}
+                      title={`Video duration: ${video.duration}`}
+                    >
+                      <span className="zenve-duration-icon-container" aria-hidden="true">
+                        <svg className="zenve-play-arrow" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="5,3 19,12 5,21" />
+                        </svg>
+                        <span className="zenve-soundwave-bars">
+                          <span className="zenve-sound-bar" />
+                          <span className="zenve-sound-bar" />
+                          <span className="zenve-sound-bar" />
+                        </span>
+                      </span>
+                      <span className="zenve-duration-value">{video.duration}</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Animated Equalizer sound wave bars on hover */}
-              <div className="zenve-card-soundwave" title="Audio available">
-                <span className="zenve-sound-bar" />
-                <span className="zenve-sound-bar" />
-                <span className="zenve-sound-bar" />
-                <span className="zenve-sound-bar" />
+                {/* Row 2: Sort Highlight Badge when sorted by Recently Shared or Oldest */}
+                {(sortBy === 'recent' || sortBy === 'oldest') && (
+                  <div className="zenve-card-sort-row">
+                    <span className="zenve-card-date-badge is-active-sort-metric" title={`Published ${video.date}`}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      <span>{video.date}</span>
+                    </span>
+                  </div>
+                )}
+
+                {video.isUserUploaded && sortBy !== 'recent' && sortBy !== 'oldest' && (
+                  <div className="zenve-card-sort-row">
+                    <span className="zenve-user-reel-badge" title="Your uploaded clinical reel">
+                      ★ Your Reel
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Center Floating Glowing Play Icon */}
@@ -920,6 +1293,21 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
 
               {/* Quick Action Rail (Slide In on Hover) */}
               <div className="zenve-card-action-rail">
+                {video.isUserUploaded && (
+                  <button
+                    type="button"
+                    className="zenve-card-rail-btn zenve-delete-reel-btn"
+                    onClick={(e) => handleDeleteUploadedReel(e, video.id)}
+                    title="Delete your uploaded clinical reel"
+                    aria-label="Delete uploaded reel"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff4757" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="3 6 5 6 21 6" />
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    </svg>
+                  </button>
+                )}
+
                 <button
                   type="button"
                   className={`zenve-card-rail-btn ${isLiked ? 'is-liked' : ''}`}
@@ -998,11 +1386,16 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                 </div>
 
                 {/* Video Title */}
-                <h3 className="zenve-card-video-title">{video.title}</h3>
+                <h3 className={`zenve-card-video-title ${sortBy === 'title-asc' || sortBy === 'title-desc' ? 'is-active-sort-metric' : ''}`}>
+                  {video.title}
+                </h3>
 
                 {/* Metrics */}
                 <div className="zenve-card-metrics-row">
-                  <span className="zenve-card-metric-item">
+                  <span
+                    className={`zenve-card-metric-item ${sortBy === 'popular' ? 'is-active-sort-metric' : ''}`}
+                    title={`Total Views: ${video.viewsRaw?.toLocaleString() || video.views}`}
+                  >
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                       <circle cx="12" cy="12" r="3" />
@@ -1010,18 +1403,24 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                     <span>{video.views}</span>
                   </span>
 
-                  <span className="zenve-card-metric-item">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill={isLiked ? '#ff4757' : 'none'} stroke={isLiked ? '#ff4757' : 'currentColor'} strokeWidth="2">
+                  <span
+                    className={`zenve-card-metric-item ${sortBy === 'likes' ? 'is-active-sort-metric' : ''}`}
+                    title={`Specialist Likes: ${(video.likes + (isLiked ? 1 : 0)).toLocaleString()}`}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill={isLiked || sortBy === 'likes' ? '#ff4757' : 'none'} stroke={isLiked || sortBy === 'likes' ? '#ff4757' : 'currentColor'} strokeWidth="2">
                       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                     </svg>
                     <span>{video.likes + (isLiked ? 1 : 0)}</span>
                   </span>
 
-                  <span className="zenve-card-metric-item">
+                  <span
+                    className={`zenve-card-metric-item ${sortBy === 'comments' ? 'is-active-sort-metric' : ''}`}
+                    title={`Clinical Comments: ${(video.commentsCount + (customCommentsMap[video.id]?.length || 0)).toLocaleString()}`}
+                  >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                     </svg>
-                    <span>{video.commentsCount}</span>
+                    <span>{video.commentsCount + (customCommentsMap[video.id]?.length || 0)}</span>
                   </span>
                 </div>
 
@@ -1270,7 +1669,7 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                     </svg>
                   </button>
                   <span className="zenve-reel-action-label">
-                    {activeComments.length}
+                    {(activeModalVideo.commentsCount || 0) + (customCommentsMap[activeModalVideo.id]?.length || 0)}
                   </span>
                 </div>
 
@@ -1401,7 +1800,7 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                     className={`zenve-drawer-tab-btn ${modalDrawerTab === 'comments' ? 'active' : ''}`}
                     onClick={() => setModalDrawerTab('comments')}
                   >
-                    Discussion ({activeComments.length})
+                    Discussion ({(activeModalVideo.commentsCount || 0) + (customCommentsMap[activeModalVideo.id]?.length || 0)})
                   </button>
                 </div>
               </div>
@@ -1480,6 +1879,438 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
                 </form>
               )}
             </aside>
+          </div>
+        </div>
+      )}
+
+      {/* ── Ultra-Premium Upload Clinical Reel Studio Modal ── */}
+      {isUploadModalOpen && (
+        <div
+          className="zenve-upload-modal-backdrop"
+          onClick={() => setIsUploadModalOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="upload-modal-title"
+        >
+          <div
+            className="zenve-upload-modal-stage"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="zenve-upload-modal-header">
+              <div className="zenve-upload-header-left">
+                <div className="zenve-upload-pill-badge">
+                  <span className="zenve-live-pulse-dot" />
+                  <span>CLINICAL REEL STUDIO • VERIFIED SPECIALIST</span>
+                </div>
+                <h2 id="upload-modal-title" className="zenve-upload-modal-title">
+                  Share Clinical Procedure or Diagnostic Reel
+                </h2>
+                <p className="zenve-upload-modal-subtitle">
+                  Broadcast de-identified 9:16 vertical technique videos (&lt; 60s) to veterinary clinicians and surgeons.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="zenve-upload-modal-close"
+                onClick={() => setIsUploadModalOpen(false)}
+                title="Close studio (Esc)"
+                aria-label="Close studio"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body: 2-Column Studio */}
+            <form onSubmit={handlePublishReel} className="zenve-upload-form">
+              <div className="zenve-upload-modal-body">
+                {/* Left Column: 9:16 Media Zone & Live Preview */}
+                <div className="zenve-upload-left-pane">
+                  <div className="zenve-upload-pane-heading">
+                    <span>1. Procedure Video (9:16)</span>
+                    {uploadDuration && (
+                      <span className="zenve-upload-duration-pill">⏱️ {uploadDuration}</span>
+                    )}
+                  </div>
+
+                  {/* Hidden File Input */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileInputChange}
+                    accept="video/mp4,video/webm,video/quicktime,video/mov"
+                    style={{ display: 'none' }}
+                  />
+
+                  {uploadVideoUrl ? (
+                    <div className="zenve-upload-live-preview-box">
+                      <div
+                        className="zenve-upload-preview-phone"
+                        onClick={handleTogglePreviewPlay}
+                        title="Click to play / pause procedure video"
+                      >
+                        {/* Authentic Phone Speaker & Camera Notch */}
+                        <div className="zenve-upload-phone-notch">
+                          <span className="zenve-phone-speaker-bar" />
+                          <span className="zenve-phone-camera-lens" />
+                        </div>
+
+                        {/* Top and Bottom Vignettes for High Contrast Overlays */}
+                        <div className="zenve-upload-phone-vignette-top" />
+                        <div className="zenve-upload-phone-vignette-bottom" />
+
+                        {/* Video Element (Covers 100% of 9:16 Stage) */}
+                        <video
+                          ref={uploadVideoRef}
+                          src={uploadVideoUrl}
+                          className="zenve-upload-preview-video"
+                          autoPlay
+                          loop
+                          muted={isPreviewMuted}
+                          playsInline
+                        />
+
+                        {/* Center Play Icon when Paused */}
+                        {!isPreviewPlaying && (
+                          <div className="zenve-upload-preview-center-play">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                              <polygon points="6,3 20,12 6,21" />
+                            </svg>
+                          </div>
+                        )}
+
+                        {/* Top badges preview: Category on Left, Uniform Gold Duration on Right */}
+                        <div className="zenve-upload-preview-top-bar">
+                          <span className="zenve-card-category-tag">{uploadCategory}</span>
+                          <span className="zenve-card-duration-badge">
+                            <span className="zenve-duration-icon-container">
+                              <svg className="zenve-play-arrow" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21" />
+                              </svg>
+                              <span className="zenve-soundwave-bars">
+                                <span className="zenve-sound-bar" />
+                                <span className="zenve-sound-bar" />
+                                <span className="zenve-sound-bar" />
+                              </span>
+                            </span>
+                            <span className="zenve-duration-value">{uploadDuration}</span>
+                          </span>
+                        </div>
+
+                        {/* Sound toggle on preview */}
+                        <button
+                          type="button"
+                          className="zenve-upload-preview-mute-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsPreviewMuted((m) => !m);
+                          }}
+                          title={isPreviewMuted ? 'Unmute video audio' : 'Mute video audio'}
+                          aria-label={isPreviewMuted ? 'Unmute video' : 'Mute video'}
+                        >
+                          {isPreviewMuted ? (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <line x1="1" y1="1" x2="23" y2="23" />
+                              <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" />
+                              <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" />
+                              <line x1="12" y1="19" x2="12" y2="23" />
+                              <line x1="8" y1="23" x2="16" y2="23" />
+                            </svg>
+                          ) : (
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                            </svg>
+                          )}
+                        </button>
+
+                        {/* Bottom caption overlay */}
+                        <div className="zenve-upload-preview-bottom-caption">
+                          <div className="zenve-upload-preview-doc-name">
+                            <span>{uploadDoctorName}</span>
+                            <span className="zenve-upload-verified-tick" title="Verified Specialist">✓</span>
+                          </div>
+                          <div className="zenve-upload-preview-title">{uploadTitle || 'Case Title Preview...'}</div>
+                        </div>
+                      </div>
+
+                      {/* File Action Row */}
+                      <div className="zenve-upload-file-meta-row">
+                        <span className="zenve-upload-file-name" title={uploadVideoFile?.name || 'Active Clinical Reel'}>
+                          🎬 {uploadVideoFile ? uploadVideoFile.name : (uploadTitle ? 'Loaded Clinical Reel' : 'Active Video')}
+                        </span>
+                        <button
+                          type="button"
+                          className="zenve-upload-change-file-btn"
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          Change Video
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={`zenve-upload-dropzone ${isDragOver ? 'is-dragover' : ''}`}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        setIsDragOver(true);
+                      }}
+                      onDragLeave={() => setIsDragOver(false)}
+                      onDrop={handleFileDrop}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <div className="zenve-upload-dropzone-icon">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M23 7l-7 5 7 5V7z" />
+                          <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                          <circle cx="8.5" cy="12" r="2.5" />
+                        </svg>
+                      </div>
+                      <div className="zenve-upload-dropzone-title">
+                        Choose Clinical Video File
+                      </div>
+                      <p className="zenve-upload-dropzone-desc">
+                        Drag &amp; drop or click to browse files from your device
+                      </p>
+                      <div className="zenve-upload-specs-tags">
+                        <span>MP4 / WebM / MOV</span>
+                        <span>9:16 Portrait</span>
+                        <span>Up to 4K</span>
+                        <span>Max 60s</span>
+                      </div>
+
+                      <div className="zenve-upload-dropzone-cta">
+                        <span>Browse Video Files</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 1-Click Clinical Procedure Auto-Fill Buttons */}
+                  <div className="zenve-upload-samples-container">
+                    <button
+                      type="button"
+                      className="zenve-upload-sample-btn zenve-sample-btn-primary"
+                      onClick={() => handleLoadSampleProcedure('emergency')}
+                      title="Load authentic clinical emergency trauma resuscitation procedure"
+                    >
+                      <span>🩺 Load Clinical Emergency Trauma Procedure</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="zenve-upload-sample-btn zenve-sample-btn-secondary"
+                      onClick={() => handleLoadSampleProcedure('ultrasound')}
+                      title="Load authentic feline cardiac echocardiogram diagnostic loop"
+                    >
+                      <span>🔬 Load Diagnostic Ultrasound / Echo Loop</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right Column: Case Dossier & Clinical Information */}
+                <div className="zenve-upload-right-pane">
+                  <div className="zenve-upload-pane-heading">
+                    <span>2. Case Dossier &amp; Clinical Details</span>
+                    <span className="zenve-upload-required-note">* Required fields</span>
+                  </div>
+
+                  {/* Case Title */}
+                  <div className="zenve-upload-field-group">
+                    <label className="zenve-upload-label" htmlFor="upload-title-input">
+                      <span>Clinical Case Title *</span>
+                      <span className="zenve-upload-char-count">{uploadTitle.length}/100</span>
+                    </label>
+                    <input
+                      id="upload-title-input"
+                      type="text"
+                      className="zenve-upload-input"
+                      placeholder="e.g. Canine Cruciate Ligament Recovery: 16-Week Dynamic Stability"
+                      maxLength={100}
+                      value={uploadTitle}
+                      onChange={(e) => setUploadTitle(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  {/* Category Pill Selector */}
+                  <div className="zenve-upload-field-group">
+                    <label className="zenve-upload-label">
+                      <span>Primary Clinical Specialty *</span>
+                    </label>
+                    <div className="zenve-upload-cat-pills">
+                      {['Surgery', 'Emergency', 'Imaging', 'Rehab', 'Dentistry', 'Exotics', 'Equine'].map((cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          className={`zenve-upload-cat-pill ${uploadCategory === cat ? 'is-selected' : ''}`}
+                          onClick={() => setUploadCategory(cat)}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Two column: Subspecialty & Quality */}
+                  <div className="zenve-upload-row-two-cols">
+                    <div className="zenve-upload-field-group">
+                      <label className="zenve-upload-label" htmlFor="upload-spec-input">
+                        <span>Specialty Sub-Track</span>
+                      </label>
+                      <input
+                        id="upload-spec-input"
+                        type="text"
+                        className="zenve-upload-input"
+                        placeholder="e.g. Orthopedic Surgery & Sports Medicine"
+                        value={uploadSpecialty}
+                        onChange={(e) => setUploadSpecialty(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="zenve-upload-field-group">
+                      <label className="zenve-upload-label" htmlFor="upload-quality-select">
+                        <span>Video Streaming Quality</span>
+                      </label>
+                      <select
+                        id="upload-quality-select"
+                        className="zenve-upload-select"
+                        value={uploadQuality}
+                        onChange={(e) => setUploadQuality(e.target.value)}
+                      >
+                        <option value="4K">4K Ultra HD (2160p)</option>
+                        <option value="1080p">1080p Full HD</option>
+                        <option value="720p">720p HD</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Surgeon Info */}
+                  <div className="zenve-upload-row-two-cols">
+                    <div className="zenve-upload-field-group">
+                      <label className="zenve-upload-label" htmlFor="upload-doc-input">
+                        <span>Surgeon / Author Name</span>
+                      </label>
+                      <input
+                        id="upload-doc-input"
+                        type="text"
+                        className="zenve-upload-input"
+                        value={uploadDoctorName}
+                        onChange={(e) => setUploadDoctorName(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="zenve-upload-field-group">
+                      <label className="zenve-upload-label" htmlFor="upload-clinic-input">
+                        <span>Hospital / Institution</span>
+                      </label>
+                      <input
+                        id="upload-clinic-input"
+                        type="text"
+                        className="zenve-upload-input"
+                        value={uploadDoctorClinic}
+                        onChange={(e) => setUploadDoctorClinic(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Clinical Pearls Textarea */}
+                  <div className="zenve-upload-field-group">
+                    <label className="zenve-upload-label" htmlFor="upload-pearls-input">
+                      <span>💡 Diagnostic / Surgical Pearl (Peer Learning)</span>
+                    </label>
+                    <textarea
+                      id="upload-pearls-input"
+                      rows={3}
+                      className="zenve-upload-textarea"
+                      placeholder="Share the crucial surgical nuance, anatomical landmark, or diagnostic metric clinicians should observe..."
+                      value={uploadPearls}
+                      onChange={(e) => setUploadPearls(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Tags */}
+                  <div className="zenve-upload-field-group">
+                    <label className="zenve-upload-label">
+                      <span>Tags &amp; Keywords</span>
+                    </label>
+                    <div className="zenve-upload-tags-wrap">
+                      {uploadTags.map((t) => (
+                        <span key={t} className="zenve-upload-tag-chip">
+                          <span>{t}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveTag(t)}
+                            title="Remove tag"
+                            className="zenve-tag-remove-x"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <div className="zenve-upload-tag-input-row">
+                      <input
+                        type="text"
+                        className="zenve-upload-input zenve-tag-text-input"
+                        placeholder="Add hashtag (e.g. #TPLO) and press Enter"
+                        value={uploadTagInput}
+                        onChange={(e) => setUploadTagInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleAddTag(uploadTagInput);
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="zenve-add-tag-btn"
+                        onClick={() => handleAddTag(uploadTagInput)}
+                      >
+                        + Add Tag
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* De-identification & Ethics Checkbox */}
+                  <div className="zenve-upload-consent-box">
+                    <label className="zenve-upload-checkbox-label">
+                      <input
+                        type="checkbox"
+                        checked={uploadConsentChecked}
+                        onChange={(e) => setUploadConsentChecked(e.target.checked)}
+                        className="zenve-upload-checkbox"
+                        required
+                      />
+                      <span className="zenve-upload-checkbox-text">
+                        <strong>Clinical Ethics &amp; De-Identification Guarantee:</strong> I confirm this clinical footage is de-identified (patient PII removed, client consent secured) and complies with peer veterinary educational standards.
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="zenve-upload-modal-footer">
+                <button
+                  type="button"
+                  className="zenve-upload-cancel-btn"
+                  onClick={() => setIsUploadModalOpen(false)}
+                >
+                  Discard Draft
+                </button>
+                <button
+                  type="submit"
+                  className="zenve-upload-submit-btn"
+                >
+                  <span>Publish Clinical Reel</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

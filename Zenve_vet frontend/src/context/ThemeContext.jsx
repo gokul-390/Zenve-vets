@@ -13,10 +13,25 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     const root = document.documentElement;
+    const body = document.body;
     if (isDark) {
       root.setAttribute('data-theme', 'dark');
+      root.setAttribute('data-mode', 'dark');
+      root.classList.add('dark', 'dark-theme');
+      if (body) {
+        body.setAttribute('data-theme', 'dark');
+        body.setAttribute('data-mode', 'dark');
+        body.classList.add('dark', 'dark-theme');
+      }
     } else {
       root.removeAttribute('data-theme');
+      root.removeAttribute('data-mode');
+      root.classList.remove('dark', 'dark-theme');
+      if (body) {
+        body.removeAttribute('data-theme');
+        body.removeAttribute('data-mode');
+        body.classList.remove('dark', 'dark-theme');
+      }
     }
     try {
       localStorage.setItem('zenve_theme', isDark ? 'dark' : 'light');

@@ -1923,3 +1923,446 @@ background-color: #541522;
 border-color: #c5a45b;
 color: #fffdf9;
 }
+/* =========================================
+   ZENVE VET — ADVERTISE PAGE DARK MODE
+   Membership Theme: Forest Green • Burgundy
+   Warm Ivory • Muted Gold
+   Append once at the END of AdvertisePage.css
+========================================= */
+
+:is(
+  html.dark,
+  body.dark,
+  html.dark-mode,
+  body.dark-mode,
+  .dark,
+  .dark-theme,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  [data-color-mode="dark"],
+  [data-bs-theme="dark"]
+) .advertise-page {
+  --ad-forest: #54131B;
+  --ad-forest-dark: #3D0D18;
+  --ad-forest-light: #771B26;
+  --ad-ivory: #13241D;
+  --ad-sage: #1A3026;
+  --ad-gold: #F0B429;
+  --ad-white: #13241D;
+  --ad-text: #E2EDE6;
+  --ad-muted: #9DBDAD;
+  --ad-border: #30483B;
+  --ad-soft-border: #30483B;
+  --ad-shadow: 0 8px 26px rgba(0, 0, 0, 0.30);
+
+  color: var(--ad-text);
+  background: transparent;
+}
+
+/* Section headings */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-section-intro h2,
+  .advertise-workspace-heading h2,
+  .advertiser-section-heading h2,
+  .advertise-benefit h3
+) {
+  color: #F8F4EC;
+}
+
+/* Hero: preserve the burgundy brand identity */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertise-hero {
+  background:
+    radial-gradient(
+      circle at 83% 24%,
+      rgba(240, 180, 41, 0.12),
+      transparent 25%
+    ),
+    linear-gradient(
+      125deg,
+      #1A0F14 0%,
+      #3D0D18 55%,
+      #54131B 100%
+    );
+  border-color: rgba(240, 180, 41, 0.22);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-eyebrow,
+  .advertise-section-kicker,
+  .advertise-benefit-number,
+  .advertiser-panel-kicker,
+  .advertiser-form-section-label > span:last-child
+) {
+  color: #F0B429;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-hero h1,
+  .advertise-hero h1 span
+) {
+  color: #F8F4EC;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-intro,
+  .advertise-trust-line span,
+  .advertise-hero-bottom,
+  .advertise-orbit-caption
+) {
+  color: #E2EDE6;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-eyebrow svg,
+  .advertise-trust-line svg,
+  .advertise-hero-bottom-divider,
+  .advertise-live-indicator
+) {
+  color: #F0B429;
+}
+
+/* Hero actions */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertise-hero-cta {
+  background: #F0B429;
+  border-color: #F0B429;
+  color: #24170D;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertise-hero-cta:hover {
+  background: #FFD36A;
+  border-color: #FFD36A;
+  color: #24170D;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertise-hero-contact {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(248, 244, 236, 0.28);
+  color: #F8F4EC;
+}
+
+/* Benefit cards and registration panels */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-benefit,
+  .advertiser-form-panel,
+  .advertiser-dashboard-panel,
+  .advertiser-contact-card
+) {
+  background: #13241D;
+  border-color: #30483B;
+  color: #E2EDE6;
+  box-shadow: var(--ad-shadow);
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertise-benefit:hover {
+  background: #1A3026;
+  border-color: rgba(240, 180, 41, 0.55);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.30);
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-benefit-icon,
+  .advertiser-heading-icon,
+  .advertiser-contact-icon
+) {
+  background: #20372E;
+  border-color: #3A5546;
+  color: #F0B429;
+}
+
+/* Supporting copy and labels */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertise-benefit p,
+  .advertiser-subtitle,
+  .advertiser-note,
+  .advertise-workspace-heading > p,
+  .advertiser-dashboard-note p,
+  .advertiser-contact-card p,
+  .advertiser-process-list > div,
+  .advertiser-plan-summary p
+) {
+  color: #9DBDAD;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertiser-form-panel label,
+  .advertiser-dashboard-panel form > label,
+  .advertiser-form-section-label
+) {
+  color: #E2EDE6;
+}
+
+/* Form inputs and dropdowns */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertiser-form-panel input,
+  .advertiser-form-panel select,
+  .advertiser-dashboard-panel input,
+  .advertiser-key-input-wrap
+) {
+  background: #1A3026;
+  color: #F8F4EC;
+  border-color: #30483B;
+  color-scheme: dark;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page select option {
+  background: #13241D;
+  color: #F8F4EC;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page input::placeholder {
+  color: #9DBDAD;
+  opacity: 1;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertiser-form-panel input:focus,
+  .advertiser-form-panel select:focus,
+  .advertiser-dashboard-panel input:focus,
+  .advertiser-key-input-wrap:focus-within
+) {
+  background: #20372E;
+  border-color: #F0B429;
+  box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.13);
+}
+
+/* Campaign summary and dashboard notice */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertiser-plan-summary,
+  .advertiser-dashboard-note
+) {
+  background: #1A3026;
+  border-color: #30483B;
+  color: #E2EDE6;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertiser-plan-summary strong,
+  .advertiser-dashboard-note strong,
+  .advertiser-contact-card strong
+) {
+  color: #F8F4EC;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(
+  .advertiser-plan-summary > svg,
+  .advertiser-dashboard-note > svg,
+  .advertiser-process-list svg,
+  .advertiser-field label svg
+) {
+  color: #F0B429;
+}
+
+/* Contact link and process divider */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-contact-card a {
+  color: #F0B429;
+  text-decoration-color: #806A34;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-process-list {
+  border-top-color: #30483B;
+}
+
+/* Primary and secondary buttons */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-primary-button {
+  background: #54131B;
+  border-color: #54131B;
+  color: #F8F4EC;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-primary-button:hover {
+  background: #771B26;
+  border-color: #771B26;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-secondary-button {
+  background: #20372E;
+  border-color: #6D5B32;
+  color: #F0B429;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-secondary-button:hover {
+  background: #294537;
+  border-color: #F0B429;
+}
+
+/* Feedback states */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-feedback {
+  background: #1A3026;
+  border-color: #3A5546;
+  color: #E2EDE6;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-feedback-info {
+  background: #13241D;
+  border-color: #30483B;
+  color: #E2EDE6;
+}
+
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page .advertiser-feedback-error {
+  background: #351E1B;
+  border-color: #794137;
+  color: #FFD9CC;
+}
+
+/* Keyboard accessibility */
+:is(
+  html.dark, body.dark, html.dark-mode, body.dark-mode,
+  .dark, .dark-theme, .dark-mode,
+  [data-theme="dark"], [data-mode="dark"],
+  [data-color-mode="dark"], [data-bs-theme="dark"]
+) .advertise-page :is(button, input, select, a):focus-visible {
+  outline: 3px solid rgba(240, 180, 41, 0.75);
+  outline-offset: 3px;
+}

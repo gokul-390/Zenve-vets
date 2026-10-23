@@ -469,27 +469,23 @@
 
 /* ---------- Doctor directory ---------- */
 
+/* Doctor directory — use the main page scrollbar */
 .doctor-scroll-container {
   width: 100%;
   max-width: 100%;
-  max-height: 650px;
+  height: auto;
+  max-height: none;
   min-width: 0;
-  padding: 3px 5px 12px 2px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
+  padding: 3px 2px 12px;
+  overflow: visible;
+  overscroll-behavior: auto;
   border-radius: 14px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--search-border) transparent;
+  scrollbar-width: auto;
 }
 
+/* Remove the nested scrollbar styling */
 .doctor-scroll-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.doctor-scroll-container::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background: var(--search-border);
+  display: none;
 }
 
 .doctor-grid {
@@ -511,10 +507,10 @@
   border-radius: 15px;
   background: var(--search-white);
   box-shadow: var(--search-shadow);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+ 
 }
 
-.doctor-card:hover {
+.doctor-card:hover { 
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(84, 21, 34, 0.09);
 }
@@ -556,14 +552,21 @@
   overflow-wrap: anywhere;
 }
 
+/* ==========================================
+   DOCTOR AVATAR — CONSISTENT IMAGE DISPLAY
+========================================== */
+
 .doctor-avatar {
   display: grid;
+  position: relative;
   flex-shrink: 0;
   width: 62px;
   height: 62px;
   margin: -29px 0 0 15px;
+  padding: 0;
   place-items: center;
   overflow: hidden;
+  box-sizing: border-box;
   border: 4px solid var(--search-white);
   border-radius: 16px;
   background: var(--search-sage);
@@ -576,7 +579,12 @@
   display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
+  max-height: none;
   object-fit: cover;
+  object-position: center 25%;
+  border-radius: inherit;
+  margin: 0;
 }
 
 .doctor-card-body {
@@ -666,10 +674,45 @@
   color: var(--search-gold);
 }
 
-.doctor-card-actions {
+/* Doctor card actions — responsive layout */
+.search-page .doctor-card-actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.search-page .doctor-card-actions > .doctor-connect-button {
+  grid-column: 1 / -1;
+}
+
+.search-page .doctor-card-actions > .doctor-profile-button,
+.search-page .doctor-card-actions > .doctor-message-button {
+  min-width: 0;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 5px;
+  font-size: 11px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.search-page .doctor-card-actions > button svg {
+  flex-shrink: 0;
+}
+
+/* Keep labels readable on small screens */
+@media (max-width: 400px) {
+  .search-page .doctor-card-actions {
+    gap: 6px;
+  }
+
+  .search-page .doctor-card-actions > button {
+    gap: 4px;
+    padding: 8px 3px;
+    font-size: 10px;
+  }
 }
 
 .doctor-connect-button,
@@ -979,22 +1022,23 @@
 
 .doctor-modal-backdrop {
   position: fixed;
-  z-index: 9999;
   inset: 0;
+  z-index: 9999;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   padding: 10px;
-  overflow: hidden;
-  overscroll-behavior: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 
   background: rgba(36, 10, 17, 0.68);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
+/* Keep the modal at the center */
 .doctor-profile-modal {
   position: relative;
   flex: 0 1 650px;
@@ -1010,7 +1054,7 @@
 
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior-y: contain;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
 
@@ -1023,6 +1067,12 @@
   scrollbar-color: var(--search-gold) transparent;
 }
 
+/* Allow the overlay area to receive mouse-wheel input */
+.doctor-modal-backdrop {
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+}
+
 .doctor-profile-modal::-webkit-scrollbar {
   width: 6px;
 }
@@ -1032,21 +1082,26 @@
   background: var(--search-gold);
 }
 
+
+
 /* Sticky header stays visible while the profile scrolls */
+/* Fixed modal header while profile content scrolls */
 .doctor-modal-header {
   position: sticky;
-  top: -25px;
-  z-index: 5;
-
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  background: #fffdf9;
+  padding: 16px 0;
+  margin-top: 0;
+}
 
-  margin: -25px -25px 22px;
-  padding: 16px 25px;
-
-  background: var(--search-white);
+/* Keep profile identity in the normal scrolling flow */
+.doctor-profile-identity {
+  position: static;
+  padding: 12px 0;
 }
 
 .doctor-modal-close {
@@ -1217,190 +1272,7 @@
   outline-offset: 3px;
 }
 
-/* =========================================================
-   DARK MODE
-   Supports common app theme selectors and OS preference.
-========================================================= */
 
-/* System dark theme when no manual theme is set */
-@media (prefers-color-scheme: dark) {
-  .search-page:not(.light-theme) {
-    --search-forest: #e8bec9;
-    --search-forest-dark: #fff0f4;
-    --search-ivory: #292328;
-    --search-sage: #362b32;
-    --search-gold: #e1c681;
-    --search-white: #211c21;
-    --search-text: #f4edf1;
-    --search-muted: #c7b9c1;
-    --search-border: #493c45;
-    --search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
-  }
-
-  .search-page:not(.light-theme) .doctor-card-banner {
-    background: linear-gradient(125deg, #362b32, #292328);
-  }
-
-  .search-page:not(.light-theme) .doctor-city-tag,
-  .search-page:not(.light-theme) .doctor-banner-icon,
-  .search-page:not(.light-theme) .discovery-card-icon {
-    background: #362b32;
-    border-color: var(--search-border);
-    color: var(--search-forest-dark);
-  }
-
-  .search-page:not(.light-theme) .search-specialties button.selected,
-  .search-page:not(.light-theme) .search-tabs button.active .search-tab-count,
-  .search-page:not(.light-theme) .discovery-filter-row button.active,
-  .search-page:not(.light-theme) .doctor-connect-button,
-  .search-page:not(.light-theme) .doctor-message-button,
-  .search-page:not(.light-theme) .search-empty > button {
-    background: #70404e;
-    border-color: #a97584;
-    color: #fff;
-  }
-
-  .search-page:not(.light-theme) .doctor-connect-button.is-connected {
-    background: #42372c;
-    border-color: #8d774e;
-    color: #f8e7bd;
-  }
-
-  .search-page:not(.light-theme) .doctor-profile-button,
-  .search-page:not(.light-theme) .search-reset-button,
-  .search-page:not(.light-theme) .discovery-filter-row button {
-    background: var(--search-white);
-    color: var(--search-text);
-  }
-
-  .search-page:not(.light-theme) .search-discovery-note {
-    background: var(--search-ivory);
-    border-color: var(--search-border);
-  }
-
-  .search-page:not(.light-theme) .discovery-tag,
-  .search-page:not(.light-theme) .doctor-interest-list span {
-    background: #362b32;
-    border-color: var(--search-border);
-    color: #e8c989;
-  }
-}
-
-/* Manual theme class support */
-.dark .search-page,
-.dark-theme .search-page,
-[data-theme="dark"] .search-page,
-[data-mode="dark"] .search-page {
-  --search-forest: #e8bec9;
-  --search-forest-dark: #fff0f4;
-  --search-ivory: #292328;
-  --search-sage: #362b32;
-  --search-gold: #e1c681;
-  --search-white: #211c21;
-  --search-text: #f4edf1;
-  --search-muted: #c7b9c1;
-  --search-border: #493c45;
-  --search-shadow: 0 6px 22px rgba(0, 0, 0, 0.2);
-}
-
-.dark .search-page .doctor-card-banner,
-.dark-theme .search-page .doctor-card-banner,
-[data-theme="dark"] .search-page .doctor-card-banner,
-[data-mode="dark"] .search-page .doctor-card-banner {
-  background: linear-gradient(125deg, #362b32, #292328);
-}
-
-.dark .search-page .doctor-city-tag,
-.dark .search-page .doctor-banner-icon,
-.dark .search-page .discovery-card-icon,
-.dark-theme .search-page .doctor-city-tag,
-.dark-theme .search-page .doctor-banner-icon,
-.dark-theme .search-page .discovery-card-icon,
-[data-theme="dark"] .search-page .doctor-city-tag,
-[data-theme="dark"] .search-page .doctor-banner-icon,
-[data-theme="dark"] .search-page .discovery-card-icon,
-[data-mode="dark"] .search-page .doctor-city-tag,
-[data-mode="dark"] .search-page .doctor-banner-icon,
-[data-mode="dark"] .search-page .discovery-card-icon {
-  background: #362b32;
-  border-color: var(--search-border);
-  color: var(--search-forest-dark);
-}
-
-.dark .search-page .search-specialties button.selected,
-.dark .search-page .search-tabs button.active .search-tab-count,
-.dark .search-page .discovery-filter-row button.active,
-.dark .search-page .doctor-connect-button,
-.dark .search-page .doctor-message-button,
-.dark .search-page .search-empty > button,
-.dark-theme .search-page .search-specialties button.selected,
-.dark-theme .search-page .search-tabs button.active .search-tab-count,
-.dark-theme .search-page .discovery-filter-row button.active,
-.dark-theme .search-page .doctor-connect-button,
-.dark-theme .search-page .doctor-message-button,
-.dark-theme .search-page .search-empty > button,
-[data-theme="dark"] .search-page .search-specialties button.selected,
-[data-theme="dark"] .search-page .search-tabs button.active .search-tab-count,
-[data-theme="dark"] .search-page .discovery-filter-row button.active,
-[data-theme="dark"] .search-page .doctor-connect-button,
-[data-theme="dark"] .search-page .doctor-message-button,
-[data-theme="dark"] .search-page .search-empty > button,
-[data-mode="dark"] .search-page .search-specialties button.selected,
-[data-mode="dark"] .search-page .search-tabs button.active .search-tab-count,
-[data-mode="dark"] .search-page .discovery-filter-row button.active,
-[data-mode="dark"] .search-page .doctor-connect-button,
-[data-mode="dark"] .search-page .doctor-message-button,
-[data-mode="dark"] .search-page .search-empty > button {
-  background: #70404e;
-  border-color: #a97584;
-  color: #fff;
-}
-
-.dark .search-page .doctor-connect-button.is-connected,
-.dark-theme .search-page .doctor-connect-button.is-connected,
-[data-theme="dark"] .search-page .doctor-connect-button.is-connected,
-[data-mode="dark"] .search-page .doctor-connect-button.is-connected {
-  background: #42372c;
-  border-color: #8d774e;
-  color: #f8e7bd;
-}
-
-.dark .search-page .doctor-profile-button,
-.dark .search-page .search-reset-button,
-.dark .search-page .discovery-filter-row button,
-.dark-theme .search-page .doctor-profile-button,
-.dark-theme .search-page .search-reset-button,
-.dark-theme .search-page .discovery-filter-row button,
-[data-theme="dark"] .search-page .doctor-profile-button,
-[data-theme="dark"] .search-page .search-reset-button,
-[data-theme="dark"] .search-page .discovery-filter-row button,
-[data-mode="dark"] .search-page .doctor-profile-button,
-[data-mode="dark"] .search-page .search-reset-button,
-[data-mode="dark"] .search-page .discovery-filter-row button {
-  background: var(--search-white);
-  color: var(--search-text);
-}
-
-.dark .search-page .search-discovery-note,
-.dark-theme .search-page .search-discovery-note,
-[data-theme="dark"] .search-page .search-discovery-note,
-[data-mode="dark"] .search-page .search-discovery-note {
-  background: var(--search-ivory);
-  border-color: var(--search-border);
-}
-
-.dark .search-page .discovery-tag,
-.dark .search-page .doctor-interest-list span,
-.dark-theme .search-page .discovery-tag,
-.dark-theme .search-page .doctor-interest-list span,
-[data-theme="dark"] .search-page .discovery-tag,
-[data-theme="dark"] .search-page .doctor-interest-list span,
-[data-mode="dark"] .search-page .discovery-tag,
-[data-mode="dark"] .search-page .doctor-interest-list span {
-  background: #362b32;
-  border-color: var(--search-border);
-  color: #e8c989;
-}
 
 /* =========================================================
    RESPONSIVE LAYOUT
@@ -1639,1122 +1511,7 @@
     animation-iteration-count: 1 !important;
   }
 }
-/* =========================================
-   SEARCH PAGE — DARK MODE FONT VISIBILITY
-   Keep the existing theme colors and layout.
-   Only improve text contrast.
-========================================= */
-
-/* Support common manual dark-mode selectors */
-.dark .search-page,
-.dark-theme .search-page,
-[data-theme="dark"] .search-page,
-[data-mode="dark"] .search-page {
-  color: #f4edf0;
-}
-
-/* Main headings: replace dark burgundy with light text */
-.dark .search-page .search-heading h1,
-.dark .search-page .search-results-heading h2,
-.dark .search-page .doctor-card-body h3,
-.dark .search-page .discovery-card h3,
-.dark .search-page .doctor-profile-identity h2,
-.dark .search-page .doctor-profile-detail h3,
-.dark .search-page .search-empty h3,
-.dark-theme .search-page .search-heading h1,
-.dark-theme .search-page .search-results-heading h2,
-.dark-theme .search-page .doctor-card-body h3,
-.dark-theme .search-page .discovery-card h3,
-.dark-theme .search-page .doctor-profile-identity h2,
-.dark-theme .search-page .doctor-profile-detail h3,
-.dark-theme .search-page .search-empty h3,
-[data-theme="dark"] .search-page .search-heading h1,
-[data-theme="dark"] .search-page .search-results-heading h2,
-[data-theme="dark"] .search-page .doctor-card-body h3,
-[data-theme="dark"] .search-page .discovery-card h3,
-[data-theme="dark"] .search-page .doctor-profile-identity h2,
-[data-theme="dark"] .search-page .doctor-profile-detail h3,
-[data-theme="dark"] .search-page .search-empty h3,
-[data-mode="dark"] .search-page .search-heading h1,
-[data-mode="dark"] .search-page .search-results-heading h2,
-[data-mode="dark"] .search-page .doctor-card-body h3,
-[data-mode="dark"] .search-page .discovery-card h3,
-[data-mode="dark"] .search-page .doctor-profile-identity h2,
-[data-mode="dark"] .search-page .doctor-profile-detail h3,
-[data-mode="dark"] .search-page .search-empty h3 {
-  color: #f7e9ed;
-}
-
-/* Body text: improve visibility outside white cards */
-.dark .search-page .search-heading p,
-.dark .search-page .search-results-heading p,
-.dark .search-page .search-filter-label,
-.dark .search-page .search-options label,
-.dark .search-page .doctor-specialty,
-.dark .search-page .doctor-experience,
-.dark .search-page .doctor-location,
-.dark .search-page .doctor-community-status,
-.dark .search-page .discovery-card > p,
-.dark .search-page .discovery-card-footer,
-.dark .search-page .search-discovery-note p,
-.dark .search-page .search-empty p,
-.dark-theme .search-page .search-heading p,
-.dark-theme .search-page .search-results-heading p,
-.dark-theme .search-page .search-filter-label,
-.dark-theme .search-page .search-options label,
-.dark-theme .search-page .doctor-specialty,
-.dark-theme .search-page .doctor-experience,
-.dark-theme .search-page .doctor-location,
-.dark-theme .search-page .doctor-community-status,
-.dark-theme .search-page .discovery-card > p,
-.dark-theme .search-page .discovery-card-footer,
-.dark-theme .search-page .search-discovery-note p,
-.dark-theme .search-page .search-empty p,
-[data-theme="dark"] .search-page .search-heading p,
-[data-theme="dark"] .search-page .search-results-heading p,
-[data-theme="dark"] .search-page .search-filter-label,
-[data-theme="dark"] .search-page .search-options label,
-[data-theme="dark"] .search-page .doctor-specialty,
-[data-theme="dark"] .search-page .doctor-experience,
-[data-theme="dark"] .search-page .doctor-location,
-[data-theme="dark"] .search-page .doctor-community-status,
-[data-theme="dark"] .search-page .discovery-card > p,
-[data-theme="dark"] .search-page .discovery-card-footer,
-[data-theme="dark"] .search-page .search-discovery-note p,
-[data-theme="dark"] .search-page .search-empty p,
-[data-mode="dark"] .search-page .search-heading p,
-[data-mode="dark"] .search-page .search-results-heading p,
-[data-mode="dark"] .search-page .search-filter-label,
-[data-mode="dark"] .search-page .search-options label,
-[data-mode="dark"] .search-page .doctor-specialty,
-[data-mode="dark"] .search-page .doctor-experience,
-[data-mode="dark"] .search-page .doctor-location,
-[data-mode="dark"] .search-page .doctor-community-status,
-[data-mode="dark"] .search-page .discovery-card > p,
-[data-mode="dark"] .search-page .discovery-card-footer,
-[data-mode="dark"] .search-page .search-discovery-note p,
-[data-mode="dark"] .search-page .search-empty p {
-  color: #d4c7cd;
-}
-
-/* Controls and filters: prevent black text in dark mode */
-.dark .search-page .search-input-wrap input,
-.dark .search-page .search-city-select,
-.dark .search-page .search-sort-control select,
-.dark .search-page .search-tabs button,
-.dark .search-page .search-specialties button,
-.dark .search-page .discovery-filter-row button,
-.dark .search-page .search-result-count,
-.dark-theme .search-page .search-input-wrap input,
-.dark-theme .search-page .search-city-select,
-.dark-theme .search-page .search-sort-control select,
-.dark-theme .search-page .search-tabs button,
-.dark-theme .search-page .search-specialties button,
-.dark-theme .search-page .discovery-filter-row button,
-.dark-theme .search-page .search-result-count,
-[data-theme="dark"] .search-page .search-input-wrap input,
-[data-theme="dark"] .search-page .search-city-select,
-[data-theme="dark"] .search-page .search-sort-control select,
-[data-theme="dark"] .search-page .search-tabs button,
-[data-theme="dark"] .search-page .search-specialties button,
-[data-theme="dark"] .search-page .discovery-filter-row button,
-[data-theme="dark"] .search-page .search-result-count,
-[data-mode="dark"] .search-page .search-input-wrap input,
-[data-mode="dark"] .search-page .search-city-select,
-[data-mode="dark"] .search-page .search-sort-control select,
-[data-mode="dark"] .search-page .search-tabs button,
-[data-mode="dark"] .search-page .search-specialties button,
-[data-mode="dark"] .search-page .discovery-filter-row button,
-[data-mode="dark"] .search-page .search-result-count {
-  color: #f4edf0;
-}
-
-/* Input placeholder */
-.dark .search-page .search-input-wrap input::placeholder,
-.dark-theme .search-page .search-input-wrap input::placeholder,
-[data-theme="dark"] .search-page .search-input-wrap input::placeholder,
-[data-mode="dark"] .search-page .search-input-wrap input::placeholder {
-  color: #c4b4bd;
-  opacity: 1;
-}
-
-/* Preserve burgundy backgrounds while keeping button labels readable */
-.dark .search-page .search-specialties button.selected,
-.dark .search-page .search-tabs button.active,
-.dark .search-page .discovery-filter-row button.active,
-.dark .search-page .doctor-connect-button,
-.dark .search-page .doctor-message-button,
-.dark .search-page .search-empty > button,
-.dark-theme .search-page .search-specialties button.selected,
-.dark-theme .search-page .search-tabs button.active,
-.dark-theme .search-page .discovery-filter-row button.active,
-.dark-theme .search-page .doctor-connect-button,
-.dark-theme .search-page .doctor-message-button,
-.dark-theme .search-page .search-empty > button,
-[data-theme="dark"] .search-page .search-specialties button.selected,
-[data-theme="dark"] .search-page .search-tabs button.active,
-[data-theme="dark"] .search-page .discovery-filter-row button.active,
-[data-theme="dark"] .search-page .doctor-connect-button,
-[data-theme="dark"] .search-page .doctor-message-button,
-[data-theme="dark"] .search-page .search-empty > button,
-[data-mode="dark"] .search-page .search-specialties button.selected,
-[data-mode="dark"] .search-page .search-tabs button.active,
-[data-mode="dark"] .search-page .discovery-filter-row button.active,
-[data-mode="dark"] .search-page .doctor-connect-button,
-[data-mode="dark"] .search-page .doctor-message-button,
-[data-mode="dark"] .search-page .search-empty > button {
-  color: #ffffff;
-}
-
-/* Modal text */
-.dark .search-page .doctor-profile-detail p,
-.dark .search-page .doctor-profile-stats span,
-.dark .search-page .doctor-profile-disclaimer,
-.dark-theme .search-page .doctor-profile-detail p,
-.dark-theme .search-page .doctor-profile-stats span,
-.dark-theme .search-page .doctor-profile-disclaimer,
-[data-theme="dark"] .search-page .doctor-profile-detail p,
-[data-theme="dark"] .search-page .doctor-profile-stats span,
-[data-theme="dark"] .search-page .doctor-profile-disclaimer,
-[data-mode="dark"] .search-page .doctor-profile-detail p,
-[data-mode="dark"] .search-page .doctor-profile-stats span,
-[data-mode="dark"] .search-page .doctor-profile-disclaimer {
-  color: #d4c7cd;
-}
-/* Clinical case metadata */
-.discovery-case-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin: 10px 0;
-  color: #718096;
-  font-size: 0.8rem;
-}
-
-.discovery-case-meta > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.discovery-case-number {
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: #DDF3ED;
-  color: #176B5B;
-  font-weight: 600;
-}
-
-.discovery-case-details {
-  display: grid;
-  gap: 6px;
-  margin-top: 10px;
-}
-
-.discovery-case-details p {
-  margin: 0;
-  overflow-wrap: anywhere;
-}
-
-.discovery-case-details strong {
-  color: #263238;
-}
-
-.discovery-case-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 12px;
-}
-
-.discovery-case-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  max-width: 100%;
-  padding: 5px 9px;
-  border: 1px solid #E5EAE8;
-  border-radius: 999px;
-  background: #F7F9F7;
-  color: #52615D;
-  font-size: 0.75rem;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-
-.case-status-complete,
-.case-priority-low {
-  border-color: #B8E4D0;
-  background: #E7F7EF;
-  color: #176B4D;
-}
-
-.case-status-progress,
-.case-priority-medium {
-  border-color: #F0DDA5;
-  background: #FFF7DF;
-  color: #87651A;
-}
-
-.case-status-pending,
-.case-priority-high {
-  border-color: #F0C6C3;
-  background: #FFF0EF;
-  color: #A33D37;
-}
-
-.case-status-default,
-.case-priority-default {
-  border-color: #E5EAE8;
-  background: #F7F9F7;
-  color: #52615D;
-}
-
-.discovery-card-media img {
-  display: block;
-  width: 100%;
-  max-height: 260px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-/* ==========================================
-   ZENVE VET — PROFESSIONAL LIGHT THEME
-   Append to the end of SearchPage.css
-   ========================================== */
-
-.search-page {
-  --search-primary: #176B5B;
-  --search-primary-dark: #124F45;
-  --search-primary-soft: #E5F2EC;
-  --search-text: #24332F;
-  --search-muted: #63736D;
-  --search-border: #DCE5DF;
-  --search-surface: #FFFFFF;
-  --search-background: #F7F9F6;
-  --search-gold: #B58B3B;
-
-  color: var(--search-text);
-  background: var(--search-background);
-}
-
-/* Main page heading: replace pale pink with readable charcoal */
-.search-page .search-heading h1 {
-  color: #243F36 !important;
-  font-weight: 750;
-  letter-spacing: -0.035em;
-}
-
-.search-page .search-heading p {
-  color: #63736D !important;
-  line-height: 1.75;
-}
-
-.search-page .search-eyebrow,
-.search-page .search-results-eyebrow,
-.search-page .search-filter-label {
-  color: #176B5B !important;
-  font-weight: 750;
-  letter-spacing: 0.12em;
-}
-
-/* Section headings */
-.search-page .search-results-heading h2,
-.search-page .search-discovery-section h2 {
-  color: #243F36 !important;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-}
-
-/* Search field */
-.search-page .search-input-wrap,
-.search-page .search-city-field {
-  background: #FFFFFF;
-  border: 1px solid #DCE5DF;
-  color: #176B5B;
-  border-radius: 12px;
-}
-
-.search-page .search-input-wrap:focus-within,
-.search-page .search-city-field:focus-within {
-  border-color: #176B5B;
-  box-shadow: 0 0 0 3px rgba(23, 107, 91, 0.12);
-}
-
-.search-page .search-input-wrap input,
-.search-page .search-city-select {
-  color: #24332F !important;
-}
-
-.search-page .search-input-wrap input::placeholder {
-  color: #7B8983 !important;
-  opacity: 1;
-}
-
-/* Specialty filters */
-.search-page .search-specialties button {
-  color: #42564D !important;
-  background: #FFFFFF;
-  border: 1px solid #DCE5DF;
-  border-radius: 999px;
-  transition: background 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease, transform 0.2s ease;
-}
-
-.search-page .search-specialties button:hover,
-.search-page .search-specialties button.selected {
-  color: #FFFFFF !important;
-  background: #176B5B;
-  border-color: #176B5B;
-}
-
-.search-page .search-specialties button:hover {
-  transform: translateY(-1px);
-}
-
-/* Filter text */
-.search-page .search-options,
-.search-page .search-options label {
-  color: #42564D !important;
-}
-
-.search-page .search-options input[type="checkbox"] {
-  accent-color: #176B5B;
-}
-
-.search-page .search-reset-button {
-  color: #176B5B !important;
-  font-weight: 650;
-}
-
-.search-page .search-reset-button:hover {
-  color: #124F45 !important;
-  text-decoration: underline;
-}
-
-/* Category tabs */
-.search-page .search-tabs button {
-  color: #52645B !important;
-}
-
-.search-page .search-tabs button.active {
-  color: #176B5B !important;
-  border-bottom-color: #176B5B !important;
-}
-
-.search-page .search-tab-count {
-  color: #176B5B !important;
-  background: #E5F2EC;
-  font-weight: 750;
-}
-
-/* Doctor cards */
-.search-page .doctor-card {
-  overflow: hidden;
-  background: #FFFFFF;
-  border: 1px solid #E0E7E1;
-  border-radius: 18px;
-  box-shadow: 0 5px 18px rgba(30, 60, 46, 0.07);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.search-page .doctor-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(30, 60, 46, 0.12);
-}
-
-/* Visible, attractive forest-green banner */
-.search-page .doctor-card-banner {
-  background: linear-gradient(125deg, #174F43 0%, #237B65 100%) !important;
-  color: #FFFFFF !important;
-}
-
-.search-page .doctor-banner-icon {
-  color: #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 10px;
-}
-
-.search-page .doctor-city-tag {
-  color: #FFFFFF !important;
-  background: rgba(13, 52, 43, 0.65) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 999px;
-  font-weight: 650;
-}
-
-/* Doctor card typography */
-.search-page .doctor-card-body {
-  background: #FFFFFF;
-  color: #24332F;
-}
-
-.search-page .doctor-label {
-  color: #176B5B !important;
-  font-weight: 750;
-  letter-spacing: 0.08em;
-}
-
-.search-page .doctor-card h3 {
-  color: #243F36 !important;
-  font-weight: 750;
-}
-
-.search-page .doctor-specialty {
-  color: #176B5B !important;
-  font-weight: 650;
-}
-
-.search-page .doctor-experience,
-.search-page .doctor-location {
-  color: #63736D !important;
-}
-
-.search-page .doctor-location svg {
-  color: #176B5B;
-}
-
-.search-page .doctor-community-status {
-  color: #4B6659 !important;
-}
-
-/* Doctor action buttons */
-.search-page .doctor-connect-button {
-  color: #FFFFFF !important;
-  background: #176B5B !important;
-  border: 1px solid #176B5B !important;
-  border-radius: 9px;
-  font-weight: 650;
-}
-
-.search-page .doctor-connect-button:hover {
-  background: #124F45 !important;
-}
-
-.search-page .doctor-connect-button.is-connected {
-  color: #176B5B !important;
-  background: #E5F2EC !important;
-  border-color: #B9D9C8 !important;
-}
-
-.search-page .doctor-profile-button {
-  color: #176B5B !important;
-  background: #FFFFFF !important;
-  border: 1px solid #C8DCD0 !important;
-  border-radius: 9px;
-  font-weight: 650;
-}
-
-.search-page .doctor-profile-button:hover {
-  background: #EAF4EE !important;
-}
-
-.search-page .doctor-message-button {
-  color: #FFFFFF !important;
-  background: #344D43 !important;
-  border: 1px solid #344D43 !important;
-  border-radius: 9px;
-  font-weight: 650;
-}
-
-.search-page .doctor-message-button:hover {
-  background: #24382F !important;
-}
-
-/* Discovery/story/video cards */
-.search-page .discovery-card {
-  color: #24332F;
-  background: #FFFFFF;
-  border: 1px solid #E0E7E1;
-  border-radius: 16px;
-  box-shadow: 0 5px 18px rgba(30, 60, 46, 0.06);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.search-page .discovery-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(30, 60, 46, 0.11);
-}
-
-.search-page .discovery-card-top {
-  color: #FFFFFF;
-}
-
-.search-page .discovery-card-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF !important;
-  background: #176B5B !important;
-  border: 1px solid #176B5B;
-  border-radius: 10px;
-}
-
-.search-page .discovery-tag {
-  color: #176B5B !important;
-  background: #E5F2EC !important;
-  border: 1px solid #C9E3D5;
-  border-radius: 999px;
-  font-weight: 750;
-}
-
-/* Discovery content text */
-.search-page .discovery-card h3 {
-  color: #243F36 !important;
-  font-weight: 750;
-  line-height: 1.45;
-}
-
-.search-page .discovery-card > p {
-  color: #596A62 !important;
-  line-height: 1.7;
-}
-
-.search-page .discovery-card strong {
-  color: #243F36;
-}
-
-.search-page .discovery-card-footer {
-  color: #718078 !important;
-  border-top-color: #E7ECE8;
-}
-
-.search-page .discovery-card-footer svg {
-  color: #176B5B;
-}
-
-.search-page .discovery-author {
-  color: #52665A !important;
-}
-
-/* Images: retain a clean shape and prevent awkward overflow */
-.search-page .discovery-card-media {
-  overflow: hidden;
-  border-radius: 12px;
-  background: #F0F4F0;
-}
-
-.search-page .discovery-card-media img {
-  display: block;
-  width: 100%;
-  max-height: 260px;
-  object-fit: cover;
-}
-
-/* Discovery filters */
-.search-page .discovery-filter-row button {
-  color: #42564D !important;
-  background: #FFFFFF;
-  border: 1px solid #DCE5DF;
-  border-radius: 999px;
-}
-
-.search-page .discovery-filter-row button.active,
-.search-page .discovery-filter-row button:hover {
-  color: #FFFFFF !important;
-  background: #176B5B !important;
-  border-color: #176B5B !important;
-}
-
-/* Results, sort control and informational note */
-.search-page .search-result-count,
-.search-page .search-sort-control {
-  color: #52645B !important;
-}
-
-.search-page .search-sort-control {
-  background: #FFFFFF;
-  border: 1px solid #DCE5DF;
-  border-radius: 9px;
-}
-
-.search-page .search-sort-control select {
-  color: #24332F !important;
-}
-
-.search-page .search-discovery-note {
-  color: #63736D !important;
-  background: #EDF4EF;
-  border: 1px solid #DCE8DF;
-  border-radius: 12px;
-}
-
-.search-page .search-discovery-note svg {
-  color: #176B5B;
-}
-
-/* Empty states */
-.search-page .search-empty h3 {
-  color: #243F36 !important;
-}
-
-.search-page .search-empty p {
-  color: #63736D !important;
-}
-
-.search-page .search-empty button {
-  color: #FFFFFF !important;
-  background: #176B5B !important;
-  border: 1px solid #176B5B;
-  border-radius: 9px;
-}
-
-/* Profile modal */
-.search-page .doctor-profile-modal {
-  color: #24332F;
-  background: #FFFFFF;
-}
-
-.search-page .doctor-profile-modal h2,
-.search-page .doctor-profile-modal h3 {
-  color: #243F36 !important;
-}
-
-.search-page .doctor-profile-modal p,
-.search-page .doctor-profile-modal span {
-  color: #52645B;
-}
-
-.search-page .doctor-profile-modal .search-eyebrow {
-  color: #176B5B !important;
-}
-
-.search-page .doctor-modal-close {
-  color: #243F36 !important;
-  background: #EDF4EF;
-}
-
-/* Keyboard focus accessibility */
-.search-page button:focus-visible,
-.search-page input:focus-visible,
-.search-page select:focus-visible {
-  outline: 3px solid rgba(23, 107, 91, 0.35);
-  outline-offset: 3px;
-}
-
-/* Small screens */
-@media (max-width: 640px) {
-  .search-page .doctor-card,
-  .search-page .discovery-card {
-    border-radius: 14px;
-  }
-
-  .search-page .doctor-card-actions {
-    gap: 8px;
-  }
-
-  .search-page .doctor-card-actions button {
-    min-height: 38px;
-  }
-
-  .search-page .discovery-card h3 {
-    font-size: 1rem;
-  }
-}
 /* =====================================================
-   ZENVE VET — COMPLETE BURGUNDY LIGHT THEME
-   Applies to the entire Search & Discovery page
-   Append at the END of SearchPage.css
-===================================================== */
-
-.search-page {
-  --search-forest: #541522;
-  --search-forest-dark: #3D0D18;
-  --search-ivory: #F8F4EC;
-  --search-sage: #F1E8E5;
-  --search-gold: #C5A45B;
-  --search-white: #FFFDF9;
-  --search-text: #392D2C;
-  --search-muted: #80716D;
-  --search-border: #E9DFD5;
-  --search-shadow: 0 6px 22px rgba(84, 21, 34, 0.055);
-
-  color: var(--search-text);
-  background: transparent;
-  font-family: "Figtree", "Segoe UI", Arial, sans-serif;
-}
-
-.search-page :is(h1, h2, h3, h4, p, span, label, button, input, select, textarea) {
-  font-family: "Figtree", "Segoe UI", Arial, sans-serif;
-}
-
-.search-page :is(.search-heading h1, .search-results-heading h2,
-  .search-empty h3, .doctor-card-body h3, .discovery-card h3,
-  .doctor-profile-identity h2, .doctor-profile-detail h3) {
-  font-family: "Outfit", "Segoe UI", Arial, sans-serif;
-}
-
-.search-page :is(.search-heading h1, .search-results-heading h2,
-  .search-empty h3, .doctor-card-body h3, .discovery-card h3,
-  .doctor-profile-identity h2, .doctor-profile-detail h3) {
-  color: #3D0D18 !important;
-  font-weight: 750;
-  letter-spacing: -0.025em;
-}
-
-.search-page :is(.search-heading p, .search-results-heading p,
-  .search-empty p, .discovery-card > p,
-  .doctor-specialty, .doctor-experience, .doctor-location,
-  .doctor-community-status, .discovery-card-footer,
-  .search-discovery-note p, .doctor-profile-detail p,
-  .doctor-profile-disclaimer) {
-  color: #80716D !important;
-  line-height: 1.7;
-}
-
-.search-page :is(.search-eyebrow, .search-filter-label) {
-  color: #541522 !important;
-}
-
-.search-page .search-results-eyebrow,
-.search-page .doctor-label {
-  color: #9A8050 !important;
-}
-
-/* Search and location fields */
-.search-page :is(.search-input-wrap, .search-city-field,
-  .search-sort-control) {
-  border: 1px solid #E9DFD5;
-  border-radius: 12px;
-  background: #FFFDF9;
-  color: #541522;
-}
-
-.search-page :is(.search-input-wrap:focus-within, .search-city-field:focus-within) {
-  border-color: #A66F7B;
-  box-shadow: 0 0 0 3px rgba(84, 21, 34, 0.09);
-}
-
-.search-page :is(.search-input-wrap input, .search-city-select,
-  .search-sort-control select) {
-  color: #392D2C !important;
-  background-color: transparent;
-}
-
-.search-page .search-input-wrap input::placeholder {
-  color: #968984 !important;
-  opacity: 1;
-}
-
-.search-page .search-input-wrap > svg,
-.search-page .search-city-field > svg {
-  color: #541522;
-}
-
-/* Specialty filters and reset button */
-.search-page .search-specialties button {
-  border: 1px solid #E9DFD5;
-  background: #FFFDF9;
-  color: #655653 !important;
-}
-
-.search-page .search-specialties button:hover,
-.search-page .search-specialties button.selected {
-  border-color: #541522;
-  background: #541522;
-  color: #FFFDF9 !important;
-}
-
-.search-page .search-options,
-.search-page .search-options label {
-  color: #655653 !important;
-}
-
-.search-page .search-options input {
-  accent-color: #541522;
-}
-
-.search-page .search-reset-button {
-  border-color: #E9DFD5;
-  background: #FFFDF9;
-  color: #541522 !important;
-}
-
-.search-page .search-reset-button:hover {
-  border-color: #C5A45B;
-  background: #F1E8E5;
-}
-
-/* Main category tabs and count badges */
-.search-page .search-tabs {
-  border-bottom-color: #E9DFD5;
-}
-
-.search-page .search-tabs button {
-  color: #80716D !important;
-}
-
-.search-page .search-tabs button:hover {
-  background: #F8F4EC;
-  color: #541522 !important;
-}
-
-.search-page .search-tabs button.active {
-  border-color: #E9DFD5;
-  background: #FFFDF9;
-  color: #541522 !important;
-}
-
-.search-page .search-tabs button.active::after {
-  background: #C5A45B;
-}
-
-.search-page .search-tab-count {
-  border-color: #E9D9D8;
-  background: #F1E8E5;
-  color: #541522 !important;
-}
-
-.search-page .search-tabs button.active .search-tab-count {
-  border-color: #541522;
-  background: #541522;
-  color: #FFFDF9 !important;
-}
-
-.search-page .search-result-count {
-  border-color: #E9DFD5;
-  background: #FFFDF9;
-  color: #655653 !important;
-}
-
-/* Doctor cards: burgundy banner and ivory-white body */
-.search-page .doctor-card {
-  border: 1px solid #E9DFD5;
-  border-radius: 19px;
-  background: #FFFDF9;
-  box-shadow: 0 6px 22px rgba(84, 21, 34, 0.055);
-}
-
-.search-page .doctor-card:hover {
-  border-color: #D6C1B9;
-  box-shadow: 0 10px 25px rgba(84, 21, 34, 0.11);
-}
-
-.search-page .doctor-card-banner {
-  background: linear-gradient(125deg, #541522, #3D0D18) !important;
-  color: #FFFDF9 !important;
-}
-
-.search-page .doctor-banner-icon {
-  border-color: rgba(255, 253, 249, 0.3);
-  background: rgba(255, 253, 249, 0.12);
-  color: #FFFDF9 !important;
-}
-
-.search-page .doctor-city-tag {
-  border-color: rgba(255, 253, 249, 0.4);
-  background: rgba(255, 253, 249, 0.12);
-  color: #FFFDF9 !important;
-}
-
-.search-page .doctor-avatar {
-  border-color: #FFFDF9;
-  background: #F1E8E5;
-  color: #541522;
-}
-
-.search-page .doctor-card-body {
-  background: #FFFDF9;
-  color: #392D2C;
-}
-
-/* Shared burgundy primary buttons */
-.search-page .doctor-connect-button,
-.search-page .doctor-message-button,
-.search-page .search-empty > button {
-  border-color: #541522 !important;
-  background: #541522 !important;
-  color: #FFFDF9 !important;
-}
-
-.search-page .doctor-connect-button:hover,
-.search-page .doctor-message-button:hover,
-.search-page .search-empty > button:hover {
-  border-color: #3D0D18 !important;
-  background: #3D0D18 !important;
-}
-
-.search-page .doctor-connect-button.is-connected {
-  border-color: #E0D0A8 !important;
-  background: #F5EEDC !important;
-  color: #541522 !important;
-}
-
-.search-page .doctor-profile-button {
-  border-color: #E9DFD5 !important;
-  background: #FFFDF9 !important;
-  color: #541522 !important;
-}
-
-.search-page .doctor-profile-button:hover {
-  border-color: #C5A45B !important;
-  background: #F8F4EC !important;
-}
-
-/* Discovery cards: clinical cases, stories and videos */
-.search-page .discovery-card {
-  border: 1px solid #E9DFD5;
-  border-radius: 16px;
-  background: #FFFDF9;
-  color: #392D2C;
-  box-shadow: 0 6px 22px rgba(84, 21, 34, 0.055);
-}
-
-.search-page .discovery-card:hover {
-  box-shadow: 0 10px 25px rgba(84, 21, 34, 0.11);
-}
-
-.search-page .discovery-card-icon {
-  border-color: #E9D9D8;
-  background: #F1E8E5 !important;
-  color: #541522 !important;
-}
-
-.search-page .discovery-tag {
-  border: 1px solid #E9D9D8;
-  background: #F5EEDC !important;
-  color: #541522 !important;
-}
-
-.search-page .discovery-filter-row button {
-  border-color: #E9DFD5;
-  background: #FFFDF9;
-  color: #655653 !important;
-}
-
-.search-page .discovery-filter-row button:hover,
-.search-page .discovery-filter-row button.active {
-  border-color: #541522;
-  background: #541522 !important;
-  color: #FFFDF9 !important;
-}
-
-.search-page .discovery-card-footer {
-  border-top-color: #E9DFD5;
-}
-
-.search-page .discovery-card-footer svg {
-  color: #541522;
-}
-
-.search-page .search-discovery-note {
-  border-color: #E9DFD5;
-  background: #F8F4EC;
-}
-
-.search-page .search-discovery-note > svg {
-  color: #541522;
-}
-
-/* Clinical case metadata and badges */
-.search-page .discovery-case-meta {
-  color: #80716D;
-}
-
-.search-page .discovery-case-number {
-  background: #F1E8E5;
-  color: #541522;
-}
-
-.search-page .discovery-case-details strong {
-  color: #3D0D18;
-}
-
-.search-page .discovery-case-badge {
-  border-color: #E9DFD5;
-  background: #F8F4EC;
-  color: #655653;
-}
-
-/* Keep meaningful status colors distinct */
-.search-page .case-status-complete,
-.search-page .case-priority-low {
-  border-color: #B8D9C4;
-  background: #E7F3E9;
-  color: #28613D;
-}
-
-.search-page .case-status-progress,
-.search-page .case-priority-medium {
-  border-color: #E0D0A8;
-  background: #F5EEDC;
-  color: #765A20;
-}
-
-.search-page .case-status-pending,
-.search-page .case-priority-high {
-  border-color: #E5C2C4;
-  background: #F7E8E9;
-  color: #8A2937;
-}
-
-.search-page .case-status-default,
-.search-page .case-priority-default {
-  border-color: #E9DFD5;
-  background: #F8F4EC;
-  color: #655653;
-}
-
-/* Empty state */
-.search-page .search-empty {
-  border-color: #D8C7BD;
-  background: #FFFDF9;
-}
-
-.search-page .search-empty-icon {
-  background: #F1E8E5;
-  color: #541522;
-}
-
-/* Profile modal */
-.search-page .doctor-profile-modal {
-  border-color: #E9DFD5;
-  background: #FFFDF9;
-  color: #392D2C;
-}
-
-.search-page .doctor-modal-close {
-  border-color: #E9DFD5;
-  background: #F8F4EC;
-  color: #541522;
-}
-
-.search-page .doctor-profile-photo {
-  border-color: #FFFDF9;
-  background: #F1E8E5;
-  color: #541522;
-}
-
-.search-page .doctor-profile-stats > div {
-  border-color: #E9DFD5;
-  background: #F8F4EC;
-}
-
-.search-page .doctor-profile-stats strong {
-  color: #541522;
-}
-
-.search-page .doctor-interest-list span {
-  border-color: #E9D9D8;
-  background: #F1E8E5;
-  color: #541522;
-}
-
-/* Keyboard focus */
-.search-page :is(button, input, select, textarea):focus-visible {
-  outline: 3px solid rgba(197, 164, 91, 0.55);
-  outline-offset: 3px;
-}
-
-/* Responsive layout remains intact */
-@media (max-width: 650px) {
-  .search-page .doctor-card,
-  .search-page .discovery-card {
-    border-radius: 14px;
-  }
-}/* =====================================================
    ZENVE VET — COMPLETE BURGUNDY LIGHT THEME
    Applies to the entire Search & Discovery page
    Append at the END of SearchPage.css
@@ -3196,35 +1953,69 @@ body.doctor-profile-open {
   max-height: 420px;
   object-fit: contain;
 }
-/* Doctor profile overlay */
+/* Doctor profile modal — scroll setup only */
+
+/* Allow scrolling when the pointer is over the overlay */
 .doctor-modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 9999;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 20px;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
 }
 
-/* Scrollable doctor profile */
+/* Keep profile content scrollable */
 .doctor-profile-modal {
   width: min(100%, 680px);
+  max-height: calc(100vh - 40px);
   max-height: calc(100dvh - 40px);
+
+  overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+
   scrollbar-width: thin;
-  flex-shrink: 0;
 }
 
-/* Keep the profile header visible while scrolling */
+/* Keep the profile header visible */
+/* Doctor profile modal — aligned sticky header */
 .doctor-modal-header {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 14px 0;
+  background: #fffdf9;
+}
+
+/* Keep the identity in normal scrolling flow */
+.doctor-profile-identity {
+  position: static;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Prevent content from appearing above the modal header */
+.doctor-profile-modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 0;
+  scroll-padding-top: 0;
 }
 /* Doctor card avatar */
 .doctor-avatar {
@@ -3258,4 +2049,955 @@ body.doctor-profile-open {
   height: 100%;
   object-fit: cover;
   object-position: center 25%;
+}
+/* =========================================
+   ZENVE VET — STABLE SEARCH VIDEO CARDS
+   Prevent video resizing during playback
+========================================= */
+
+.discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
+}
+
+.discovery-card {
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.discovery-video-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #171717;
+  border-radius: 12px;
+}
+
+.discovery-video-player video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.discovery-card-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  flex-shrink: 0;
+  border-radius: 12px;
+}
+
+.discovery-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.discovery-card > p {
+  overflow-wrap: anywhere;
+}
+
+.discovery-card-footer {
+  margin-top: auto;
+}
+
+@media (max-width: 1024px) {
+  .discovery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .discovery-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+
+
+/* ==========================================
+   ZENVE VET — DOCTOR PROFILE MODAL FIXES
+   1. Connect and Message side by side
+   2. Visible profile-photo camera button
+========================================== */
+
+/* Profile picture container */
+.doctor-profile-photo {
+  position: relative !important;
+  flex-shrink: 0;
+  overflow: visible !important;
+  isolation: isolate;
+}
+
+/* Profile picture */
+.doctor-profile-photo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Camera button: bottom-right of the profile picture */
+.doctor-profile-photo > button {
+  position: absolute !important;
+  right: -4px !important;
+  bottom: -4px !important;
+  z-index: 20 !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px;
+  padding: 0 !important;
+
+  border: 2px solid #fffdf9 !important;
+  border-radius: 50% !important;
+  background: #541522 !important;
+  color: #fffdf9 !important;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.doctor-profile-photo > button:hover {
+  background: #713042 !important;
+  transform: scale(1.06);
+}
+
+.doctor-profile-photo > button svg {
+  display: block !important;
+  width: 16px;
+  height: 16px;
+  color: #fffdf9 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Keep the file input hidden; clicking the camera opens it */
+.doctor-profile-photo .doctor-photo-input {
+  display: none !important;
+}
+
+
+/* Connect and Message in two equal columns */
+.doctor-profile-actions {
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  align-items: stretch;
+  gap: 12px !important;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 0 10px;
+  background: #fffdf9;
+}
+
+/* Override earlier button widths that force separate rows */
+.doctor-profile-actions > .doctor-connect-button,
+.doctor-profile-actions > .doctor-message-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  flex: none !important;
+  box-sizing: border-box;
+  margin: 0 !important;
+  white-space: nowrap;
+}
+
+/* Small-screen spacing */
+@media (max-width: 480px) {
+  .doctor-profile-actions {
+    gap: 8px !important;
+  }
+
+  .doctor-profile-actions > button {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 13px;
+  }
+
+  .doctor-profile-photo > button {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px;
+  }
+}
+/* ==========================================
+   DOCTOR PROFILE — CONNECT & MESSAGE SIDE BY SIDE
+========================================== */
+
+.search-page .doctor-profile-actions {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-items: stretch;
+  gap: 12px !important;
+  width: 100%;
+  margin-top: 25px;
+  padding: 14px 0 10px;
+  box-sizing: border-box;
+}
+
+/* Both buttons occupy one equal-width column */
+.search-page .doctor-profile-actions > .doctor-connect-button,
+.search-page .doctor-profile-actions > .doctor-message-button {
+  display: inline-flex !important;
+  grid-column: auto !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 42px;
+  margin: 0 !important;
+  padding: 10px 8px;
+  box-sizing: border-box;
+  white-space: normal;
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  .search-page .doctor-profile-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .search-page .doctor-profile-actions > button {
+    padding: 9px 5px;
+    font-size: 11px;
+  }
+}
+/* Clickable doctor profile photos */
+.search-page .doctor-avatar img {
+  cursor: pointer;
+}
+
+/* Larger profile photo in the modal */
+.search-page .doctor-profile-photo {
+  width: 112px;
+  height: 112px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 22px;
+}
+
+.search-page .doctor-profile-photo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+/* ==========================================
+   INSTAGRAM-STYLE DOCTOR PHOTO VIEWER
+========================================== */
+
+.search-page .doctor-avatar img {
+  cursor: zoom-in;
+}
+
+.doctor-photo-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 56px 20px 24px;
+  background: rgba(15, 12, 13, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-sizing: border-box;
+  cursor: zoom-out;
+}
+
+.doctor-photo-lightbox-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(90vw, 700px);
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 12px 45px rgba(0, 0, 0, 0.35);
+  cursor: default;
+}
+
+.doctor-photo-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.doctor-photo-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.24);
+  transform: scale(1.05);
+}
+
+.doctor-photo-lightbox-name {
+  max-width: 90%;
+  margin: 0;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .doctor-photo-lightbox {
+    padding: 60px 12px 20px;
+  }
+
+  .doctor-photo-lightbox-image {
+    max-width: 96vw;
+    max-height: 75vh;
+  }
+
+  .doctor-photo-lightbox-close {
+    top: 12px;
+    right: 12px;
+  }
+}
+/* ==========================================
+   SEARCH PAGE — DARK MODE TEXT CONTRAST
+   Keep burgundy text in Light Mode.
+   Use white text in Dark Mode.
+========================================== */
+
+.dark .search-page,
+.dark-mode .search-page,
+[data-theme="dark"] .search-page,
+[data-mode="dark"] .search-page,
+body.dark .search-page,
+body.dark-mode .search-page {
+  --search-forest: #FFFFFF;
+  --search-text: #F8F4EC;
+  --search-muted: #D6CFD0;
+}
+
+/* Headings and labels that use burgundy text */
+.dark .search-page h1,
+.dark .search-page h2,
+.dark .search-page h3,
+.dark .search-page .search-eyebrow,
+.dark .search-page .search-results-eyebrow,
+.dark .search-page .doctor-label,
+.dark .search-page .doctor-specialty,
+.dark .search-page .doctor-experience,
+.dark .search-page .doctor-location,
+.dark .search-page .doctor-community-status,
+.dark-mode .search-page h1,
+.dark-mode .search-page h2,
+.dark-mode .search-page h3,
+.dark-mode .search-page .search-eyebrow,
+.dark-mode .search-page .search-results-eyebrow,
+.dark-mode .search-page .doctor-label,
+.dark-mode .search-page .doctor-specialty,
+.dark-mode .search-page .doctor-experience,
+.dark-mode .search-page .doctor-location,
+.dark-mode .search-page .doctor-community-status,
+[data-theme="dark"] .search-page h1,
+[data-theme="dark"] .search-page h2,
+[data-theme="dark"] .search-page h3,
+[data-theme="dark"] .search-page .search-eyebrow,
+[data-theme="dark"] .search-page .search-results-eyebrow,
+[data-theme="dark"] .search-page .doctor-label,
+[data-theme="dark"] .search-page .doctor-specialty,
+[data-theme="dark"] .search-page .doctor-experience,
+[data-theme="dark"] .search-page .doctor-location,
+[data-theme="dark"] .search-page .doctor-community-status {
+  color: #FFFFFF;
+}
+
+/* Keep text on burgundy buttons white */
+.dark .search-page .doctor-connect-button,
+.dark .search-page .doctor-message-button,
+.dark-mode .search-page .doctor-connect-button,
+.dark-mode .search-page .doctor-message-button,
+[data-theme="dark"] .search-page .doctor-connect-button,
+[data-theme="dark"] .search-page .doctor-message-button {
+  color: #FFFFFF;
+}
+/* Remove dark background from doctor card body */
+.search-page .doctor-card-body {
+  background: #FFFDF9 !important;
+  background-image: none !important;
+  color: #392D2C;
+  opacity: 1;
+}
+
+/* Keep the card itself clean */
+.search-page .doctor-card {
+  background: #FFFDF9;
+  overflow: hidden;
+}
+
+/* Remove unwanted overlays or pseudo-element shading */
+.search-page .doctor-card-body::before,
+.search-page .doctor-card-body::after {
+  background: none !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+  content: none !important;
+}
+/* ==========================================
+   ZENVE VET SEARCH — DARK MODE CARD FIX
+   Match the Membership page theme
+========================================== */
+
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"]) .search-page {
+  --search-white: #171717;
+  --search-ivory: #202020;
+  --search-sage: #292326;
+  --search-text: #F8F4EC;
+  --search-muted: #D0C6C4;
+  --search-border: #40373A;
+  --search-forest: #FFFFFF;
+  --search-forest-dark: #FFFFFF;
+  --search-gold: #C5A45B;
+
+  color: #F8F4EC;
+}
+
+/* Doctor cards and their content */
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-card,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-card-body {
+  background: #171717 !important;
+  color: #F8F4EC !important;
+  border-color: #40373A;
+}
+
+/* Headings */
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-card-body h3,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .search-heading h1,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .search-results-heading h2,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .discovery-card h3,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-profile-identity h2,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-profile-detail h3 {
+  color: #F8F4EC !important;
+}
+
+/* Supporting text */
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-specialty,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-experience,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-location,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-community-status,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .search-heading p {
+  color: #D0C6C4 !important;
+}
+
+/* Profile modal and discovery cards */
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-profile-modal,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .discovery-card,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .search-empty {
+  background: #171717 !important;
+  color: #F8F4EC !important;
+  border-color: #40373A;
+}
+
+/* Preserve burgundy banners and buttons */
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-card-banner {
+  background: linear-gradient(125deg, #541522, #3D0D18) !important;
+}
+
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-connect-button,
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-message-button {
+  background: #541522 !important;
+  color: #FFFFFF !important;
+}
+
+/* Keep the modal header consistent with its dark surface */
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-modal-header {
+  background: #171717 !important;
+}
+
+:is(.dark, .dark-mode, [data-theme="dark"], [data-mode="dark"])
+.search-page .doctor-modal-close {
+  background: #292326 !important;
+  color: #F8F4EC !important;
+  border-color: #40373A;
+}
+/* =========================================
+   ZENVE VET — SEARCH PAGE DARK THEME
+   Membership theme alignment
+   Append at the END of SearchPage.css
+========================================= */
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page {
+  --search-forest: #F0B429;
+  --search-forest-dark: #F8F4EC;
+  --search-ivory: #1A3026;
+  --search-sage: #20372E;
+  --search-gold: #F0B429;
+  --search-white: #13241D;
+  --search-text: #E2EDE6;
+  --search-muted: #9DBDAD;
+  --search-border: #30483B;
+  --search-shadow: 0 6px 22px rgba(0, 0, 0, 0.18);
+
+  color: var(--search-text);
+}
+
+/* Main headings and text */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .search-heading h1,
+  .search-results-heading h2,
+  .doctor-card-body h3,
+  .discovery-card h3,
+  .search-empty h3,
+  .doctor-profile-identity h2,
+  .doctor-profile-detail h3
+) {
+  color: #F8F4EC !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .search-heading p,
+  .search-results-heading p,
+  .doctor-specialty,
+  .doctor-experience,
+  .doctor-location,
+  .doctor-community-status,
+  .discovery-card > p,
+  .discovery-card-footer,
+  .search-empty p,
+  .doctor-profile-detail p,
+  .doctor-profile-disclaimer
+) {
+  color: #9DBDAD !important;
+}
+
+/* Search input, location and sorting controls */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .search-input-wrap,
+  .search-city-field,
+  .search-sort-control
+) {
+  background: #13241D !important;
+  border-color: #30483B !important;
+  color: #F0B429 !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .search-input-wrap input,
+  .search-city-select,
+  .search-sort-control select
+) {
+  background: transparent !important;
+  color: #F8F4EC !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page select option {
+  background: #13241D;
+  color: #F8F4EC;
+}
+
+/* Filter chips and secondary buttons */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .search-specialties button,
+  .search-reset-button,
+  .doctor-profile-button,
+  .doctor-modal-close,
+  .doctor-interest-list span
+) {
+  background: #20372E !important;
+  border-color: #30483B !important;
+  color: #E2EDE6 !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .search-specialties button.selected {
+  background: #54131B !important;
+  border-color: #F0B429 !important;
+  color: #F8F4EC !important;
+}
+
+/* Tabs */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .search-tabs {
+  border-bottom-color: #30483B;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .search-tabs button {
+  color: #9DBDAD !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .search-tabs button.active {
+  background: #13241D !important;
+  border-color: #30483B !important;
+  color: #F8F4EC !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .search-tab-count {
+  background: #20372E !important;
+  border-color: #30483B !important;
+  color: #F0B429 !important;
+}
+
+/* Doctor and discovery cards */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .doctor-card,
+  .doctor-card-body,
+  .discovery-card,
+  .search-empty
+) {
+  background: #13241D !important;
+  border-color: #30483B !important;
+  color: #E2EDE6 !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .doctor-card-banner {
+  background: linear-gradient(
+    125deg,
+    #54131B,
+    #3D0D18
+  ) !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .doctor-banner-icon,
+  .discovery-card-icon,
+  .discovery-tag,
+  .search-empty-icon
+) {
+  background: #20372E !important;
+  border-color: #30483B !important;
+  color: #F0B429 !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .doctor-city-tag {
+  background: rgba(19, 36, 29, 0.8) !important;
+  border-color: #52685A !important;
+  color: #F8F4EC !important;
+}
+
+/* Primary actions */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .doctor-connect-button,
+  .doctor-message-button,
+  .search-empty > button
+) {
+  background: #54131B !important;
+  border-color: #54131B !important;
+  color: #F8F4EC !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .doctor-connect-button.is-connected {
+  background: #20372E !important;
+  border-color: #F0B429 !important;
+  color: #F0B429 !important;
+}
+
+/* Profile modal */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .doctor-profile-modal {
+  background: #13241D !important;
+  border-color: #30483B !important;
+  color: #E2EDE6 !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .doctor-modal-header,
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .doctor-profile-actions {
+  background: #13241D !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(
+  .doctor-profile-stats > div,
+  .search-discovery-note
+) {
+  background: #1A3026 !important;
+  border-color: #30483B !important;
+}
+
+/* Status badges retain readable status-specific colors */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .case-status-complete,
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .case-priority-low {
+  background: #183D2B !important;
+  border-color: #2D6545 !important;
+  color: #A8E0B9 !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .case-status-progress,
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .case-priority-medium {
+  background: #3A321C !important;
+  border-color: #74602C !important;
+  color: #F0D58B !important;
+}
+
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .case-status-pending,
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page .case-priority-high {
+  background: #3D2024 !important;
+  border-color: #743B44 !important;
+  color: #F2B4BB !important;
+}
+
+/* Keyboard focus */
+:is(
+  .dark,
+  .dark-mode,
+  [data-theme="dark"],
+  [data-mode="dark"],
+  body.dark,
+  body.dark-mode
+) .search-page :is(button, input, select):focus-visible {
+  outline: 3px solid rgba(240, 180, 41, 0.7);
+  outline-offset: 3px;
+}
+
+/* Keep photo viewer readable */
+.doctor-photo-lightbox {
+  background: rgba(7, 17, 15, 0.96);
 }

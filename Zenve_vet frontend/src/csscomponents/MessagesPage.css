@@ -51,24 +51,26 @@ body.zenve-messages-mode .zenve-content-workspace,
   box-sizing: border-box;
 }
 
-/* ── Left Rail: Contacts & Search ────────────────────────────────────── */
+/* ── Left Rail: Contacts & Search (Modern WhatsApp / Telegram Style) ────────────────────────────────────── */
 .zenve-messages-sidebar {
-  width: 360px;
-  min-width: 320px;
+  width: 380px;
+  min-width: 340px;
   border-right: 1px solid #e7ede9;
   display: flex;
   flex-direction: column;
-  background: #fbfdfc;
+  background: #ffffff;
   height: 100%;
   max-height: 100%;
   min-height: 0;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .zenve-messages-sidebar-header {
-  padding: 18px 20px 12px 20px;
-  border-bottom: 1px solid #edf2ef;
+  padding: 16px 18px 12px 18px;
+  border-bottom: 1px solid #f1f5f9;
   flex-shrink: 0;
+  background: #ffffff;
 }
 
 .zenve-messages-title-row {
@@ -79,40 +81,44 @@ body.zenve-messages-mode .zenve-content-workspace,
 }
 
 .zenve-messages-title {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
-  color: #1a2721;
+  color: #111b21;
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .zenve-messages-count-badge {
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 600;
   background: #3D0D18;
   color: #ffffff;
-  padding: 2px 7px;
-  border-radius: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 6px rgba(61, 13, 24, 0.2);
 }
 
-/* Search bar */
+/* WhatsApp / Telegram Sleek Pill Search Bar */
 .zenve-messages-search-box {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #f1f6f3;
-  border: 1px solid #e0eae4;
-  border-radius: 10px;
-  padding: 8px 12px;
-  transition: all 0.2s ease;
+  gap: 10px;
+  background: #f0f2f5;
+  border: 1px solid #e4e8eb;
+  border-radius: 22px;
+  padding: 8px 14px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .zenve-messages-search-box:focus-within {
   background: #ffffff;
-  border-color: #3D0D18;
-  box-shadow: 0 0 0 3px rgba(61, 13, 24, 0.08);
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 3px rgba(61, 13, 24, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .zenve-messages-search-input {
@@ -120,54 +126,76 @@ body.zenve-messages-mode .zenve-content-workspace,
   border: none;
   background: transparent;
   outline: none;
-  font-size: 13px;
-  color: #17241e;
+  font-size: 13.5px;
+  color: #111b21;
   font-family: inherit;
+  font-weight: 400;
 }
 
 .zenve-messages-search-input::placeholder {
-  color: #84938b;
+  color: #8696a0;
+  font-size: 13px;
 }
 
 .zenve-messages-search-clear {
-  background: transparent;
+  background: #e2e8f0;
   border: none;
-  color: #84938b;
+  color: #64748b;
   cursor: pointer;
   padding: 0;
-  font-size: 13px;
-  line-height: 1;
-}
-
-.zenve-messages-search-clear:hover {
-  color: #3D0D18;
-}
-
-/* Filter tabs (All, Followers, Following) */
-.zenve-messages-filter-tabs {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
   display: flex;
-  gap: 6px;
-  padding: 10px 20px;
-  border-bottom: 1px solid #edf2ef;
-  background: #fbfdfc;
-  flex-shrink: 0;
-}
-
-.zenve-messages-tab-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #5c6861;
-  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   transition: all 0.15s ease;
 }
 
+.zenve-messages-search-clear:hover {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
+/* Modern Filter Pill Tabs (All, Followers, Following) */
+.zenve-messages-filter-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 12px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.zenve-messages-filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.zenve-messages-tab-btn {
+  background: #f0f2f5;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #54656f;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
 .zenve-messages-tab-btn:hover {
-  background: #eef3f0;
-  color: #17241e;
+  background: #e4e8eb;
+  color: #111b21;
 }
 
 .zenve-messages-tab-btn.active {
@@ -175,16 +203,18 @@ body.zenve-messages-mode .zenve-content-workspace,
   border-color: #3D0D18;
   color: #ffffff;
   font-weight: 600;
+  box-shadow: 0 2px 8px rgba(61, 13, 24, 0.22);
 }
 
-/* Contacts List */
+/* Contacts List - Clean WhatsApp Borderless Flow */
 .zenve-messages-list {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
-  padding: 8px 10px;
+  padding: 6px 10px 16px 10px;
   scrollbar-width: thin;
-  scrollbar-color: #d1ded7 transparent;
+  scrollbar-color: #cbd5e1 transparent;
+  background: #ffffff;
 }
 
 .zenve-messages-list::-webkit-scrollbar {
@@ -196,44 +226,60 @@ body.zenve-messages-mode .zenve-content-workspace,
 }
 
 .zenve-messages-list::-webkit-scrollbar-thumb {
-  background-color: #d1ded7;
+  background-color: #cbd5e1;
   border-radius: 4px;
 }
 
 .zenve-messages-section-label {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
-  color: #83918a;
+  color: #8696a0;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 8px 12px 4px 12px;
+  letter-spacing: 0.06em;
+  padding: 12px 14px 6px 14px;
 }
 
+/* Contact Item - Modern Polished Card */
 .zenve-contact-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
+  gap: 13px;
+  padding: 11px 13px;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  border: 1px solid transparent;
+  background: #ffffff;
 }
 
 .zenve-contact-item:hover {
-  background: #f0f5f2;
+  background: #f8fafc;
+  border-color: #f1f5f9;
 }
 
+/* Selected Active Item: Clean modern pill indicator without awkward curved border */
 .zenve-contact-item.active {
-  background: #f7e8ec;
-  border-left: 3px solid #3D0D18;
+  background: #fdf2f4;
+  border-color: #fce7eb;
+}
+
+.zenve-contact-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  background: #3D0D18;
+  border-radius: 0 4px 4px 0;
 }
 
 .zenve-contact-avatar-wrap {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -243,45 +289,51 @@ body.zenve-messages-mode .zenve-content-workspace,
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid #e1ebe5;
+  border: 1.5px solid #edf2f7;
+  display: block;
 }
 
 .zenve-online-dot {
   position: absolute;
   bottom: 1px;
   right: 1px;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: #16a34a;
-  border: 2px solid #ffffff;
+  background: #22c55e;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .zenve-contact-info {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .zenve-contact-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
-  margin-bottom: 2px;
+  gap: 8px;
 }
 
 .zenve-contact-name {
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
-  color: #17241e;
+  color: #111b21;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
 .zenve-contact-time {
-  font-size: 11px;
-  color: #899790;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #8696a0;
   flex-shrink: 0;
 }
 
@@ -293,47 +345,75 @@ body.zenve-messages-mode .zenve-content-workspace,
 }
 
 .zenve-contact-preview {
-  font-size: 12px;
-  color: #617068;
+  font-size: 12.5px;
+  color: #667781;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
+  line-height: 1.35;
+  flex: 1;
+  min-width: 0;
 }
 
 .zenve-contact-status-chip {
-  font-size: 9.5px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2.5px 8px;
+  border-radius: 12px;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
 }
 
 .zenve-status-following {
-  background: #e4efe9;
-  color: #0d382b;
+  background: #e8f7ee;
+  color: #15803d;
+  border: 1px solid #c6f0d4;
+}
+
+.zenve-status-follower {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
 }
 
 .zenve-status-not-following {
-  background: #f4f6f5;
-  color: #798781;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.zenve-status-connect {
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #ffe4e6;
+  transition: all 0.15s ease;
+}
+
+.zenve-status-connect:hover {
+  background: #ffe4e6;
+  color: #881337;
 }
 
 .zenve-unread-badge {
-  background: #3D0D18;
+  background: #25d366;
   color: #ffffff;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 700;
-  padding: 1px 6px;
+  padding: 1px 7px;
   border-radius: 10px;
   flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(37, 211, 102, 0.35);
 }
 
 .zenve-contacts-empty {
-  padding: 30px 20px;
+  padding: 36px 20px;
   text-align: center;
-  color: #7d8b84;
-  font-size: 13px;
+  color: #8696a0;
+  font-size: 13.5px;
 }
 
 /* ── Right: Chat Conversation Pane ───────────────────────────────────── */
@@ -364,6 +444,15 @@ body.zenve-messages-mode .zenve-content-workspace,
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.zenve-comm-header-title-box {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
 }
 
 .zenve-chat-header-avatar {
@@ -372,6 +461,7 @@ body.zenve-messages-mode .zenve-content-workspace,
   border-radius: 50%;
   object-fit: cover;
   border: 1.5px solid #e1eae5;
+  flex-shrink: 0;
 }
 
 .zenve-chat-header-name {
@@ -382,11 +472,15 @@ body.zenve-messages-mode .zenve-content-workspace,
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .zenve-chat-header-verified {
   color: #16a34a;
   font-size: 12px;
+  flex-shrink: 0;
 }
 
 .zenve-chat-header-sub {
@@ -396,12 +490,18 @@ body.zenve-messages-mode .zenve-content-workspace,
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .zenve-chat-header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: nowrap !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
 }
 
 .zenve-follow-toggle-btn {
@@ -692,10 +792,14 @@ body.zenve-messages-mode .zenve-content-workspace,
 }
 
 @keyframes typingBounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: translateY(0);
     opacity: 0.5;
   }
+
   40% {
     transform: translateY(-4px);
     opacity: 1;
@@ -760,6 +864,7 @@ body.zenve-messages-mode .zenve-content-workspace,
     opacity: 0;
     transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -990,176 +1095,334 @@ body.zenve-messages-mode .zenve-content-workspace,
 }
 
 /* ── Dark Mode Adaptations ───────────────────────────────────────────── */
-[data-theme='dark'] .zenve-messages-container {
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-container {
   background: #121e18;
   border-color: #1f2f28;
 }
 
-[data-theme='dark'] .zenve-messages-sidebar {
-  background: #101a15;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-sidebar {
+  background: #101a15 !important;
   border-right-color: #1f2f28;
 }
 
-[data-theme='dark'] .zenve-messages-sidebar-header,
-[data-theme='dark'] .zenve-messages-filter-tabs,
-[data-theme='dark'] .zenve-chat-header,
-[data-theme='dark'] .zenve-chat-composer {
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-sidebar-header,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-filter-tabs,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-filter-tabs,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-header,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-composer {
   border-color: #1f2f28;
-  background: #101a15;
+  background: #101a15 !important;
 }
 
-[data-theme='dark'] .zenve-messages-title,
-[data-theme='dark'] .zenve-contact-name,
-[data-theme='dark'] .zenve-chat-header-name,
-[data-theme='dark'] .zenve-chat-no-selection-title {
-  color: #e2ede6;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-title,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-header-name,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-no-selection-title {
+  color: #f1f7f3 !important;
 }
 
-[data-theme='dark'] .zenve-messages-search-box {
-  background: #182820;
-  border-color: #243a2f;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-name {
+  color: #f1f7f3 !important;
+  font-weight: 600;
 }
 
-[data-theme='dark'] .zenve-messages-search-input {
-  color: #e2ede6;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-search-box,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-search-box {
+  background: #182820 !important;
+  border-color: #243a2f !important;
 }
 
-[data-theme='dark'] .zenve-contact-item:hover {
-  background: #182920;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-search-box:focus-within,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-search-box:focus-within {
+  background: #1c2e25 !important;
+  border-color: #385544 !important;
 }
 
-[data-theme='dark'] .zenve-contact-item.active {
-  background: #24141a;
-  border-left-color: #f7a8b8;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-search-input {
+  color: #f1f7f3 !important;
 }
 
-[data-theme='dark'] .zenve-contact-preview,
-[data-theme='dark'] .zenve-chat-header-sub,
-[data-theme='dark'] .zenve-chat-no-selection-desc {
-  color: #8faa99;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-search-input::placeholder {
+  color: #6d8576 !important;
 }
 
-[data-theme='dark'] .zenve-chat-pane,
-[data-theme='dark'] .zenve-chat-history,
-[data-theme='dark'] .zenve-chat-no-selection,
-[data-theme='dark'] .zenve-quick-prompts-row {
-  background: #0f1914;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-search-clear {
+  background: #243a2f !important;
+  color: #a0baa9 !important;
 }
 
-[data-theme='dark'] .zenve-chat-bubble.received {
-  background: #15241d;
-  color: #e2ede6;
-  border-color: #243a2f;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-search-clear:hover {
+  background: #2e4438 !important;
+  color: #ffffff !important;
 }
 
-[data-theme='dark'] .zenve-chat-input-wrap {
-  background: #182820;
-  border-color: #243a2f;
+/* Mode Switcher (Direct Chats vs Communities) in Dark Mode */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-mode-switch {
+  background: #16241e !important;
+  border-color: #22372c !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
-[data-theme='dark'] .zenve-chat-input {
-  color: #e2ede6;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-mode-switch-btn {
+  color: #8da496 !important;
 }
 
-[data-theme='dark'] .zenve-chat-restricted-banner {
-  background: #211317;
-  border-color: #381f25;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-mode-switch-btn:hover {
+  color: #f1f7f3 !important;
+  background: rgba(255, 255, 255, 0.06) !important;
 }
 
-[data-theme='dark'] .zenve-restricted-icon-wrap {
-  background: #33151c;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-mode-switch-btn.active {
+  background: #22372c !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
 }
 
-[data-theme='dark'] .zenve-restricted-desc {
-  color: #c9b4ba;
+/* Filter Tab Buttons in Dark Mode */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-tab-btn {
+  background: #182820 !important;
+  color: #8da496 !important;
+  border: 1px solid #243a2f !important;
 }
 
-[data-theme='dark'] .zenve-view-profile-btn {
-  border-color: #2e4438;
-  color: #a0baa9;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-tab-btn:hover {
+  background: #20352a !important;
+  color: #f1f7f3 !important;
+  border-color: #2e4438 !important;
 }
 
-[data-theme='dark'] .zenve-view-profile-btn:hover {
-  background: #1a2a22;
-  color: #e2ede6;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-tab-btn.active {
+  background: #3D0D18 !important;
+  border-color: #611827 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(61, 13, 24, 0.4) !important;
 }
 
-[data-theme='dark'] .zenve-quick-prompt-btn {
-  background: #15241d;
-  border-color: #243a2f;
-  color: #a0baa9;
+/* Contacts & Communities List Background */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-list,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-list {
+  background: #101a15 !important;
 }
 
-[data-theme='dark'] .zenve-quick-prompt-btn:hover {
-  background: #1e3329;
-  color: #e2ede6;
-  border-color: #3D0D18;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-section-label {
+  color: #728c7d !important;
 }
 
-[data-theme='dark'] .zenve-chat-composer-wrapper {
-  background: #101a15;
-  border-top-color: #1f2f28;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contacts-empty {
+  color: #7b9487 !important;
 }
 
-[data-theme='dark'] .zenve-chat-replying-bar {
-  background: #24141a;
-  border-bottom-color: #3d1b24;
+/* Contact & Community Items in Dark Mode */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-item,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-community-item {
+  background: transparent !important;
+  border-color: transparent !important;
 }
 
-[data-theme='dark'] .zenve-replying-bar-icon {
-  background: #3d1b24;
-  color: #f7a8b8;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-item:hover,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-community-item:hover {
+  background: #182820 !important;
+  border-color: #243a2f !important;
 }
 
-[data-theme='dark'] .zenve-replying-bar-author {
-  color: #f7a8b8;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-item.active {
+  background: rgba(247, 168, 184, 0.12) !important;
+  border-color: rgba(247, 168, 184, 0.25) !important;
 }
 
-[data-theme='dark'] .zenve-replying-bar-snippet {
-  color: #d1b4bc;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-item.active::before {
+  background: #f7a8b8 !important;
 }
 
-[data-theme='dark'] .zenve-replying-bar-close {
-  color: #c99da7;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-community-item.active {
+  background: #1a2e24 !important;
+  border-color: #2d4738 !important;
+  border-left-color: #f7a8b8 !important;
 }
 
-[data-theme='dark'] .zenve-replying-bar-close:hover {
-  background: #3d1b24;
-  color: #ffffff;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-preview,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-header-sub,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-no-selection-desc {
+  color: #8faa99 !important;
 }
 
-[data-theme='dark'] .zenve-chat-quoted-box {
-  background: rgba(255, 255, 255, 0.08);
-  border-left-color: #f7a8b8;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-time {
+  color: #7b9487 !important;
 }
 
-[data-theme='dark'] .zenve-quoted-author {
-  color: #f7a8b8;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-online-dot {
+  border-color: #101a15 !important;
 }
 
-[data-theme='dark'] .zenve-bubble-reply-action-btn {
-  background: #182820;
-  border-color: #2e4438;
-  color: #e2ede6;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-contact-avatar-img {
+  border-color: #243a2f !important;
 }
 
-[data-theme='dark'] .zenve-bubble-reply-action-btn:hover {
-  background: #2a161e;
-  border-color: #f7a8b8;
-  color: #f7a8b8;
+/* Status Chips in Dark Mode */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-status-following {
+  background: rgba(34, 197, 94, 0.16) !important;
+  color: #4ade80 !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
 }
 
-[data-theme='dark'] .zenve-click-hint {
-  color: #6d8576;
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-status-follower,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-status-not-following {
+  background: #1c2e24 !important;
+  color: #a4beaf !important;
+  border: 1px solid #283e32 !important;
 }
 
-[data-theme='dark'] .zenve-messages-list,
-[data-theme='dark'] .zenve-chat-history {
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-status-connect {
+  background: rgba(247, 168, 184, 0.14) !important;
+  color: #f7a8b8 !important;
+  border: 1px solid rgba(247, 168, 184, 0.28) !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-status-connect:hover {
+  background: rgba(247, 168, 184, 0.24) !important;
+  color: #ffffff !important;
+}
+
+/* Chat Pane & History */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-chat-pane,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-pane,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-history,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-no-selection,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-quick-prompts-row {
+  background: #0f1914 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-bubble.received {
+  background: #15241d !important;
+  color: #e2ede6 !important;
+  border-color: #243a2f !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-input-wrap {
+  background: #182820 !important;
+  border-color: #243a2f !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-input {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-restricted-banner {
+  background: #211317 !important;
+  border-color: #381f25 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-restricted-icon-wrap {
+  background: #33151c !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-restricted-desc {
+  color: #c9b4ba !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-profile-btn {
+  border-color: #2e4438 !important;
+  color: #a0baa9 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-profile-btn:hover {
+  background: #1a2a22 !important;
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-follow-toggle-btn.following {
+  background: #182820 !important;
+  color: #e2ede6 !important;
+  border-color: #2e4438 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-follow-toggle-btn.following:hover {
+  background: #2a161e !important;
+  border-color: #f7a8b8 !important;
+  color: #f7a8b8 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-follow-toggle-btn.not-following {
+  background: #3D0D18 !important;
+  color: #ffffff !important;
+  border-color: #611827 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-quick-prompt-btn {
+  background: #15241d !important;
+  border-color: #243a2f !important;
+  color: #a0baa9 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-quick-prompt-btn:hover {
+  background: #1e3329 !important;
+  color: #e2ede6 !important;
+  border-color: #3D0D18 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-composer-wrapper {
+  background: #101a15 !important;
+  border-top-color: #1f2f28 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-replying-bar {
+  background: #24141a !important;
+  border-bottom-color: #3d1b24 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-replying-bar-icon {
+  background: #3d1b24 !important;
+  color: #f7a8b8 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-replying-bar-author {
+  color: #f7a8b8 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-replying-bar-snippet {
+  color: #d1b4bc !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-replying-bar-close {
+  color: #c99da7 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-replying-bar-close:hover {
+  background: #3d1b24 !important;
+  color: #ffffff !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-quoted-box {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-left-color: #f7a8b8 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-quoted-author {
+  color: #f7a8b8 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-bubble-reply-action-btn {
+  background: #182820 !important;
+  border-color: #2e4438 !important;
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-bubble-reply-action-btn:hover {
+  background: #2a161e !important;
+  border-color: #f7a8b8 !important;
+  color: #f7a8b8 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-click-hint {
+  color: #6d8576 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-list,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-history {
   scrollbar-color: #2e4438 transparent;
 }
 
-[data-theme='dark'] .zenve-messages-list::-webkit-scrollbar-thumb,
-[data-theme='dark'] .zenve-chat-history::-webkit-scrollbar-thumb {
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-list::-webkit-scrollbar-thumb,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-history::-webkit-scrollbar-thumb {
   background-color: #2e4438;
 }
 
@@ -1183,4 +1446,4770 @@ body.zenve-messages-mode .zenve-content-workspace,
     min-height: 400px;
     max-height: 500px;
   }
+}
+
+/* ==========================================================================
+   PROFESSIONAL CLINICAL COMMUNITIES & DIRECT CONSULTATIONS STYLES
+   ========================================================================== */
+
+/* ── Top Segmented Mode Switcher (Direct Chats vs Communities) ───── */
+.zenve-messages-mode-switch {
+  display: flex;
+  background: #f0f2f5;
+  padding: 4px;
+  border-radius: 28px;
+  margin: 14px 16px 8px 16px;
+  gap: 4px;
+  flex-shrink: 0;
+  border: 1px solid #e4e8eb;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.zenve-mode-switch-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #54656f;
+  background: transparent;
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  font-family: inherit;
+}
+
+.zenve-mode-switch-btn:hover {
+  color: #111b21;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.zenve-mode-switch-btn.active {
+  background: #ffffff;
+  color: #111b21;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.zenve-mode-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.zenve-mode-badge {
+  font-size: 10px;
+  background: #25d366;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* ── Community Sidebar Header & Controls ───────────────────────────── */
+.zenve-comm-sidebar-header {
+  padding-bottom: 12px;
+}
+
+.zenve-comm-sidebar-sub {
+  font-size: 11px;
+  color: #637d6e;
+  margin: 2px 0 0 0;
+  letter-spacing: 0.1px;
+}
+
+.zenve-create-comm-cta-btn {
+  background: linear-gradient(135deg, #3D0D18 0%, #5a1727 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 3px 10px rgba(61, 13, 24, 0.25);
+  letter-spacing: 0.2px;
+}
+
+.zenve-create-comm-cta-btn:hover {
+  background: linear-gradient(135deg, #4d1220 0%, #6d1c2f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(61, 13, 24, 0.32);
+}
+
+/* Community Search Box */
+.zenve-comm-search-box {
+  margin-bottom: 10px;
+}
+
+/* Community Filter Tabs */
+.zenve-comm-filter-tabs {
+  margin-top: 4px;
+}
+
+/* ── Community List Items ─────────────────────────────────────────── */
+.zenve-comm-list {
+  padding: 4px 6px;
+}
+
+.zenve-community-item {
+  padding: 11px 13px;
+  gap: 13px;
+  border-radius: 12px;
+  margin-bottom: 3px;
+  border: 1px solid transparent;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  background: #ffffff;
+}
+
+.zenve-community-item:hover {
+  background: #f8fafc;
+  border-color: #f1f5f9;
+}
+
+.zenve-community-item.active {
+  background: #edf8f2;
+  border-color: #d1ebd9;
+  position: relative;
+}
+
+.zenve-community-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  background: #16a34a;
+  border-radius: 0 4px 4px 0;
+}
+
+.zenve-comm-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease;
+}
+
+.zenve-community-item:hover .zenve-comm-icon-box {
+  transform: scale(1.04);
+}
+
+.zenve-comm-type-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+}
+
+.zenve-status-public {
+  background: #e6f6ec;
+  color: #0f6838;
+  border: 1px solid #bfe4cb;
+}
+
+.zenve-status-private {
+  background: #faedf0;
+  color: #8c1d34;
+  border: 1px solid #f2c7ce;
+}
+
+.zenve-comm-members-count-tag {
+  font-size: 10.5px;
+  color: #496355;
+  background: #eef4f0;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid #dfe9e2;
+}
+
+/* ── Community Main Chat Header (WhatsApp Pro Layout) ─────────────── */
+.zenve-comm-chat-header {
+  border-bottom: 1px solid #d1d7db;
+  background: #ffffff;
+  padding: 12px 20px;
+  box-shadow: 0 1px 3px rgba(11, 20, 26, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  box-sizing: border-box;
+}
+
+.zenve-comm-header-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.zenve-comm-header-avatar:hover {
+  transform: scale(1.05);
+}
+
+.zenve-comm-header-title-box {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.zenve-comm-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Heading: Guaranteed 100% visible, bold WhatsApp header */
+.zenve-comm-header-title-row .zenve-chat-header-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111b21;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  min-width: 80px;
+  line-height: 1.25;
+  letter-spacing: -0.2px;
+  transition: color 0.15s ease;
+}
+
+.zenve-comm-header-title-row .zenve-chat-header-name:hover {
+  color: #008069;
+  text-decoration: underline;
+}
+
+/* Mini Type Pill (Public / Private) */
+.zenve-comm-mini-type-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.zenve-comm-mini-type-badge.zenve-status-public {
+  background: #e7f8ee;
+  color: #0b6836;
+  border: 1px solid #c2ebd1;
+}
+
+.zenve-comm-mini-type-badge.zenve-status-private {
+  background: #fdf2f2;
+  color: #841829;
+  border: 1px solid #f9d2d7;
+}
+
+/* Mini Admin Pill */
+.zenve-comm-mini-admin-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #fff8e6;
+  color: #8a5800;
+  border: 1px solid #fedf89;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.zenve-comm-created-by-pill {
+  font-size: 11px;
+  font-weight: 500;
+  color: #54656f;
+  background: #f0f2f5;
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  border: 1px solid #e1e7ea;
+}
+
+.zenve-comm-header-code {
+  background: #f0f2f5;
+  color: #008069;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+
+/* ── Community Main Chat Header Action Buttons (WhatsApp Toolbar) ─ */
+.zenve-comm-action-btn {
+  height: 32px;
+  padding: 0 11px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  cursor: pointer;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  text-decoration: none;
+  line-height: 1;
+  border: 1px solid #d1d7db;
+  background: #ffffff;
+  color: #3b4a54;
+}
+
+.zenve-comm-action-btn .zenve-btn-icon {
+  flex-shrink: 0;
+}
+
+/* Button 1: Members */
+.zenve-view-members-btn {
+  background: #f0f8f4;
+  border: 1px solid #c2ebd1;
+  color: #0d5c31;
+}
+
+.zenve-view-members-btn:hover,
+.zenve-view-members-btn.active {
+  background: #e1f4e9;
+  border-color: #008069;
+  color: #008069;
+  box-shadow: 0 2px 6px rgba(0, 128, 105, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Button 2: Toggle Privacy (Make Public / Make Private) */
+.zenve-toggle-privacy-btn {
+  background: #ffffff;
+  border: 1px solid #008069;
+  color: #008069;
+}
+
+.zenve-toggle-privacy-btn:hover {
+  background: #e7f8ee;
+  border-color: #006653;
+  color: #006653;
+  box-shadow: 0 2px 6px rgba(0, 128, 105, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Button 3: Manage Group (Admin Only) */
+.zenve-admin-settings-btn {
+  background: linear-gradient(135deg, #3D0D18 0%, #28080f 100%);
+  border: 1px solid #3D0D18;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(61, 13, 24, 0.18);
+}
+
+.zenve-admin-settings-btn:hover {
+  background: linear-gradient(135deg, #54131B 0%, #3D0D18 100%);
+  border-color: #54131B;
+  box-shadow: 0 4px 10px rgba(61, 13, 24, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Button 4: Share Community Link */
+.zenve-share-comm-btn {
+  background: #ffffff;
+  border: 1px solid #d1d7db;
+  color: #3b4a54;
+}
+
+.zenve-share-comm-btn:hover {
+  background: #f0f2f5;
+  border-color: #bec5ca;
+  color: #111b21;
+  transform: translateY(-1px);
+}
+
+.zenve-share-comm-btn.copied {
+  background: #e7f8ee;
+  border-color: #008069;
+  color: #008069;
+  font-weight: 700;
+}
+
+/* Button 5: About / Community Profile */
+.zenve-info-comm-btn {
+  background: #ffffff;
+  border: 1px solid #d1d7db;
+  color: #3b4a54;
+}
+
+.zenve-info-comm-btn:hover {
+  background: #f0f2f5;
+  border-color: #bec5ca;
+  color: #111b21;
+}
+
+.zenve-info-comm-btn.active {
+  background: #e8f5ee;
+  border-color: #008069;
+  color: #008069;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 128, 105, 0.15);
+}
+
+.zenve-admin-only-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #f0f2f5;
+  color: #54656f;
+  border: 1px solid #d1d7db;
+  white-space: nowrap;
+}
+
+/* ── Slide-Down Community Profile & Guidelines Drawer ─────────────── */
+.zenve-comm-profile-drawer {
+  background: #fbfdfc;
+  border-bottom: 2px solid #dde7e1;
+  padding: 18px 24px 20px;
+  animation: slideDownProfile 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+@keyframes slideDownProfile {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zenve-comm-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.zenve-comm-drawer-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zenve-comm-drawer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.zenve-comm-drawer-title {
+  margin: 0 0 3px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #14241d;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.zenve-comm-drawer-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #586d62;
+  flex-wrap: wrap;
+}
+
+.zenve-comm-drawer-cat {
+  font-weight: 600;
+  color: #1d3b2f;
+}
+
+.zenve-comm-drawer-type.public {
+  color: #0f6838;
+  font-weight: 600;
+}
+
+.zenve-comm-drawer-type.private {
+  color: #8c1d34;
+  font-weight: 600;
+}
+
+.zenve-comm-drawer-close {
+  background: #eef3f0;
+  border: 1px solid #d4ded8;
+  color: #4a5c53;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.zenve-comm-drawer-close:hover {
+  background: #e1ede6;
+  color: #17241e;
+  transform: scale(1.05);
+}
+
+/* ── Unique Group Invite Code Banner with Instant Copy ────────────── */
+.zenve-comm-code-banner {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f0f8f4 0%, #e8f5ee 100%);
+  border: 1px solid #c2ebd1;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(0, 128, 105, 0.06);
+}
+
+.zenve-code-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.zenve-code-banner-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f4d36;
+}
+
+.zenve-code-banner-val {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #008069;
+  background: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #a3dcbb;
+  letter-spacing: 0.8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.zenve-code-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.zenve-code-copy-btn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid #a3dcbb;
+  background: #ffffff;
+  color: #008069;
+  white-space: nowrap;
+}
+
+.zenve-code-copy-btn:hover {
+  background: #def4e8;
+  border-color: #008069;
+}
+
+.zenve-code-copy-btn.primary {
+  background: #008069;
+  border-color: #008069;
+  color: #ffffff;
+}
+
+.zenve-code-copy-btn.primary:hover {
+  background: #006653;
+  border-color: #006653;
+}
+
+.zenve-comm-code-chip {
+  background: #e8f5ee;
+  color: #008069;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+
+.zenve-comm-drawer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.zenve-comm-drawer-card {
+  background: #ffffff;
+  border: 1px solid #e2ebe5;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zenve-comm-card-wide {
+  grid-column: 1 / -1;
+}
+
+.zenve-comm-card-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #1D3B2F;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zenve-comm-card-desc {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #3b4e44;
+}
+
+.zenve-comm-guidelines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.zenve-guideline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #2c3e34;
+}
+
+.zenve-guideline-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e7f2ec;
+  color: #1D3B2F;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.zenve-comm-drawer-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  border-top: 1px solid #e7efe9;
+}
+
+.zenve-drawer-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #f1f6f3;
+  border: 1px solid #cbdcd2;
+  color: #1D3B2F;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.zenve-drawer-action-btn:hover {
+  background: #1D3B2F;
+  color: #ffffff;
+  border-color: #1D3B2F;
+}
+
+.zenve-drawer-admin-btn {
+  background: #faedf0;
+  border-color: #f2c7ce;
+  color: #8c1d34;
+}
+
+.zenve-drawer-admin-btn:hover {
+  background: #54131B;
+  border-color: #54131B;
+  color: #ffffff;
+}
+
+/* ── Pinned Clinical Announcement Banner ──────────────────────────── */
+.zenve-comm-pinned-banner {
+  background: #fdfaf3;
+  border: 1px solid #fae8c8;
+  border-left: 3.5px solid #d97706;
+  border-radius: 8px;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.zenve-comm-pinned-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #78350f;
+  line-height: 1.4;
+}
+
+.zenve-comm-pinned-content strong {
+  font-weight: 700;
+  color: #92400e;
+}
+
+.zenve-comm-pinned-dismiss {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #b45309;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+
+.zenve-comm-pinned-dismiss:hover {
+  background: rgba(180, 83, 9, 0.1);
+  color: #78350f;
+}
+
+/* ── Slide-Down Community Members Directory Drawer ────────────────── */
+.zenve-comm-members-drawer {
+  background: #f7faf8;
+  border-bottom: 2px solid #e1ebe4;
+  padding: 16px 22px;
+  animation: slideDownMembers 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 290px;
+  overflow-y: auto;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.zenve-members-drawer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #e6eee8;
+  padding-bottom: 8px;
+}
+
+.zenve-members-drawer-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #17261f;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-members-drawer-subtitle {
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  color: #556e60;
+  line-height: 1.4;
+}
+
+.zenve-members-drawer-close {
+  background: #edf3ef;
+  border: none;
+  font-size: 13px;
+  color: #637d6e;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.zenve-members-drawer-close:hover {
+  background: #dce7e1;
+  color: #1a2721;
+}
+
+.zenve-members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.zenve-comm-member-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: #ffffff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #e3eae5;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.zenve-comm-member-card:hover {
+  border-color: #3D0D18;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(61, 13, 24, 0.08);
+}
+
+.zenve-comm-member-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #d4e2d9;
+}
+
+.zenve-comm-member-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+  gap: 1px;
+}
+
+.zenve-comm-member-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.zenve-comm-member-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1a2721;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-comm-member-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.zenve-comm-member-tag.tag-all {
+  background: #e2f5e8;
+  color: #0f6838;
+  border: 1px solid #bde4cb;
+}
+
+.zenve-comm-member-tag.tag-follower {
+  background: #fae6ea;
+  color: #8c1d34;
+  border: 1px solid #f2c7ce;
+}
+
+.zenve-comm-member-specialty {
+  font-size: 11px;
+  color: #556e60;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-comm-member-clinic {
+  font-size: 10px;
+  color: #84988d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Community Welcome Protocol Notice ────────────────────────────── */
+.zenve-comm-welcome-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  margin: 14px 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.zenve-comm-welcome-notice.notice-public {
+  background: #f0f8f3;
+  border: 1px solid #cce5d5;
+  border-left: 4px solid #137740;
+}
+
+.zenve-comm-welcome-notice.notice-private {
+  background: #fcf2f4;
+  border: 1px solid #f4ced5;
+  border-left: 4px solid #8c1d34;
+}
+
+.zenve-comm-notice-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.zenve-comm-notice-content h5 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #17261f;
+  letter-spacing: 0.1px;
+}
+
+.zenve-comm-notice-content p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #40574b;
+}
+
+/* ── WhatsApp Pro Chat Canvas ─────────────────────────────────────── */
+.zenve-wa-chat-canvas {
+  background-color: #efeae2 !important;
+  background-image:
+    radial-gradient(#dfd7cb 1.1px, transparent 1.1px),
+    radial-gradient(#dfd7cb 1.1px, transparent 1.1px) !important;
+  background-size: 24px 24px !important;
+  background-position: 0 0, 12px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  padding: 16px 20px !important;
+  overflow-y: auto !important;
+  position: relative !important;
+}
+
+/* WhatsApp Centered Encryption Pill */
+.zenve-wa-encryption-pill {
+  align-self: center;
+  background: #ffeecd;
+  color: #54656f;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 7.5px;
+  box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.12);
+  text-align: center;
+  max-width: 82%;
+  margin: 4px auto 10px auto;
+  line-height: 1.4;
+  border: 1px solid #fae2af;
+}
+
+/* WhatsApp Centered Date Divider */
+.zenve-wa-date-divider {
+  align-self: center;
+  background: #ffffff;
+  color: #54656f;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 7.5px;
+  box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.12);
+  margin: 6px auto 10px auto;
+  letter-spacing: 0.5px;
+}
+
+/* WhatsApp System Notice Pill */
+.zenve-wa-system-pill {
+  align-self: center;
+  background: rgba(255, 255, 255, 0.95);
+  color: #54656f;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.1);
+  margin: 4px auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 82%;
+  text-align: center;
+  border: 1px solid #e1e7ea;
+}
+
+.zenve-wa-sys-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.zenve-wa-sys-time {
+  font-size: 10px;
+  color: #8696a0;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+/* ── WhatsApp Message Rows ────────────────────────────────────────── */
+.zenve-wa-msg-row {
+  display: flex;
+  width: 100%;
+  margin-bottom: 3px;
+}
+
+.zenve-wa-msg-row.wa-sent {
+  justify-content: flex-end;
+}
+
+.zenve-wa-msg-row.wa-received {
+  justify-content: flex-start;
+}
+
+/* ── WhatsApp Bubble ──────────────────────────────────────────────── */
+.zenve-wa-bubble {
+  position: relative;
+  max-width: 68%;
+  min-width: 88px;
+  padding: 6px 9px 6px 10px;
+  box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+  font-size: 13.5px;
+  line-height: 1.35;
+  word-wrap: break-word;
+}
+
+/* Sent Bubble: WhatsApp Signature Light Green */
+.zenve-wa-bubble.bubble-sent {
+  background: #d9fdd3;
+  color: #111b21;
+  border-radius: 8px 8px 0px 8px;
+}
+
+/* Received Bubble: Crisp WhatsApp White */
+.zenve-wa-bubble.bubble-received {
+  background: #ffffff;
+  color: #111b21;
+  border-radius: 8px 8px 8px 0px;
+}
+
+/* Author Line with Doctor Identity */
+.zenve-wa-author-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.zenve-wa-author-name {
+  font-weight: 700;
+}
+
+.zenve-wa-author-spec {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #667781;
+}
+
+/* Message Text & Inline Time + Checkmark */
+.zenve-wa-text-content {
+  display: inline;
+  position: relative;
+}
+
+.zenve-wa-msg-text {
+  color: #111b21;
+  font-size: 13.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.zenve-wa-meta-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  float: right;
+  margin-left: 8px;
+  margin-top: 4px;
+  vertical-align: bottom;
+  position: relative;
+  bottom: -2px;
+}
+
+.zenve-wa-time {
+  font-size: 10.5px;
+  color: #667781;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.zenve-wa-checks {
+  color: #53bdeb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-left: 2px;
+}
+
+/* ── WhatsApp Message Composer Dock ───────────────────────────────── */
+.zenve-wa-composer-dock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #f0f2f5;
+  border-top: 1px solid #d1d7db;
+  position: relative;
+  z-index: 10;
+  min-height: 58px;
+  box-sizing: border-box;
+}
+
+.zenve-wa-dock-icon-btn {
+  background: transparent;
+  border: none;
+  color: #54656f;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.zenve-wa-dock-icon-btn:hover {
+  background: #e2e5e9;
+  color: #111b21;
+}
+
+.zenve-wa-input-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  box-shadow: 0 1px 2px rgba(11, 20, 26, 0.06);
+  padding: 0 14px;
+  height: 42px;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.zenve-wa-input-container:focus-within {
+  border-color: #00a884;
+  box-shadow: 0 0 0 2px rgba(0, 168, 132, 0.15);
+}
+
+.zenve-wa-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #111b21;
+  font-family: inherit;
+  line-height: 20px;
+}
+
+.zenve-wa-input::placeholder {
+  color: #8696a0;
+}
+
+/* WhatsApp Circular Emerald Green Send Button */
+.zenve-wa-send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #00a884;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: all 0.15s ease;
+}
+
+.zenve-wa-send-btn:hover:not(:disabled) {
+  background: #008f6f;
+  transform: scale(1.05);
+}
+
+.zenve-wa-send-btn:disabled {
+  background: #b2ded4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Sidebar Communities Unread Badges ────────────────────────────── */
+.zenve-mode-badge.zenve-unseen-badge {
+  background: #25d366;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  margin-left: 5px;
+  box-shadow: 0 1px 3px rgba(37, 211, 102, 0.4);
+}
+
+.zenve-comm-badges-stack {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.zenve-comm-item-unread-badge {
+  background: #25d366;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 19px;
+  height: 19px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Modal Unique Code Pill Row ───────────────────────────────────── */
+.zenve-modal-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #f0f8f4;
+  border: 1px solid #c8e7d5;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+.zenve-modal-code-pill {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 800;
+  color: #008069;
+  background: #ffffff;
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1px solid #9fdbb8;
+  letter-spacing: 0.6px;
+}
+
+.zenve-modal-code-copy-btn {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #008069;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s ease;
+}
+
+.zenve-modal-code-copy-btn:hover {
+  background: #006653;
+}
+
+/* Clinical Quick Prompts Row */
+.zenve-comm-prompts {
+  padding: 8px 18px 4px 18px;
+}
+
+/* ── CREATE COMMUNITY MODAL ───────────────────────────────────────── */
+.zenve-create-comm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 22, 17, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.22s ease-out;
+}
+
+.zenve-create-comm-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.zenve-create-comm-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 26px 18px 26px;
+  border-bottom: 1px solid #edf3ef;
+}
+
+.zenve-create-comm-modal-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  color: #17261f;
+  letter-spacing: -0.2px;
+}
+
+.zenve-create-comm-modal-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #5c7467;
+  line-height: 1.4;
+}
+
+.zenve-create-comm-modal-close {
+  background: #edf3ef;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #5c7467;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.zenve-create-comm-modal-close:hover {
+  background: #dfe8e2;
+  color: #1a2721;
+}
+
+.zenve-create-comm-form {
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.zenve-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zenve-form-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2721;
+}
+
+.zenve-required-star {
+  color: #dc2626;
+}
+
+.zenve-form-input,
+.zenve-form-select,
+.zenve-form-textarea {
+  width: 100%;
+  padding: 11px 15px;
+  border-radius: 11px;
+  border: 1px solid #d2ded5;
+  font-size: 13.5px;
+  color: #1a2721;
+  background: #ffffff;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.zenve-form-input:focus,
+.zenve-form-select:focus,
+.zenve-form-textarea:focus {
+  border-color: #3D0D18;
+  box-shadow: 0 0 0 3px rgba(61, 13, 24, 0.12);
+}
+
+/* Privacy Selection Grid */
+.zenve-privacy-selection-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.zenve-privacy-card {
+  border: 2px solid #dfebe3;
+  border-radius: 14px;
+  padding: 15px;
+  cursor: pointer;
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  background: #fbfdfc;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.zenve-privacy-card:hover {
+  border-color: #b7cebf;
+  transform: translateY(-1px);
+}
+
+.zenve-privacy-card.selected {
+  border-color: #3D0D18;
+  background: #fffbfa;
+  box-shadow: 0 6px 18px rgba(61, 13, 24, 0.09);
+}
+
+.zenve-privacy-card-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.zenve-privacy-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zenve-privacy-card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.zenve-privacy-card-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1a2721;
+}
+
+.zenve-privacy-badge-pill {
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 8px;
+  letter-spacing: 0.2px;
+}
+
+.zenve-privacy-badge-pill.public {
+  background: #e2f5e8;
+  color: #0f6838;
+}
+
+.zenve-privacy-badge-pill.private {
+  background: #fae6ea;
+  color: #8c1d34;
+}
+
+.zenve-privacy-card-desc {
+  margin: 0;
+  font-size: 11.5px;
+  color: #556e60;
+  line-height: 1.45;
+}
+
+.zenve-privacy-member-count-note {
+  margin-top: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #3D0D18;
+}
+
+/* Members Preview Box in Modal */
+.zenve-members-preview-box {
+  background: #f4f8f5;
+  border: 1px solid #dbe8e0;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.zenve-preview-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.zenve-preview-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #17261f;
+}
+
+.zenve-preview-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 8px;
+}
+
+.zenve-preview-badge.pub {
+  background: #d8f0df;
+  color: #0f6838;
+}
+
+.zenve-preview-badge.priv {
+  background: #fae0e5;
+  color: #8c1d34;
+}
+
+.zenve-preview-explainer {
+  margin: 0 0 12px 0;
+  font-size: 11.5px;
+  color: #556e60;
+  line-height: 1.4;
+}
+
+.zenve-preview-avatars-row {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.zenve-preview-doc-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #dce5e0;
+  border-radius: 20px;
+  padding: 4px 11px 4px 5px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.zenve-preview-doc-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.zenve-preview-doc-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.zenve-preview-doc-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a2721;
+}
+
+.zenve-preview-doc-specialty {
+  font-size: 9.5px;
+  color: #637d6e;
+}
+
+.zenve-preview-doc-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 6px;
+}
+
+.zenve-preview-doc-tag.all {
+  background: #e2f5e8;
+  color: #0f6838;
+}
+
+.zenve-preview-doc-tag.follower {
+  background: #fae6ea;
+  color: #8c1d34;
+}
+
+.zenve-create-comm-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.zenve-comm-btn-cancel {
+  background: transparent;
+  border: 1px solid #d2ded5;
+  color: #40574b;
+  padding: 10px 20px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zenve-comm-btn-cancel:hover {
+  background: #edf3ef;
+  color: #1a2721;
+}
+
+.zenve-comm-btn-submit {
+  background: linear-gradient(135deg, #3D0D18 0%, #5a1727 100%);
+  border: none;
+  color: #ffffff;
+  padding: 11px 24px;
+  border-radius: 11px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(61, 13, 24, 0.25);
+}
+
+.zenve-comm-btn-submit:hover {
+  background: linear-gradient(135deg, #4d1220 0%, #6d1c2f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(61, 13, 24, 0.32);
+}
+
+/* ==========================================================================
+   METICULOUS DARK THEME FOR ALL MESSAGES & COMMUNITY FEATURES
+   ========================================================================== */
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-container {
+  background: #0f1c16;
+  border-color: #24382c;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-sidebar {
+  background: #12221b;
+  border-right-color: #22372a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-sidebar-header {
+  border-bottom-color: #22372a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-title {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-mode-switch {
+  background: #0c1813;
+  border-color: #1e3328;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-mode-switch-btn {
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-mode-switch-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-mode-switch-btn.active {
+  background: #192a21;
+  color: #f7a8b8;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-mode-badge {
+  background: #f7a8b8;
+  color: #220810;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-sidebar-sub {
+  color: #8da496;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-cta-btn {
+  background: linear-gradient(135deg, #f7a8b8 0%, #ffc5d1 100%);
+  color: #2b0b14;
+  box-shadow: 0 3px 12px rgba(247, 168, 184, 0.25);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-cta-btn:hover {
+  background: #ffdbe3;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-community-item:hover {
+  background: #172920;
+  border-color: #253d30;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-community-item.active {
+  background: #1a2e24;
+  border-color: #2d4738;
+  border-left-color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-members-count-tag {
+  background: #16281f;
+  color: #9cb5a7;
+  border-color: #273d31;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-chat-header {
+  background: #12221b;
+  border-bottom-color: #22372a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-chat-header-name {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-header-category {
+  color: #c7ded2;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-encryption-label {
+  color: #8da496;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn {
+  background: #192a21;
+  border-color: #2a4033;
+  color: #cde0d5;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn:hover,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn.active {
+  background: #f7a8b8;
+  border-color: #f7a8b8;
+  color: #2b0b14;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-toggle-privacy-btn {
+  background: transparent;
+  border-color: #f7a8b8;
+  color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-toggle-privacy-btn:hover {
+  background: rgba(247, 168, 184, 0.12);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-members-drawer {
+  background: #0f1c16;
+  border-bottom-color: #22372a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-members-drawer-header {
+  border-bottom-color: #22372a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-members-drawer-title {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-members-drawer-subtitle {
+  color: #8da496;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-members-drawer-close {
+  background: #1a2c22;
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-members-drawer-close:hover {
+  background: #253d30;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-member-card {
+  background: #15251d;
+  border-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-member-card:hover {
+  border-color: #f7a8b8;
+  background: #1b2e24;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-member-name {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-member-specialty {
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-welcome-notice.notice-public {
+  background: #11231a;
+  border-color: #1e3a2b;
+  border-left-color: #34d399;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-welcome-notice.notice-private {
+  background: #221217;
+  border-color: #421e29;
+  border-left-color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-welcome-notice h5 {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-welcome-notice p {
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-author-name {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-author-badge {
+  background: #2b131c;
+  border-color: #522030;
+  color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-system-message {
+  background: #15251d;
+  border-color: #243a2d;
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-modal-card {
+  background: #12221b;
+  border: 1px solid #283e32;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-modal-header {
+  border-bottom-color: #22372a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-modal-title {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-modal-subtitle {
+  color: #8da496;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-modal-close {
+  background: #192a21;
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-create-comm-modal-close:hover {
+  background: #253d30;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-label {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-input,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-select,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-textarea {
+  background: #16281f;
+  border-color: #294033;
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-input:focus,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-select:focus,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-textarea:focus {
+  border-color: #f7a8b8;
+  box-shadow: 0 0 0 3px rgba(247, 168, 184, 0.15);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-privacy-card {
+  background: #16281f;
+  border-color: #294033;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-privacy-card:hover {
+  border-color: #3d5c4b;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-privacy-card.selected {
+  border-color: #f7a8b8;
+  background: #25141c;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-privacy-card-title {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-privacy-card-desc {
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-privacy-member-count-note {
+  color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-members-preview-box {
+  background: #15251d;
+  border-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-preview-title {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-preview-explainer {
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-preview-doc-chip {
+  background: #1b2e24;
+  border-color: #2d4738;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-preview-doc-name {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-preview-doc-specialty {
+  color: #8da496;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-btn-cancel {
+  border-color: #2a4033;
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-btn-cancel:hover {
+  background: #192a21;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-btn-submit {
+  background: linear-gradient(135deg, #f7a8b8 0%, #ffc5d1 100%);
+  color: #2b0b14;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-btn-submit:hover {
+  background: #ffdbe3;
+}
+
+/* ==========================================================================
+   GROUP ADMIN COMMUNITY MANAGEMENT & CONTROLS
+   ========================================================================== */
+
+/* Crown badge in header */
+.zenve-admin-crown-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  letter-spacing: 0.3px;
+  box-shadow: 0 1px 3px rgba(180, 83, 9, 0.1);
+}
+
+.zenve-comm-created-by-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9999px;
+  background: #f1f5f3;
+  color: #55685f;
+  border: 1px solid #d8e2dc;
+}
+
+/* Drawer Header Actions */
+.zenve-members-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zenve-drawer-invite-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 7px;
+  background: #1D3B2F;
+  color: #ffffff;
+  border: 1px solid #142820;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.zenve-drawer-invite-btn:hover {
+  background: #2a5242;
+  transform: translateY(-1px);
+}
+
+/* Member Tags */
+.zenve-comm-member-tag.tag-admin {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.zenve-comm-member-tag.tag-invited {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+/* Remove Member Action on Member Card */
+.zenve-member-card-admin-action {
+  margin-left: auto;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.zenve-member-remove-btn {
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-member-remove-btn:hover {
+  background: #be123c;
+  color: #ffffff;
+  border-color: #be123c;
+}
+
+/* Admin Modal Header Eyebrow */
+.zenve-admin-modal-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #d97706;
+  margin-bottom: 4px;
+}
+
+/* Admin Quick Actions Bar */
+.zenve-admin-quick-actions-bar {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #f8faf9;
+  border: 1px dashed #d0dcd5;
+}
+
+.zenve-admin-quick-invite-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1D3B2F;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.zenve-admin-quick-invite-btn:hover {
+  color: #2b5645;
+  text-decoration: underline;
+}
+
+/* Admin Danger Zone */
+.zenve-admin-danger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+}
+
+.zenve-danger-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zenve-danger-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9b1c1c;
+}
+
+.zenve-danger-desc {
+  font-size: 11px;
+  color: #c53030;
+}
+
+.zenve-admin-delete-btn {
+  padding: 7px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 7px;
+  background: #e53e3e;
+  color: #ffffff;
+  border: 1px solid #c53030;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.zenve-admin-delete-btn:hover {
+  background: #c53030;
+  box-shadow: 0 2px 8px rgba(197, 48, 48, 0.35);
+}
+
+/* Invite Modal */
+.zenve-invite-modal-card {
+  max-width: 580px;
+  width: 92%;
+}
+
+.zenve-invite-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8faf9;
+  border: 1px solid #d4dfd9;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.zenve-invite-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: #1a2a22;
+  outline: none;
+}
+
+.zenve-invite-doctors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  padding-right: 4px;
+}
+
+.zenve-invite-doctor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: #ffffff;
+  border: 1px solid #e2ece6;
+  transition: all 0.15s ease;
+}
+
+.zenve-invite-doctor-card:hover {
+  background: #f7fbf9;
+  border-color: #cbdad1;
+}
+
+.zenve-invite-doctor-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid #cbdad1;
+}
+
+.zenve-invite-doctor-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zenve-invite-doctor-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zenve-invite-doctor-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2a22;
+}
+
+.zenve-invite-doctor-specialty {
+  font-size: 11px;
+  font-weight: 600;
+  color: #3b745d;
+}
+
+.zenve-invite-doctor-clinic {
+  font-size: 11px;
+  color: #5d7066;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-invite-doctor-location {
+  font-size: 10px;
+  color: #7d8f85;
+}
+
+.zenve-invite-action-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 7px;
+  background: #1D3B2F;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.zenve-invite-action-btn:hover {
+  background: #2a5242;
+  transform: translateY(-1px);
+}
+
+.zenve-invite-empty-state {
+  text-align: center;
+  padding: 28px 16px;
+  color: #63776e;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   DARK THEME OVERRIDES FOR GROUP ADMIN & INVITE CONTROLS
+   ========================================================================== */
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-crown-badge {
+  background: linear-gradient(135deg, #3d2a09 0%, #4d350c 100%);
+  color: #fbbf24;
+  border-color: #78350f;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-created-by-pill {
+  background: #14221b;
+  color: #9cb5a7;
+  border-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn {
+  background: #15271f;
+  border-color: #274334;
+  color: #d1e5db;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn:hover,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn.active {
+  background: #1f3a2e;
+  border-color: #4ade80;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-toggle-privacy-btn {
+  background: #122119;
+  border-color: #2d5541;
+  color: #86efac;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-toggle-privacy-btn:hover {
+  background: #1b3527;
+  border-color: #4ade80;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-settings-btn {
+  background: linear-gradient(135deg, #7c1a27 0%, #4a0f18 100%);
+  border-color: #9b2c3b;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-settings-btn:hover {
+  background: linear-gradient(135deg, #942232 0%, #5d1420 100%);
+  border-color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-share-comm-btn,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-info-comm-btn {
+  background: #16261e;
+  border-color: #294033;
+  color: #c7ded2;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-share-comm-btn:hover,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-info-comm-btn:hover {
+  background: #1f362a;
+  border-color: #4ade80;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-info-comm-btn.active {
+  background: #2b5645;
+  border-color: #4ade80;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-only-tag {
+  background: #15251d;
+  color: #8da496;
+  border-color: #284133;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-drawer-invite-btn {
+  background: #1e382b;
+  color: #e4eee8;
+  border-color: #315341;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-drawer-invite-btn:hover {
+  background: #294c3a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-member-tag.tag-admin {
+  background: #3d2a09;
+  color: #fbbf24;
+  border-color: #78350f;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-member-tag.tag-invited {
+  background: #0c2e42;
+  color: #38bdf8;
+  border-color: #164e63;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-member-remove-btn {
+  background: #2b1118;
+  color: #f87171;
+  border-color: #4c1d28;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-member-remove-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-modal-eyebrow {
+  color: #fbbf24;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-quick-actions-bar {
+  background: #14221b;
+  border-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-quick-invite-btn {
+  color: #34d399;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-quick-invite-btn:hover {
+  color: #6ee7b7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-danger-zone {
+  background: #251216;
+  border-color: #4a1f26;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-danger-title {
+  color: #fca5a5;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-danger-desc {
+  color: #f87171;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-delete-btn {
+  background: #b91c1c;
+  border-color: #dc2626;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-delete-btn:hover {
+  background: #dc2626;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-search-wrap {
+  background: #14221b;
+  border-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-search-input {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-doctor-card {
+  background: #16281f;
+  border-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-doctor-card:hover {
+  background: #1a2f25;
+  border-color: #344f3e;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-doctor-img {
+  border-color: #2e4738;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-doctor-name {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-doctor-specialty {
+  color: #34d399;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-doctor-clinic {
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-doctor-location {
+  color: #799485;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-action-btn {
+  background: #1e382b;
+  color: #e4eee8;
+  border: 1px solid #315341;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-action-btn:hover {
+  background: #294c3a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-invite-empty-state {
+  color: #8da496;
+}
+
+/* ==========================================================================
+   EXECUTIVE COMMUNITY MANAGEMENT & MEMBERS POPUP MODAL (MATCHING UPLOADED DESIGN)
+   ========================================================================== */
+
+/* Modal Overlay & Backdrop */
+.zenve-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(18, 26, 22, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  animation: zenveModalFadeIn 0.2s ease-out forwards;
+}
+
+@keyframes zenveModalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Card */
+.zenve-modal-card {
+  position: relative;
+  width: 94%;
+  max-width: 560px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  box-sizing: border-box;
+  animation: zenveModalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@keyframes zenveModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.zenve-manage-modal-card {
+  max-width: 580px;
+}
+
+/* Close Button - Translucent white round button matching uploaded design */
+.zenve-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  z-index: 10;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.zenve-modal-close:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.05);
+}
+
+/* Modal Header - Burgundy Gradient */
+.zenve-modal-header {
+  background: linear-gradient(135deg, #54131B 0%, #3D0D18 100%);
+  padding: 30px 30px 22px;
+  color: #ffffff;
+  position: relative;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zenve-modal-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #f7cb08;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.zenve-modal-title {
+  margin: 0 0 7px 0;
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  line-height: 1.25;
+}
+
+.zenve-modal-subtitle {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* Segmented Sub-Tab Switcher under Header */
+.zenve-modal-tab-switcher {
+  display: flex;
+  background: #f4f6f4;
+  padding: 6px 14px;
+  gap: 6px;
+  border-bottom: 1px solid #e5ebe7;
+  flex-shrink: 0;
+}
+
+.zenve-modal-tab-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #4b5c53;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.zenve-modal-tab-btn:hover {
+  background: rgba(84, 19, 27, 0.06);
+  color: #54131B;
+}
+
+.zenve-modal-tab-btn.active {
+  background: #54131B;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(84, 19, 27, 0.22);
+}
+
+/* Modal Scrollable Body */
+.zenve-modal-body {
+  padding: 22px 30px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  max-height: calc(90vh - 190px);
+  box-sizing: border-box;
+}
+
+.zenve-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.zenve-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.zenve-modal-body::-webkit-scrollbar-thumb {
+  background-color: rgba(84, 19, 27, 0.18);
+  border-radius: 10px;
+}
+
+/* Notice Box with Burgundy Left Bar */
+.zenve-modal-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: #fcf7f5;
+  border-left: 4px solid #54131B;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+.zenve-modal-notice p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #2e3e36;
+}
+
+/* Form Layout */
+.zenve-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.zenve-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.zenve-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zenve-form-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #2b3630;
+  letter-spacing: -0.01em;
+}
+
+.zenve-form-input,
+.zenve-form-textarea {
+  width: 100%;
+  background-color: #f6f7f5;
+  border: 1px solid #e4e7e3;
+  border-radius: 9px;
+  padding: 11px 13px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: #1c2621;
+  outline: none;
+  transition: all 0.18s ease;
+  box-sizing: border-box;
+}
+
+.zenve-form-input::placeholder,
+.zenve-form-textarea::placeholder {
+  color: #8b9690;
+  font-weight: 400;
+}
+
+.zenve-form-input:focus,
+.zenve-form-textarea:focus {
+  background-color: #ffffff;
+  border-color: #54131B;
+  box-shadow: 0 0 0 3px rgba(84, 19, 27, 0.08);
+}
+
+.zenve-form-textarea {
+  resize: vertical;
+  min-height: 75px;
+  line-height: 1.45;
+}
+
+.zenve-form-input-disabled {
+  background: #edf1ee;
+  color: #576b61;
+  cursor: not-allowed;
+  font-weight: 600;
+}
+
+/* Danger Box for Delete Community */
+.zenve-modal-danger-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  margin-top: 6px;
+}
+
+.zenve-modal-danger-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zenve-modal-danger-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9b1c1c;
+}
+
+.zenve-modal-danger-desc {
+  font-size: 11.5px;
+  color: #c53030;
+}
+
+.zenve-modal-danger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 7px;
+  background: #e53e3e;
+  color: #ffffff;
+  border: 1px solid #c53030;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.zenve-modal-danger-btn:hover {
+  background: #c53030;
+  box-shadow: 0 2px 8px rgba(197, 48, 48, 0.3);
+}
+
+/* Modal Action Buttons Row */
+.zenve-modal-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #eef2f0;
+}
+
+.zenve-modal-cancel-btn {
+  padding: 10px 18px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+  background-color: #ffffff;
+  border: 1px solid #d5dfd9;
+  color: #4a5a51;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.zenve-modal-cancel-btn:hover {
+  background-color: #f4f7f5;
+  border-color: #b8c8be;
+}
+
+.zenve-modal-submit-btn {
+  padding: 10px 22px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 700;
+  background: #54131B;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(84, 19, 27, 0.28);
+  transition: all 0.18s ease;
+}
+
+.zenve-modal-submit-btn:hover {
+  background: #3D0D18;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(84, 19, 27, 0.35);
+}
+
+/* Members & Invite Search Bar */
+.zenve-modal-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f6f7f5;
+  border: 1px solid #e2e8e5;
+  border-radius: 9px;
+  padding: 8px 12px;
+  transition: border-color 0.18s ease;
+}
+
+.zenve-modal-search-wrap:focus-within {
+  background: #ffffff;
+  border-color: #54131B;
+  box-shadow: 0 0 0 3px rgba(84, 19, 27, 0.08);
+}
+
+.zenve-modal-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: #1e2d24;
+}
+
+.zenve-modal-search-clear {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #8b9690;
+  font-size: 13px;
+  padding: 0;
+}
+
+/* Members View Tab */
+.zenve-modal-members-view {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.zenve-modal-members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+.zenve-modal-members-list::-webkit-scrollbar,
+.zenve-modal-invite-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.zenve-modal-members-list::-webkit-scrollbar-thumb,
+.zenve-modal-invite-list::-webkit-scrollbar-thumb {
+  background: rgba(84, 19, 27, 0.15);
+  border-radius: 4px;
+}
+
+.zenve-modal-member-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fcfdfc;
+  border: 1px solid #e7ede9;
+  transition: all 0.15s ease;
+}
+
+.zenve-modal-member-row:hover {
+  background: #f5f8f6;
+  border-color: #d1ded7;
+}
+
+.zenve-modal-member-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid #d4ded8;
+  cursor: pointer;
+}
+
+.zenve-modal-member-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.zenve-modal-member-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.zenve-modal-member-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #17241e;
+}
+
+.zenve-modal-member-spec {
+  font-size: 12px;
+  font-weight: 600;
+  color: #54131B;
+}
+
+.zenve-modal-member-clinic {
+  font-size: 11px;
+  color: #63776e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zenve-modal-remove-member-btn {
+  padding: 5px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 7px;
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.zenve-modal-remove-member-btn:hover {
+  background: #be123c;
+  color: #ffffff;
+  border-color: #be123c;
+}
+
+.zenve-modal-invite-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9px;
+  background: #f5f8f6;
+  color: #1D3B2F;
+  border: 1px solid #cfe0d7;
+  cursor: pointer;
+  margin-right: auto;
+  transition: all 0.18s ease;
+}
+
+.zenve-modal-invite-more-btn:hover {
+  background: #e6ede8;
+  border-color: #1D3B2F;
+}
+
+/* Invite Tab View */
+.zenve-modal-invite-view {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.zenve-modal-invite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+.zenve-modal-invite-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fcfdfc;
+  border: 1px solid #e7ede9;
+  transition: all 0.15s ease;
+}
+
+.zenve-modal-invite-row:hover {
+  background: #f5f8f6;
+  border-color: #d1ded7;
+}
+
+.zenve-modal-invite-add-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: #1D3B2F;
+  color: #ffffff;
+  border: 1px solid #142820;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.zenve-modal-invite-add-btn:hover {
+  background: #2b5645;
+  transform: translateY(-1px);
+}
+
+.zenve-modal-empty-state {
+  padding: 24px 16px;
+  text-align: center;
+  color: #7a8c82;
+  font-size: 13px;
+}
+
+/* Modal Bottom Disclaimer text */
+.zenve-modal-disclaimer {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #7b8c82;
+  padding-top: 4px;
+}
+
+/* ==========================================================================
+   DARK MODE OVERRIDES FOR EXECUTIVE POPUP MODAL
+   ========================================================================== */
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-card {
+  background-color: #12221b;
+  border: 1px solid #283e32;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-tab-switcher {
+  background: #0f1c16;
+  border-bottom-color: #22372a;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-tab-btn {
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-tab-btn:hover {
+  background: rgba(247, 168, 184, 0.12);
+  color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-tab-btn.active {
+  background: #6e1724;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-body {
+  background-color: #12221b;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-body::-webkit-scrollbar-thumb {
+  background-color: rgba(247, 168, 184, 0.2);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-notice {
+  background-color: #221217;
+  border-left-color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-notice p {
+  color: #fcd4dd;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-label {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-input,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-select,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-textarea {
+  background: #16281f;
+  border-color: #294033;
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-input:focus,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-select:focus,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-textarea:focus {
+  background: #192d23;
+  border-color: #f7a8b8;
+  box-shadow: 0 0 0 3px rgba(247, 168, 184, 0.15);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-form-input-disabled {
+  background: #1a2c22;
+  color: #8da496;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-danger-box {
+  background: #251216;
+  border-color: #4a1f26;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-actions-row {
+  border-top-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-cancel-btn {
+  background-color: #192a21;
+  border-color: #2a4033;
+  color: #9cb5a7;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-cancel-btn:hover {
+  background-color: #243b2e;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-submit-btn {
+  background: linear-gradient(135deg, #7c1a27 0%, #54131B 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-submit-btn:hover {
+  background: linear-gradient(135deg, #8f2030 0%, #631720 100%);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-search-wrap {
+  background: #15251d;
+  border-color: #283e32;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-search-wrap:focus-within {
+  background: #192d23;
+  border-color: #f7a8b8;
+  box-shadow: 0 0 0 3px rgba(247, 168, 184, 0.15);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-search-input {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-member-row,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-invite-row {
+  background: #15251d;
+  border-color: #243a2d;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-member-row:hover,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-invite-row:hover {
+  background: #1b2e24;
+  border-color: #344f3e;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-member-avatar {
+  border-color: #2e4738;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-member-name {
+  color: #e4eee8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-member-spec {
+  color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-member-clinic {
+  color: #8da496;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-invite-more-btn {
+  background: #192a21;
+  border-color: #2a4033;
+  color: #cde0d5;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-invite-more-btn:hover {
+  background: #253d30;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-disclaimer {
+  color: #63776e;
+}
+
+/* ==========================================================================
+   Dark Mode Overrides for WhatsApp Communities & Pro Messaging
+   ========================================================================== */
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-chat-canvas {
+  background-color: #0b141a !important;
+  background-image:
+    radial-gradient(#182229 1.1px, transparent 1.1px),
+    radial-gradient(#182229 1.1px, transparent 1.1px) !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-chat-header {
+  background: #111b21;
+  border-bottom-color: #222e35;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-header-title-row .zenve-chat-header-name {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-header-title-row .zenve-chat-header-name:hover {
+  color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-created-by-pill {
+  background: #182229;
+  border-color: #2a3942;
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-header-code {
+  background: #182229;
+  border-color: #2a3942;
+  color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-action-btn {
+  background: #202c33;
+  border-color: #2a3942;
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-action-btn:hover {
+  background: #2a3942;
+  border-color: #3b4a54;
+  color: #ffffff;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn {
+  background: #152c22;
+  border-color: #244d3b;
+  color: #25d366;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn:hover,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-view-members-btn.active {
+  background: #1a382c;
+  border-color: #00a884;
+  color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-toggle-privacy-btn {
+  background: transparent;
+  border-color: #00a884;
+  color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-toggle-privacy-btn:hover {
+  background: rgba(0, 168, 132, 0.15);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-admin-only-tag {
+  background: #182229;
+  border-color: #2a3942;
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-share-comm-btn.copied {
+  background: #152c22;
+  border-color: #00a884;
+  color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-info-comm-btn.active {
+  background: #152c22;
+  border-color: #00a884;
+  color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-encryption-pill {
+  background: #182229;
+  color: #ffd279;
+  border-color: #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-date-divider {
+  background: #182229;
+  color: #8696a0;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.3);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-system-pill {
+  background: #182229;
+  color: #8696a0;
+  border-color: #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-bubble.bubble-sent {
+  background: #005c4b;
+  color: #e9edef;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.3);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-bubble.bubble-received {
+  background: #202c33;
+  color: #e9edef;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.3);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-msg-text {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-time {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-author-spec {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-composer-dock {
+  background: #202c33;
+  border-top-color: #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-dock-icon-btn {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-dock-icon-btn:hover {
+  background: #2a3942;
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-input-container {
+  background: #2a3942;
+  border-color: #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-input-container:focus-within {
+  border-color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-input {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-input::placeholder {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-code-banner {
+  background: linear-gradient(135deg, #10261c 0%, #17382a 100%);
+  border-color: #22563f;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-code-banner-label {
+  color: #b7e3cc;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-code-banner-val {
+  background: #1b3d2f;
+  color: #25d366;
+  border-color: #2d6b4f;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-code-copy-btn {
+  background: #1c382b;
+  border-color: #2d6b4f;
+  color: #25d366;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-code-copy-btn:hover {
+  background: #234c3a;
+  border-color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-code-row {
+  background: #152c22;
+  border-color: #25553e;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-modal-code-pill {
+  background: #1a382b;
+  color: #25d366;
+  border-color: #2f694d;
+}
+
+/* ==========================================================================
+   WHATSAPP MATCHED LEFT UI, MESSAGE ACTIONS, ATTACHMENTS & EMOJI STYLES
+   ========================================================================== */
+
+/* Left Sidebar WhatsApp Matching */
+.zenve-wa-preview-checks {
+  color: #53bdeb;
+  font-weight: 700;
+  font-size: 11px;
+  margin-right: 2px;
+}
+
+.zenve-comm-item-unread-badge {
+  background: #25d366;
+  color: #ffffff;
+  border-radius: 10px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(37, 211, 102, 0.35);
+}
+
+/* Community Header Fix - Never Truncate Title */
+.zenve-comm-header-title-box {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.zenve-comm-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.zenve-comm-header-title-row .zenve-chat-header-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111b21;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+/* Quoted Reply in WhatsApp Bubble */
+.zenve-wa-reply-quote {
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #00a884;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zenve-wa-quote-author {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #008069;
+}
+
+.zenve-wa-quote-text {
+  font-size: 12px;
+  color: #54656f;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Inside Bubble Attachment Card & Image */
+.zenve-wa-bubble-attachment {
+  margin-bottom: 6px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.zenve-wa-msg-img-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 320px;
+  max-height: 260px;
+  cursor: pointer;
+  background: #000000;
+}
+
+.zenve-wa-msg-image {
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.zenve-wa-msg-image:hover {
+  transform: scale(1.02);
+}
+
+.zenve-wa-msg-doc-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  min-width: 220px;
+}
+
+.zenve-wa-doc-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(0, 128, 105, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.zenve-wa-doc-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.zenve-wa-doc-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111b21;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zenve-wa-doc-size {
+  font-size: 11px;
+  color: #667781;
+}
+
+.zenve-wa-doc-download-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #008069;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.zenve-wa-doc-download-btn:hover {
+  background: #006b57;
+  transform: scale(1.08);
+}
+
+/* Deleted Message Tombstone */
+.zenve-wa-deleted-msg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-style: italic;
+  color: #8696a0;
+  font-size: 13px;
+  padding: 2px 0;
+}
+
+.zenve-wa-deleted-icon {
+  font-size: 13px;
+}
+
+.zenve-wa-deleted-text {
+  color: #8696a0;
+}
+
+/* Inline Edit Box */
+.zenve-wa-inline-edit-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 240px;
+}
+
+.zenve-wa-inline-edit-input {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #00a884;
+  font-size: 13.5px;
+  background: #ffffff;
+  color: #111b21;
+  outline: none;
+  font-family: inherit;
+}
+
+.zenve-wa-inline-edit-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.zenve-wa-edit-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.zenve-wa-edit-btn.save {
+  background: #008069;
+  color: #ffffff;
+}
+
+.zenve-wa-edit-btn.save:hover {
+  background: #006b57;
+  transform: scale(1.08);
+}
+
+.zenve-wa-edit-btn.cancel {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.zenve-wa-edit-btn.cancel:hover {
+  background: #cbd5e1;
+}
+
+/* Message Actions Dropdown Menu */
+.zenve-wa-msg-actions-wrap {
+  position: relative;
+  margin-left: 6px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.zenve-wa-msg-actions-btn {
+  background: transparent;
+  border: none;
+  color: #8696a0;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  padding: 2px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-wa-bubble:hover .zenve-wa-msg-actions-btn {
+  opacity: 1;
+}
+
+.zenve-wa-msg-actions-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #111b21;
+}
+
+.zenve-wa-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 70;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+  border: 1px solid #e2e8f0;
+  min-width: 160px;
+  padding: 6px 0;
+  overflow: hidden;
+  animation: waMenuFade 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes waMenuFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.zenve-wa-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+
+.zenve-wa-menu-item:hover {
+  background: #f1f5f9;
+}
+
+.zenve-wa-menu-item.danger {
+  color: #dc2626;
+}
+
+.zenve-wa-menu-item.danger:hover {
+  background: #fee2e2;
+}
+
+.zenve-wa-edited-badge {
+  font-size: 10.5px;
+  color: #8696a0;
+  margin-right: 4px;
+  font-style: italic;
+}
+
+/* Composer Wrapper, Attachment Bar & Emoji Popover */
+.zenve-wa-composer-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.zenve-wa-attachment-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #f0f2f5;
+  border-top: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  border-radius: 12px 12px 0 0;
+}
+
+.zenve-wa-attach-preview-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.zenve-wa-attach-img-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #d1d5db;
+}
+
+.zenve-wa-attach-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: #d1fae5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-wa-attach-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.zenve-wa-attach-filename {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #111b21;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zenve-wa-attach-size {
+  font-size: 11px;
+  color: #667781;
+}
+
+.zenve-wa-attach-remove-btn {
+  background: rgba(0, 0, 0, 0.08);
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #54656f;
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+.zenve-wa-attach-remove-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.zenve-wa-dock-icon-btn.has-file,
+.zenve-wa-dock-icon-btn.active {
+  color: #00a884;
+  background: rgba(0, 168, 132, 0.12);
+}
+
+/* WhatsApp Interactive Emoji Popover */
+.zenve-wa-emoji-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 14px;
+  z-index: 80;
+  width: 320px;
+  max-height: 290px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: waEmojiPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes waEmojiPop {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zenve-wa-emoji-tabs {
+  display: flex;
+  background: #f0f2f5;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 4px;
+  gap: 4px;
+}
+
+.zenve-wa-emoji-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #54656f;
+  transition: all 0.15s ease;
+}
+
+.zenve-wa-emoji-tab-btn.active {
+  background: #ffffff;
+  color: #111b21;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.zenve-wa-emoji-tab-label {
+  display: none;
+}
+
+.zenve-wa-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  padding: 8px;
+  overflow-y: auto;
+  max-height: 230px;
+}
+
+.zenve-wa-emoji-btn {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  padding: 6px 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.zenve-wa-emoji-btn:hover {
+  background: #f0f2f5;
+  transform: scale(1.22);
+}
+
+/* WhatsApp-Style Message Delete Options Dialog */
+.zenve-delete-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(11, 20, 26, 0.65);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeInDelete 0.18s ease forwards;
+}
+
+@keyframes fadeInDelete {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.zenve-delete-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 360px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: popInDelete 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes popInDelete {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.zenve-delete-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.zenve-delete-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-delete-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111b21;
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+}
+
+.zenve-delete-modal-desc {
+  font-size: 13px;
+  color: #667781;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.zenve-delete-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.zenve-delete-action-btn {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-delete-action-btn.danger {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.zenve-delete-action-btn.danger:hover {
+  background: #b91c1c;
+}
+
+.zenve-delete-action-btn.secondary {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.zenve-delete-action-btn.secondary:hover {
+  background: #e2e8f0;
+}
+
+.zenve-delete-action-btn.cancel {
+  background: transparent;
+  color: #64748b;
+}
+
+.zenve-delete-action-btn.cancel:hover {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+/* ==========================================================================
+   DARK THEME OVERRIDES FOR NEW WHATSAPP FEATURES
+   ========================================================================== */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-comm-header-title-row .zenve-chat-header-name {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-reply-quote {
+  background: rgba(0, 0, 0, 0.25);
+  border-left-color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-quote-author {
+  color: #25d366;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-quote-text {
+  color: #aebac1;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-msg-doc-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-doc-icon-wrap {
+  background: rgba(0, 168, 132, 0.2);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-doc-name {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-doc-size {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-dropdown-menu {
+  background: #233138;
+  border-color: #2a3942;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-menu-item {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-menu-item:hover {
+  background: #182229;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-menu-item.danger {
+  color: #ef4444;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-menu-item.danger:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-inline-edit-input {
+  background: #2a3942;
+  color: #e9edef;
+  border-color: #00a884;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-attachment-bar {
+  background: #202c33;
+  border-color: #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-attach-filename {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-attach-size {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-attach-icon-wrap {
+  background: rgba(0, 168, 132, 0.2);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-attach-remove-btn {
+  background: #2a3942;
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-emoji-popover {
+  background: #233138;
+  border-color: #2a3942;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-emoji-tabs {
+  background: #182229;
+  border-bottom-color: #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-emoji-tab-btn {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-emoji-tab-btn.active {
+  background: #233138;
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-emoji-btn:hover {
+  background: #182229;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-delete-modal-card {
+  background: #233138;
+  border: 1px solid #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-delete-modal-title {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-delete-modal-desc {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-delete-action-btn.secondary {
+  background: #182229;
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-delete-action-btn.secondary:hover {
+  background: #2a3942;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-delete-action-btn.cancel {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-delete-action-btn.cancel:hover {
+  background: #182229;
+  color: #e9edef;
+}
+
+/* ==========================================================================
+   PROFILE REQUIRED LOCKED GATE ("Message your peers privately")
+   Single clean card box with zero outer box and zero scrolling
+   ========================================================================== */
+.zenve-gate-screen-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.zenve-messages-profile-gate {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  padding: 16px 20px !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.zenve-messages-profile-gate::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.zenve-gate-ambient-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 440px;
+  height: 280px;
+  background: radial-gradient(ellipse at center, rgba(61, 13, 24, 0.06) 0%, rgba(37, 211, 102, 0.02) 50%, transparent 75%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.zenve-gate-mesh-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(17, 24, 39, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Single Unified Card Box */
+.zenve-gate-card {
+  position: relative;
+  z-index: 1;
+  max-width: 580px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 24px;
+  padding: 30px 36px 28px 36px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.02);
+  animation: gateCardFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden !important;
+  box-sizing: border-box;
+}
+
+@keyframes gateCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Layered Orbit Visual */
+.zenve-gate-hero-visual {
+  position: relative;
+  width: 130px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.zenve-gate-orbit-ring {
+  position: absolute;
+  width: 106px;
+  height: 106px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(61, 13, 24, 0.16);
+  animation: rotateOrbit 30s linear infinite;
+}
+
+@keyframes rotateOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.zenve-gate-pulse-ring {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(61, 13, 24, 0.06);
+  animation: pulseBadge 3s ease-in-out infinite;
+}
+
+@keyframes pulseBadge {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.18);
+    opacity: 0.2;
+  }
+}
+
+.zenve-gate-icon-badge {
+  position: relative;
+  z-index: 2;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3D0D18 0%, #681729 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(61, 13, 24, 0.32), 0 2px 4px rgba(0, 0, 0, 0.08);
+  border: 2.5px solid #ffffff;
+}
+
+.zenve-gate-icon-sparkle {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ffffff;
+  border-radius: 50%;
+  padding: 2.5px;
+  display: flex;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.zenve-gate-floating-avatar {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  border: 2px solid #ffffff;
+  transition: transform 0.25s ease;
+}
+
+.zenve-gate-floating-avatar:hover {
+  transform: scale(1.12);
+}
+
+.zenve-gate-floating-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.zenve-gate-mini-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 1.5px solid #ffffff;
+}
+
+.zenve-gate-floating-avatar.pos-1 {
+  top: 0;
+  left: 2px;
+  animation: floatAvatar1 4s ease-in-out infinite alternate;
+}
+
+.zenve-gate-floating-avatar.pos-2 {
+  top: -6px;
+  right: 6px;
+  animation: floatAvatar2 4.5s ease-in-out infinite alternate;
+}
+
+.zenve-gate-floating-avatar.pos-3 {
+  bottom: -2px;
+  left: 18px;
+  animation: floatAvatar3 5s ease-in-out infinite alternate;
+}
+
+@keyframes floatAvatar1 {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes floatAvatar2 {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes floatAvatar3 {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+/* Eyebrow Tag */
+.zenve-gate-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdf2f4;
+  border: 1px solid #f8d7de;
+  color: #3D0D18;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+/* Typography */
+.zenve-gate-title {
+  font-size: 25px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.zenve-gate-subtitle {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #334155;
+  margin: 0 0 8px 0;
+  line-height: 1.35;
+}
+
+.zenve-gate-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 18px 0;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+/* Features Grid */
+.zenve-gate-features-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+  width: 100%;
+}
+
+.zenve-gate-feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 6px 13px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #334155;
+  transition: all 0.18s ease;
+}
+
+.zenve-gate-feature-pill:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* CTA Button & Subtext */
+.zenve-gate-cta-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.zenve-gate-create-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #54131B;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 26px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+}
+
+.zenve-gate-create-btn:hover {
+  background-color: #771b26;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(119, 27, 38, 0.35);
+}
+
+.zenve-gate-create-btn:active {
+  transform: translateY(0);
+}
+
+.zenve-gate-cta-subtext {
+  font-size: 11px;
+  color: #8696a0;
+  font-weight: 500;
+}
+
+/* Dark Theme Overrides for Single Gate Card */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-screen-wrapper,
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-messages-profile-gate {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-card {
+  background: #11221a;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-title {
+  color: #e9edef;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-subtitle {
+  color: #d1d7db;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-desc {
+  color: #8696a0;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-tag-pill {
+  background: rgba(61, 13, 24, 0.4);
+  border-color: rgba(247, 168, 184, 0.3);
+  color: #f7a8b8;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-feature-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-create-btn {
+  background-color: #54131B !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-gate-create-btn:hover {
+  background-color: #771b26 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: none !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 24px rgba(119, 27, 38, 0.4) !important;
 }

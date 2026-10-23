@@ -199,3 +199,87 @@ input {
   color: #ffffff;
 }
 
+/* =========================================================
+   GLOBAL POST CARD & CREATE POST CARD DARK MODE OVERRIDES
+   ========================================================= */
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-create-post-card,
+[data-theme='dark'] .zenve-create-post-card {
+  background-color: #13221b !important;
+  border: 1px solid #24382d !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-card,
+[data-theme='dark'] .zenve-post-card {
+  background-color: #13221b !important;
+  border: 1px solid #24382d !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-header,
+[data-theme='dark'] .zenve-post-header {
+  background-color: transparent !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-author-name,
+[data-theme='dark'] .zenve-post-author-name {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-author-meta,
+[data-theme='dark'] .zenve-post-author-meta {
+  color: #8ca898 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-likes,
+[data-theme='dark'] .zenve-post-likes {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-caption-box,
+[data-theme='dark'] .zenve-post-caption-box {
+  color: #c8dcd1 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-caption-author,
+[data-theme='dark'] .zenve-post-caption-author {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-story-name,
+[data-theme='dark'] .zenve-story-name {
+  color: #dcece3 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-input,
+[data-theme='dark'] .zenve-post-input {
+  color: #e2ede6 !important;
+  background: transparent !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-input::placeholder,
+[data-theme='dark'] .zenve-post-input::placeholder {
+  color: #6a887a !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-pill,
+[data-theme='dark'] .zenve-post-pill {
+  background-color: #1a2d24 !important;
+  border: 1px solid #2e4638 !important;
+  color: #c8dcd1 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-tag-chip,
+[data-theme='dark'] .zenve-post-tag-chip {
+  background: #182a21 !important;
+  border: 1px solid #2a3f33 !important;
+  color: #9dbdad !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-tag-chip-selected,
+[data-theme='dark'] .zenve-tag-chip-selected {
+  background: #1e3d2d !important;
+  border-color: #4ade80 !important;
+  color: #4ade80 !important;
+}
+

@@ -43,11 +43,9 @@ export const PostCard = ({ post, onDoctorClick }) => {
   }, []);
 
   const handleLikeToggle = async () => {
-    setIsLiked((prev) => {
-      const next = !prev;
-      setLikesCount((count) => (next ? count + 1 : count - 1));
-      return next;
-    });
+    const nextIsLiked = !isLiked;
+    setIsLiked(nextIsLiked);
+    setLikesCount((prev) => (nextIsLiked ? prev + 1 : Math.max(0, prev - 1)));
 
     try {
       await postsApi.like(post.id);
