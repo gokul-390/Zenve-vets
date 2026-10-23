@@ -507,10 +507,10 @@
   border-radius: 15px;
   background: var(--search-white);
   box-shadow: var(--search-shadow);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+ 
 }
 
-.doctor-card:hover {
+.doctor-card:hover { 
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(84, 21, 34, 0.09);
 }
@@ -674,10 +674,45 @@
   color: var(--search-gold);
 }
 
-.doctor-card-actions {
+/* Doctor card actions — responsive layout */
+.search-page .doctor-card-actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.search-page .doctor-card-actions > .doctor-connect-button {
+  grid-column: 1 / -1;
+}
+
+.search-page .doctor-card-actions > .doctor-profile-button,
+.search-page .doctor-card-actions > .doctor-message-button {
+  min-width: 0;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 5px;
+  font-size: 11px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.search-page .doctor-card-actions > button svg {
+  flex-shrink: 0;
+}
+
+/* Keep labels readable on small screens */
+@media (max-width: 400px) {
+  .search-page .doctor-card-actions {
+    gap: 6px;
+  }
+
+  .search-page .doctor-card-actions > button {
+    gap: 4px;
+    padding: 8px 3px;
+    font-size: 10px;
+  }
 }
 
 .doctor-connect-button,
@@ -2362,4 +2397,86 @@ body.doctor-profile-open {
     top: 12px;
     right: 12px;
   }
+}
+/* ==========================================
+   SEARCH PAGE — DARK MODE TEXT CONTRAST
+   Keep burgundy text in Light Mode.
+   Use white text in Dark Mode.
+========================================== */
+
+.dark .search-page,
+.dark-mode .search-page,
+[data-theme="dark"] .search-page,
+[data-mode="dark"] .search-page,
+body.dark .search-page,
+body.dark-mode .search-page {
+  --search-forest: #FFFFFF;
+  --search-text: #F8F4EC;
+  --search-muted: #D6CFD0;
+}
+
+/* Headings and labels that use burgundy text */
+.dark .search-page h1,
+.dark .search-page h2,
+.dark .search-page h3,
+.dark .search-page .search-eyebrow,
+.dark .search-page .search-results-eyebrow,
+.dark .search-page .doctor-label,
+.dark .search-page .doctor-specialty,
+.dark .search-page .doctor-experience,
+.dark .search-page .doctor-location,
+.dark .search-page .doctor-community-status,
+.dark-mode .search-page h1,
+.dark-mode .search-page h2,
+.dark-mode .search-page h3,
+.dark-mode .search-page .search-eyebrow,
+.dark-mode .search-page .search-results-eyebrow,
+.dark-mode .search-page .doctor-label,
+.dark-mode .search-page .doctor-specialty,
+.dark-mode .search-page .doctor-experience,
+.dark-mode .search-page .doctor-location,
+.dark-mode .search-page .doctor-community-status,
+[data-theme="dark"] .search-page h1,
+[data-theme="dark"] .search-page h2,
+[data-theme="dark"] .search-page h3,
+[data-theme="dark"] .search-page .search-eyebrow,
+[data-theme="dark"] .search-page .search-results-eyebrow,
+[data-theme="dark"] .search-page .doctor-label,
+[data-theme="dark"] .search-page .doctor-specialty,
+[data-theme="dark"] .search-page .doctor-experience,
+[data-theme="dark"] .search-page .doctor-location,
+[data-theme="dark"] .search-page .doctor-community-status {
+  color: #FFFFFF;
+}
+
+/* Keep text on burgundy buttons white */
+.dark .search-page .doctor-connect-button,
+.dark .search-page .doctor-message-button,
+.dark-mode .search-page .doctor-connect-button,
+.dark-mode .search-page .doctor-message-button,
+[data-theme="dark"] .search-page .doctor-connect-button,
+[data-theme="dark"] .search-page .doctor-message-button {
+  color: #FFFFFF;
+}
+/* Remove dark background from doctor card body */
+.search-page .doctor-card-body {
+  background: #FFFDF9 !important;
+  background-image: none !important;
+  color: #392D2C;
+  opacity: 1;
+}
+
+/* Keep the card itself clean */
+.search-page .doctor-card {
+  background: #FFFDF9;
+  overflow: hidden;
+}
+
+/* Remove unwanted overlays or pseudo-element shading */
+.search-page .doctor-card-body::before,
+.search-page .doctor-card-body::after {
+  background: none !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+  content: none !important;
 }
