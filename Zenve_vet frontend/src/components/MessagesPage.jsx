@@ -593,7 +593,7 @@ if (typeof document !== 'undefined') {
       if (joinBtn) {
         try {
           sessionStorage.setItem('zenve_open_community_view', 'true');
-        } catch {}
+        } catch { }
       }
     },
     true
@@ -624,7 +624,7 @@ export const checkUserHasProfileOrIsLoggedIn = () => {
         const parsed = JSON.parse(customProfiles);
         if (Array.isArray(parsed) && parsed.length > 0) return true;
         if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) return true;
-      } catch {}
+      } catch { }
     }
 
     // 3. Check zenve_user (checked by MemberBenefitsPage.jsx)
@@ -760,7 +760,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       if (stored) {
         try {
           current = JSON.parse(stored);
-        } catch {}
+        } catch { }
       }
       const updated = [newVet, ...(Array.isArray(current) ? current : [])];
       localStorage.setItem('zenve_custom_vets', JSON.stringify(updated));
@@ -772,13 +772,13 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         if (storedProfiles) {
           try {
             currentProfiles = JSON.parse(storedProfiles);
-          } catch {}
+          } catch { }
         }
         localStorage.setItem(
           'zenve_custom_profiles',
           JSON.stringify([newVet, ...(Array.isArray(currentProfiles) ? currentProfiles : [])])
         );
-      } catch {}
+      } catch { }
 
       // 3. Sync zenve_user so MemberBenefitsPage and other pages know the user is logged in
       const userData = {
@@ -861,7 +861,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         sessionStorage.removeItem('zenve_open_community_view');
         return 'community';
       }
-    } catch {}
+    } catch { }
     return 'chats';
   });
 
@@ -888,22 +888,22 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 c.guidelines && c.guidelines.length > 0
                   ? c.guidelines
                   : defaultMatch?.guidelines || [
-                      {
-                        id: 1,
-                        title: 'Clinical Anonymization',
-                        desc: 'Mask all patient and owner identifying records before posting diagnostic media.',
-                      },
-                      {
-                        id: 2,
-                        title: 'Evidence-Based Practice',
-                        desc: 'Cite standard peer-reviewed protocols and pharmaceutical dosages.',
-                      },
-                      {
-                        id: 3,
-                        title: 'Collegial Collaboration',
-                        desc: 'Foster respectful, constructive differential discussions to elevate clinical care.',
-                      },
-                    ],
+                    {
+                      id: 1,
+                      title: 'Clinical Anonymization',
+                      desc: 'Mask all patient and owner identifying records before posting diagnostic media.',
+                    },
+                    {
+                      id: 2,
+                      title: 'Evidence-Based Practice',
+                      desc: 'Cite standard peer-reviewed protocols and pharmaceutical dosages.',
+                    },
+                    {
+                      id: 3,
+                      title: 'Collegial Collaboration',
+                      desc: 'Foster respectful, constructive differential discussions to elevate clinical care.',
+                    },
+                  ],
               adminId:
                 c.adminId ||
                 (c.createdBy?.includes('You') || c.id === 'comm-private-followers' ? 'me' : 'council'),
@@ -913,7 +913,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
           });
         }
       }
-    } catch {}
+    } catch { }
     return DEFAULT_COMMUNITIES;
   });
 
@@ -922,7 +922,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     try {
       const saved = localStorage.getItem('zenve_unseen_comm_counts');
       if (saved) return JSON.parse(saved);
-    } catch {}
+    } catch { }
     return {};
   });
 
@@ -938,7 +938,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     try {
       const saved = localStorage.getItem('zenve_active_community_id');
       if (saved) return saved;
-    } catch {}
+    } catch { }
     return 'comm-public-clinical';
   });
 
@@ -947,7 +947,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     try {
       const saved = localStorage.getItem('zenve_community_chat_history');
       if (saved) return JSON.parse(saved);
-    } catch {}
+    } catch { }
     return INITIAL_COMMUNITY_MESSAGES;
   });
 
@@ -1100,7 +1100,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const nextAll = { ...prev, [activeCommunityId]: updated };
         try {
           localStorage.setItem('zenve_community_chat_history', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     } else {
@@ -1112,7 +1112,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const nextAll = { ...prev, [selectedDoctorId]: updated };
         try {
           localStorage.setItem('zenve_chat_messages', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     }
@@ -1170,17 +1170,17 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const updated = list.map((m) =>
           m.id === msgId
             ? {
-                ...m,
-                isDeletedForEveryone: true,
-                text: 'This message was deleted',
-                attachment: null,
-              }
+              ...m,
+              isDeletedForEveryone: true,
+              text: 'This message was deleted',
+              attachment: null,
+            }
             : m
         );
         const nextAll = { ...prev, [activeCommunityId]: updated };
         try {
           localStorage.setItem('zenve_community_chat_history', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     } else {
@@ -1189,17 +1189,17 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const updated = list.map((m) =>
           m.id === msgId
             ? {
-                ...m,
-                isDeletedForEveryone: true,
-                text: 'This message was deleted',
-                attachment: null,
-              }
+              ...m,
+              isDeletedForEveryone: true,
+              text: 'This message was deleted',
+              attachment: null,
+            }
             : m
         );
         const nextAll = { ...prev, [selectedDoctorId]: updated };
         try {
           localStorage.setItem('zenve_chat_messages', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     }
@@ -1215,7 +1215,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const nextAll = { ...prev, [activeCommunityId]: updated };
         try {
           localStorage.setItem('zenve_community_chat_history', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     } else {
@@ -1225,7 +1225,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const nextAll = { ...prev, [selectedDoctorId]: updated };
         try {
           localStorage.setItem('zenve_chat_messages', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     }
@@ -1320,7 +1320,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         if (Array.isArray(parsed)) custom = parsed;
         else if (parsed && typeof parsed === 'object') custom = [parsed];
       }
-    } catch {}
+    } catch { }
     if (custom.length === 0) {
       try {
         const stored2 = localStorage.getItem('zenve_custom_profiles');
@@ -1329,7 +1329,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
           if (Array.isArray(parsed2)) custom = parsed2;
           else if (parsed2 && typeof parsed2 === 'object') custom = [parsed2];
         }
-      } catch {}
+      } catch { }
     }
 
     const existingIds = new Set(ALL_DIRECTORY_DOCTORS.map((d) => d.id));
@@ -1410,7 +1410,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       text: msg.text,
     });
     if (chatInputRef.current) {
-      chatInputRef.current.focus({ preventScroll: true });
+      chatInputRef.current.focus();
     }
   };
 
@@ -1445,10 +1445,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       attachment: currentAttachment,
       replyTo: currentQuoted
         ? {
-            id: currentQuoted.id,
-            senderName: currentQuoted.senderName,
-            text: currentQuoted.text,
-          }
+          id: currentQuoted.id,
+          senderName: currentQuoted.senderName,
+          text: currentQuoted.text,
+        }
         : null,
     };
 
@@ -1641,7 +1641,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       const nextAll = { ...prev, [commId]: channelMsgs };
       try {
         localStorage.setItem('zenve_community_chat_history', JSON.stringify(nextAll));
-      } catch {}
+      } catch { }
       return nextAll;
     });
   };
@@ -1770,7 +1770,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     setCommunities(updatedCommunities);
     try {
       localStorage.setItem('zenve_communities_list', JSON.stringify(updatedCommunities));
-    } catch {}
+    } catch { }
 
     if (nameChanged) {
       postSystemCommunityMessage(
@@ -1808,16 +1808,16 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     const updated = communities.map((c) =>
       c.id === commId
         ? {
-            ...c,
-            type: nextType,
-            avatar: nextType === 'public' ? '🌐' : '🔒',
-          }
+          ...c,
+          type: nextType,
+          avatar: nextType === 'public' ? '🌐' : '🔒',
+        }
         : c
     );
     setCommunities(updated);
     try {
       localStorage.setItem('zenve_communities_list', JSON.stringify(updated));
-    } catch {}
+    } catch { }
 
     postSystemCommunityMessage(
       commId,
@@ -1850,7 +1850,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     try {
       localStorage.setItem('zenve_communities_list', JSON.stringify(remaining));
       localStorage.setItem('zenve_active_community_id', nextId);
-    } catch {}
+    } catch { }
 
     setIsManageCommunityModalOpen(false);
     setShowMembersDrawer(false);
@@ -1884,7 +1884,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     setCommunities(updated);
     try {
       localStorage.setItem('zenve_communities_list', JSON.stringify(updated));
-    } catch {}
+    } catch { }
 
     postSystemCommunityMessage(
       activeCommunity.id,
@@ -1918,7 +1918,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     setCommunities(updated);
     try {
       localStorage.setItem('zenve_communities_list', JSON.stringify(updated));
-    } catch {}
+    } catch { }
 
     postSystemCommunityMessage(
       activeCommunity.id,
@@ -1982,7 +1982,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     try {
       localStorage.setItem('zenve_communities_list', JSON.stringify(updatedCommunities));
       localStorage.setItem('zenve_active_community_id', newId);
-    } catch {}
+    } catch { }
 
     // Initial system welcome message in the new community
     const now = new Date();
@@ -2006,7 +2006,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       const nextAll = { ...prev, [newId]: [welcomeMsg] };
       try {
         localStorage.setItem('zenve_community_chat_history', JSON.stringify(nextAll));
-      } catch {}
+      } catch { }
       return nextAll;
     });
 
@@ -2043,10 +2043,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       attachment: currentAttachment,
       replyTo: currentQuoted
         ? {
-            id: currentQuoted.id,
-            senderName: currentQuoted.senderName,
-            text: currentQuoted.text,
-          }
+          id: currentQuoted.id,
+          senderName: currentQuoted.senderName,
+          text: currentQuoted.text,
+        }
         : null,
     };
 
@@ -2059,7 +2059,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       const nextAll = { ...prev, [activeCommunity.id]: channelMsgs };
       try {
         localStorage.setItem('zenve_community_chat_history', JSON.stringify(nextAll));
-      } catch {}
+      } catch { }
       return nextAll;
     });
 
@@ -2202,7 +2202,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   const next = { ...prev, [activeCommunityId]: 0 };
                   try {
                     localStorage.setItem('zenve_unseen_comm_counts', JSON.stringify(next));
-                  } catch {}
+                  } catch { }
                   return next;
                 });
               }
@@ -2311,7 +2311,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         try {
                           localStorage.setItem('zenve_unseen_comm_counts', JSON.stringify(next));
                           localStorage.setItem('zenve_active_community_id', comm.id);
-                        } catch {}
+                        } catch { }
                         return next;
                       });
                       setShowMembersDrawer(false);
@@ -2354,9 +2354,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                             </span>
                           )}
                           <span
-                            className={`zenve-comm-type-pill ${
-                              isPub ? 'zenve-status-public' : 'zenve-status-private'
-                            }`}
+                            className={`zenve-comm-type-pill ${isPub ? 'zenve-status-public' : 'zenve-status-private'
+                              }`}
                           >
                             {isPub ? '🌐 Public' : '🔒 Private'}
                           </span>
@@ -2486,13 +2485,12 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                               )}
                             </p>
                             <span
-                              className={`zenve-contact-status-chip ${
-                                isFollowing
+                              className={`zenve-contact-status-chip ${isFollowing
                                   ? 'zenve-status-following'
                                   : doc.isFollower
-                                  ? 'zenve-status-follower'
-                                  : 'zenve-status-connect'
-                              }`}
+                                    ? 'zenve-status-follower'
+                                    : 'zenve-status-connect'
+                                }`}
                             >
                               {isFollowing ? 'Following' : doc.isFollower ? 'Follower' : '+ Follow'}
                             </span>
@@ -2538,9 +2536,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                           <div className="zenve-contact-bottom-row">
                             <p className="zenve-contact-preview">{doc.specialty}</p>
                             <span
-                              className={`zenve-contact-status-chip ${
-                                isFollowing ? 'zenve-status-following' : 'zenve-status-connect'
-                              }`}
+                              className={`zenve-contact-status-chip ${isFollowing ? 'zenve-status-following' : 'zenve-status-connect'
+                                }`}
                             >
                               {isFollowing ? 'Following' : '+ Follow'}
                             </span>
@@ -2592,11 +2589,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                     </div>
                     <p className="zenve-chat-header-sub">
                       <span
-                        className={`zenve-comm-mini-type-badge ${
-                          activeCommunity.type === 'public'
+                        className={`zenve-comm-mini-type-badge ${activeCommunity.type === 'public'
                             ? 'zenve-status-public'
                             : 'zenve-status-private'
-                        }`}
+                          }`}
                       >
                         {activeCommunity.type === 'public' ? '🌐 Public' : '🔒 Private'}
                       </span>
@@ -2650,11 +2646,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         type="button"
                         className="zenve-comm-action-btn zenve-toggle-privacy-btn"
                         onClick={() => handleToggleCommunityPrivacy(activeCommunity.id)}
-                        title={`Switch privacy to ${
-                          activeCommunity.type === 'public'
+                        title={`Switch privacy to ${activeCommunity.type === 'public'
                             ? 'Private (Followers Only)'
                             : 'Public (All Users)'
-                        }`}
+                          }`}
                       >
                         {activeCommunity.type === 'public' ? (
                           <>
@@ -2831,22 +2826,22 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         {(activeCommunity.guidelines && activeCommunity.guidelines.length > 0
                           ? activeCommunity.guidelines
                           : [
-                              {
-                                id: 1,
-                                title: 'Patient Anonymization',
-                                desc: 'Mask pet parent and patient identifying records prior to uploading radiographs or lab panels.',
-                              },
-                              {
-                                id: 2,
-                                title: 'Structured Signalment',
-                                desc: 'State species, breed, age, sex, and relevant comorbidity history for rapid differential guidance.',
-                              },
-                              {
-                                id: 3,
-                                title: 'Evidence-Based Therapeutics',
-                                desc: 'Cite peer-tested protocols and reference standard clinical pharmacology dosages.',
-                              },
-                            ]
+                            {
+                              id: 1,
+                              title: 'Patient Anonymization',
+                              desc: 'Mask pet parent and patient identifying records prior to uploading radiographs or lab panels.',
+                            },
+                            {
+                              id: 2,
+                              title: 'Structured Signalment',
+                              desc: 'State species, breed, age, sex, and relevant comorbidity history for rapid differential guidance.',
+                            },
+                            {
+                              id: 3,
+                              title: 'Evidence-Based Therapeutics',
+                              desc: 'Cite peer-tested protocols and reference standard clinical pharmacology dosages.',
+                            },
+                          ]
                         ).map((g, idx) => (
                           <div key={g.id || idx} className="zenve-guideline-item">
                             <span className="zenve-guideline-dot">{g.id || idx + 1}</span>
@@ -3415,9 +3410,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   </button>
                   <button
                     type="button"
-                    className={`zenve-follow-toggle-btn ${
-                      isFollowingSelected ? 'following' : 'not-following'
-                    }`}
+                    className={`zenve-follow-toggle-btn ${isFollowingSelected ? 'following' : 'not-following'
+                      }`}
                     onClick={() => handleToggleFollow(selectedDoctor.id)}
                     title={
                       isFollowingSelected ? 'Click to Unfollow' : 'Follow to enable messaging'
@@ -3444,223 +3438,1098 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   const isMe = msg.sender === 'me';
                   const isReplyingToThis = replyingTo?.id === msg.id;
 
-                return (
-                  <div
-                    key={msg.id}
-                    className={`zenve-chat-bubble-wrap ${isMe ? 'sent' : 'received'} ${isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
-                      }`}
-                    onClick={() => handleSelectMessageToReply(msg)}
-                    title="Click this message to reply to it"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleSelectMessageToReply(msg);
-                    }}
-                  >
-                    {/* Quoted Reply Reference Box */}
-                    {msg.replyTo && (
-                      <div className="zenve-chat-quoted-box">
-                        <div className="zenve-quoted-author">
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="9 17 4 12 9 7" />
-                            <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                          </svg>
-                          <span>{msg.replyTo.senderName}</span>
-                        </div>
-                        <p className="zenve-quoted-text">{msg.replyTo.text}</p>
-                      </div>
-                    )}
-
-                    <div className={`zenve-chat-bubble ${isMe ? 'sent' : 'received'}`}>
-                      <span>{msg.text}</span>
-                      <button
-                        type="button"
-                        className="zenve-bubble-reply-action-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSelectMessageToReply(msg);
-                        }}
-                        title="Reply to message"
-                        aria-label="Reply to message"
-                      >
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="9 17 4 12 9 7" />
-                          <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                        </svg>
-                        <span>Reply</span>
-                      </button>
-                    </div>
-
-                    <div className="zenve-chat-meta">
-                      <span>{msg.time}</span>
-                      {isMe && <span className="zenve-chat-check">✓✓</span>}
-                      <span className="zenve-click-hint">💬 Click to reply</span>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {/* Typing indicator while doctor prepares reply */}
-              {isTyping && (
-                <div className="zenve-typing-indicator" aria-label="Doctor is typing">
-                  <span className="zenve-typing-dot" />
-                  <span className="zenve-typing-dot" />
-                  <span className="zenve-typing-dot" />
-                  <span className="zenve-typing-label">
-                    {selectedDoctor.name.split(' ')[0]} is typing...
-                  </span>
-                </div>
-              )}
-
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Suggested quick case consultation prompts */}
-            {isFollowingSelected && (
-              <div className="zenve-quick-prompts-row">
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Hello Doctor, could I consult with you regarding a clinical case?')
-                  }
-                >
-                  🩺 Clinical case consultation
-                </button>
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Excellent case presentation on your feed! What was the post-op protocol?')
-                  }
-                >
-                  👏 Compliment case post
-                </button>
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Are you available for a peer referral in your specialty?')
-                  }
-                >
-                  🤝 Refer a patient
-                </button>
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Could you share your diagnostic protocol and radiographs for this?')
-                  }
-                >
-                  📸 Diagnostic review
-                </button>
-              </div>
-            )}
-
-            {/* Bottom: Input Composer OR Follow Notice ("following persons only send msg and reply msg") */}
-            {isFollowingSelected ? (
-              <div className="zenve-chat-composer-wrapper">
-                {/* Active Replying Bar Preview */}
-                {replyingTo && (
-                  <div className="zenve-chat-replying-bar">
-                    <div className="zenve-replying-bar-left">
-                      <div className="zenve-replying-bar-icon">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="9 17 4 12 9 7" />
-                          <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                        </svg>
-                      </div>
-                      <div className="zenve-replying-bar-text">
-                        <span className="zenve-replying-bar-author">
-                          Replying to {replyingTo.senderName}
-                        </span>
-                        <span className="zenve-replying-bar-snippet">
-                          {replyingTo.text}
-                        </span>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      className="zenve-replying-bar-close"
-                      onClick={handleCancelReply}
-                      title="Cancel reply"
-                      aria-label="Cancel reply"
+                  return (
+                    <div
+                      key={msg.id}
+                      className={`zenve-wa-msg-row ${isMe ? 'wa-sent' : 'wa-received'} ${isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
+                        }`}
                     >
-                      ✕
-                    </button>
+                      <div className={`zenve-wa-bubble ${isMe ? 'bubble-sent' : 'bubble-received'}`}>
+                        {/* Quoted Reply Reference Box inside WhatsApp Bubble */}
+                        {msg.replyTo && (
+                          <div className="zenve-wa-reply-quote">
+                            <span className="zenve-wa-quote-author">{msg.replyTo.senderName}</span>
+                            <p className="zenve-wa-quote-text">{msg.replyTo.text}</p>
+                          </div>
+                        )}
+
+                        {/* Attachment display inside bubble */}
+                        {msg.attachment && !msg.isDeletedForEveryone && (
+                          <div className="zenve-wa-bubble-attachment">
+                            {msg.attachment.isImage ? (
+                              <div className="zenve-wa-msg-img-wrap">
+                                <img
+                                  src={msg.attachment.dataUrl}
+                                  alt={msg.attachment.name}
+                                  className="zenve-wa-msg-image"
+                                  onClick={() => window.open(msg.attachment.dataUrl, '_blank')}
+                                  title="Click to view full image"
+                                />
+                              </div>
+                            ) : (
+                              <div className="zenve-wa-msg-doc-card">
+                                <div className="zenve-wa-doc-icon-wrap">
+                                  <FileText size={22} color="#1D3B2F" />
+                                </div>
+                                <div className="zenve-wa-doc-info">
+                                  <span className="zenve-wa-doc-name" title={msg.attachment.name}>
+                                    {msg.attachment.name}
+                                  </span>
+                                  <span className="zenve-wa-doc-size">{msg.attachment.size}</span>
+                                </div>
+                                <a
+                                  href={msg.attachment.dataUrl}
+                                  download={msg.attachment.name}
+                                  className="zenve-wa-doc-download-btn"
+                                  title="Download attachment"
+                                >
+                                  <Download size={15} />
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Deleted Message Tombstone */}
+                        {msg.isDeletedForEveryone ? (
+                          <div className="zenve-wa-deleted-msg">
+                            <span className="zenve-wa-deleted-icon">🚫</span>
+                            <span className="zenve-wa-deleted-text">
+                              {(msg.text ? msg.text.replace(/^[🚫\s]+/, '') : '') || 'This message was deleted'}
+                            </span>
+                            <span className="zenve-wa-meta-inline">
+                              <span className="zenve-wa-time">{msg.time}</span>
+                            </span>
+                          </div>
+                        ) : editingMessage?.id === msg.id && editingMessage?.context === 'direct' ? (
+                          /* Inline Edit Box */
+                          <div className="zenve-wa-inline-edit-box">
+                            <input
+                              type="text"
+                              className="zenve-wa-inline-edit-input"
+                              value={editingMessage.text}
+                              onChange={(e) =>
+                                setEditingMessage((prev) => ({ ...prev, text: e.target.value }))
+                              }
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleSaveEdit('direct', msg.id, editingMessage.text);
+                                if (e.key === 'Escape') setEditingMessage(null);
+                              }}
+                              autoFocus
+                            />
+                            <div className="zenve-wa-inline-edit-actions">
+                              <button
+                                type="button"
+                                className="zenve-wa-edit-btn save"
+                                onClick={() => handleSaveEdit('direct', msg.id, editingMessage.text)}
+                                title="Save edit (Enter)"
+                              >
+                                <Check size={14} />
+                              </button>
+                              <button
+                                type="button"
+                                className="zenve-wa-edit-btn cancel"
+                                onClick={() => setEditingMessage(null)}
+                                title="Cancel (Esc)"
+                              >
+                                <X size={14} />
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          /* Standard Message Text Content */
+                          <div className="zenve-wa-text-content">
+                            <span className="zenve-wa-msg-text">{msg.text}</span>
+                            <span className="zenve-wa-meta-inline">
+                              {msg.isEdited && <span className="zenve-wa-edited-badge">(edited)</span>}
+                              <span className="zenve-wa-time">{msg.time}</span>
+                              {isMe && <span className="zenve-wa-checks">✓✓</span>}
+                            </span>
+
+                            {/* Dropdown Menu Trigger for Reply / Edit / Delete */}
+                            <div className="zenve-wa-msg-actions-wrap">
+                              <button
+                                type="button"
+                                className="zenve-wa-msg-actions-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveMenuMsgId((prev) => (prev === msg.id ? null : msg.id));
+                                }}
+                                title="Message options"
+                                aria-label="Message options"
+                              >
+                                <MoreVertical size={13} />
+                              </button>
+                              {activeMenuMsgId === msg.id && (
+                                <div className="zenve-wa-dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                  <button
+                                    type="button"
+                                    className="zenve-wa-menu-item"
+                                    onClick={() => {
+                                      handleSelectMessageToReply(msg);
+                                      setActiveMenuMsgId(null);
+                                    }}
+                                  >
+                                    <CornerUpLeft size={13} />
+                                    <span>Reply</span>
+                                  </button>
+                                  {isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg) && (
+                                    <button
+                                      type="button"
+                                      className="zenve-wa-menu-item"
+                                      onClick={() => {
+                                        setEditingMessage({ id: msg.id, text: msg.text, context: 'direct' });
+                                        setActiveMenuMsgId(null);
+                                      }}
+                                    >
+                                      <Edit2 size={13} />
+                                      <span>Edit message</span>
+                                    </button>
+                                  )}
+                                  <button
+                                    type="button"
+                                    className="zenve-wa-menu-item danger"
+                                    onClick={() => {
+                                      const canEveryone = isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg);
+                                      setDeleteTarget({
+                                        id: msg.id,
+                                        context: 'direct',
+                                        isMe,
+                                        canDeleteForEveryone: canEveryone,
+                                        text: msg.text,
+                                      });
+                                      setActiveMenuMsgId(null);
+                                    }}
+                                  >
+                                    <Trash2 size={13} />
+                                    <span>Delete message</span>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Typing indicator while doctor prepares reply */}
+                {isTyping && (
+                  <div className="zenve-typing-indicator" aria-label="Doctor is typing">
+                    <span className="zenve-typing-dot" />
+                    <span className="zenve-typing-dot" />
+                    <span className="zenve-typing-dot" />
+                    <span className="zenve-typing-label">
+                      {selectedDoctor.name.split(' ')[0]} is typing...
+                    </span>
                   </div>
                 )}
 
-                <div className="zenve-chat-composer">
-                  <div className="zenve-chat-input-wrap">
-                    <input
-                      ref={chatInputRef}
-                      type="text"
-                      className="zenve-chat-input"
-                      placeholder={
-                        replyingTo
-                          ? `Write a reply to ${replyingTo.senderName}...`
-                          : `Write a message to ${selectedDoctor.name}...`
-                      }
-                      value={messageInput}
-                      onChange={(e) => setMessageInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      disabled={isTyping}
-                    />
-                  </div>
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Suggested quick case consultation prompts */}
+              {isFollowingSelected && (
+                <div className="zenve-quick-prompts-row">
                   <button
                     type="button"
-                    className="zenve-chat-send-btn"
-                    onClick={() => handleSendMessage()}
-                    disabled={!messageInput.trim() || isTyping}
-                    title="Send message (Enter)"
-                    aria-label="Send message"
+                    className="zenve-quick-prompt-btn"
+                    onClick={() =>
+                      handleSendMessage(
+                        'Hello Doctor, could I consult with you regarding a clinical case?'
+                      )
+                    }
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="22" y1="2" x2="11" y2="13" />
-                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                    </svg>
+                    🩺 Clinical case consultation
+                  </button>
+                  <button
+                    type="button"
+                    className="zenve-quick-prompt-btn"
+                    onClick={() =>
+                      handleSendMessage(
+                        'Excellent case presentation on your feed! What was the post-op protocol?'
+                      )
+                    }
+                  >
+                    👏 Compliment case post
+                  </button>
+                  <button
+                    type="button"
+                    className="zenve-quick-prompt-btn"
+                    onClick={() =>
+                      handleSendMessage('Are you available for a peer referral in your specialty?')
+                    }
+                  >
+                    🤝 Refer a patient
+                  </button>
+                  <button
+                    type="button"
+                    className="zenve-quick-prompt-btn"
+                    onClick={() =>
+                      handleSendMessage(
+                        'Could you share your diagnostic protocol and radiographs for this?'
+                      )
+                    }
+                  >
+                    📸 Diagnostic review
                   </button>
                 </div>
-              </div>
-            ) : (
-              <div className="zenve-chat-restricted-banner">
-                <div className="zenve-restricted-icon-wrap">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                  </svg>
+              )}
+
+              {/* Bottom: Input Composer OR Follow Notice */}
+              {isFollowingSelected ? (
+                <div className="zenve-chat-composer-wrapper">
+                  {/* Active Replying Bar Preview */}
+                  {replyingTo && (
+                    <div className="zenve-chat-replying-bar">
+                      <div className="zenve-replying-bar-left">
+                        <div className="zenve-replying-bar-icon">
+                          <CornerUpLeft size={13} />
+                        </div>
+                        <div className="zenve-replying-bar-text">
+                          <span className="zenve-replying-bar-author">
+                            Replying to {replyingTo.senderName}
+                          </span>
+                          <span className="zenve-replying-bar-snippet">{replyingTo.text}</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        className="zenve-replying-bar-close"
+                        onClick={handleCancelReply}
+                        title="Cancel reply"
+                        aria-label="Cancel reply"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Pending Direct Attachment Bar Preview */}
+                  {directAttachment && (
+                    <div className="zenve-wa-attachment-bar">
+                      <div className="zenve-wa-attach-preview-box">
+                        {directAttachment.isImage ? (
+                          <img
+                            src={directAttachment.dataUrl}
+                            alt={directAttachment.name}
+                            className="zenve-wa-attach-img-thumb"
+                          />
+                        ) : (
+                          <div className="zenve-wa-attach-icon-wrap">
+                            <FileText size={20} color="#1D3B2F" />
+                          </div>
+                        )}
+                        <div className="zenve-wa-attach-details">
+                          <span className="zenve-wa-attach-filename">{directAttachment.name}</span>
+                          <span className="zenve-wa-attach-size">{directAttachment.size}</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        className="zenve-wa-attach-remove-btn"
+                        onClick={() => setDirectAttachment(null)}
+                        title="Remove attachment"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+
+                  {/* WhatsApp Interactive Emoji Picker Popover for Direct Chat */}
+                  {showEmojiPicker === 'direct' && (
+                    <div className="zenve-wa-emoji-popover" onClick={(e) => e.stopPropagation()}>
+                      <div className="zenve-wa-emoji-tabs">
+                        {EMOJI_TABS.map((tab) => (
+                          <button
+                            key={tab.id}
+                            type="button"
+                            className={`zenve-wa-emoji-tab-btn ${activeEmojiTab === tab.id ? 'active' : ''}`}
+                            onClick={() => setActiveEmojiTab(tab.id)}
+                            title={tab.title}
+                          >
+                            <span>{tab.label}</span>
+                            <span className="zenve-wa-emoji-tab-label">{tab.title.split(' ')[0]}</span>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="zenve-wa-emoji-grid">
+                        {((EMOJI_TABS.find((t) => t.id === activeEmojiTab) || EMOJI_TABS[0]).emojis || []).map((emoji, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            className="zenve-wa-emoji-btn"
+                            onClick={() => setMessageInput((prev) => prev + emoji)}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Hidden File Input for Direct Chat */}
+                  <input
+                    type="file"
+                    ref={directFileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={(e) => handleFileUpload(e, 'direct')}
+                  />
+
+                  <div className="zenve-wa-composer-dock">
+                    <button
+                      type="button"
+                      className={`zenve-wa-dock-icon-btn ${showEmojiPicker === 'direct' ? 'active' : ''}`}
+                      title="Choose emoji"
+                      aria-label="Choose emoji"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowEmojiPicker((prev) => (prev === 'direct' ? null : 'direct'));
+                      }}
+                    >
+                      <Smile size={20} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`zenve-wa-dock-icon-btn ${directAttachment ? 'has-file' : ''}`}
+                      title="Upload clinical document, radiograph or lab panel"
+                      aria-label="Upload file"
+                      onClick={() => directFileInputRef.current?.click()}
+                    >
+                      <Paperclip size={20} />
+                    </button>
+                    <div className="zenve-wa-input-container">
+                      <input
+                        ref={chatInputRef}
+                        type="text"
+                        className="zenve-wa-input"
+                        placeholder={
+                          replyingTo
+                            ? `Write a reply to ${replyingTo.senderName}...`
+                            : `Type a message to ${selectedDoctor.name}...`
+                        }
+                        value={messageInput}
+                        onChange={(e) => setMessageInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        disabled={isTyping}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="zenve-wa-send-btn"
+                      onClick={() => handleSendMessage()}
+                      disabled={(!messageInput.trim() && !directAttachment) || isTyping}
+                      title="Send message (Enter)"
+                      aria-label="Send message"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#ffffff"
+                        strokeWidth="2.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <h4 className="zenve-restricted-title">Direct Messaging Restricted</h4>
-                <p className="zenve-restricted-desc">
-                  To protect our veterinary community from unsolicited spam, you can only send and
-                  receive messages with persons you follow. Follow <strong>{selectedDoctor.name}</strong> to
-                  send a message and receive replies.
+              ) : (
+                <div className="zenve-chat-restricted-banner">
+                  <div className="zenve-restricted-icon-wrap">
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                  </div>
+                  <h4 className="zenve-restricted-title">Direct Messaging Restricted</h4>
+                  <p className="zenve-restricted-desc">
+                    To protect our veterinary community from unsolicited spam, you can only send and
+                    receive messages with persons you follow. Follow{' '}
+                    <strong>{selectedDoctor.name}</strong> to send a message and receive replies.
+                  </p>
+                  <button
+                    type="button"
+                    className="zenve-restricted-follow-btn"
+                    onClick={() => handleToggleFollow(selectedDoctor.id)}
+                  >
+                    <span>+ Follow {selectedDoctor.name}</span>
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="zenve-chat-no-selection">
+              <div className="zenve-chat-no-selection-icon">
+                <MessagesIcon size={32} color="#3D0D18" />
+              </div>
+              <h3 className="zenve-chat-no-selection-title">Select a Conversation</h3>
+              <p className="zenve-chat-no-selection-desc">
+                Search your followers or community veterinarians on the left to start a professional
+                clinical discussion.
+              </p>
+            </div>
+          )
+        )}
+      </main>
+
+      {/* ── CREATE COMMUNITY MODAL ─────────────────────────────────────── */}
+      {isCreateCommunityModalOpen && (
+        <div
+          className="zenve-create-comm-modal-overlay"
+          onClick={() => setIsCreateCommunityModalOpen(false)}
+        >
+          <div
+            className="zenve-modal-card zenve-create-comm-modal-card"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="zenve-create-comm-title"
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              className="zenve-modal-close"
+              onClick={() => setIsCreateCommunityModalOpen(false)}
+              title="Close modal"
+              aria-label="Close modal"
+            >
+              <X size={18} />
+            </button>
+
+            {/* Modal Header */}
+            <div className="zenve-modal-header">
+              <div className="zenve-modal-header-badge">
+                <Sparkles size={11} color="#f7cb08" />
+                <span>NEW COMMUNITY</span>
+              </div>
+              <h3 id="zenve-create-comm-title" className="zenve-modal-title">
+                Create a Veterinary Community
+              </h3>
+              <p className="zenve-modal-subtitle">
+                Collaborate across India or establish a private clinical circle for your followers.
+              </p>
+            </div>
+
+            <form onSubmit={handleCreateNewCommunity} className="zenve-create-comm-form">
+              {/* Community Name */}
+              <div className="zenve-form-group">
+                <label className="zenve-form-label">
+                  Community Name <span className="zenve-required-star">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  className="zenve-form-input"
+                  placeholder="e.g., Canine Orthopedic Specialists, Emergency Care Circle"
+                  value={newCommName}
+                  onChange={(e) => setNewCommName(e.target.value)}
+                />
+              </div>
+
+              {/* Specialization / Category */}
+              <div className="zenve-form-group">
+                <label className="zenve-form-label">Clinical Category</label>
+                <select
+                  className="zenve-form-select"
+                  value={newCommCategory}
+                  onChange={(e) => setNewCommCategory(e.target.value)}
+                >
+                  <option value="General Surgery & Medicine">General Surgery & Medicine</option>
+                  <option value="Orthopedic Surgery & Trauma">Orthopedic Surgery & Trauma</option>
+                  <option value="Dermatology & Allergy Practice">
+                    Dermatology & Allergy Practice
+                  </option>
+                  <option value="Equine Sports Medicine">Equine Sports Medicine</option>
+                  <option value="Small Animal Internal Medicine">
+                    Small Animal Internal Medicine
+                  </option>
+                  <option value="Exotic & Avian Care">Exotic & Avian Care</option>
+                  <option value="Rehabilitation & Physiotherapy">
+                    Rehabilitation & Physiotherapy
+                  </option>
+                </select>
+              </div>
+
+              {/* Privacy Type Selector: Public (All Users) vs Private (Followers Only) */}
+              <div className="zenve-form-group">
+                <label className="zenve-form-label">
+                  Privacy Level & Membership <span className="zenve-required-star">*</span>
+                </label>
+                <div className="zenve-privacy-selection-grid">
+                  {/* Public Card */}
+                  <div
+                    className={`zenve-privacy-card ${newCommType === 'public' ? 'selected' : ''}`}
+                    onClick={() => setNewCommType('public')}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="zenve-privacy-card-icon">🌐</div>
+                    <div className="zenve-privacy-card-content">
+                      <div className="zenve-privacy-card-title-row">
+                        <span className="zenve-privacy-card-title">Public Community</span>
+                        <span className="zenve-privacy-badge-pill public">All Users</span>
+                      </div>
+                      <p className="zenve-privacy-card-desc">
+                        Open to <strong>all platform users</strong> across India. Every registered
+                        veterinarian is included and can collaborate.
+                      </p>
+                      <span className="zenve-privacy-member-count-note">
+                        👥 Includes: All {allPlatformUsers.length} Platform Doctors
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Private Card */}
+                  <div
+                    className={`zenve-privacy-card ${newCommType === 'private' ? 'selected' : ''}`}
+                    onClick={() => setNewCommType('private')}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="zenve-privacy-card-icon">🔒</div>
+                    <div className="zenve-privacy-card-content">
+                      <div className="zenve-privacy-card-title-row">
+                        <span className="zenve-privacy-card-title">Private Community</span>
+                        <span className="zenve-privacy-badge-pill private">Followers Only</span>
+                      </div>
+                      <p className="zenve-privacy-card-desc">
+                        Restricted <strong>strictly to your followers</strong>. Non-followers cannot
+                        view, join, or read messages.
+                      </p>
+                      <span className="zenve-privacy-member-count-note">
+                        🔒 Includes: Only your {followerDoctors.length} Followers
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dynamic Live Member Preview Box */}
+              <div className="zenve-members-preview-box">
+                <div className="zenve-preview-header-row">
+                  <span className="zenve-preview-title">
+                    {newCommType === 'public'
+                      ? `Included Members: All Platform Users (${allPlatformUsers.length} Doctors)`
+                      : `Included Members: Followers Only (${followerDoctors.length} Doctors)`}
+                  </span>
+                  <span
+                    className={`zenve-preview-badge ${newCommType === 'public' ? 'pub' : 'priv'}`}
+                  >
+                    {newCommType === 'public' ? '🌐 All Users Included' : '🔒 Followers Only'}
+                  </span>
+                </div>
+                <p className="zenve-preview-explainer">
+                  {newCommType === 'public'
+                    ? 'All platform doctors across India will be shown and can join this public community.'
+                    : 'Only your followers will be shown and can join this private community. Non-followers are excluded.'}
                 </p>
+
+                <div className="zenve-preview-avatars-row">
+                  {(newCommType === 'public' ? allPlatformUsers : followerDoctors).map((doc) => (
+                    <div
+                      key={doc.id}
+                      className="zenve-preview-doc-chip"
+                      title={`${doc.name} (${doc.specialty})`}
+                    >
+                      <img src={doc.img} alt={doc.name} className="zenve-preview-doc-img" />
+                      <div className="zenve-preview-doc-info">
+                        <span className="zenve-preview-doc-name">{doc.name}</span>
+                        <span className="zenve-preview-doc-specialty">{doc.specialty}</span>
+                      </div>
+                      <span
+                        className={`zenve-preview-doc-tag ${newCommType === 'private' ? 'follower' : 'all'
+                          }`}
+                      >
+                        {newCommType === 'private' ? '✓ Follower' : 'All Users'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="zenve-form-group">
+                <label className="zenve-form-label">Description / Clinical Purpose (Optional)</label>
+                <textarea
+                  className="zenve-form-textarea"
+                  rows={2}
+                  placeholder="Outline the case types, protocols, or consultation topics for this community..."
+                  value={newCommDesc}
+                  onChange={(e) => setNewCommDesc(e.target.value)}
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="zenve-create-comm-modal-actions">
                 <button
                   type="button"
-                  className="zenve-restricted-follow-btn"
-                  onClick={() => handleToggleFollow(selectedDoctor.id)}
+                  className="zenve-comm-btn-cancel"
+                  onClick={() => setIsCreateCommunityModalOpen(false)}
                 >
-                  <span>+ Follow {selectedDoctor.name}</span>
+                  Cancel
+                </button>
+                <button type="submit" className="zenve-comm-btn-submit">
+                  Create {newCommType === 'public' ? 'Public' : 'Private'} Community
                 </button>
               </div>
-            )}
-          </>
-        ) : (
-          <div className="zenve-chat-no-selection">
-            <div className="zenve-chat-no-selection-icon">
-              <MessagesIcon size={32} color="#3D0D18" />
-            </div>
-            <h3 className="zenve-chat-no-selection-title">Select a Conversation</h3>
-            <p className="zenve-chat-no-selection-desc">
-              Search your followers or community veterinarians on the left to start a professional
-              clinical discussion.
-            </p>
+            </form>
           </div>
-        )
+        </div>
       )}
-      </main>
+
+      {/* ── UNIFIED COMMUNITY MANAGEMENT & MEMBERS POPUP MODAL (MATCHING UPLOADED DESIGN) ── */}
+      {isManageCommunityModalOpen && activeCommunity && (
+        <div
+          className="zenve-modal-overlay"
+          onClick={handleCloseManageCommunityModal}
+        >
+          <div
+            className="zenve-modal-card zenve-manage-modal-card"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="zenve-manage-modal-title"
+          >
+            {/* Close Button matching uploaded image */}
+            <button
+              type="button"
+              className="zenve-modal-close"
+              onClick={handleCloseManageCommunityModal}
+              title="Close modal"
+              aria-label="Close modal"
+            >
+              <X size={18} />
+            </button>
+
+            {/* Modal Header with rich Burgundy Gradient matching uploaded design */}
+            <div className="zenve-modal-header">
+              <div className="zenve-modal-header-badge">
+                <Sparkles size={11} color="#f7cb08" />
+                <span>
+                  {manageModalActiveTab === 'details'
+                    ? 'GROUP ADMIN CONTROLS'
+                    : manageModalActiveTab === 'members'
+                      ? 'COMMUNITY MEMBERSHIP'
+                      : 'INVITE SPECIALISTS'}
+                </span>
+              </div>
+              <h3 id="zenve-manage-modal-title" className="zenve-modal-title">
+                {manageModalActiveTab === 'details'
+                  ? `Manage Community: ${activeCommunity.name}`
+                  : manageModalActiveTab === 'members'
+                    ? `Members of ${activeCommunity.name}`
+                    : `Invite Doctors to ${activeCommunity.name}`}
+              </h3>
+              <p className="zenve-modal-subtitle">
+                {manageModalActiveTab === 'details'
+                  ? 'Group Admin executive controls • Configure details, clinical category, or privacy.'
+                  : manageModalActiveTab === 'members'
+                    ? `Verified platform veterinarians collaborating in this ${activeCommunity.type === 'public' ? 'public forum' : 'private circle'}.`
+                    : 'Expand your peer network by inviting verified veterinary specialists across India.'}
+              </p>
+            </div>
+
+            {/* Segmented Tab Navigation Switcher */}
+            <div className="zenve-modal-tab-switcher">
+              {isCurrentUserAdmin && (
+                <button
+                  type="button"
+                  className={`zenve-modal-tab-btn ${manageModalActiveTab === 'details' ? 'active' : ''}`}
+                  onClick={() => setManageModalActiveTab('details')}
+                >
+                  <Settings size={14} />
+                  <span>Group Details</span>
+                </button>
+              )}
+              <button
+                type="button"
+                className={`zenve-modal-tab-btn ${manageModalActiveTab === 'members' ? 'active' : ''}`}
+                onClick={() => setManageModalActiveTab('members')}
+              >
+                <Users size={14} />
+                <span>Members ({currentCommunityMembers.length})</span>
+              </button>
+              {isCurrentUserAdmin && (
+                <button
+                  type="button"
+                  className={`zenve-modal-tab-btn ${manageModalActiveTab === 'invite' ? 'active' : ''}`}
+                  onClick={() => setManageModalActiveTab('invite')}
+                >
+                  <UserPlus size={14} />
+                  <span>Invite Doctors ({doctorsAvailableToInvite.length})</span>
+                </button>
+              )}
+            </div>
+
+            {/* Modal Scrollable Body */}
+            <div className="zenve-modal-body">
+              {/* Notice Box matching uploaded image with burgundy left bar */}
+              <div className="zenve-modal-notice">
+                <p>
+                  {manageModalActiveTab === 'details'
+                    ? `This community is ${activeCommunity.type === 'public' ? 'Public (All 9 platform doctors across India are included)' : 'Private (Restricted exclusively to your followers & invited members)'}. Changes made take effect immediately.`
+                    : manageModalActiveTab === 'members'
+                      ? `Showing ${filteredCommunityMembers.length} active practitioners in "${activeCommunity.name}". All members are verified veterinary professionals.`
+                      : `Select from ${doctorsAvailableToInvite.length} verified platform veterinarians across India to invite them to this clinical discussion.`}
+                </p>
+              </div>
+
+              {/* TAB 1: GROUP DETAILS (ADMIN ONLY) */}
+              {manageModalActiveTab === 'details' && (
+                <form onSubmit={handleSaveAdminSettings} className="zenve-modal-form">
+                  <div className="zenve-form-grid">
+                    {/* Community Name */}
+                    <div className="zenve-form-group">
+                      <label className="zenve-form-label">
+                        Community Name <span className="zenve-required-star">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        className="zenve-form-input"
+                        value={editCommName}
+                        onChange={(e) => setEditCommName(e.target.value)}
+                        placeholder="e.g. Canine Orthopedic Specialists"
+                      />
+                    </div>
+
+                    {/* Clinical Category */}
+                    <div className="zenve-form-group">
+                      <label className="zenve-form-label">Clinical Category</label>
+                      <select
+                        className="zenve-form-input zenve-form-select"
+                        value={editCommCategory}
+                        onChange={(e) => setEditCommCategory(e.target.value)}
+                      >
+                        <option value="General Surgery & Medicine">General Surgery & Medicine</option>
+                        <option value="Orthopedic Surgery & Trauma">Orthopedic Surgery & Trauma</option>
+                        <option value="Dermatology & Allergy Practice">Dermatology & Allergy Practice</option>
+                        <option value="Equine Sports Medicine">Equine Sports Medicine</option>
+                        <option value="Small Animal Internal Medicine">Small Animal Internal Medicine</option>
+                        <option value="Exotic & Avian Care">Exotic & Avian Care</option>
+                        <option value="Rehabilitation & Physiotherapy">Rehabilitation & Physiotherapy</option>
+                      </select>
+                    </div>
+
+                    {/* Community Privacy Level */}
+                    <div className="zenve-form-group">
+                      <label className="zenve-form-label">Privacy Level</label>
+                      <select
+                        className="zenve-form-input zenve-form-select"
+                        value={editCommType}
+                        onChange={(e) => setEditCommType(e.target.value)}
+                      >
+                        <option value="public">🌐 Public (All Users Across India)</option>
+                        <option value="private">🔒 Private (Followers & Invited)</option>
+                      </select>
+                    </div>
+
+                    {/* Community Admin (Read-only) */}
+                    <div className="zenve-form-group">
+                      <label className="zenve-form-label">Group Admin</label>
+                      <input
+                        type="text"
+                        disabled
+                        className="zenve-form-input zenve-form-input-disabled"
+                        value="👑 You (Group Admin)"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Community Description */}
+                  <div className="zenve-form-group">
+                    <label className="zenve-form-label">Clinical Guidelines & Focus Areas</label>
+                    <textarea
+                      className="zenve-form-textarea"
+                      rows={3}
+                      placeholder="Outline patient case categories, surgical protocols, or diagnostic review standards..."
+                      value={editCommDesc}
+                      onChange={(e) => setEditCommDesc(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Unique Group Invite Code & Link */}
+                  <div className="zenve-form-group">
+                    <label className="zenve-form-label">Unique Community Invite Code & Share Link</label>
+                    <div className="zenve-modal-code-row">
+                      <div className="zenve-modal-code-pill">
+                        <span className="zenve-modal-code-label">CODE:</span>
+                        <strong className="zenve-modal-code-val">
+                          {activeCommunity.inviteCode || 'ZN-IND-9021'}
+                        </strong>
+                      </div>
+                      <button
+                        type="button"
+                        className="zenve-drawer-action-btn"
+                        onClick={handleCopyInviteCodeOnly}
+                        title="Copy unique group code"
+                      >
+                        {copiedCodeOnly ? <Check size={13} color="#16a34a" /> : <Copy size={13} />}
+                        <span>{copiedCodeOnly ? 'Code Copied!' : 'Copy Code'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="zenve-drawer-action-btn primary"
+                        onClick={handleCopyCommunityLink}
+                        title="Copy unique invite link"
+                      >
+                        {copiedCommLink ? <Check size={13} color="#ffffff" /> : <Share2 size={13} />}
+                        <span>{copiedCommLink ? 'Link Copied!' : 'Copy Link'}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Danger Zone: Delete Community */}
+                  <div className="zenve-modal-danger-box">
+                    <div className="zenve-modal-danger-info">
+                      <span className="zenve-modal-danger-title">Delete this Community</span>
+                      <span className="zenve-modal-danger-desc">
+                        Permanently delete this community group and its consultation history.
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className="zenve-modal-danger-btn"
+                      onClick={() => handleDeleteCommunity(activeCommunity.id)}
+                    >
+                      <Trash2 size={13} />
+                      <span>Delete Group</span>
+                    </button>
+                  </div>
+
+                  {/* Action Buttons matching screenshot */}
+                  <div className="zenve-modal-actions-row">
+                    <button
+                      type="button"
+                      className="zenve-modal-cancel-btn"
+                      onClick={handleCloseManageCommunityModal}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="zenve-modal-submit-btn">
+                      Save Admin Changes
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* TAB 2: MEMBERS LIST */}
+              {manageModalActiveTab === 'members' && (
+                <div className="zenve-modal-members-view">
+                  {/* Search bar inside members tab */}
+                  <div className="zenve-modal-search-wrap">
+                    <SearchIcon size={14} color="#84938b" />
+                    <input
+                      type="text"
+                      className="zenve-modal-search-input"
+                      placeholder="Search member doctors by name, specialty, or clinic..."
+                      value={memberSearchQuery}
+                      onChange={(e) => setMemberSearchQuery(e.target.value)}
+                    />
+                    {memberSearchQuery && (
+                      <button
+                        type="button"
+                        className="zenve-modal-search-clear"
+                        onClick={() => setMemberSearchQuery('')}
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Members list */}
+                  <div className="zenve-modal-members-list">
+                    {filteredCommunityMembers.length > 0 ? (
+                      filteredCommunityMembers.map((doc) => {
+                        const isDoctorAdmin = activeCommunity.adminId === doc.id;
+                        const isInvited = activeCommunity.invitedMemberIds?.includes(doc.id);
+
+                        return (
+                          <div key={doc.id} className="zenve-modal-member-row">
+                            <img
+                              src={doc.img}
+                              alt={doc.name}
+                              className="zenve-modal-member-avatar"
+                              onClick={() => {
+                                handleCloseManageCommunityModal();
+                                openProfile(doc);
+                              }}
+                            />
+                            <div
+                              className="zenve-modal-member-info"
+                              onClick={() => {
+                                handleCloseManageCommunityModal();
+                                openProfile(doc);
+                              }}
+                            >
+                              <div className="zenve-modal-member-name-row">
+                                <span className="zenve-modal-member-name">{doc.name}</span>
+                                {isDoctorAdmin ? (
+                                  <span className="zenve-comm-member-tag tag-admin">👑 Admin</span>
+                                ) : isInvited ? (
+                                  <span className="zenve-comm-member-tag tag-invited">✉️ Invited</span>
+                                ) : (
+                                  <span
+                                    className={`zenve-comm-member-tag ${activeCommunity.type === 'public' ? 'tag-all' : 'tag-follower'
+                                      }`}
+                                  >
+                                    {activeCommunity.type === 'public' ? '🌐 All Users' : '✓ Follower'}
+                                  </span>
+                                )}
+                              </div>
+                              <span className="zenve-modal-member-spec">{doc.specialty}</span>
+                              <span className="zenve-modal-member-clinic">{doc.clinic} • {doc.location}</span>
+                            </div>
+
+                            {/* Remove Member button for Group Admin */}
+                            {isCurrentUserAdmin && !isDoctorAdmin && (
+                              <button
+                                type="button"
+                                className="zenve-modal-remove-member-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveMember(doc.id);
+                                }}
+                                title={`Remove ${doc.name} from group`}
+                              >
+                                ✕ Remove
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className="zenve-modal-empty-state">
+                        <p>No members found matching "{memberSearchQuery}".</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bottom Actions Row */}
+                  <div className="zenve-modal-actions-row">
+                    <button
+                      type="button"
+                      className="zenve-modal-submit-btn"
+                      onClick={handleCloseManageCommunityModal}
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: INVITE DOCTORS */}
+              {manageModalActiveTab === 'invite' && (
+                <div className="zenve-modal-invite-view">
+                  {/* Search bar inside invite tab */}
+                  <div className="zenve-modal-search-wrap">
+                    <SearchIcon size={14} color="#84938b" />
+                    <input
+                      type="text"
+                      className="zenve-modal-search-input"
+                      placeholder="Search platform specialists to invite..."
+                      value={inviteSearchQuery}
+                      onChange={(e) => setInviteSearchQuery(e.target.value)}
+                    />
+                    {inviteSearchQuery && (
+                      <button
+                        type="button"
+                        className="zenve-modal-search-clear"
+                        onClick={() => setInviteSearchQuery('')}
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Available doctors list */}
+                  <div className="zenve-modal-invite-list">
+                    {doctorsAvailableToInvite.length > 0 ? (
+                      doctorsAvailableToInvite.map((doc) => (
+                        <div key={doc.id} className="zenve-modal-invite-row">
+                          <img
+                            src={doc.img}
+                            alt={doc.name}
+                            className="zenve-modal-member-avatar"
+                            onClick={() => {
+                              handleCloseManageCommunityModal();
+                              openProfile(doc);
+                            }}
+                          />
+                          <div
+                            className="zenve-modal-member-info"
+                            onClick={() => {
+                              handleCloseManageCommunityModal();
+                              openProfile(doc);
+                            }}
+                          >
+                            <span className="zenve-modal-member-name">{doc.name}</span>
+                            <span className="zenve-modal-member-spec">{doc.specialty}</span>
+                            <span className="zenve-modal-member-clinic">{doc.clinic} • {doc.location}</span>
+                          </div>
+                          <button
+                            type="button"
+                            className="zenve-modal-invite-add-btn"
+                            onClick={() => handleInviteDoctor(doc.id)}
+                          >
+                            ➕ Invite & Add
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="zenve-modal-empty-state">
+                        <p>
+                          {inviteSearchQuery
+                            ? 'No matching specialists found for this search.'
+                            : 'All platform veterinarians are currently members of this community.'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Actions Row */}
+                  <div className="zenve-modal-actions-row">
+                    <button
+                      type="button"
+                      className="zenve-modal-cancel-btn"
+                      onClick={() => setManageModalActiveTab('members')}
+                    >
+                      ← Back to Members
+                    </button>
+                    <button
+                      type="button"
+                      className="zenve-modal-submit-btn"
+                      onClick={handleCloseManageCommunityModal}
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom Disclaimer matching screenshot */}
+              <div className="zenve-modal-disclaimer">
+                Zenve Clinical Communities are peer-moderated for verified veterinary medical consultations. All clinical decisions remain under individual practitioner responsibility.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Doctor Profile Modal Integration */}
       {isProfileModalOpen && profileDoctor && (
@@ -3671,6 +4540,59 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
           isFollowing={!!followingMap[profileDoctor.id]}
           onToggleFollow={() => handleToggleFollow(profileDoctor.id)}
         />
+      )}
+
+      {/* WhatsApp-Style Message Delete Options Dialog */}
+      {deleteTarget && (
+        <div className="zenve-delete-modal-overlay" onClick={() => setDeleteTarget(null)}>
+          <div
+            className="zenve-delete-modal-card"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="zenve-delete-dialog-title"
+          >
+            <div className="zenve-delete-modal-header">
+              <div className="zenve-delete-icon-circle">
+                <Trash2 size={20} color="#b91c1c" />
+              </div>
+              <h3 id="zenve-delete-dialog-title" className="zenve-delete-modal-title">
+                Delete message?
+              </h3>
+              <p className="zenve-delete-modal-desc">
+                {deleteTarget.canDeleteForEveryone
+                  ? 'You can delete this message for everyone or remove it from your device.'
+                  : 'Delete this message from your device? Other participants will still see it.'}
+              </p>
+            </div>
+
+            <div className="zenve-delete-modal-actions">
+              {deleteTarget.canDeleteForEveryone && (
+                <button
+                  type="button"
+                  className="zenve-delete-action-btn danger"
+                  onClick={() => handleDeleteForEveryone(deleteTarget.context, deleteTarget.id)}
+                >
+                  Delete for everyone
+                </button>
+              )}
+              <button
+                type="button"
+                className="zenve-delete-action-btn secondary"
+                onClick={() => handleDeleteForMe(deleteTarget.context, deleteTarget.id)}
+              >
+                Delete for me
+              </button>
+              <button
+                type="button"
+                className="zenve-delete-action-btn cancel"
+                onClick={() => setDeleteTarget(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
