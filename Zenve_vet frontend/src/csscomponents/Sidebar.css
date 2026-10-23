@@ -404,42 +404,6 @@ line-height: 1.45;
 }
 
 /* =========================================
-<<<<<<< HEAD
-DESKTOP SIDEBAR: COLLAPSED / EXPANDED
-========================================= */
-
-@media (min-width: 769px) {
-.zenve-sidenav {
-position: fixed;
-top: 68px;
-left: 0;
-z-index: 100;
-width: 260px;
-min-width: 260px;
-height: calc(100vh - 68px);
-padding: 26px 16px 28px 24px;
-overflow-y: auto;
-overflow-x: hidden;
-box-shadow: none;
-}
-
-.zenve-nav-label {
-display: block;
-}
-
-.zenve-nav-item {
-justify-content: flex-start;
-padding: 0 12px;
-}
-
-.zenve-nav-icon {
-margin-right: 12px;
-}
-}
-
-/* =========================================
-=======
->>>>>>> d151aa7d4e0f923c03bd7f73696637a60c9c4389
 TABLET AND MOBILE SIDEBAR
 ========================================= */
 

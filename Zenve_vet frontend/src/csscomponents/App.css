@@ -1,5 +1,11 @@
 /* App Layout Styles */
+[data-theme='dark'] .zenve-app-container,
+.dark .zenve-app-container {
+  background-color: #0b1329;
+}
+
 .zenve-app-container {
+  transition: background-color 0.25s ease;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -20,15 +26,7 @@
   min-width: 0;
 }
 
-<<<<<<< HEAD
-@media (min-width: 769px) {
-  .zenve-content-workspace {
-    margin-left: 260px;
-  }
-}
 
-=======
->>>>>>> d151aa7d4e0f923c03bd7f73696637a60c9c4389
 /* Feed layout with center content + right rail */
 .zenve-feed-layout-columns {
   display: flex;
@@ -100,30 +98,12 @@ width: 100%;
 min-width: 0;
 }
 
-<<<<<<< HEAD
-/* Default: sidebar is permanently visible at 260px */
 .zenve-main-layout .zenve-content-workspace {
 flex: 1 1 auto;
-width: calc(100% - 260px);
 min-width: 0;
-margin-left: 260px;
 max-width: none;
 box-sizing: border-box;
-}
 
-.zenve-main-layout:has(.zenve-sidenav:hover)
-.zenve-content-workspace,
-.zenve-main-layout:has(.zenve-sidenav:focus-within)
-.zenve-content-workspace {
-width: calc(100% - 260px);
-margin-left: 260px;
-=======
-.zenve-main-layout .zenve-content-workspace {
-flex: 1 1 auto;
-min-width: 0;
-max-width: none;
-box-sizing: border-box;
->>>>>>> d151aa7d4e0f923c03bd7f73696637a60c9c4389
 }
 
 /* Search page fills its available workspace */
