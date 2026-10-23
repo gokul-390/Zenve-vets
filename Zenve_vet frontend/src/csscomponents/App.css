@@ -1,5 +1,11 @@
 /* App Layout Styles */
+[data-theme='dark'] .zenve-app-container,
+.dark .zenve-app-container {
+  background-color: #0b1329;
+}
+
 .zenve-app-container {
+  transition: background-color 0.25s ease;
   display: flex;
   flex-direction: column;
   min-height: 100vh;

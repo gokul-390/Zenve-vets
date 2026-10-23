@@ -5,6 +5,7 @@ import {
   toggleFollow as toggleFollowStore,
 } from '../data/profilesData';
 import { getDoctorImage, getDoctorFallbackImage } from '../utils/doctorImages.js';
+import { useTheme } from '../context/ThemeContext';
 import DoctorProfileModal from './DoctorProfileModal';
 import { SearchIcon, PlusIcon } from './Icons';
 import '../csscomponents/NetworkPage.css';
@@ -48,6 +49,8 @@ const CITY_OPTIONS = [
 ];
 
 export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
+  const themeContext = useTheme();
+  const isDark = Boolean(themeContext?.isDark);
   const [profiles, setProfiles] = useState(() => {
     const all = getAllProfiles();
     let extra = customVets;
@@ -283,7 +286,10 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
   };
 
   return (
-    <div className="zenve-network-page">
+    <div
+      className={`zenve-network-page ${isDark ? 'zenve-network-page--dark' : 'zenve-network-page--light'}`}
+      data-theme={isDark ? 'dark' : 'light'}
+    >
       {/* 1. Network Page Hero Card (Pink #DA2A51) */}
       <section className="zenve-network-hero">
         <div className="zenve-network-hero-left">
@@ -487,12 +493,15 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
 
       {/* 4. Vet Network Profiles Grid */}
       {filteredProfiles.length > 0 ? (
-        <div className="zenve-network-grid">
+        <div className={`zenve-network-grid ${isDark ? 'zenve-network-grid--dark' : 'zenve-network-grid--light'}`}>
           {filteredProfiles.map((doctor) => {
             const isFollowing = !!followingMap[doctor.id];
 
             return (
-              <article key={doctor.id} className="zenve-network-card">
+              <article
+                key={doctor.id}
+                className={`zenve-network-card ${isDark ? 'zenve-network-card--dark' : 'zenve-network-card--light'}`}
+              >
                 {/* Doctor Avatar Header */}
                 <div className="zenve-network-card-header">
                   <div
@@ -599,7 +608,7 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         </div>
       ) : (
         /* Empty State */
-        <div className="zenve-network-empty">
+        <div className={`zenve-network-empty ${isDark ? 'zenve-network-empty--dark' : 'zenve-network-empty--light'}`}>
           <div className="zenve-network-empty-icon">🩺</div>
           <h3 className="zenve-network-empty-title">No veterinarians found</h3>
           <p className="zenve-network-empty-desc">
