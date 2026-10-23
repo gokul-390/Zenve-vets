@@ -1,5 +1,6 @@
 // Vet Network Community Profiles Data
 // Matching https://zenvevet.lovable.app/network
+import { getDoctorImage, getDoctorFallbackImage } from '../utils/doctorImages.js';
 
 export const INITIAL_COMMUNITY_PROFILES = [
   {
@@ -80,6 +81,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Diagnostic Imaging',
     city: 'Chennai',
     location: 'Chennai, Tamil Nadu',
+    img: 'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'MI',
     color: '#E8DCEF',
     clinic: 'South Coast Veterinary Imaging & Ultrasound',
@@ -97,6 +99,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Livestock Health',
     city: 'Chandigarh',
     location: 'Chandigarh, Punjab',
+    img: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'HG',
     color: '#E6EFE6',
     clinic: 'Punjab Dairy & Livestock Veterinary Institute',
@@ -114,6 +117,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Surgery',
     city: 'Ahmedabad',
     location: 'Ahmedabad, Gujarat',
+    img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'IP',
     color: '#F4E7DA',
     clinic: 'Gujarat Advanced Vet Surgical Suites',
@@ -131,6 +135,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Small Animal Medicine',
     city: 'Delhi',
     location: 'Delhi NCR',
+    img: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'RV',
     color: '#DCE5EF',
     clinic: 'Capital Canine & Feline Care',
@@ -148,6 +153,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Animal Nutrition',
     city: 'Hyderabad',
     location: 'Hyderabad, Telangana',
+    img: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'SR',
     color: '#E9E4D1',
     clinic: 'NutriPet Veterinary Formulations & Dietetics',
@@ -165,6 +171,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Wildlife Medicine',
     city: 'Guwahati',
     location: 'Guwahati, Assam',
+    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'RD',
     color: '#D8EDE5',
     clinic: 'Northeast Wildlife Conservation & Rescue Foundation',
@@ -182,6 +189,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Dentistry',
     city: 'Pune',
     location: 'Pune, Maharashtra',
+    img: 'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'KR',
     color: '#EFE7DC',
     clinic: 'SmilePaws Pet Dental Clinic',
@@ -199,6 +207,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Surgery',
     city: 'Pune',
     location: 'Pune, Maharashtra',
+    img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'AJ',
     color: '#DCECE9',
     clinic: 'Pune Premier Veterinary Hospital',
@@ -216,6 +225,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Preventive Medicine',
     city: 'Kochi',
     location: 'Kochi, Kerala',
+    img: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'DM',
     color: '#E8E1F0',
     clinic: 'Coastal Preventive Vet Practice',
@@ -233,6 +243,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Emergency & Critical Care',
     city: 'Delhi NCR',
     location: 'Gurugram, Haryana',
+    img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'KM',
     color: '#F4E3E3',
     clinic: '24/7 Apex Animal Emergency & ICU Hospital',
@@ -250,6 +261,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Pathology',
     city: 'Hyderabad',
     location: 'Hyderabad, Telangana',
+    img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'NG',
     color: '#DCE5EF',
     clinic: 'Hyderabad Diagnostic & Clinical Pathology Lab',
@@ -267,6 +279,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Livestock Health',
     city: 'Jaipur',
     location: 'Jaipur, Rajasthan',
+    img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'SK',
     color: '#E8E8D5',
     clinic: 'Rajasthan Livestock Development Hospital',
@@ -284,6 +297,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Research',
     city: 'Kolkata',
     location: 'Kolkata, West Bengal',
+    img: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'SB',
     color: '#DCE5EF',
     clinic: 'Bengal Institute of Veterinary Research',
@@ -301,6 +315,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Wildlife Medicine',
     city: 'Dehradun',
     location: 'Dehradun, Uttarakhand',
+    img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'AS',
     color: '#DDEFE2',
     clinic: 'Himalayan Wildlife Health Sanctuary',
@@ -318,6 +333,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Small Animal Medicine',
     city: 'Nagpur',
     location: 'Nagpur, Maharashtra',
+    img: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'PD',
     color: '#F0E5D8',
     clinic: 'Central India Companion Animal Clinic',
@@ -335,6 +351,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Diagnostic Imaging',
     city: 'Surat',
     location: 'Surat, Gujarat',
+    img: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'DS',
     color: '#E0EAE5',
     clinic: 'Surat Modern Veterinary Sonography Center',
@@ -352,6 +369,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Surgery',
     city: 'Chennai',
     location: 'Chennai, Tamil Nadu',
+    img: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'AS',
     color: '#EAE1F0',
     clinic: 'Chennai Advanced Animal Surgical Pavilion',
@@ -369,6 +387,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Livestock Health',
     city: 'Lucknow',
     location: 'Lucknow, Uttar Pradesh',
+    img: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'MP',
     color: '#E6EFE6',
     clinic: 'Awadh Livestock & Dairy Health Hospital',
@@ -386,6 +405,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Dermatology',
     city: 'Chandigarh',
     location: 'Chandigarh, Punjab',
+    img: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'RK',
     color: '#F4E4DC',
     clinic: 'DermaPaws Skin & Ear Veterinary Center',
@@ -403,6 +423,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Animal Nutrition',
     city: 'Indore',
     location: 'Indore, Madhya Pradesh',
+    img: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'SP',
     color: '#EFE7DC',
     clinic: 'Malwa Animal Nutrition & Feed Solutions',
@@ -420,6 +441,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Wildlife Medicine',
     city: 'Bhopal',
     location: 'Bhopal, Madhya Pradesh',
+    img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'TB',
     color: '#D8EDE5',
     clinic: 'Central Indian Wildlife Health Center',
@@ -437,6 +459,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Small Animal Medicine',
     city: 'Kolkata',
     location: 'Kolkata, West Bengal',
+    img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'NA',
     color: '#DCE5EF',
     clinic: 'Calcutta Pet Hospital & Critical Care',
@@ -454,6 +477,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Preventive Medicine',
     city: 'Patna',
     location: 'Patna, Bihar',
+    img: 'https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'SM',
     color: '#E8E1F0',
     clinic: 'Patna Veterinary Preventive Clinic',
@@ -471,6 +495,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Livestock Health',
     city: 'Ludhiana',
     location: 'Ludhiana, Punjab',
+    img: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'GS',
     color: '#E6EFE6',
     clinic: 'Punjab Dairy Herd Care Clinic',
@@ -488,6 +513,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Emergency & Critical Care',
     city: 'Kozhikode',
     location: 'Kozhikode, Kerala',
+    img: 'https://images.unsplash.com/photo-1573497019236-17f8177b81e8?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'FR',
     color: '#DCEAE1',
     clinic: 'Malabar 24/7 Animal Emergency Care',
@@ -505,6 +531,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Dentistry',
     city: 'Nashik',
     location: 'Nashik, Maharashtra',
+    img: 'https://images.unsplash.com/photo-1528892952291-009c663ce843?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'PK',
     color: '#EFE7DC',
     clinic: 'Nashik Pet Oral Healthcare',
@@ -522,6 +549,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Pathology',
     city: 'Coimbatore',
     location: 'Coimbatore, Tamil Nadu',
+    img: 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'LK',
     color: '#DCE9E0',
     clinic: 'Kongu Veterinary Histopathology Lab',
@@ -539,6 +567,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Equine Medicine',
     city: 'Jodhpur',
     location: 'Jodhpur, Rajasthan',
+    img: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'AC',
     color: '#DCE5EF',
     clinic: 'Marwar Equine Heritage Hospital',
@@ -556,6 +585,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Diagnostic Imaging',
     city: 'Noida',
     location: 'Noida, Uttar Pradesh',
+    img: 'https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'NS',
     color: '#E8DCEF',
     clinic: 'Noida Animal Sonography & X-Ray Center',
@@ -573,6 +603,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Wildlife Medicine',
     city: 'Mysore',
     location: 'Mysore, Karnataka',
+    img: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'SB',
     color: '#D8EDE5',
     clinic: 'Western Ghats Wildlife Health Foundation',
@@ -590,6 +621,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Small Animal Medicine',
     city: 'Goa',
     location: 'Panaji, Goa',
+    img: 'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'RF',
     color: '#F0E5D8',
     clinic: 'Goa Coastal Companion Clinic',
@@ -607,6 +639,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Livestock Health',
     city: 'Patna',
     location: 'Patna, Bihar',
+    img: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'MS',
     color: '#E6EFE6',
     clinic: 'Bihar Livestock Clinical Care',
@@ -624,6 +657,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Research',
     city: 'Kolkata',
     location: 'Kolkata, West Bengal',
+    img: 'https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'DR',
     color: '#DCE5EF',
     clinic: 'Eastern Regional Veterinary Research Unit',
@@ -641,6 +675,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Surgery',
     city: 'Mangalore',
     location: 'Mangalore, Karnataka',
+    img: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'VB',
     color: '#F4E7DA',
     clinic: 'Coastal Karnataka Vet Surgical Hospital',
@@ -658,6 +693,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Preventive Medicine',
     city: 'Shimla',
     location: 'Shimla, Himachal Pradesh',
+    img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'AT',
     color: '#E8E1F0',
     clinic: 'Himachal Veterinary Wellness & Prevention',
@@ -675,6 +711,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Small Animal Medicine',
     city: 'Bengaluru',
     location: 'Bengaluru, Karnataka',
+    img: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'E',
     color: '#E6EAE4',
     clinic: 'Garden City Pet Wellness Care',
@@ -692,6 +729,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Surgery',
     city: 'Delhi',
     location: 'Delhi NCR',
+    img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'AQ',
     color: '#E8DED1',
     clinic: 'Capital Specialized Surgical Hospital',
@@ -709,6 +747,7 @@ export const INITIAL_COMMUNITY_PROFILES = [
     specialty: 'Veterinary Surgery',
     city: 'Mumbai',
     location: 'Mumbai, Maharashtra',
+    img: 'https://images.unsplash.com/photo-1637059824899-a441006a6875?auto=format&fit=crop&w=300&h=300&q=80',
     initials: 'BQ',
     color: '#E9DFD1',
     clinic: 'Mumbai City Surgical Clinic',
@@ -727,12 +766,18 @@ const CUSTOM_PROFILES_KEY = 'zenve_custom_profiles';
 const FOLLOW_MAP_KEY = 'zenve_following_map';
 
 /**
- * Retrieve user-created profiles from localStorage
+ * Retrieve user-created profiles from localStorage with guaranteed photos
  */
 export function getCustomProfiles() {
   try {
     const raw = localStorage.getItem(CUSTOM_PROFILES_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((p) => ({
+      ...p,
+      img: getDoctorImage(p),
+    }));
   } catch {
     return [];
   }
@@ -752,13 +797,15 @@ export function saveCustomProfile(profileData) {
       .substring(0, 2)
       .toUpperCase() || 'DV';
 
+    const resolvedImg = getDoctorImage(profileData);
+
     const newProfile = {
       id: `doc-${Date.now()}`,
       name: profileData.fullName.startsWith('Dr.') ? profileData.fullName : `Dr. ${profileData.fullName}`,
       specialty: profileData.specialty || 'General Veterinary Medicine',
       city: (profileData.cityState || 'India').split(',')[0].trim(),
       location: profileData.cityState || 'India',
-      img: profileData.img || null,
+      img: resolvedImg,
       initials,
       color: '#DCE9E0',
       clinic: profileData.workingPlace || 'Independent Veterinary Practice',
@@ -785,10 +832,15 @@ export function saveCustomProfile(profileData) {
 
 /**
  * Get all combined profiles (user created + initial community profiles)
+ * Guarantees every doctor has a valid, visible photo (him or her)
  */
 export function getAllProfiles() {
   const custom = getCustomProfiles();
-  return [...custom, ...INITIAL_COMMUNITY_PROFILES];
+  const all = [...custom, ...INITIAL_COMMUNITY_PROFILES];
+  return all.map((p) => ({
+    ...p,
+    img: getDoctorImage(p),
+  }));
 }
 
 /**

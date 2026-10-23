@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DOCTORS_DATABASE } from '../data/doctorsData';
+import { getDoctorImage, getDoctorFallbackImage } from '../utils/doctorImages.js';
 import '../csscomponents/DoctorProfileModal.css';
 
 export const DoctorProfileModal = ({ doctor, isOpen, onClose, isFollowing, onToggleFollow }) => {
@@ -110,13 +111,29 @@ export const DoctorProfileModal = ({ doctor, isOpen, onClose, isFollowing, onTog
 
         {/* Profile Header */}
         <div className="zenve-doc-profile-header">
-          <div className="zenve-doc-avatar-container">
+          <div
+            className="zenve-doc-avatar-container"
+            onClick={() => {
+              const modalImg = getDoctorImage(detailedDoctor);
+              setActivePhotoPreview({
+                image: modalImg,
+                title: detailedDoctor.name,
+                caption: `${detailedDoctor.specialty} • ${detailedDoctor.clinic || 'Veterinary Specialist'} • ${detailedDoctor.location || detailedDoctor.city || 'India'}`,
+                tags: ['#Veterinarian', '#VerifiedSpecialist', detailedDoctor.specialty],
+              });
+            }}
+            title={`Click to view ${detailedDoctor.name}'s photo`}
+            style={{ cursor: 'pointer' }}
+          >
             <img
-              src={detailedDoctor.img}
+              src={getDoctorImage(detailedDoctor)}
               alt={detailedDoctor.name}
               className="zenve-doc-avatar-img"
               onError={(e) => {
-                e.target.style.display = 'none';
+                const fallback = getDoctorFallbackImage(detailedDoctor);
+                if (e.currentTarget.src !== fallback) {
+                  e.currentTarget.src = fallback;
+                }
               }}
             />
             <span className="zenve-doc-online-dot" title="Available for consult" />
@@ -301,34 +318,6 @@ export const DoctorProfileModal = ({ doctor, isOpen, onClose, isFollowing, onTog
               ))}
             </div>
 
-            {/* Photo Lightbox Preview Modal */}
-            {activePhotoPreview && (
-              <div className="zenve-photo-lightbox" onClick={() => setActivePhotoPreview(null)}>
-                <div className="zenve-photo-lightbox-card" onClick={(e) => e.stopPropagation()}>
-                  <button
-                    type="button"
-                    className="zenve-lightbox-close"
-                    onClick={() => setActivePhotoPreview(null)}
-                  >
-                    ✕
-                  </button>
-                  <img
-                    src={activePhotoPreview.image}
-                    alt={activePhotoPreview.title}
-                    className="zenve-lightbox-img"
-                  />
-                  <div className="zenve-lightbox-details">
-                    <h4>{activePhotoPreview.title}</h4>
-                    <p>{activePhotoPreview.caption}</p>
-                    <div className="zenve-lightbox-tags">
-                      {(activePhotoPreview.tags || []).map((t, idx) => (
-                        <span key={idx} className="zenve-lightbox-tag-pill">{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
@@ -487,6 +476,45 @@ export const DoctorProfileModal = ({ doctor, isOpen, onClose, isFollowing, onTog
                     {focus}
                   </span>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Photo Lightbox Preview Modal */}
+        {activePhotoPreview && (
+          <div
+            className="zenve-photo-lightbox"
+            onClick={() => setActivePhotoPreview(null)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="zenve-photo-lightbox-card" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className="zenve-lightbox-close"
+                onClick={() => setActivePhotoPreview(null)}
+                aria-label="Close photo preview"
+              >
+                ✕
+              </button>
+              <div className="zenve-lightbox-img-wrapper">
+                <img
+                  src={activePhotoPreview.image}
+                  alt={activePhotoPreview.title}
+                  className="zenve-lightbox-img"
+                />
+              </div>
+              <div className="zenve-lightbox-details">
+                <h4>{activePhotoPreview.title}</h4>
+                {activePhotoPreview.caption && <p>{activePhotoPreview.caption}</p>}
+                {activePhotoPreview.tags && activePhotoPreview.tags.length > 0 && (
+                  <div className="zenve-lightbox-tags">
+                    {activePhotoPreview.tags.map((t, idx) => (
+                      <span key={idx} className="zenve-lightbox-tag-pill">{t}</span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import {
   getFollowMap,
   toggleFollow as toggleFollowStore,
 } from '../data/profilesData';
+import { getDoctorImage, getDoctorFallbackImage } from '../utils/doctorImages.js';
 import DoctorProfileModal from './DoctorProfileModal';
 import { SearchIcon, PlusIcon } from './Icons';
 import '../csscomponents/NetworkPage.css';
@@ -13,10 +14,7 @@ const SPECIALTY_OPTIONS = [
   'Small Animal Medicine',
   'Veterinary Surgery',
   'Veterinary Dermatology',
-  'Orthopedic Surgery',
-  'Animal Rehabilitation',
   'Equine Medicine',
-  'Avian & Exotic Care',
   'Diagnostic Imaging',
   'Livestock Health',
   'Wildlife Medicine',
@@ -25,6 +23,7 @@ const SPECIALTY_OPTIONS = [
   'Emergency & Critical Care',
   'Preventive Medicine',
   'Veterinary Research',
+  'Veterinary Pathology',
 ];
 
 const CITY_OPTIONS = [
@@ -48,13 +47,109 @@ const CITY_OPTIONS = [
   'Kozhikode',
 ];
 
-export const NetworkPage = ({ onOpenCreateProfile }) => {
-  const [profiles, setProfiles] = useState(() => getAllProfiles());
+export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
+  const [profiles, setProfiles] = useState(() => {
+    const all = getAllProfiles();
+    let extra = customVets;
+    if (!extra || extra.length === 0) {
+      try {
+        const stored = localStorage.getItem('zenve_custom_vets');
+        if (stored) extra = JSON.parse(stored);
+      } catch {
+        extra = [];
+      }
+    }
+    if (Array.isArray(extra) && extra.length > 0) {
+      const existingIds = new Set(all.map((p) => p.id));
+      const formatted = extra
+        .filter((v) => !existingIds.has(v.id))
+        .map((v) => ({
+          ...v,
+          city: v.city || (v.location || '').split(',')[0].trim() || 'India',
+          initials:
+            v.initials ||
+            (v.name
+              ? v.name
+                  .replace(/^Dr\.?\s*/i, '')
+                  .split(' ')
+                  .map((w) => w[0])
+                  .join('')
+                  .substring(0, 2)
+                  .toUpperCase()
+              : 'DV'),
+          color: v.color || '#DCE9E0',
+          img: getDoctorImage(v),
+          verified: v.verified !== undefined ? v.verified : true,
+        }));
+      return [...formatted, ...all];
+    }
+    return all.map((p) => ({ ...p, img: getDoctorImage(p) }));
+  });
   const [followingMap, setFollowingMap] = useState(() => getFollowMap());
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Navigation tab bar state (matching Feed tabs bar)
+  // Sync customVets prop updates with guaranteed photos
+  useEffect(() => {
+    if (customVets && customVets.length > 0) {
+      setProfiles((prev) => {
+        const existingIds = new Set(prev.map((p) => p.id));
+        const formatted = customVets
+          .filter((v) => !existingIds.has(v.id))
+          .map((v) => ({
+            ...v,
+            city: v.city || (v.location || '').split(',')[0].trim() || 'India',
+            initials:
+              v.initials ||
+              (v.name
+                ? v.name
+                    .replace(/^Dr\.?\s*/i, '')
+                    .split(' ')
+                    .map((w) => w[0])
+                    .join('')
+                    .substring(0, 2)
+                    .toUpperCase()
+                : 'DV'),
+            color: v.color || '#DCE9E0',
+            img: getDoctorImage(v),
+            verified: v.verified !== undefined ? v.verified : true,
+          }));
+        return [...formatted, ...prev];
+      });
+    }
+  }, [customVets]);
+
+  // Ensure any existing stored profiles in browser localStorage get permanent photos
+  useEffect(() => {
+    try {
+      const keys = ['zenve_custom_vets', 'zenve_custom_profiles'];
+      keys.forEach((key) => {
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            let changed = false;
+            const sanitized = parsed.map((v) => {
+              const currentImg = v.img;
+              const validImg = getDoctorImage(v);
+              if (!currentImg || currentImg !== validImg) {
+                changed = true;
+                return { ...v, img: validImg };
+              }
+              return v;
+            });
+            if (changed) {
+              localStorage.setItem(key, JSON.stringify(sanitized));
+            }
+          }
+        }
+      });
+    } catch {
+      // ignore storage errors
+    }
+  }, []);
+
+  // Navigation tab bar state (Pure Vet Network Categories)
   const [activeNavTab, setActiveNavTab] = useState('all');
 
   // Filters state
@@ -92,7 +187,10 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
   };
 
   const handleOpenDoctorModal = (doctor) => {
-    setSelectedDoctor(doctor);
+    setSelectedDoctor({
+      ...doctor,
+      img: getDoctorImage(doctor),
+    });
     setIsModalOpen(true);
   };
 
@@ -101,15 +199,15 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
     setSelectedDoctor(null);
   };
 
-  // Filtered list based on search, dropdown, and activeNavTab
+  // Filtered Vet Network profiles list
   const filteredProfiles = useMemo(() => {
     return profiles.filter((doc) => {
-      // 1. Navigation Tab filter (Feed-style nav bar)
-      if (activeNavTab === 'feed' && !doc.isFromFeed) {
-        return false;
-      }
-      if (activeNavTab === 'following' && !followingMap[doc.id]) {
-        return false;
+      // 1. Navigation Tab filter (Professional Vet Network Categories)
+      if (activeNavTab === 'small-animal') {
+        const spec = (doc.specialty || '').toLowerCase();
+        if (!spec.includes('small animal') && !spec.includes('companion') && !spec.includes('pediatric')) {
+          return false;
+        }
       }
       if (activeNavTab === 'surgery') {
         const spec = (doc.specialty || '').toLowerCase();
@@ -131,9 +229,12 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
       }
       if (activeNavTab === 'imaging') {
         const spec = (doc.specialty || '').toLowerCase();
-        if (!spec.includes('imaging') && !spec.includes('critical') && !spec.includes('emergency')) {
+        if (!spec.includes('imaging') && !spec.includes('ultrasound') && !spec.includes('critical') && !spec.includes('emergency')) {
           return false;
         }
+      }
+      if (activeNavTab === 'following' && !followingMap[doc.id]) {
+        return false;
       }
 
       // 2. Search text match
@@ -183,7 +284,7 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
 
   return (
     <div className="zenve-network-page">
-      {/* 1. Network Page Hero Card (Pink #DA2A51 matching Feed) */}
+      {/* 1. Network Page Hero Card (Pink #DA2A51) */}
       <section className="zenve-network-hero">
         <div className="zenve-network-hero-left">
           <span className="zenve-network-hero-tag">THE ZENVE VET COMMUNITY</span>
@@ -220,7 +321,7 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
         </div>
       </section>
 
-      {/* 2. Feed-Style Filter Navigation Bar with Pink Active Indicator */}
+      {/* 2. Professional Vet Network Category Navigation Bar */}
       <div className="zenve-network-tabs-bar">
         <div className="zenve-network-tabs-left">
           <button
@@ -228,28 +329,21 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
             className={`zenve-network-tab-btn ${activeNavTab === 'all' ? 'zenve-network-tab-active' : ''}`}
             onClick={() => setActiveNavTab('all')}
           >
-            All Network
+            All Specialists
           </button>
           <button
             type="button"
-            className={`zenve-network-tab-btn ${activeNavTab === 'feed' ? 'zenve-network-tab-active' : ''}`}
-            onClick={() => setActiveNavTab('feed')}
+            className={`zenve-network-tab-btn ${activeNavTab === 'small-animal' ? 'zenve-network-tab-active' : ''}`}
+            onClick={() => setActiveNavTab('small-animal')}
           >
-            Feed Doctors
-          </button>
-          <button
-            type="button"
-            className={`zenve-network-tab-btn ${activeNavTab === 'following' ? 'zenve-network-tab-active' : ''}`}
-            onClick={() => setActiveNavTab('following')}
-          >
-            Following
+            Small Animal Medicine
           </button>
           <button
             type="button"
             className={`zenve-network-tab-btn ${activeNavTab === 'surgery' ? 'zenve-network-tab-active' : ''}`}
             onClick={() => setActiveNavTab('surgery')}
           >
-            Surgery
+            Veterinary Surgery
           </button>
           <button
             type="button"
@@ -270,7 +364,14 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
             className={`zenve-network-tab-btn ${activeNavTab === 'imaging' ? 'zenve-network-tab-active' : ''}`}
             onClick={() => setActiveNavTab('imaging')}
           >
-            Critical Care &amp; Imaging
+            Diagnostic Imaging
+          </button>
+          <button
+            type="button"
+            className={`zenve-network-tab-btn ${activeNavTab === 'following' ? 'zenve-network-tab-active' : ''}`}
+            onClick={() => setActiveNavTab('following')}
+          >
+            Following
           </button>
         </div>
 
@@ -364,11 +465,10 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
           })}
         </div>
 
-        {/* Active Filters Summary */}
+        {/* Results summary bar */}
         <div className="zenve-network-results-bar">
           <span className="zenve-network-results-count">
-            Showing <strong>{filteredProfiles.length}</strong> {filteredProfiles.length === 1 ? 'veterinarian' : 'veterinarians'}
-            {activeNavTab !== 'all' && ` • Tab: ${activeNavTab}`}
+            Showing <strong>{filteredProfiles.length}</strong> verified veterinarians across India
             {selectedSpecialty !== 'All Specialties' && ` • ${selectedSpecialty}`}
             {selectedCity !== 'All Cities' && ` • ${selectedCity}`}
           </span>
@@ -385,7 +485,7 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
         </div>
       </section>
 
-      {/* 4. Veterinary Profiles Grid */}
+      {/* 4. Vet Network Profiles Grid */}
       {filteredProfiles.length > 0 ? (
         <div className="zenve-network-grid">
           {filteredProfiles.map((doctor) => {
@@ -395,39 +495,28 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
               <article key={doctor.id} className="zenve-network-card">
                 {/* Doctor Avatar Header */}
                 <div className="zenve-network-card-header">
-                  <div className="zenve-network-avatar-wrap">
-                    {doctor.img ? (
-                      <img
-                        src={doctor.img}
-                        alt={doctor.name}
-                        className="zenve-network-avatar-img"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          if (e.target.nextSibling) {
-                            e.target.nextSibling.style.display = 'flex';
-                          }
-                        }}
-                      />
-                    ) : null}
-                    <div
-                      className="zenve-network-avatar-initials"
-                      style={{
-                        backgroundColor: doctor.color || '#DCE9E0',
-                        display: doctor.img ? 'none' : 'flex',
+                  <div
+                    className="zenve-network-avatar-wrap"
+                    onClick={() => handleOpenDoctorModal(doctor)}
+                    title={`View ${doctor.name}'s profile photo`}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <img
+                      src={getDoctorImage(doctor)}
+                      alt={doctor.name}
+                      className="zenve-network-avatar-img"
+                      onError={(e) => {
+                        const fallback = getDoctorFallbackImage(doctor);
+                        if (e.currentTarget.src !== fallback) {
+                          e.currentTarget.src = fallback;
+                        }
                       }}
-                    >
-                      {doctor.initials || 'DV'}
-                    </div>
+                    />
                     <span className="zenve-network-online-dot" title="Available for consult" />
                   </div>
 
-                  {/* Badge Pills */}
+                  {/* Verified Badge */}
                   <div className="zenve-network-card-badges">
-                    {doctor.isFromFeed && (
-                      <span className="zenve-network-feed-badge" title="Featured in community feed & stories">
-                        Feed
-                      </span>
-                    )}
                     <span className="zenve-network-verified-badge" title="Zenve Verified Professional">
                       Verified
                     </span>
@@ -514,7 +603,7 @@ export const NetworkPage = ({ onOpenCreateProfile }) => {
           <div className="zenve-network-empty-icon">🩺</div>
           <h3 className="zenve-network-empty-title">No veterinarians found</h3>
           <p className="zenve-network-empty-desc">
-            We couldn't find any veterinary doctors matching your current filters. Try selecting "All Network" or clearing your search.
+            We couldn't find any veterinary doctors matching your current filters. Try selecting "All Specialists" or clearing your search.
           </p>
           <button
             type="button"

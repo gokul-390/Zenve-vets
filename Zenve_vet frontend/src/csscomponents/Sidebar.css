@@ -408,57 +408,26 @@ position: fixed;
 top: 68px;
 left: 0;
 z-index: 100;
-width: 76px;
-min-width: 76px;
-height: calc(100vh - 68px);
-padding: 26px 10px 28px;
-overflow-y: auto;
-overflow-x: hidden;
-transition:
-width 0.22s ease,
-min-width 0.22s ease,
-padding 0.22s ease,
-box-shadow 0.22s ease;
-}
-
-.zenve-sidenav:hover,
-.zenve-sidenav:focus-within {
 width: 260px;
 min-width: 260px;
+height: calc(100vh - 68px);
 padding: 26px 16px 28px 24px;
-box-shadow: 8px 0 24px rgba(84, 21, 34, 0.12);
+overflow-y: auto;
+overflow-x: hidden;
+box-shadow: none;
 }
 
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-sidenav-header,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-sidenav-divider,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-sidenav-discover-section,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-sidenav-promo-card,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-sidenav-credits,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-sidenav-section-title,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-sidenav-headline,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-nav-label,
-.zenve-sidenav:not(:hover):not(:focus-within)
-.zenve-active-pill {
-display: none;
+.zenve-nav-label {
+display: block;
 }
 
-.zenve-sidenav:not(:hover):not(:focus-within)
 .zenve-nav-item {
-justify-content: center;
-padding: 0;
+justify-content: flex-start;
+padding: 0 12px;
 }
 
-.zenve-sidenav:not(:hover):not(:focus-within)
 .zenve-nav-icon {
-margin-right: 0;
+margin-right: 12px;
 }
 }
 

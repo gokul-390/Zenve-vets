@@ -22,7 +22,7 @@
 
 @media (min-width: 769px) {
   .zenve-content-workspace {
-    margin-left: 76px;
+    margin-left: 260px;
   }
 }
 
@@ -97,20 +97,16 @@ width: 100%;
 min-width: 0;
 }
 
-/* Default: sidebar is collapsed to 76px */
+/* Default: sidebar is permanently visible at 260px */
 .zenve-main-layout .zenve-content-workspace {
 flex: 1 1 auto;
-width: calc(100% - 76px);
+width: calc(100% - 260px);
 min-width: 0;
-margin-left: 76px;
+margin-left: 260px;
 max-width: none;
 box-sizing: border-box;
-transition:
-margin-left 0.22s ease,
-width 0.22s ease;
 }
 
-/* Expand content spacing when sidebar is hovered */
 .zenve-main-layout:has(.zenve-sidenav:hover)
 .zenve-content-workspace,
 .zenve-main-layout:has(.zenve-sidenav:focus-within)

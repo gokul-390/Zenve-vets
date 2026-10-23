@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../csscomponents/VetProfileModal.css';
 
 export const VetProfileModal = ({
@@ -10,6 +10,14 @@ export const VetProfileModal = ({
   isFollowing,
   onToggleFollow,
 }) => {
+  const [showPhotoPreview, setShowPhotoPreview] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShowPhotoPreview(false);
+    }
+  }, [isOpen, doctor?.id]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpen) {
@@ -57,7 +65,14 @@ export const VetProfileModal = ({
 
         {/* Profile Header & Avatar Row */}
         <div className="zenve-vmodal-header">
-          <div className="zenve-vmodal-avatar-box">
+          <div
+            className="zenve-vmodal-avatar-box"
+            onClick={() => {
+              if (doctor.img) setShowPhotoPreview(true);
+            }}
+            title={doctor.img ? `Click to view ${doctor.name}'s photo` : doctor.name}
+            style={{ cursor: doctor.img ? 'pointer' : 'default' }}
+          >
             <img
               src={doctor.img}
               alt={doctor.name}
@@ -213,6 +228,42 @@ export const VetProfileModal = ({
             ))}
           </div>
         </div>
+
+        {/* Photo Lightbox Preview Modal */}
+        {showPhotoPreview && doctor.img && (
+          <div
+            className="zenve-photo-lightbox"
+            onClick={() => setShowPhotoPreview(false)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="zenve-photo-lightbox-card" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className="zenve-lightbox-close"
+                onClick={() => setShowPhotoPreview(false)}
+                aria-label="Close photo preview"
+              >
+                ✕
+              </button>
+              <div className="zenve-lightbox-img-wrapper">
+                <img
+                  src={doctor.img}
+                  alt={doctor.name}
+                  className="zenve-lightbox-img"
+                />
+              </div>
+              <div className="zenve-lightbox-details">
+                <h4>{doctor.name}</h4>
+                <p>{doctor.specialty} • {doctor.clinic || 'Independent Practice'} • {doctor.location || 'India'}</p>
+                <div className="zenve-lightbox-tags">
+                  <span className="zenve-lightbox-tag-pill">#Veterinarian</span>
+                  <span className="zenve-lightbox-tag-pill">{doctor.specialty}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
