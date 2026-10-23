@@ -2,17 +2,53 @@
    ZenveVet - Messages Page Styles
    ========================================================================== */
 
+/* Prevent outer browser/page scrolling when on the Messages page */
+body.zenve-messages-mode,
+html:has(body.zenve-messages-mode) {
+  overflow: hidden !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+}
+
+body.zenve-messages-mode .zenve-app-container {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+body.zenve-messages-mode .zenve-main-layout {
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
+  overflow: hidden !important;
+}
+
+/* Constrain workspace to viewport height without outer scrolling */
+body.zenve-messages-mode .zenve-content-workspace,
+.zenve-content-workspace:has(.zenve-messages-container) {
+  padding: 16px 24px !important;
+  height: calc(100vh - 68px) !important;
+  max-height: calc(100vh - 68px) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+
 .zenve-messages-container {
   display: flex;
-  height: calc(100vh - 120px);
-  min-height: 600px;
+  flex: 1;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
   background: #ffffff;
   border: 1px solid #e5eae6;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* ── Left Rail: Contacts & Search ────────────────────────────────────── */
@@ -23,11 +59,16 @@
   display: flex;
   flex-direction: column;
   background: #fbfdfc;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .zenve-messages-sidebar-header {
-  padding: 20px 20px 14px 20px;
+  padding: 18px 20px 12px 20px;
   border-bottom: 1px solid #edf2ef;
+  flex-shrink: 0;
 }
 
 .zenve-messages-title-row {
@@ -109,6 +150,7 @@
   padding: 10px 20px;
   border-bottom: 1px solid #edf2ef;
   background: #fbfdfc;
+  flex-shrink: 0;
 }
 
 .zenve-messages-tab-btn {
@@ -139,23 +181,7 @@
 .zenve-messages-list {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
   padding: 8px 10px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(61, 13, 24, 0.2) transparent;
-}
-
-.zenve-messages-list::-webkit-scrollbar {
-  width: 5px;
-}
-
-.zenve-messages-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.zenve-messages-list::-webkit-scrollbar-thumb {
-  background: rgba(61, 13, 24, 0.2);
-  border-radius: 4px;
 }
 
 .zenve-messages-section-label {
@@ -301,6 +327,10 @@
   flex-direction: column;
   background: #ffffff;
   min-width: 0;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* Chat Header */
@@ -308,9 +338,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding: 14px 24px;
   border-bottom: 1px solid #edf2ef;
   background: #ffffff;
+  flex-shrink: 0;
 }
 
 .zenve-chat-header-user {
@@ -414,28 +445,11 @@
 .zenve-chat-history {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-gutter: stable;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   background: #fbfdfc;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(61, 13, 24, 0.2) transparent;
-}
-
-.zenve-chat-history::-webkit-scrollbar {
-  width: 6px;
-}
-
-.zenve-chat-history::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.zenve-chat-history::-webkit-scrollbar-thumb {
-  background: rgba(61, 13, 24, 0.2);
-  border-radius: 4px;
 }
 
 .zenve-chat-encrypted-notice {
@@ -672,9 +686,10 @@
 .zenve-quick-prompts-row {
   display: flex;
   gap: 8px;
-  padding: 8px 24px 0 24px;
+  padding: 8px 24px 6px 24px;
   background: #fbfdfc;
   overflow-x: auto;
+  flex-shrink: 0;
 }
 
 .zenve-quick-prompt-btn {
@@ -701,6 +716,7 @@
   flex-direction: column;
   background: #ffffff;
   border-top: 1px solid #edf2ef;
+  flex-shrink: 0;
 }
 
 .zenve-chat-replying-bar {
@@ -1118,6 +1134,16 @@
 
 [data-theme='dark'] .zenve-click-hint {
   color: #6d8576;
+}
+
+[data-theme='dark'] .zenve-messages-list,
+[data-theme='dark'] .zenve-chat-history {
+  scrollbar-color: #2e4438 transparent;
+}
+
+[data-theme='dark'] .zenve-messages-list::-webkit-scrollbar-thumb,
+[data-theme='dark'] .zenve-chat-history::-webkit-scrollbar-thumb {
+  background-color: #2e4438;
 }
 
 /* Responsive Breakpoints */

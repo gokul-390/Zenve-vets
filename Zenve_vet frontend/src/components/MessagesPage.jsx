@@ -411,7 +411,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       if (saved) {
         return JSON.parse(saved);
       }
-    } catch {}
+    } catch { }
     // Initial defaults for followed doctors
     const initial = {};
     ALL_DIRECTORY_DOCTORS.forEach((d) => {
@@ -427,7 +427,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       if (saved) {
         return JSON.parse(saved);
       }
-    } catch {}
+    } catch { }
     return INITIAL_CONVERSATIONS;
   });
 
@@ -474,6 +474,14 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     window.addEventListener('zenve_open_message', handleOpenMessageEvent);
     return () => window.removeEventListener('zenve_open_message', handleOpenMessageEvent);
   }, [onDoctorChanged]);
+
+  // Fit messages page to viewport and prevent outer page scrolling
+  useEffect(() => {
+    document.body.classList.add('zenve-messages-mode');
+    return () => {
+      document.body.classList.remove('zenve-messages-mode');
+    };
+  }, []);
 
   // Auto scroll to bottom of chat history when messages change or typing toggles
   useEffect(() => {
@@ -583,10 +591,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
       time: timeString,
       replyTo: currentQuoted
         ? {
-            id: currentQuoted.id,
-            senderName: currentQuoted.senderName,
-            text: currentQuoted.text,
-          }
+          id: currentQuoted.id,
+          senderName: currentQuoted.senderName,
+          text: currentQuoted.text,
+        }
         : null,
     };
 
@@ -625,10 +633,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         time: replyTime,
         replyTo: currentQuoted
           ? {
-              id: currentQuoted.id,
-              senderName: currentQuoted.senderName,
-              text: currentQuoted.text,
-            }
+            id: currentQuoted.id,
+            senderName: currentQuoted.senderName,
+            text: currentQuoted.text,
+          }
           : null,
       };
 
@@ -637,7 +645,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
         const nextAll = { ...prev, [selectedDoctor.id]: nextChat };
         try {
           localStorage.setItem('zenve_chat_messages', JSON.stringify(nextAll));
-        } catch {}
+        } catch { }
         return nextAll;
       });
     }, replyDelay);
@@ -760,9 +768,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                             : doc.specialty}
                         </p>
                         <span
-                          className={`zenve-contact-status-chip ${
-                            isFollowing ? 'zenve-status-following' : 'zenve-status-not-following'
-                          }`}
+                          className={`zenve-contact-status-chip ${isFollowing ? 'zenve-status-following' : 'zenve-status-not-following'
+                            }`}
                         >
                           {isFollowing ? 'Following' : doc.isFollower ? 'Follower' : 'Connect'}
                         </span>
@@ -870,9 +877,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 </button>
                 <button
                   type="button"
-                  className={`zenve-follow-toggle-btn ${
-                    isFollowingSelected ? 'following' : 'not-following'
-                  }`}
+                  className={`zenve-follow-toggle-btn ${isFollowingSelected ? 'following' : 'not-following'
+                    }`}
                   onClick={() => handleToggleFollow(selectedDoctor.id)}
                   title={isFollowingSelected ? 'Click to Unfollow' : 'Follow to enable messaging'}
                 >
@@ -894,257 +900,238 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 return (
                   <div
                     key={msg.id}
-                    className={`zenve-chat-msg-row ${isMe ? 'sent' : 'received'} ${
-                      isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
-                    }`}
+                    className={`zenve-chat-bubble-wrap ${isMe ? 'sent' : 'received'} ${isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
+                      }`}
+                    onClick={() => handleSelectMessageToReply(msg)}
+                    title="Click this message to reply to it"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleSelectMessageToReply(msg);
+                    }}
                   >
-                    {/* Reply icon button for sent messages (placed left of bubble) */}
-                    {isMe && (
-                      <button
-                        type="button"
-                        className="zenve-bubble-reply-action-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSelectMessageToReply(msg);
-                        }}
-                        title="Reply to message"
-                        aria-label="Reply to message"
-                      >
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="9 17 4 12 9 7" />
-                          <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                        </svg>
-                      </button>
-                    )}
-
-                    <div
-                      className={`zenve-chat-bubble-wrap ${isMe ? 'sent' : 'received'}`}
-                      onClick={() => handleSelectMessageToReply(msg)}
-                      title="Click message or reply icon to reply"
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSelectMessageToReply(msg);
-                      }}
-                    >
-                      {/* Quoted Reply Reference Box */}
-                      {msg.replyTo && (
-                        <div className="zenve-chat-quoted-box">
-                          <div className="zenve-quoted-author">
-                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="9 17 4 12 9 7" />
-                              <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                            </svg>
-                            <span>{msg.replyTo.senderName}</span>
-                          </div>
-                          <p className="zenve-quoted-text">{msg.replyTo.text}</p>
+                    {/* Quoted Reply Reference Box */}
+                    {msg.replyTo && (
+                      <div className="zenve-chat-quoted-box">
+                        <div className="zenve-quoted-author">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="9 17 4 12 9 7" />
+                            <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+                          </svg>
+                          <span>{msg.replyTo.senderName}</span>
                         </div>
-                      )}
-
-                      <div className={`zenve-chat-bubble ${isMe ? 'sent' : 'received'}`}>
-                        <span>{msg.text}</span>
+                        <p className="zenve-quoted-text">{msg.replyTo.text}</p>
                       </div>
-
-                      <div className="zenve-chat-meta">
-                        <span>{msg.time}</span>
-                        {isMe && <span className="zenve-chat-check">✓✓</span>}
-                      </div>
-                    </div>
-
-                    {/* Reply icon button for received messages (placed right of bubble) */}
-                    {!isMe && (
-                      <button
-                        type="button"
-                        className="zenve-bubble-reply-action-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSelectMessageToReply(msg);
-                        }}
-                        title="Reply to message"
-                        aria-label="Reply to message"
-                      >
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="9 17 4 12 9 7" />
-                          <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                        </svg>
-                      </button>
                     )}
-                  </div>
-                );
-              })}
 
-              {/* Typing indicator while doctor prepares reply */}
-              {isTyping && (
-                <div className="zenve-typing-indicator" aria-label="Doctor is typing">
-                  <span className="zenve-typing-dot" />
-                  <span className="zenve-typing-dot" />
-                  <span className="zenve-typing-dot" />
-                  <span className="zenve-typing-label">
-                    {selectedDoctor.name.split(' ')[0]} is typing...
-                  </span>
-                </div>
-              )}
-
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Suggested quick case consultation prompts */}
-            {isFollowingSelected && (
-              <div className="zenve-quick-prompts-row">
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Hello Doctor, could I consult with you regarding a clinical case?')
-                  }
-                >
-                  🩺 Clinical case consultation
-                </button>
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Excellent case presentation on your feed! What was the post-op protocol?')
-                  }
-                >
-                  👏 Compliment case post
-                </button>
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Are you available for a peer referral in your specialty?')
-                  }
-                >
-                  🤝 Refer a patient
-                </button>
-                <button
-                  type="button"
-                  className="zenve-quick-prompt-btn"
-                  onClick={() =>
-                    handleSendMessage('Could you share your diagnostic protocol and radiographs for this?')
-                  }
-                >
-                  📸 Diagnostic review
-                </button>
-              </div>
-            )}
-
-            {/* Bottom: Input Composer OR Follow Notice ("following persons only send msg and reply msg") */}
-            {isFollowingSelected ? (
-              <div className="zenve-chat-composer-wrapper">
-                {/* Active Replying Bar Preview */}
-                {replyingTo && (
-                  <div className="zenve-chat-replying-bar">
-                    <div className="zenve-replying-bar-left">
-                      <div className="zenve-replying-bar-icon">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="9 17 4 12 9 7" />
-                          <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
-                        </svg>
-                      </div>
-                      <div className="zenve-replying-bar-text">
-                        <span className="zenve-replying-bar-author">
-                          Replying to {replyingTo.senderName}
-                        </span>
-                        <span className="zenve-replying-bar-snippet">
-                          {replyingTo.text}
-                        </span>
-                      </div>
+                    <div className={`zenve-chat-bubble ${isMe ? 'sent' : 'received'}`}>
+                      <span>{msg.text}</span>
                     </div>
+
+                    <div className="zenve-chat-meta">
+                      <span>{msg.time}</span>
+                      {isMe && <span className="zenve-chat-check">✓✓</span>}
+                    </div>
+                  </div>
+
+                    {/* Reply icon button for received messages (placed right of bubble) */ }
+                {
+                  !isMe && (
                     <button
                       type="button"
-                      className="zenve-replying-bar-close"
-                      onClick={handleCancelReply}
-                      title="Cancel reply"
-                      aria-label="Cancel reply"
+                      className="zenve-bubble-reply-action-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSelectMessageToReply(msg);
+                      }}
+                      title="Reply to message"
+                      aria-label="Reply to message"
                     >
-                      ✕
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 17 4 12 9 7" />
+                        <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+                      </svg>
                     </button>
+                  )
+                }
                   </div>
-                )}
+            );
+              })}
 
-                <div className="zenve-chat-composer">
-                  <div className="zenve-chat-input-wrap">
-                    <input
-                      ref={chatInputRef}
-                      type="text"
-                      className="zenve-chat-input"
-                      placeholder={
-                        replyingTo
-                          ? `Write a reply to ${replyingTo.senderName}...`
-                          : `Write a message to ${selectedDoctor.name}...`
-                      }
-                      value={messageInput}
-                      onChange={(e) => setMessageInput(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      disabled={isTyping}
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className="zenve-chat-send-btn"
-                    onClick={() => handleSendMessage()}
-                    disabled={!messageInput.trim() || isTyping}
-                    title="Send message (Enter)"
-                    aria-label="Send message"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="22" y1="2" x2="11" y2="13" />
-                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                    </svg>
-                  </button>
-                </div>
+            {/* Typing indicator while doctor prepares reply */}
+            {isTyping && (
+              <div className="zenve-typing-indicator" aria-label="Doctor is typing">
+                <span className="zenve-typing-dot" />
+                <span className="zenve-typing-dot" />
+                <span className="zenve-typing-dot" />
+                <span className="zenve-typing-label">
+                  {selectedDoctor.name.split(' ')[0]} is typing...
+                </span>
               </div>
-            ) : (
-              <div className="zenve-chat-restricted-banner">
-                <div className="zenve-restricted-icon-wrap">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                  </svg>
+            )}
+
+            <div ref={messagesEndRef} />
+          </div>
+
+        {/* Suggested quick case consultation prompts */}
+        {isFollowingSelected && (
+          <div className="zenve-quick-prompts-row">
+            <button
+              type="button"
+              className="zenve-quick-prompt-btn"
+              onClick={() =>
+                handleSendMessage('Hello Doctor, could I consult with you regarding a clinical case?')
+              }
+            >
+              🩺 Clinical case consultation
+            </button>
+            <button
+              type="button"
+              className="zenve-quick-prompt-btn"
+              onClick={() =>
+                handleSendMessage('Excellent case presentation on your feed! What was the post-op protocol?')
+              }
+            >
+              👏 Compliment case post
+            </button>
+            <button
+              type="button"
+              className="zenve-quick-prompt-btn"
+              onClick={() =>
+                handleSendMessage('Are you available for a peer referral in your specialty?')
+              }
+            >
+              🤝 Refer a patient
+            </button>
+            <button
+              type="button"
+              className="zenve-quick-prompt-btn"
+              onClick={() =>
+                handleSendMessage('Could you share your diagnostic protocol and radiographs for this?')
+              }
+            >
+              📸 Diagnostic review
+            </button>
+          </div>
+        )}
+
+        {/* Bottom: Input Composer OR Follow Notice ("following persons only send msg and reply msg") */}
+        {isFollowingSelected ? (
+          <div className="zenve-chat-composer-wrapper">
+            {/* Active Replying Bar Preview */}
+            {replyingTo && (
+              <div className="zenve-chat-replying-bar">
+                <div className="zenve-replying-bar-left">
+                  <div className="zenve-replying-bar-icon">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 17 4 12 9 7" />
+                      <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+                    </svg>
+                  </div>
+                  <div className="zenve-replying-bar-text">
+                    <span className="zenve-replying-bar-author">
+                      Replying to {replyingTo.senderName}
+                    </span>
+                    <span className="zenve-replying-bar-snippet">
+                      {replyingTo.text}
+                    </span>
+                  </div>
                 </div>
-                <h4 className="zenve-restricted-title">Direct Messaging Restricted</h4>
-                <p className="zenve-restricted-desc">
-                  To protect our veterinary community from unsolicited spam, you can only send and
-                  receive messages with persons you follow. Follow <strong>{selectedDoctor.name}</strong> to
-                  send a message and receive replies.
-                </p>
                 <button
                   type="button"
-                  className="zenve-restricted-follow-btn"
-                  onClick={() => handleToggleFollow(selectedDoctor.id)}
+                  className="zenve-replying-bar-close"
+                  onClick={handleCancelReply}
+                  title="Cancel reply"
+                  aria-label="Cancel reply"
                 >
-                  <span>+ Follow {selectedDoctor.name}</span>
+                  ✕
                 </button>
               </div>
             )}
-          </>
-        ) : (
-          <div className="zenve-chat-no-selection">
-            <div className="zenve-chat-no-selection-icon">
-              <MessagesIcon size={32} color="#3D0D18" />
+
+            <div className="zenve-chat-composer">
+              <div className="zenve-chat-input-wrap">
+                <input
+                  ref={chatInputRef}
+                  type="text"
+                  className="zenve-chat-input"
+                  placeholder={
+                    replyingTo
+                      ? `Write a reply to ${replyingTo.senderName}...`
+                      : `Write a message to ${selectedDoctor.name}...`
+                  }
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  disabled={isTyping}
+                />
+              </div>
+              <button
+                type="button"
+                className="zenve-chat-send-btn"
+                onClick={() => handleSendMessage()}
+                disabled={!messageInput.trim() || isTyping}
+                title="Send message (Enter)"
+                aria-label="Send message"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+              </button>
             </div>
-            <h3 className="zenve-chat-no-selection-title">Select a Conversation</h3>
-            <p className="zenve-chat-no-selection-desc">
-              Search your followers or community veterinarians on the left to start a professional
-              clinical discussion.
+          </div>
+        ) : (
+          <div className="zenve-chat-restricted-banner">
+            <div className="zenve-restricted-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <h4 className="zenve-restricted-title">Direct Messaging Restricted</h4>
+            <p className="zenve-restricted-desc">
+              To protect our veterinary community from unsolicited spam, you can only send and
+              receive messages with persons you follow. Follow <strong>{selectedDoctor.name}</strong> to
+              send a message and receive replies.
             </p>
+            <button
+              type="button"
+              className="zenve-restricted-follow-btn"
+              onClick={() => handleToggleFollow(selectedDoctor.id)}
+            >
+              <span>+ Follow {selectedDoctor.name}</span>
+            </button>
           </div>
         )}
-      </main>
+      </>
+      ) : (
+      <div className="zenve-chat-no-selection">
+        <div className="zenve-chat-no-selection-icon">
+          <MessagesIcon size={32} color="#3D0D18" />
+        </div>
+        <h3 className="zenve-chat-no-selection-title">Select a Conversation</h3>
+        <p className="zenve-chat-no-selection-desc">
+          Search your followers or community veterinarians on the left to start a professional
+          clinical discussion.
+        </p>
+      </div>
+        )}
+    </main>
 
-      {/* Doctor Profile Modal Integration */}
-      {isProfileModalOpen && profileDoctor && (
-        <DoctorProfileModal
-          doctor={DOCTORS_DATABASE[profileDoctor.id] || profileDoctor}
-          isOpen={isProfileModalOpen}
-          onClose={() => setIsProfileModalOpen(false)}
-          isFollowing={!!followingMap[profileDoctor.id]}
-          onToggleFollow={() => handleToggleFollow(profileDoctor.id)}
-        />
-      )}
-    </div>
+      {/* Doctor Profile Modal Integration */ }
+  {
+    isProfileModalOpen && profileDoctor && (
+      <DoctorProfileModal
+        doctor={DOCTORS_DATABASE[profileDoctor.id] || profileDoctor}
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        isFollowing={!!followingMap[profileDoctor.id]}
+        onToggleFollow={() => handleToggleFollow(profileDoctor.id)}
+      />
+    )
+  }
+    </div >
   );
 };
 
