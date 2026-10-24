@@ -9,8 +9,29 @@
   background-color: #0b1329;
 }
 
+/* Vet Network Page: Dark Mode (Dark Black background) */
+[data-theme='dark'] .zenve-app-container--network,
+.dark .zenve-app-container--network,
+[data-theme='dark'] .zenve-workspace--network,
+.dark .zenve-workspace--network,
+[data-theme='dark'] .zenve-app-container:has(.zenve-network-page),
+.dark .zenve-app-container:has(.zenve-network-page),
+[data-theme='dark'] .zenve-content-workspace:has(.zenve-network-page),
+.dark .zenve-content-workspace:has(.zenve-network-page) {
+  background-color: #000000 !important;
+}
+
+/* Vet Network Page: Light Mode (Clean White background) */
+.zenve-app-container--network:not([data-theme='dark']),
+.zenve-workspace--network:not([data-theme='dark']),
+.zenve-app-container:has(.zenve-network-page--light),
+.zenve-content-workspace:has(.zenve-network-page--light),
+.zenve-content-workspace:has(.zenve-network-page:not(.zenve-network-page--dark)) {
+  background-color: #ffffff !important;
+}
+
 .zenve-app-container {
-  transition: background-color 0.25s ease;
+  transition: background-color 0.2s ease;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -26,11 +47,11 @@
 }
 
 .zenve-content-workspace {
+  transition: background-color 0.2s ease;
   flex: 1;
   padding: 24px 32px 90px 32px;
   min-width: 0;
 }
-
 
 /* Feed layout with center content + right rail */
 .zenve-feed-layout-columns {
