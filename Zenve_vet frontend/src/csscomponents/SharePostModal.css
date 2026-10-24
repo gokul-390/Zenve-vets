@@ -1,0 +1,646 @@
+/* Share Post & Video Modal Styles */
+.zenve-share-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(13, 22, 17, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: zenveFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zenve-share-modal-card {
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e3ede6;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: zenveScaleUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@keyframes zenveFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zenveScaleUp {
+  from { transform: scale(0.94); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* 1. Header */
+.zenve-share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #edf3ef;
+  background: #fafcfb;
+}
+
+.zenve-share-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zenve-share-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #e8f4ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.zenve-share-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #12291e;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.zenve-share-modal-sub {
+  font-size: 12px;
+  color: #647a6e;
+  margin: 2px 0 0 0;
+}
+
+.zenve-share-modal-close {
+  background: transparent;
+  border: none;
+  color: #6c8276;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-share-modal-close:hover {
+  background: #eaf1ec;
+  color: #12291e;
+}
+
+/* 2. Preview Card */
+.zenve-share-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 18px 8px 18px;
+  padding: 10px 12px;
+  background: #f7faf8;
+  border: 1px solid #e5ede7;
+  border-radius: 12px;
+}
+
+.zenve-share-preview-thumb-wrap {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #0d1a13;
+}
+
+.zenve-share-preview-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zenve-share-video-badge {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+
+.zenve-share-preview-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.zenve-share-preview-author-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+
+.zenve-share-preview-author-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.zenve-share-preview-author-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #162a20;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-share-preview-verified {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  background: #0f4332;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.zenve-share-preview-caption {
+  font-size: 12px;
+  color: #556b60;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.35;
+}
+
+/* 3. Note Input */
+.zenve-share-custom-note-wrap {
+  padding: 0 18px 8px 18px;
+}
+
+.zenve-share-note-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #dbe6de;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: #1a2f24;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.zenve-share-note-input:focus {
+  border-color: #0f4332;
+  box-shadow: 0 0 0 3px rgba(15, 67, 50, 0.08);
+}
+
+.zenve-share-note-input::placeholder {
+  color: #8c9e94;
+}
+
+/* 4. Filter Bar & Search */
+.zenve-share-filter-bar {
+  padding: 6px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zenve-share-tabs {
+  display: flex;
+  gap: 6px;
+  background: #edf4ef;
+  padding: 3px;
+  border-radius: 9px;
+}
+
+.zenve-share-tab-btn {
+  flex: 1;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: #556c60;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.zenve-share-tab-active {
+  background: #ffffff;
+  color: #0f4332;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.zenve-share-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.zenve-share-search-icon {
+  position: absolute;
+  left: 11px;
+  color: #7b9186;
+  pointer-events: none;
+}
+
+.zenve-share-search-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 32px 0 34px;
+  border: 1px solid #dce5df;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: #1a2e23;
+  background: #fbfdfc;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.zenve-share-search-input:focus {
+  background: #ffffff;
+  border-color: #0f4332;
+  box-shadow: 0 0 0 2px rgba(15, 67, 50, 0.08);
+}
+
+.zenve-share-search-clear {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  color: #7a8f84;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Success Banner */
+.zenve-share-success-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 18px 8px 18px;
+  padding: 8px 12px;
+  background: #eef7f2;
+  border: 1px solid #cce5d5;
+  border-radius: 9px;
+  font-size: 12px;
+  color: #0f4332;
+  animation: zenveFadeIn 0.2s ease;
+}
+
+.zenve-share-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: #0f4332;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.zenve-share-success-text {
+  flex: 1;
+}
+
+.zenve-share-open-chat-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #0f4332;
+  color: #ffffff;
+  border: none;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.zenve-share-open-chat-cta:hover {
+  opacity: 0.9;
+}
+
+/* 5. Doctors List */
+.zenve-share-doctors-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 260px;
+  padding: 4px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zenve-share-doc-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background-color 0.15s ease;
+}
+
+.zenve-share-doc-item:hover {
+  background-color: #f5f9f6;
+}
+
+.zenve-share-doc-avatar-wrap {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.zenve-share-doc-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #dce7e0;
+}
+
+.zenve-share-online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: #22c55e;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+.zenve-share-doc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.zenve-share-doc-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-share-doc-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #172a20;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-share-following-tag {
+  background: #eaf3ec;
+  color: #0f4332;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+
+.zenve-share-doc-sub {
+  font-size: 11.5px;
+  color: #687d72;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zenve-share-doc-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zenve-share-send-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 7px;
+  background: #0f4332;
+  color: #ffffff;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.zenve-share-send-btn:hover {
+  background: #175a44;
+  transform: translateY(-1px);
+}
+
+.zenve-share-btn-sent {
+  background: #eef7f2 !important;
+  color: #0f4332 !important;
+  border: 1px solid #b7dcbe !important;
+  font-weight: 700 !important;
+  cursor: default;
+  transform: none !important;
+}
+
+.zenve-share-chat-shortcut-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: #f1f6f3;
+  color: #0f4332;
+  border: 1px solid #d5e4da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.zenve-share-chat-shortcut-btn:hover {
+  background: #e3efe7;
+}
+
+.zenve-share-empty {
+  text-align: center;
+  padding: 30px 16px;
+  color: #687f73;
+}
+
+.zenve-share-empty-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.zenve-share-empty p {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+}
+
+.zenve-share-switch-tab-btn {
+  background: #0f4332;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 6. Footer */
+.zenve-share-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-top: 1px solid #edf3ef;
+  background: #fafcfb;
+}
+
+.zenve-share-copy-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid #dce5df;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3b5045;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.zenve-share-copy-link-btn:hover {
+  background: #f4faf6;
+  border-color: #0f4332;
+  color: #0f4332;
+}
+
+.zenve-share-go-messages-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #3D0D18;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.zenve-share-go-messages-btn:hover {
+  background: #501322;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   DARK MODE OVERRIDES
+   ========================================================= */
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-modal-card,
+[data-theme='dark'] .zenve-share-modal-card {
+  background: #14231b !important;
+  border-color: #273b30 !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-modal-header,
+[data-theme='dark'] .zenve-share-modal-header,
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-modal-footer,
+[data-theme='dark'] .zenve-share-modal-footer {
+  background: #101c15 !important;
+  border-color: #24382d !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-icon-wrap,
+[data-theme='dark'] .zenve-share-icon-wrap {
+  background: #1d3327 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-modal-title,
+[data-theme='dark'] .zenve-share-modal-title,
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-doc-name,
+[data-theme='dark'] .zenve-share-doc-name,
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-preview-author-name,
+[data-theme='dark'] .zenve-share-preview-author-name {
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-preview-card,
+[data-theme='dark'] .zenve-share-preview-card {
+  background: #192b21 !important;
+  border-color: #273e31 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-note-input,
+[data-theme='dark'] .zenve-share-note-input,
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-search-input,
+[data-theme='dark'] .zenve-share-search-input {
+  background: #182a21 !important;
+  border-color: #2a3f33 !important;
+  color: #e2ede6 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-tabs,
+[data-theme='dark'] .zenve-share-tabs {
+  background: #17281f !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-tab-active,
+[data-theme='dark'] .zenve-share-tab-active {
+  background: #22372b !important;
+  color: #4ade80 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-doc-item:hover,
+[data-theme='dark'] .zenve-share-doc-item:hover {
+  background-color: #1b2f24 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-share-copy-link-btn,
+[data-theme='dark'] .zenve-share-copy-link-btn {
+  background: #1b2d23 !important;
+  border-color: #2b3f33 !important;
+  color: #c9ded3 !important;
+}

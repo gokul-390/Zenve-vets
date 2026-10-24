@@ -226,6 +226,34 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   const [selectedPostTags, setSelectedPostTags] = useState(['#ClinicalCase']);
   const [postToastMessage, setPostToastMessage] = useState(null);
 
+  // User profile & Self-Tagging states
+  const currentVetProfile = useMemo(() => {
+    try {
+      const stored = localStorage.getItem('zenve_custom_vets');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+      }
+    } catch {
+      // Fallback
+    }
+    return null;
+  }, []);
+
+  const currentUserName = currentVetProfile?.name || 'Dr. You';
+  const [isSelfTagged, setIsSelfTagged] = useState(false);
+  const [customTags, setCustomTags] = useState(() => {
+    try {
+      const saved = localStorage.getItem('zenve_saved_custom_tags');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [isAddingTag, setIsAddingTag] = useState(false);
+  const [newTagInput, setNewTagInput] = useState('');
+  const [selectedTagFilter, setSelectedTagFilter] = useState(null);
+
   // Doctor Profile Modal State (opens on clicking doctor ID / header in posts)
   const [selectedProfileDoctor, setSelectedProfileDoctor] = useState(null);
   const [isDoctorModalOpen, setIsDoctorModalOpen] = useState(false);
@@ -251,22 +279,51 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
   };
 
   const handleDoctorProfileClick = (doctorId, post) => {
-    const doc = DOCTORS_DATABASE[doctorId] || {
-      id: doctorId,
-      name: post?.authorName || 'Dr. ' + doctorId,
-      specialty: post?.authorSpecialty || 'Veterinary Specialist',
-      location: post?.authorSpecialty?.split('•')?.[1]?.trim() || 'India',
-      img: post?.authorImg || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
-      clinic: 'Apex Veterinary Multi-Specialty Clinic',
-      education: 'BVSc & AH, MVSc',
-      experience: '8+ years clinical experience',
-      casesHandled: '540+ cases',
-      followers: '1.8k',
-      followingCount: '210',
-      rating: '4.9 ★',
-      about: `${post?.authorName || 'Doctor'} is a verified veterinary specialist providing compassionate and evidence-based clinical veterinary care across the Zenve Vet network.`,
-      focusAreas: ['Clinical Diagnostics', 'Patient Care', 'Surgical Protocols', 'Animal Welfare'],
-    };
+    let doc = DOCTORS_DATABASE[doctorId];
+
+    if (!doc && (doctorId === 'you' || post?.authorId === 'you')) {
+      if (currentVetProfile) {
+        doc = currentVetProfile;
+      }
+    }
+
+    if (!doc && post?.selfTaggedDoctor && (doctorId === 'you' || doctorId === post.selfTaggedDoctor?.id)) {
+      doc = {
+        id: post.selfTaggedDoctor.id || 'you',
+        name: post.selfTaggedDoctor.name || currentUserName,
+        specialty: post.selfTaggedDoctor.specialty || 'Veterinary Specialist',
+        location: 'India',
+        img: post.selfTaggedDoctor.img || '/images/doctors/arun.jpg',
+        clinic: 'Apex Veterinary Multi-Specialty Clinic',
+        education: 'BVSc & AH, MVSc',
+        experience: '8+ years clinical experience',
+        casesHandled: '540+ cases',
+        followers: '1.8k',
+        followingCount: '210',
+        rating: '4.9 ★',
+        about: `${post.selfTaggedDoctor.name || 'Doctor'} is a verified veterinary specialist providing compassionate and evidence-based clinical veterinary care across the Zenve Vet network.`,
+        focusAreas: ['Clinical Diagnostics', 'Patient Care', 'Surgical Protocols', 'Animal Welfare'],
+      };
+    }
+
+    if (!doc) {
+      doc = {
+        id: doctorId,
+        name: post?.authorName || 'Dr. ' + doctorId,
+        specialty: post?.authorSpecialty || 'Veterinary Specialist',
+        location: post?.authorSpecialty?.split('•')?.[1]?.trim() || 'India',
+        img: post?.authorImg || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&h=150&q=80',
+        clinic: 'Apex Veterinary Multi-Specialty Clinic',
+        education: 'BVSc & AH, MVSc',
+        experience: '8+ years clinical experience',
+        casesHandled: '540+ cases',
+        followers: '1.8k',
+        followingCount: '210',
+        rating: '4.9 ★',
+        about: `${post?.authorName || 'Doctor'} is a verified veterinary specialist providing compassionate and evidence-based clinical veterinary care across the Zenve Vet network.`,
+        focusAreas: ['Clinical Diagnostics', 'Patient Care', 'Surgical Protocols', 'Animal Welfare'],
+      };
+    }
 
     setSelectedProfileDoctor(doc);
     setIsDoctorModalOpen(true);
@@ -626,18 +683,150 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
     );
   };
 
+  const handleToggleSelfTag = () => {
+    setIsSelfTagged((prev) => {
+      const next = !prev;
+      const selfTagLabel = `@${currentUserName}`;
+      if (next) {
+        setSelectedPostTags((curr) =>
+          curr.includes(selfTagLabel) ? curr : [...curr, selfTagLabel]
+        );
+      } else {
+        setSelectedPostTags((curr) =>
+          curr.filter((t) => t !== selfTagLabel)
+        );
+      }
+      return next;
+    });
+  };
+
+  const handleAddCustomTag = () => {
+    const raw = newTagInput.trim();
+    if (!raw) {
+      setIsAddingTag(false);
+      return;
+    }
+    const cleanTag = raw.startsWith('#') || raw.startsWith('@') ? raw : `#${raw.replace(/\s+/g, '')}`;
+
+    if (!customTags.includes(cleanTag)) {
+      const updated = [...customTags, cleanTag];
+      setCustomTags(updated);
+      try {
+        localStorage.setItem('zenve_saved_custom_tags', JSON.stringify(updated));
+      } catch (err) {
+        console.warn('Could not save custom tags to localStorage:', err);
+      }
+    }
+
+    if (!selectedPostTags.includes(cleanTag)) {
+      setSelectedPostTags((prev) => [...prev, cleanTag]);
+    }
+
+    setNewTagInput('');
+    setIsAddingTag(false);
+  };
+
+  const handleDeleteCustomTag = (tagToDelete, e) => {
+    if (e) e.stopPropagation();
+    const updated = customTags.filter((t) => t !== tagToDelete);
+    setCustomTags(updated);
+    try {
+      localStorage.setItem('zenve_saved_custom_tags', JSON.stringify(updated));
+    } catch (err) {
+      console.warn('Could not save custom tags to localStorage:', err);
+    }
+    setSelectedPostTags((prev) => prev.filter((t) => t !== tagToDelete));
+  };
+
+  const handleTogglePostSelfTag = (postId) => {
+    let targetAuthor = '';
+    let isNowTagged = false;
+
+    setFeedPosts((prev) => {
+      const updated = prev.map((p) => {
+        if (p.id === postId) {
+          const nextSelfTagged = !p.isSelfTagged;
+          isNowTagged = nextSelfTagged;
+          targetAuthor = p.authorName;
+
+          const selfDoc = nextSelfTagged
+            ? {
+                id: currentVetProfile?.id || 'you',
+                name: currentUserName,
+                specialty: currentVetProfile?.specialty || 'Veterinary Professional • Clinical Practice',
+                img: currentVetProfile?.img || '/images/doctors/arun.jpg',
+              }
+            : null;
+
+          let updatedTags = Array.isArray(p.tags) ? [...p.tags] : [];
+          const selfTagText = `@${currentUserName}`;
+          if (nextSelfTagged && !updatedTags.includes(selfTagText)) {
+            updatedTags.push(selfTagText);
+          } else if (!nextSelfTagged) {
+            updatedTags = updatedTags.filter((t) => t !== selfTagText);
+          }
+
+          return {
+            ...p,
+            isSelfTagged: nextSelfTagged,
+            selfTaggedDoctor: selfDoc,
+            tags: updatedTags,
+          };
+        }
+        return p;
+      });
+
+      try {
+        localStorage.setItem('zenve_community_posts', JSON.stringify(updated));
+      } catch (err) {
+        console.warn('Could not save posts to localStorage:', err);
+      }
+
+      return updated;
+    });
+
+    setPostToastMessage(
+      isNowTagged
+        ? `🏷️ Tagged yourself on ${targetAuthor || 'this'}'s post!`
+        : `Removed self tag from ${targetAuthor || 'this'}'s post.`
+    );
+    setTimeout(() => setPostToastMessage(null), 3000);
+  };
+
   const handlePostButtonClick = async () => {
     if (!selectedPostImage && !postText.trim()) {
       handleOpenPostGallery();
       return;
     }
 
+    const selfDoctorInfo = isSelfTagged
+      ? {
+          id: currentVetProfile?.id || 'you',
+          name: currentUserName,
+          specialty:
+            currentVetProfile?.specialty ||
+            'Veterinary Professional • Clinical Practice',
+          img:
+            currentVetProfile?.img ||
+            '/images/doctors/arun.jpg',
+        }
+      : null;
+
+    const finalTags =
+      selectedPostTags.length > 0
+        ? selectedPostTags
+        : isSelfTagged
+        ? [`@${currentUserName}`, '#ClinicalCase', '#ZenveVet']
+        : ['#ZenveVet', '#ClinicalCase', '#VeterinaryNetwork'];
+
     const newPost = {
       id: `post-${Date.now()}`,
       authorId: 'you',
-      authorName: 'Dr. You (Your Practice)',
-      authorImg: '/images/doctors/arun.jpg',
-      authorSpecialty: 'Veterinary Professional • Clinical Practice',
+      authorName: currentUserName,
+      authorImg: currentVetProfile?.img || '/images/doctors/arun.jpg',
+      authorSpecialty:
+        currentVetProfile?.specialty ||
+        'Veterinary Professional • Clinical Practice',
       timeAgo: 'Just now',
       caption:
         postText.trim() ||
@@ -648,10 +837,9 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
       videoUrl: null,
       isVideoShort: false,
       likes: 1,
-      tags:
-        selectedPostTags.length > 0
-          ? selectedPostTags
-          : ['#ZenveVet', '#ClinicalCase', '#VeterinaryNetwork'],
+      isSelfTagged: isSelfTagged,
+      selfTaggedDoctor: selfDoctorInfo,
+      tags: finalTags,
       initialComments: [],
       createdAt: Date.now(),
     };
@@ -674,12 +862,18 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
     setPostText('');
     setSelectedPostImage(null);
     setSelectedPostImageName('');
+    setIsSelfTagged(false);
+    setSelectedPostTags(['#ClinicalCase']);
 
     if (activeMainTab === 'videos' || feedFilterTab === 'videos') {
       handleTabChange('for-you');
     }
 
-    setPostToastMessage('🎉 Picture posted to community feed successfully!');
+    setPostToastMessage(
+      isSelfTagged
+        ? `🎉 Picture posted with self tag (${currentUserName})!`
+        : '🎉 Picture posted to community feed successfully!'
+    );
     setTimeout(() => setPostToastMessage(null), 3500);
 
     feedTopRef.current?.scrollIntoView({
@@ -935,11 +1129,19 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
         {selectedPostImage && (
           <div className="zenve-post-image-preview-box">
             <div className="zenve-post-image-preview-inner">
-              <img
-                src={selectedPostImage}
-                alt="Selected from gallery"
-                className="zenve-post-image-preview-thumbnail"
-              />
+              <div className="zenve-preview-img-container">
+                <img
+                  src={selectedPostImage}
+                  alt="Selected from gallery"
+                  className="zenve-post-image-preview-thumbnail"
+                />
+                {isSelfTagged && (
+                  <div className="zenve-preview-selftag-overlay" title={`Tagged: ${currentUserName}`}>
+                    <span className="zenve-preview-selftag-icon">🏷️</span>
+                    <span>Tagged: {currentUserName}</span>
+                  </div>
+                )}
+              </div>
 
               <div className="zenve-post-image-preview-details">
                 <div className="zenve-post-preview-status-badge">
@@ -975,6 +1177,23 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
           </div>
         )}
 
+        {isSelfTagged && (
+          <div className="zenve-post-self-tag-notification">
+            <span className="zenve-self-tag-noti-icon">🏷️</span>
+            <span className="zenve-self-tag-noti-text">
+              Self-tagged as <strong>{currentUserName}</strong> — viewers can tap the tag on your post to open your verified profile.
+            </span>
+            <button
+              type="button"
+              className="zenve-self-tag-noti-remove"
+              onClick={handleToggleSelfTag}
+              title="Remove self tag"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
         <div className="zenve-create-post-bottom">
           <div className="zenve-post-actions-pills">
             <button
@@ -1001,6 +1220,37 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
               <span>{selectedPostImage ? 'Change Photo' : 'Photo / Gallery'}</span>
             </button>
 
+            {/* Self Tag Option Button */}
+            <button
+              type="button"
+              className={`zenve-post-pill zenve-post-self-tag-pill ${isSelfTagged ? 'zenve-post-pill-active zenve-self-tag-pill-active' : ''
+                }`}
+              onClick={handleToggleSelfTag}
+              title={
+                isSelfTagged
+                  ? `Tagged as ${currentUserName}. Click to remove self tag`
+                  : `Tag yourself (${currentUserName}) on this post`
+              }
+              id="zenve-post-self-tag-btn"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                <line x1="7" y1="7" x2="7.01" y2="7" />
+              </svg>
+              <span>{isSelfTagged ? `✓ ${currentUserName}` : 'Tag Myself'}</span>
+              {isSelfTagged && <span className="zenve-self-tag-pill-badge">Self</span>}
+            </button>
+
+            {/* Standard preset tags */}
             {['#ClinicalCase', '#Surgery', '#AnimalCare'].map((tag) => {
               const isSelected = selectedPostTags.includes(tag);
 
@@ -1017,6 +1267,86 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
                 </button>
               );
             })}
+
+            {/* Custom user tags with delete option */}
+            {customTags.map((tag) => {
+              const isSelected = selectedPostTags.includes(tag);
+
+              return (
+                <div key={tag} className="zenve-custom-tag-chip-wrap">
+                  <button
+                    type="button"
+                    className={`zenve-post-tag-chip zenve-custom-tag-chip ${isSelected ? 'zenve-tag-chip-selected' : ''
+                      }`}
+                    onClick={() => handleTogglePostTag(tag)}
+                    title={`Toggle ${tag}`}
+                  >
+                    {tag}
+                  </button>
+                  <button
+                    type="button"
+                    className="zenve-custom-tag-delete-btn"
+                    onClick={(e) => handleDeleteCustomTag(tag, e)}
+                    title={`Delete custom tag ${tag}`}
+                  >
+                    ✕
+                  </button>
+                </div>
+              );
+            })}
+
+            {/* Add Custom Tag Form / Trigger */}
+            {isAddingTag ? (
+              <div className="zenve-post-tag-input-inline">
+                <span className="zenve-tag-prefix">#</span>
+                <input
+                  type="text"
+                  className="zenve-inline-tag-input"
+                  placeholder="tag..."
+                  value={newTagInput}
+                  onChange={(e) => setNewTagInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddCustomTag();
+                    } else if (e.key === 'Escape') {
+                      setIsAddingTag(false);
+                      setNewTagInput('');
+                    }
+                  }}
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  className="zenve-inline-tag-confirm-btn"
+                  onClick={handleAddCustomTag}
+                  title="Add tag"
+                >
+                  ✓
+                </button>
+                <button
+                  type="button"
+                  className="zenve-inline-tag-cancel-btn"
+                  onClick={() => {
+                    setIsAddingTag(false);
+                    setNewTagInput('');
+                  }}
+                  title="Cancel"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                className="zenve-post-tag-chip zenve-post-add-tag-chip"
+                onClick={() => setIsAddingTag(true)}
+                title="Add custom tag"
+              >
+                <span className="zenve-add-tag-plus">+</span>
+                <span>Tag</span>
+              </button>
+            )}
           </div>
 
           <button
@@ -1118,6 +1448,32 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
         </section>
       )}
 
+      {selectedTagFilter && (
+        <section className="zenve-shorts-filter-banner zenve-tag-filter-banner">
+          <div className="zenve-shorts-banner-left">
+            <span className="zenve-shorts-banner-tag">
+              <span className="zenve-shorts-live-dot" />
+              TAG FILTER
+            </span>
+            <div className="zenve-shorts-banner-text">
+              <h3 className="zenve-shorts-banner-title">
+                Showing posts tagged with {selectedTagFilter}
+              </h3>
+              <p className="zenve-shorts-banner-desc">
+                Clinical cases and discussions matching this tag.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="zenve-shorts-show-all-btn"
+            onClick={() => setSelectedTagFilter(null)}
+          >
+            Show All Posts ✕
+          </button>
+        </section>
+      )}
+
       <section className="zenve-feed-posts-stream">
         {(() => {
           let displayed = feedPosts;
@@ -1135,6 +1491,33 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
             displayed = followed.length > 0 ? followed : feedPosts;
           }
 
+          if (selectedTagFilter) {
+            displayed = displayed.filter(
+              (post) =>
+                post.tags &&
+                post.tags.some(
+                  (t) => t.toLowerCase() === selectedTagFilter.toLowerCase()
+                )
+            );
+          }
+
+          if (displayed.length === 0) {
+            return (
+              <div className="zenve-empty-tag-posts">
+                <span className="zenve-empty-tag-icon">🏷️</span>
+                <h4>No posts found for {selectedTagFilter}</h4>
+                <p>Be the first to create a post with this tag!</p>
+                <button
+                  type="button"
+                  className="zenve-clear-tag-btn"
+                  onClick={() => setSelectedTagFilter(null)}
+                >
+                  Clear filter
+                </button>
+              </div>
+            );
+          }
+
           return displayed.map((post) => (
             <PostCard
               key={post.id}
@@ -1142,6 +1525,8 @@ export const FeedContent = ({ onOpenCreateProfile, activeMainTab = 'feed', onSel
               onDoctorClick={(doctorId) =>
                 handleDoctorProfileClick(doctorId, post)
               }
+              onToggleSelfTag={(postId) => handleTogglePostSelfTag(postId)}
+              onTagClick={(tag) => setSelectedTagFilter(tag)}
             />
           ));
         })()}

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   getAllProfiles,
   getFollowMap,
@@ -6,26 +6,9 @@ import {
 } from '../data/profilesData';
 import { getDoctorImage, getDoctorFallbackImage } from '../utils/doctorImages.js';
 import { useTheme } from '../context/ThemeContext';
-import DoctorProfileModal from './DoctorProfileModal';
+import VetNetworkProfileModal from './components/VetNetworkProfileModal';
 import { SearchIcon, PlusIcon } from './Icons';
 import '../csscomponents/NetworkPage.css';
-
-const SPECIALTY_OPTIONS = [
-  'All Specialties',
-  'Small Animal Medicine',
-  'Veterinary Surgery',
-  'Veterinary Dermatology',
-  'Equine Medicine',
-  'Diagnostic Imaging',
-  'Livestock Health',
-  'Wildlife Medicine',
-  'Animal Nutrition',
-  'Veterinary Dentistry',
-  'Emergency & Critical Care',
-  'Preventive Medicine',
-  'Veterinary Research',
-  'Veterinary Pathology',
-];
 
 const CITY_OPTIONS = [
   'All Cities',
@@ -48,122 +31,114 @@ const CITY_OPTIONS = [
   'Kozhikode',
 ];
 
+const NAV_TAB_LABELS = {
+  all: 'All Specialists',
+  'small-animal': 'Small Animal Medicine',
+  surgery: 'Veterinary Surgery',
+  dermatology: 'Dermatology',
+  equine: 'Equine & Livestock',
+  imaging: 'Diagnostic Imaging',
+  following: 'Following',
+};
+
+// Robust helper to extract and format user-created veterinarian profiles
+function getUserCreatedProfiles(customVetsProp = []) {
+  const list = [];
+  const seenIds = new Set();
+
+  const addDoctor = (doc) => {
+    if (!doc || typeof doc !== 'object') return;
+    const name = doc.name || doc.fullName || 'Dr. Professional';
+    const id = doc.id || `user_${name.replace(/\s+/g, '_').toLowerCase()}`;
+    if (seenIds.has(id)) return;
+    seenIds.add(id);
+
+    const city = doc.city || (doc.location || '').split(',')[0].trim() || 'India';
+    const initials =
+      doc.initials ||
+      name
+        .replace(/^Dr\.?\s*/i, '')
+        .split(' ')
+        .map((w) => w[0])
+        .join('')
+        .substring(0, 2)
+        .toUpperCase() || 'DR';
+
+    list.push({
+      ...doc,
+      id,
+      name,
+      city,
+      location: doc.location || doc.cityState || `${city}, India`,
+      clinic: doc.clinic || doc.workingPlace || 'Independent Clinical Practice',
+      specialty: doc.specialty || 'Veterinary Practitioner',
+      initials,
+      color: doc.color || '#1A3A2A',
+      img: getDoctorImage(doc),
+      verified: true,
+      isCurrentUser: true,
+      isVerified: true,
+    });
+  };
+
+  if (Array.isArray(customVetsProp)) {
+    customVetsProp.forEach(addDoctor);
+  }
+
+  try {
+    const v1 = localStorage.getItem('zenve_custom_vets');
+    if (v1) {
+      const p1 = JSON.parse(v1);
+      if (Array.isArray(p1)) p1.forEach(addDoctor);
+    }
+  } catch {}
+
+  try {
+    const v2 = localStorage.getItem('zenve_custom_profiles');
+    if (v2) {
+      const p2 = JSON.parse(v2);
+      if (Array.isArray(p2)) p2.forEach(addDoctor);
+    }
+  } catch {}
+
+  return list;
+}
+
 export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
   const themeContext = useTheme();
   const isDark = Boolean(themeContext?.isDark);
-  const [profiles, setProfiles] = useState(() => {
-    const all = getAllProfiles();
-    let extra = customVets;
-    if (!extra || extra.length === 0) {
-      try {
-        const stored = localStorage.getItem('zenve_custom_vets');
-        if (stored) extra = JSON.parse(stored);
-      } catch {
-        extra = [];
-      }
-    }
-    if (Array.isArray(extra) && extra.length > 0) {
-      const existingIds = new Set(all.map((p) => p.id));
-      const formatted = extra
-        .filter((v) => !existingIds.has(v.id))
-        .map((v) => ({
-          ...v,
-          city: v.city || (v.location || '').split(',')[0].trim() || 'India',
-          initials:
-            v.initials ||
-            (v.name
-              ? v.name
-                  .replace(/^Dr\.?\s*/i, '')
-                  .split(' ')
-                  .map((w) => w[0])
-                  .join('')
-                  .substring(0, 2)
-                  .toUpperCase()
-              : 'DV'),
-          color: v.color || '#DCE9E0',
-          img: getDoctorImage(v),
-          verified: v.verified !== undefined ? v.verified : true,
-        }));
-      return [...formatted, ...all];
-    }
-    return all.map((p) => ({ ...p, img: getDoctorImage(p) }));
-  });
+  const toggleTheme = themeContext?.toggleTheme;
+
+  // Construct combined profiles with user-created profiles guaranteed at index 0
+  const buildProfiles = useCallback(() => {
+    const userVets = getUserCreatedProfiles(customVets);
+    const communityProfiles = getAllProfiles();
+    const userIds = new Set(userVets.map((u) => u.id));
+    const filteredCommunity = communityProfiles.filter((p) => !userIds.has(p.id));
+    return [...userVets, ...filteredCommunity];
+  }, [customVets]);
+
+  const [profiles, setProfiles] = useState(() => buildProfiles());
   const [followingMap, setFollowingMap] = useState(() => getFollowMap());
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Sync customVets prop updates with guaranteed photos
-  useEffect(() => {
-    if (customVets && customVets.length > 0) {
-      setProfiles((prev) => {
-        const existingIds = new Set(prev.map((p) => p.id));
-        const formatted = customVets
-          .filter((v) => !existingIds.has(v.id))
-          .map((v) => ({
-            ...v,
-            city: v.city || (v.location || '').split(',')[0].trim() || 'India',
-            initials:
-              v.initials ||
-              (v.name
-                ? v.name
-                    .replace(/^Dr\.?\s*/i, '')
-                    .split(' ')
-                    .map((w) => w[0])
-                    .join('')
-                    .substring(0, 2)
-                    .toUpperCase()
-                : 'DV'),
-            color: v.color || '#DCE9E0',
-            img: getDoctorImage(v),
-            verified: v.verified !== undefined ? v.verified : true,
-          }));
-        return [...formatted, ...prev];
-      });
-    }
-  }, [customVets]);
-
-  // Ensure any existing stored profiles in browser localStorage get permanent photos
-  useEffect(() => {
-    try {
-      const keys = ['zenve_custom_vets', 'zenve_custom_profiles'];
-      keys.forEach((key) => {
-        const raw = localStorage.getItem(key);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            let changed = false;
-            const sanitized = parsed.map((v) => {
-              const currentImg = v.img;
-              const validImg = getDoctorImage(v);
-              if (!currentImg || currentImg !== validImg) {
-                changed = true;
-                return { ...v, img: validImg };
-              }
-              return v;
-            });
-            if (changed) {
-              localStorage.setItem(key, JSON.stringify(sanitized));
-            }
-          }
-        }
-      });
-    } catch {
-      // ignore storage errors
-    }
-  }, []);
-
-  // Navigation tab bar state (Pure Vet Network Categories)
+  // Single category navigation tab state
   const [activeNavTab, setActiveNavTab] = useState('all');
 
-  // Filters state
+  // Search & City filter states (duplicate specialty pills removed)
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSpecialty, setSelectedSpecialty] = useState('All Specialties');
   const [selectedCity, setSelectedCity] = useState('All Cities');
 
-  // Sync when profiles or follow state change globally
+  // Refresh profiles whenever customVets prop updates
   useEffect(() => {
-    const handleProfilesUpdate = () => {
-      setProfiles(getAllProfiles());
+    setProfiles(buildProfiles());
+  }, [buildProfiles]);
+
+  // Sync across tabs/storage events when a user creates or updates a profile
+  useEffect(() => {
+    const handleUpdate = () => {
+      setProfiles(buildProfiles());
     };
     const handleFollowUpdate = (e) => {
       if (e.detail) {
@@ -176,13 +151,18 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
       }
     };
 
-    window.addEventListener('zenve_profiles_updated', handleProfilesUpdate);
+    window.addEventListener('storage', handleUpdate);
+    window.addEventListener('zenve_profiles_updated', handleUpdate);
+    window.addEventListener('zenve_custom_vet_added', handleUpdate);
     window.addEventListener('zenve_follow_updated', handleFollowUpdate);
+
     return () => {
-      window.removeEventListener('zenve_profiles_updated', handleProfilesUpdate);
+      window.removeEventListener('storage', handleUpdate);
+      window.removeEventListener('zenve_profiles_updated', handleUpdate);
+      window.removeEventListener('zenve_custom_vet_added', handleUpdate);
       window.removeEventListener('zenve_follow_updated', handleFollowUpdate);
     };
-  }, []);
+  }, [buildProfiles]);
 
   const handleToggleFollow = (doctorId) => {
     const newState = toggleFollowStore(doctorId);
@@ -190,10 +170,7 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
   };
 
   const handleOpenDoctorModal = (doctor) => {
-    setSelectedDoctor({
-      ...doctor,
-      img: getDoctorImage(doctor),
-    });
+    setSelectedDoctor(doctor);
     setIsModalOpen(true);
   };
 
@@ -202,10 +179,10 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
     setSelectedDoctor(null);
   };
 
-  // Filtered Vet Network profiles list
+  // Filtered profiles list (unified under activeNavTab, searchQuery, and selectedCity)
   const filteredProfiles = useMemo(() => {
     return profiles.filter((doc) => {
-      // 1. Navigation Tab filter (Professional Vet Network Categories)
+      // 1. Navigation Tab filter (Single category filter bar)
       if (activeNavTab === 'small-animal') {
         const spec = (doc.specialty || '').toLowerCase();
         if (!spec.includes('small animal') && !spec.includes('companion') && !spec.includes('pediatric')) {
@@ -247,19 +224,7 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         if (!combined.includes(q)) return false;
       }
 
-      // 3. Specialty match
-      if (selectedSpecialty !== 'All Specialties') {
-        const docSpecialty = (doc.specialty || '').toLowerCase();
-        const target = selectedSpecialty.toLowerCase();
-        if (!docSpecialty.includes(target) && !target.includes(docSpecialty)) {
-          const matchFocus = (doc.focusAreas || []).some((f) =>
-            f.toLowerCase().includes(target)
-          );
-          if (!matchFocus) return false;
-        }
-      }
-
-      // 4. City match
+      // 3. City match
       if (selectedCity !== 'All Cities') {
         const docCity = (doc.city || '').toLowerCase();
         const target = selectedCity.toLowerCase();
@@ -270,18 +235,20 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
 
       return true;
     });
-  }, [profiles, activeNavTab, searchQuery, selectedSpecialty, selectedCity, followingMap]);
+  }, [profiles, activeNavTab, searchQuery, selectedCity, followingMap]);
+
+  const hasUserProfile = useMemo(() => {
+    return profiles.some((p) => p.isCurrentUser);
+  }, [profiles]);
 
   const activeFilterCount =
     (activeNavTab !== 'all' ? 1 : 0) +
-    (selectedSpecialty !== 'All Specialties' ? 1 : 0) +
     (selectedCity !== 'All Cities' ? 1 : 0) +
     (searchQuery.trim() ? 1 : 0);
 
   const resetFilters = () => {
     setActiveNavTab('all');
     setSearchQuery('');
-    setSelectedSpecialty('All Specialties');
     setSelectedCity('All Cities');
   };
 
@@ -290,7 +257,7 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
       className={`zenve-network-page ${isDark ? 'zenve-network-page--dark' : 'zenve-network-page--light'}`}
       data-theme={isDark ? 'dark' : 'light'}
     >
-      {/* 1. Network Page Hero Card (Pink #DA2A51) */}
+      {/* 1. Network Page Hero Card */}
       <section className="zenve-network-hero">
         <div className="zenve-network-hero-left">
           <span className="zenve-network-hero-tag">THE ZENVE VET COMMUNITY</span>
@@ -327,7 +294,7 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         </div>
       </section>
 
-      {/* 2. Professional Vet Network Category Navigation Bar */}
+      {/* 2. Professional Category Navigation Bar (Single Unified Filter) */}
       <div className="zenve-network-tabs-bar">
         <div className="zenve-network-tabs-left">
           <button
@@ -382,12 +349,24 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         </div>
 
         <div className="zenve-network-tabs-right">
+          {toggleTheme && (
+            <button
+              type="button"
+              className={`zenve-network-theme-toggle ${isDark ? 'zenve-network-theme-toggle--dark' : 'zenve-network-theme-toggle--light'}`}
+              onClick={toggleTheme}
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              <span className="zenve-network-toggle-icon">{isDark ? '🌙' : '☀️'}</span>
+              <span className="zenve-network-toggle-label">{isDark ? 'Dark Mode' : 'Light Mode'}</span>
+            </button>
+          )}
           <span className="zenve-community-feed-dot" />
           <span className="zenve-community-feed-label">Live Vet Network</span>
         </div>
       </div>
 
-      {/* 3. Interactive Search & Filter Controls */}
+      {/* 3. Search & Location Filter Controls */}
       <section className="zenve-network-filter-section">
         <div className="zenve-network-search-row">
           {/* Search Box */}
@@ -454,28 +433,16 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
           </button>
         </div>
 
-        {/* Specialty Filter Pills */}
-        <div className="zenve-network-specialty-scroll">
-          {SPECIALTY_OPTIONS.map((specialty) => {
-            const isSelected = selectedSpecialty === specialty;
-            return (
-              <button
-                key={specialty}
-                type="button"
-                className={`zenve-specialty-pill ${isSelected ? 'zenve-specialty-pill-active' : ''}`}
-                onClick={() => setSelectedSpecialty(specialty)}
-              >
-                {specialty}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Results summary bar */}
+        {/* Results summary bar with live profile confirmation */}
         <div className="zenve-network-results-bar">
           <span className="zenve-network-results-count">
             Showing <strong>{filteredProfiles.length}</strong> verified veterinarians across India
-            {selectedSpecialty !== 'All Specialties' && ` • ${selectedSpecialty}`}
+            {hasUserProfile && (
+              <span className="zenve-network-user-live-indicator" title="Your veterinarian profile is active in the network">
+                <span className="zenve-network-user-live-dot" /> Your profile is live
+              </span>
+            )}
+            {activeNavTab !== 'all' && ` • ${NAV_TAB_LABELS[activeNavTab] || activeNavTab}`}
             {selectedCity !== 'All Cities' && ` • ${selectedCity}`}
           </span>
 
@@ -496,11 +463,12 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         <div className={`zenve-network-grid ${isDark ? 'zenve-network-grid--dark' : 'zenve-network-grid--light'}`}>
           {filteredProfiles.map((doctor) => {
             const isFollowing = !!followingMap[doctor.id];
+            const isUser = !!doctor.isCurrentUser;
 
             return (
               <article
                 key={doctor.id}
-                className={`zenve-network-card ${isDark ? 'zenve-network-card--dark' : 'zenve-network-card--light'}`}
+                className={`zenve-network-card ${isUser ? 'zenve-network-card--user' : ''} ${isDark ? 'zenve-network-card--dark' : 'zenve-network-card--light'}`}
               >
                 {/* Doctor Avatar Header */}
                 <div className="zenve-network-card-header">
@@ -524,8 +492,13 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
                     <span className="zenve-network-online-dot" title="Available for consult" />
                   </div>
 
-                  {/* Verified Badge */}
+                  {/* Badges: You / Verified */}
                   <div className="zenve-network-card-badges">
+                    {isUser && (
+                      <span className="zenve-network-user-badge" title="Your veterinarian profile">
+                        <span className="zenve-network-user-badge-dot" /> You
+                      </span>
+                    )}
                     <span className="zenve-network-verified-badge" title="Zenve Verified Professional">
                       Verified
                     </span>
@@ -573,8 +546,7 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         >
-                          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                          <path d="M3 21h18M5 21V7l8-4v18M13 7l6 3v11" />
                         </svg>
                         <span>{doctor.clinic}</span>
                       </span>
@@ -582,7 +554,7 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
                   </div>
                 </div>
 
-                {/* Card Actions Footer */}
+                {/* Card Footer */}
                 <div className="zenve-network-card-footer">
                   <button
                     type="button"
@@ -593,14 +565,25 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
                     <span className="zenve-network-view-arrow">↗</span>
                   </button>
 
-                  <button
-                    type="button"
-                    className={`zenve-network-connect-btn ${isFollowing ? 'zenve-connected' : ''}`}
-                    onClick={() => handleToggleFollow(doctor.id)}
-                    title={isFollowing ? 'Connected' : 'Connect with doctor'}
-                  >
-                    {isFollowing ? '✓ Connected' : '+ Connect'}
-                  </button>
+                  {isUser ? (
+                    <button
+                      type="button"
+                      className="zenve-network-user-edit-btn"
+                      onClick={onOpenCreateProfile}
+                      title="Edit your profile information"
+                    >
+                      ✏️ Edit Profile
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={`zenve-network-connect-btn ${isFollowing ? 'zenve-connected' : ''}`}
+                      onClick={() => handleToggleFollow(doctor.id)}
+                      title={isFollowing ? 'Connected' : 'Connect with doctor'}
+                    >
+                      {isFollowing ? '✓ Connected' : '+ Connect'}
+                    </button>
+                  )}
                 </div>
               </article>
             );
@@ -624,13 +607,14 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         </div>
       )}
 
-      {/* 5. Full Doctor Profile Modal View */}
-      <DoctorProfileModal
+      {/* 5. Professional Vet Network Profile Modal View */}
+      <VetNetworkProfileModal
         doctor={selectedDoctor}
         isOpen={isModalOpen}
         onClose={handleCloseDoctorModal}
         isFollowing={selectedDoctor ? !!followingMap[selectedDoctor.id] : false}
         onToggleFollow={handleToggleFollow}
+        onEditProfile={onOpenCreateProfile}
       />
     </div>
   );

@@ -505,6 +505,263 @@
   font-weight: 600;
 }
 
+/* Self Tag Pill Styles */
+.zenve-post-self-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdfaf6;
+  border: 1px solid #e7ded6;
+  color: #4b382a;
+  font-weight: 500;
+}
+
+.zenve-post-self-tag-pill:hover {
+  background: #f7f1eb;
+  border-color: #d1c1b4;
+  color: #3D0D18;
+}
+
+.zenve-self-tag-pill-active {
+  background: linear-gradient(135deg, #fbf2f4 0%, #faedf0 100%) !important;
+  border-color: #3D0D18 !important;
+  color: #3D0D18 !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 4px rgba(61, 13, 24, 0.12);
+}
+
+.zenve-self-tag-pill-badge {
+  background: #3D0D18;
+  color: #ffffff;
+  font-size: 9.5px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* Self Tag Notice Banner */
+.zenve-post-self-tag-notification {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 14px 4px 14px;
+  padding: 8px 12px;
+  background: #fbf5f6;
+  border: 1px solid #f0dde1;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #44141e;
+  animation: fadeInTag 0.2s ease;
+}
+
+.zenve-self-tag-noti-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.zenve-self-tag-noti-text {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.zenve-self-tag-noti-text strong {
+  color: #3D0D18;
+}
+
+.zenve-self-tag-noti-remove {
+  background: transparent;
+  border: none;
+  color: #8a636b;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 4px;
+  transition: color 0.15s ease;
+}
+
+.zenve-self-tag-noti-remove:hover {
+  color: #3D0D18;
+}
+
+/* Image preview self-tag overlay */
+.zenve-preview-img-container {
+  position: relative;
+  display: inline-block;
+}
+
+.zenve-preview-selftag-overlay {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(15, 67, 50, 0.88);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 10.5px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.zenve-preview-selftag-icon {
+  font-size: 11px;
+}
+
+/* Custom Tag Chips & Inline Input */
+.zenve-custom-tag-chip-wrap {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.zenve-custom-tag-chip {
+  padding-right: 22px !important;
+}
+
+.zenve-custom-tag-delete-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 10px;
+  color: #8c9b93;
+  cursor: pointer;
+  padding: 1px 3px;
+  line-height: 1;
+  border-radius: 50%;
+}
+
+.zenve-custom-tag-delete-btn:hover {
+  color: #e11d48;
+  background: rgba(225, 29, 72, 0.12);
+}
+
+.zenve-post-add-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-style: dashed !important;
+  border-color: #cbd8cf !important;
+  background: #fbfdfc !important;
+  color: #0f4332 !important;
+  font-weight: 600 !important;
+}
+
+.zenve-post-add-tag-chip:hover {
+  background: #eef5f1 !important;
+  border-color: #0f4332 !important;
+}
+
+.zenve-add-tag-plus {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.zenve-post-tag-input-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffffff;
+  border: 1.5px solid #0f4332;
+  border-radius: 14px;
+  padding: 2px 6px 2px 8px;
+  box-shadow: 0 2px 6px rgba(15, 67, 50, 0.12);
+}
+
+.zenve-tag-prefix {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f4332;
+}
+
+.zenve-inline-tag-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  color: #17241e;
+  font-family: inherit;
+  width: 76px;
+}
+
+.zenve-inline-tag-confirm-btn {
+  background: #0f4332;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.zenve-inline-tag-confirm-btn:hover {
+  transform: scale(1.1);
+}
+
+.zenve-inline-tag-cancel-btn {
+  background: transparent;
+  border: none;
+  color: #8c9b93;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.zenve-inline-tag-cancel-btn:hover {
+  color: #e11d48;
+}
+
+.zenve-empty-tag-posts {
+  text-align: center;
+  padding: 36px 20px;
+  background: #ffffff;
+  border: 1px dashed #d5ded8;
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.zenve-empty-tag-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.zenve-empty-tag-posts h4 {
+  margin: 0 0 6px 0;
+  font-size: 15px;
+  color: #1b2621;
+}
+
+.zenve-empty-tag-posts p {
+  margin: 0 0 14px 0;
+  font-size: 13px;
+  color: #63736b;
+}
+
+.zenve-clear-tag-btn {
+  background: #0f4332;
+  color: #ffffff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .zenve-post-submit-btn {
   display: inline-flex;
   align-items: center;

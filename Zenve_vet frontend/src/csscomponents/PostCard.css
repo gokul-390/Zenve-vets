@@ -105,6 +105,206 @@
   color: #1a2520;
 }
 
+.zenve-post-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zenve-card-selftag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #fbf2f4;
+  border: 1px solid #ecc9d1;
+  border-radius: 14px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.zenve-card-selftag-pill:hover {
+  background: #f6e2e6;
+  border-color: #3D0D18;
+  transform: translateY(-1px);
+}
+
+.zenve-card-selftag-icon {
+  font-size: 11px;
+}
+
+.zenve-card-selftag-text {
+  font-size: 11px;
+  color: #3D0D18;
+}
+
+.zenve-card-selftag-text strong {
+  font-weight: 700;
+}
+
+.zenve-card-selftag-badge {
+  background: #3D0D18;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.zenve-media-selftag-overlay-btn {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(15, 67, 50, 0.88);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+}
+
+.zenve-media-selftag-overlay-btn:hover {
+  background: rgba(15, 67, 50, 0.98);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.zenve-media-selftag-icon {
+  font-size: 12px;
+}
+
+.zenve-media-selftag-text {
+  font-size: 11.5px;
+}
+
+.zenve-media-selftag-arrow {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.zenve-card-selftag-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 10px !important;
+  border-radius: 16px;
+  background: #f6faf7;
+  border: 1px solid #d4e2da;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #2e4438;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+
+.zenve-card-selftag-action-btn:hover {
+  background: #edf6f1;
+  border-color: #0f4332;
+  color: #0f4332;
+  transform: translateY(-1px);
+}
+
+.zenve-card-selftag-action-active {
+  background: linear-gradient(135deg, #e5f4ec 0%, #d8eee1 100%) !important;
+  border-color: #0f4332 !important;
+  color: #0f4332 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 4px rgba(15, 67, 50, 0.15) !important;
+}
+
+.zenve-card-action-tag-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background: #0f4332;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+/* Callout banner below bottom action bar when post is self-tagged */
+.zenve-post-selftagged-callout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 14px 8px 14px;
+  padding: 6px 11px;
+  background: #f1f8f4;
+  border: 1px solid #cbe4d6;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #1a4231;
+  animation: fadeInTag 0.2s ease;
+}
+
+.zenve-selftagged-callout-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.zenve-selftagged-callout-text {
+  flex: 1;
+}
+
+.zenve-selftagged-callout-text strong {
+  color: #0f4332;
+}
+
+.zenve-selftagged-callout-remove {
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  color: #728c7f;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.zenve-selftagged-callout-remove:hover {
+  color: #e11d48;
+}
+
+.zenve-post-tag-selftag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #fbf2f4;
+  color: #3D0D18 !important;
+  padding: 1px 7px;
+  border-radius: 10px;
+  border: 1px solid #ecc9d1;
+  font-weight: 700 !important;
+}
+
+.zenve-post-tag-selftag:hover {
+  background: #f4dbe1;
+  border-color: #3D0D18;
+}
+
+.zenve-tag-selftag-icon {
+  font-size: 10.5px;
+}
+
 /* 2. Media Box */
 .zenve-post-media-box {
   position: relative;
@@ -674,6 +874,50 @@
 :is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-tag:hover,
 [data-theme='dark'] .zenve-post-tag:hover {
   color: #86efac !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-card-selftag-pill,
+[data-theme='dark'] .zenve-card-selftag-pill {
+  background: #2a141b !important;
+  border-color: #532431 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-card-selftag-text,
+[data-theme='dark'] .zenve-card-selftag-text {
+  color: #f7b2c0 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-card-selftag-action-btn,
+[data-theme='dark'] .zenve-card-selftag-action-btn {
+  background: #182a21 !important;
+  border-color: #2a3f33 !important;
+  color: #9dbdad !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-card-selftag-action-active,
+[data-theme='dark'] .zenve-card-selftag-action-active {
+  background: #1e3d2d !important;
+  border-color: #4ade80 !important;
+  color: #4ade80 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-tag-selftag,
+[data-theme='dark'] .zenve-post-tag-selftag {
+  background: #2a141b !important;
+  border-color: #532431 !important;
+  color: #f7b2c0 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-post-selftagged-callout,
+[data-theme='dark'] .zenve-post-selftagged-callout {
+  background: #172a20 !important;
+  border-color: #264333 !important;
+  color: #c5dfd0 !important;
+}
+
+:is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-selftagged-callout-text strong,
+[data-theme='dark'] .zenve-selftagged-callout-text strong {
+  color: #4ade80 !important;
 }
 
 :is([data-theme='dark'], .dark, [data-mode='dark']) .zenve-view-comments-btn,

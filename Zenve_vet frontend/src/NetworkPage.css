@@ -8,25 +8,22 @@
   box-sizing: border-box;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #1a2822;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Page Background: Dark Mode */
+/* Page Background: Dark Mode - #121E18 matching menu and nav bar */
 .zenve-network-page--dark,
 [data-theme='dark'] .zenve-network-page,
 .dark .zenve-network-page {
-  background-color: #0b1329;
-  color: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
+  background-color: #121E18;
+  color: #e2ede6;
 }
 
-/* Page Background: Light Mode */
-.zenve-network-page--light,
-:not([data-theme='dark']) .zenve-network-page:not(.zenve-network-page--dark) {
-  background-color: transparent;
+/* Page Background: Light Mode - Entire page background white */
+.zenve-network-page--light {
+  background-color: #ffffff;
   color: #1a2822;
-  padding: 0 0 60px 0;
 }
 
 /* 1. Hero Banner - Exactly matching Feed Hero Card with Theme #3D0D18 */
@@ -442,33 +439,39 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   box-sizing: border-box;
-  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  background-color: #ffffff;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  transition: background-color 0.2s ease;
 }
 
-/* Grid: Light Mode */
-.zenve-network-grid--light,
-:not([data-theme='dark']) .zenve-network-grid:not(.zenve-network-grid--dark) {
-  background-color: transparent;
+/* Grid: Dark Mode - #121E18 */
+.zenve-network-grid--dark,
+.zenve-network-page--dark .zenve-network-grid,
+[data-theme='dark'] .zenve-network-grid,
+.dark .zenve-network-grid {
+  background-color: #121E18;
   padding: 0;
   border: none;
   box-shadow: none;
 }
 
-/* Grid: Dark Mode */
-.zenve-network-grid--dark,
-[data-theme='dark'] .zenve-network-grid,
-.dark .zenve-network-grid {
-  background-color: #0b1329;
-  padding: 24px;
-  border-radius: 16px;
-  border: 1px solid rgba(244, 114, 182, 0.12);
-  box-shadow: 0 8px 30px rgba(11, 19, 41, 0.35);
+/* Grid: Light Mode - Pure White */
+.zenve-network-grid--light {
+  background-color: #ffffff;
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }
 
 /* =========================================
    CARDS BASE & THEMES
    ========================================= */
 .zenve-network-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -478,38 +481,45 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
-/* Card: Light Mode */
-.zenve-network-card--light,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) {
-  background-color: #ffffff;
-  border: 1px solid #e3e9e5;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
-}
-
-.zenve-network-card--light:hover,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark):hover {
+.zenve-network-card:hover {
   transform: translateY(-2px);
   background-color: #ffffff;
   border-color: #f7b4c2;
   box-shadow: 0 8px 24px rgba(218, 42, 81, 0.08);
 }
 
-/* Card: Dark Mode */
+/* Explicit Light Card State */
+.zenve-network-card--light {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.zenve-network-card--light:hover {
+  transform: translateY(-2px);
+  background-color: #ffffff;
+  border-color: #f7b4c2;
+  box-shadow: 0 8px 24px rgba(218, 42, 81, 0.08);
+}
+
+/* Card: Dark Mode - Harmonized with #121E18 background */
 .zenve-network-card--dark,
+.zenve-network-page--dark .zenve-network-card,
 [data-theme='dark'] .zenve-network-card,
 .dark .zenve-network-card {
-  background-color: #172033;
-  border: 1px solid rgba(244, 114, 182, 0.14);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  background-color: #13221b;
+  border: 1px solid #24382d;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .zenve-network-card--dark:hover,
+.zenve-network-page--dark .zenve-network-card:hover,
 [data-theme='dark'] .zenve-network-card:hover,
 .dark .zenve-network-card:hover {
   transform: translateY(-2px);
-  background-color: #1c273e;
-  border-color: rgba(244, 114, 182, 0.45);
-  box-shadow: 0 10px 28px -4px rgba(244, 114, 182, 0.12), 0 8px 18px rgba(0, 0, 0, 0.45);
+  background-color: #182d23;
+  border-color: #3b5747;
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.5), 0 0 14px rgba(74, 222, 128, 0.1);
 }
 
 /* Card Header */
@@ -533,21 +543,17 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Avatar: Light Mode */
-.zenve-network-card--light .zenve-network-avatar-img,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-avatar-img {
   border: 2px solid #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Avatar: Dark Mode */
 .zenve-network-card--dark .zenve-network-avatar-img,
+.zenve-network-page--dark .zenve-network-avatar-img,
 [data-theme='dark'] .zenve-network-card .zenve-network-avatar-img,
 .dark .zenve-network-card .zenve-network-avatar-img {
-  border: 2px solid rgba(244, 114, 182, 0.25);
+  border: 2px solid #24382d;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
@@ -559,19 +565,16 @@
   height: 12px;
   border-radius: 50%;
   background-color: #10b981;
-}
-
-/* Online Dot: Light Mode */
-.zenve-network-card--light .zenve-network-online-dot,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-online-dot {
   border: 2px solid #ffffff;
+  transition: border-color 0.2s ease;
 }
 
 /* Online Dot: Dark Mode */
 .zenve-network-card--dark .zenve-network-online-dot,
+.zenve-network-page--dark .zenve-network-online-dot,
 [data-theme='dark'] .zenve-network-card .zenve-network-online-dot,
 .dark .zenve-network-card .zenve-network-online-dot {
-  border: 2px solid #172033;
+  border: 2px solid #13221b;
 }
 
 .zenve-network-card-badges {
@@ -589,47 +592,40 @@
   letter-spacing: 0.06em;
   padding: 2.5px 7px;
   border-radius: 4px;
-}
-
-.zenve-network-card--light .zenve-network-feed-badge,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-feed-badge {
   background-color: #3D0D18;
   color: #ffffff;
 }
 
 .zenve-network-card--dark .zenve-network-feed-badge,
+.zenve-network-page--dark .zenve-network-feed-badge,
 [data-theme='dark'] .zenve-network-card .zenve-network-feed-badge,
 .dark .zenve-network-card .zenve-network-feed-badge {
-  background-color: rgba(244, 114, 182, 0.2);
-  color: #f472b6;
-  border: 1px solid rgba(244, 114, 182, 0.3);
+  background-color: #1e3d2d;
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
 }
 
-/* Verified Badge */
+/* Verified Badge: Light Mode */
 .zenve-network-verified-badge {
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  transition: all 0.2s ease;
-}
-
-/* Verified Badge: Light Mode */
-.zenve-network-card--light .zenve-network-verified-badge,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-verified-badge {
   color: #0d5e3f;
   background-color: #e5f4ec;
   border: 1px solid rgba(13, 94, 63, 0.2);
   padding: 3px 8px;
   border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 /* Verified Badge: Dark Mode */
 .zenve-network-card--dark .zenve-network-verified-badge,
+.zenve-network-page--dark .zenve-network-verified-badge,
 [data-theme='dark'] .zenve-network-card .zenve-network-verified-badge,
 .dark .zenve-network-card .zenve-network-verified-badge {
-  color: #34d399;
-  background-color: rgba(16, 185, 129, 0.16);
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #4ade80;
+  background-color: #1a3a2a;
+  border: 1px solid rgba(74, 222, 128, 0.35);
   padding: 3px 9px;
   border-radius: 9999px;
 }
@@ -642,68 +638,64 @@
   margin-bottom: 16px;
 }
 
+/* Doctor Name: Light Mode */
 .zenve-network-doctor-name {
   font-size: 16.5px;
   font-weight: 700;
+  color: #1a2822;
   margin: 0 0 4px 0;
   letter-spacing: -0.015em;
   cursor: pointer;
   transition: color 0.15s ease;
 }
 
-/* Doctor Name: Light Mode */
-.zenve-network-card--light .zenve-network-doctor-name,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-doctor-name {
-  color: #1a2822;
-}
-
-.zenve-network-card--light .zenve-network-doctor-name:hover,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-doctor-name:hover {
+.zenve-network-doctor-name:hover {
   color: #3D0D18;
   text-decoration: underline;
 }
 
 /* Doctor Name: Dark Mode */
 .zenve-network-card--dark .zenve-network-doctor-name,
+.zenve-network-page--dark .zenve-network-doctor-name,
 [data-theme='dark'] .zenve-network-card .zenve-network-doctor-name,
 .dark .zenve-network-card .zenve-network-doctor-name {
-  color: #ffffff;
+  color: #e2ede6;
 }
 
 .zenve-network-card--dark .zenve-network-doctor-name:hover,
+.zenve-network-page--dark .zenve-network-doctor-name:hover,
 [data-theme='dark'] .zenve-network-card .zenve-network-doctor-name:hover,
 .dark .zenve-network-card .zenve-network-doctor-name:hover {
-  color: #f472b6;
+  color: #4ade80;
   text-decoration: underline;
 }
 
+/* Specialty: Light Mode */
 .zenve-network-specialty {
   font-size: 13px;
   font-weight: 500;
+  color: #4a5c53;
   margin: 0 0 12px 0;
   line-height: 1.4;
   transition: color 0.15s ease;
 }
 
-/* Specialty: Light Mode */
-.zenve-network-card--light .zenve-network-specialty,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-specialty {
-  color: #4a5c53;
-}
-
-/* Specialty: Dark Mode */
+/* Specialty: Dark Mode - Matching nav and menu subtitle */
 .zenve-network-card--dark .zenve-network-specialty,
+.zenve-network-page--dark .zenve-network-specialty,
 [data-theme='dark'] .zenve-network-card .zenve-network-specialty,
 .dark .zenve-network-card .zenve-network-specialty {
-  color: #94a3b8;
+  color: #8ca898;
 }
 
+/* Metadata: Light Mode */
 .zenve-network-meta {
   display: flex;
   flex-direction: column;
   gap: 6px;
   font-size: 12px;
   margin-top: auto;
+  color: #697a70;
   transition: color 0.15s ease;
 }
 
@@ -715,36 +707,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #697a70;
   transition: color 0.15s ease;
 }
 
 .zenve-network-location svg,
 .zenve-network-clinic svg {
   flex-shrink: 0;
+  color: #7b8e83;
   transition: color 0.15s ease;
 }
 
-/* Metadata: Light Mode */
-.zenve-network-card--light .zenve-network-meta,
-.zenve-network-card--light .zenve-network-location,
-.zenve-network-card--light .zenve-network-clinic,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-meta,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-location,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-clinic {
-  color: #697a70;
-}
-
-.zenve-network-card--light .zenve-network-location svg,
-.zenve-network-card--light .zenve-network-clinic svg,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-location svg,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-clinic svg {
-  color: #7b8e83;
-}
-
-.zenve-network-card--light:hover .zenve-network-location svg,
-.zenve-network-card--light:hover .zenve-network-clinic svg,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark):hover .zenve-network-location svg,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark):hover .zenve-network-clinic svg {
+.zenve-network-card:hover .zenve-network-location svg,
+.zenve-network-card:hover .zenve-network-clinic svg {
   color: #3D0D18;
 }
 
@@ -752,57 +727,60 @@
 .zenve-network-card--dark .zenve-network-meta,
 .zenve-network-card--dark .zenve-network-location,
 .zenve-network-card--dark .zenve-network-clinic,
+.zenve-network-page--dark .zenve-network-meta,
+.zenve-network-page--dark .zenve-network-location,
+.zenve-network-page--dark .zenve-network-clinic,
 [data-theme='dark'] .zenve-network-card .zenve-network-meta,
 [data-theme='dark'] .zenve-network-card .zenve-network-location,
 [data-theme='dark'] .zenve-network-card .zenve-network-clinic,
 .dark .zenve-network-card .zenve-network-meta,
 .dark .zenve-network-card .zenve-network-location,
 .dark .zenve-network-card .zenve-network-clinic {
-  color: #94a3b8;
+  color: #8ca898;
 }
 
 .zenve-network-card--dark .zenve-network-location svg,
 .zenve-network-card--dark .zenve-network-clinic svg,
+.zenve-network-page--dark .zenve-network-card .zenve-network-location svg,
+.zenve-network-page--dark .zenve-network-card .zenve-network-clinic svg,
 [data-theme='dark'] .zenve-network-card .zenve-network-location svg,
 [data-theme='dark'] .zenve-network-card .zenve-network-clinic svg,
 .dark .zenve-network-card .zenve-network-location svg,
 .dark .zenve-network-card .zenve-network-clinic svg {
-  color: #64748b;
+  color: #5a7868;
 }
 
 .zenve-network-card--dark:hover .zenve-network-location svg,
 .zenve-network-card--dark:hover .zenve-network-clinic svg,
+.zenve-network-page--dark .zenve-network-card:hover .zenve-network-location svg,
+.zenve-network-page--dark .zenve-network-card:hover .zenve-network-clinic svg,
 [data-theme='dark'] .zenve-network-card:hover .zenve-network-location svg,
 [data-theme='dark'] .zenve-network-card:hover .zenve-network-clinic svg,
 .dark .zenve-network-card:hover .zenve-network-location svg,
 .dark .zenve-network-card:hover .zenve-network-clinic svg {
-  color: rgba(244, 114, 182, 0.7);
+  color: #4ade80;
 }
 
-/* Card Footer */
+/* Card Footer: Light Mode */
 .zenve-network-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
   transition: border-color 0.2s ease;
-}
-
-/* Footer: Light Mode */
-.zenve-network-card--light .zenve-network-card-footer,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-card-footer {
-  border-top: 1px solid #edf2ee;
 }
 
 /* Footer: Dark Mode */
 .zenve-network-card--dark .zenve-network-card-footer,
+.zenve-network-page--dark .zenve-network-card-footer,
 [data-theme='dark'] .zenve-network-card .zenve-network-card-footer,
 .dark .zenve-network-card .zenve-network-card-footer {
-  border-top: 1px solid rgba(244, 114, 182, 0.12);
+  border-top: 1px solid #1f2f28;
 }
 
-/* View Button */
+/* View Button: Light Mode */
 .zenve-network-view-btn {
   display: inline-flex;
   align-items: center;
@@ -810,6 +788,7 @@
   background: transparent;
   border: none;
   padding: 6px 4px;
+  color: #3D0D18;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -817,49 +796,34 @@
   transition: all 0.15s ease;
 }
 
-.zenve-network-view-arrow {
-  font-size: 14px;
-  line-height: 1;
-}
-
-/* View Button: Light Mode */
-.zenve-network-card--light .zenve-network-view-btn,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-view-btn {
-  color: #3D0D18;
-}
-
-.zenve-network-card--light .zenve-network-view-btn:hover,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-view-btn:hover {
+.zenve-network-view-btn:hover {
   color: #2a0911;
   transform: translateX(2px);
 }
 
-.zenve-network-card--light .zenve-network-view-arrow,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-view-arrow {
-  color: #3D0D18;
+.zenve-network-view-arrow {
+  font-size: 14px;
+  line-height: 1;
+  color: inherit;
 }
 
 /* View Button: Dark Mode */
 .zenve-network-card--dark .zenve-network-view-btn,
+.zenve-network-page--dark .zenve-network-view-btn,
 [data-theme='dark'] .zenve-network-card .zenve-network-view-btn,
 .dark .zenve-network-card .zenve-network-view-btn {
-  color: #f472b6;
+  color: #4ade80;
 }
 
 .zenve-network-card--dark .zenve-network-view-btn:hover,
+.zenve-network-page--dark .zenve-network-view-btn:hover,
 [data-theme='dark'] .zenve-network-card .zenve-network-view-btn:hover,
 .dark .zenve-network-card .zenve-network-view-btn:hover {
-  color: #fbcfe8;
+  color: #86efac;
   transform: translateX(2px);
 }
 
-.zenve-network-card--dark .zenve-network-view-arrow,
-[data-theme='dark'] .zenve-network-card .zenve-network-view-arrow,
-.dark .zenve-network-card .zenve-network-view-arrow {
-  color: #f472b6;
-}
-
-/* Connect Button */
+/* Connect Button: Light Mode */
 .zenve-network-connect-btn {
   display: inline-flex;
   align-items: center;
@@ -868,28 +832,21 @@
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
+  border: 1px solid #d2ded7;
+  background-color: #ffffff;
+  color: #1b382d;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.18s ease;
 }
 
-/* Connect Button: Light Mode */
-.zenve-network-card--light .zenve-network-connect-btn,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-connect-btn {
-  border: 1px solid #d2ded7;
-  background-color: #ffffff;
-  color: #1b382d;
-}
-
-.zenve-network-card--light .zenve-network-connect-btn:hover,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-connect-btn:hover {
+.zenve-network-connect-btn:hover {
   background-color: #fbf2f4;
   border-color: #3D0D18;
   color: #3D0D18;
 }
 
-.zenve-network-card--light .zenve-network-connect-btn.zenve-connected,
-:not([data-theme='dark']) .zenve-network-card:not(.zenve-network-card--dark) .zenve-network-connect-btn.zenve-connected {
+.zenve-network-connect-btn.zenve-connected {
   background-color: #f7ebee;
   border-color: #3D0D18;
   color: #3D0D18;
@@ -898,27 +855,30 @@
 
 /* Connect Button: Dark Mode */
 .zenve-network-card--dark .zenve-network-connect-btn,
+.zenve-network-page--dark .zenve-network-connect-btn,
 [data-theme='dark'] .zenve-network-card .zenve-network-connect-btn,
 .dark .zenve-network-card .zenve-network-connect-btn {
-  border: 1px solid rgba(244, 114, 182, 0.3);
-  background-color: rgba(244, 114, 182, 0.08);
-  color: #fbcfe8;
+  border: 1px solid #2e4638;
+  background-color: #1a2d24;
+  color: #c8dcd1;
 }
 
 .zenve-network-card--dark .zenve-network-connect-btn:hover,
+.zenve-network-page--dark .zenve-network-connect-btn:hover,
 [data-theme='dark'] .zenve-network-card .zenve-network-connect-btn:hover,
 .dark .zenve-network-card .zenve-network-connect-btn:hover {
-  background-color: rgba(244, 114, 182, 0.22);
-  border-color: #f472b6;
-  color: #ffffff;
+  background-color: #1e3d2d;
+  border-color: #4ade80;
+  color: #4ade80;
 }
 
 .zenve-network-card--dark .zenve-network-connect-btn.zenve-connected,
+.zenve-network-page--dark .zenve-network-connect-btn.zenve-connected,
 [data-theme='dark'] .zenve-network-card .zenve-network-connect-btn.zenve-connected,
 .dark .zenve-network-card .zenve-network-connect-btn.zenve-connected {
-  background-color: rgba(244, 114, 182, 0.28);
-  border-color: #f472b6;
-  color: #ffffff;
+  background-color: #1a3a2a;
+  border-color: #4ade80;
+  color: #4ade80;
   font-weight: 700;
 }
 
@@ -930,12 +890,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #ffffff;
+  border: 1px dashed #d5ded9;
   border-radius: 12px;
   padding: 48px 24px;
   text-align: center;
   max-width: 520px;
   margin: 32px auto;
-  transition: all 0.25s ease;
+  box-shadow: none;
+  transition: all 0.2s ease;
 }
 
 .zenve-network-empty-icon {
@@ -946,12 +909,14 @@
 .zenve-network-empty-title {
   font-size: 18px;
   font-weight: 700;
+  color: #1c2a23;
   margin: 0 0 8px 0;
   transition: color 0.15s ease;
 }
 
 .zenve-network-empty-desc {
   font-size: 13px;
+  color: #64736a;
   line-height: 1.6;
   margin: 0 0 20px 0;
   transition: color 0.15s ease;
@@ -960,6 +925,9 @@
 .zenve-network-empty-btn {
   padding: 9px 18px;
   border-radius: 6px;
+  background-color: #3D0D18;
+  color: #ffffff;
+  border: none;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -967,70 +935,49 @@
   transition: all 0.15s ease;
 }
 
-/* Empty State: Light Mode */
-.zenve-network-empty--light,
-:not([data-theme='dark']) .zenve-network-empty:not(.zenve-network-empty--dark) {
-  background-color: #ffffff;
-  border: 1px dashed #d5ded9;
-  box-shadow: none;
-}
-
-.zenve-network-empty--light .zenve-network-empty-title,
-:not([data-theme='dark']) .zenve-network-empty:not(.zenve-network-empty--dark) .zenve-network-empty-title {
-  color: #1c2a23;
-}
-
-.zenve-network-empty--light .zenve-network-empty-desc,
-:not([data-theme='dark']) .zenve-network-empty:not(.zenve-network-empty--dark) .zenve-network-empty-desc {
-  color: #64736a;
-}
-
-.zenve-network-empty--light .zenve-network-empty-btn,
-:not([data-theme='dark']) .zenve-network-empty:not(.zenve-network-empty--dark) .zenve-network-empty-btn {
-  background-color: #3D0D18;
-  color: #ffffff;
-  border: none;
-}
-
-.zenve-network-empty--light .zenve-network-empty-btn:hover,
-:not([data-theme='dark']) .zenve-network-empty:not(.zenve-network-empty--dark) .zenve-network-empty-btn:hover {
+.zenve-network-empty-btn:hover {
   background-color: #2a0911;
 }
 
 /* Empty State: Dark Mode */
 .zenve-network-empty--dark,
+.zenve-network-page--dark .zenve-network-empty,
 [data-theme='dark'] .zenve-network-empty,
 .dark .zenve-network-empty {
-  background-color: #172033;
-  border: 1px dashed rgba(244, 114, 182, 0.3);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  background-color: #13221b;
+  border: 1px dashed #24382d;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .zenve-network-empty--dark .zenve-network-empty-title,
+.zenve-network-page--dark .zenve-network-empty-title,
 [data-theme='dark'] .zenve-network-empty .zenve-network-empty-title,
 .dark .zenve-network-empty .zenve-network-empty-title {
-  color: #ffffff;
+  color: #e2ede6;
 }
 
 .zenve-network-empty--dark .zenve-network-empty-desc,
+.zenve-network-page--dark .zenve-network-empty-desc,
 [data-theme='dark'] .zenve-network-empty .zenve-network-empty-desc,
 .dark .zenve-network-empty .zenve-network-empty-desc {
-  color: #94a3b8;
+  color: #8ca898;
 }
 
 .zenve-network-empty--dark .zenve-network-empty-btn,
+.zenve-network-page--dark .zenve-network-empty-btn,
 [data-theme='dark'] .zenve-network-empty .zenve-network-empty-btn,
 .dark .zenve-network-empty .zenve-network-empty-btn {
-  background-color: #f472b6;
-  color: #172033;
-  border: none;
+  background-color: #1a3a2a;
+  border: 1px solid #4ade80;
+  color: #4ade80;
 }
 
 .zenve-network-empty--dark .zenve-network-empty-btn:hover,
+.zenve-network-page--dark .zenve-network-empty-btn:hover,
 [data-theme='dark'] .zenve-network-empty .zenve-network-empty-btn:hover,
 .dark .zenve-network-empty .zenve-network-empty-btn:hover {
-  background-color: #ec4899;
-  color: #ffffff;
+  background-color: #1e3d2d;
+  color: #86efac;
 }
 
 /* =========================================
@@ -1039,81 +986,134 @@
 .zenve-network-page--dark .zenve-network-search-box,
 [data-theme='dark'] .zenve-network-search-box,
 .dark .zenve-network-search-box {
-  background-color: #172033;
-  border-color: rgba(244, 114, 182, 0.25);
+  background-color: #1a2922;
+  border-color: #2a3d34;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .zenve-network-page--dark .zenve-network-search-input,
 [data-theme='dark'] .zenve-network-search-input,
 .dark .zenve-network-search-input {
-  color: #ffffff;
+  color: #e2ede6;
 }
 
 .zenve-network-page--dark .zenve-network-search-input::placeholder,
 [data-theme='dark'] .zenve-network-search-input::placeholder,
 .dark .zenve-network-search-input::placeholder {
-  color: #64748b;
+  color: #5a7868;
 }
 
 .zenve-network-page--dark .zenve-network-select,
 [data-theme='dark'] .zenve-network-select,
 .dark .zenve-network-select {
-  background-color: #172033;
-  border-color: rgba(244, 114, 182, 0.25);
-  color: #ffffff;
+  background-color: #1a2922;
+  border-color: #2a3d34;
+  color: #e2ede6;
 }
 
 .zenve-network-page--dark .zenve-specialty-pill:not(.zenve-specialty-pill-active),
 [data-theme='dark'] .zenve-specialty-pill:not(.zenve-specialty-pill-active),
 .dark .zenve-specialty-pill:not(.zenve-specialty-pill-active) {
-  background-color: #172033;
-  border-color: rgba(244, 114, 182, 0.2);
-  color: #94a3b8;
+  background-color: #1a2922;
+  border-color: #2a3d34;
+  color: #8ca898;
 }
 
 .zenve-network-page--dark .zenve-specialty-pill:not(.zenve-specialty-pill-active):hover,
 [data-theme='dark'] .zenve-specialty-pill:not(.zenve-specialty-pill-active):hover,
 .dark .zenve-specialty-pill:not(.zenve-specialty-pill-active):hover {
-  border-color: #f472b6;
-  color: #f472b6;
-  background-color: rgba(244, 114, 182, 0.12);
+  border-color: #4ade80;
+  color: #4ade80;
+  background-color: #1e3028;
 }
 
 .zenve-network-page--dark .zenve-network-tab-btn:not(.zenve-network-tab-active),
 [data-theme='dark'] .zenve-network-tab-btn:not(.zenve-network-tab-active),
 .dark .zenve-network-tab-btn:not(.zenve-network-tab-active) {
-  color: #94a3b8;
+  color: #8ca898;
 }
 
 .zenve-network-page--dark .zenve-network-tab-btn:not(.zenve-network-tab-active):hover,
 [data-theme='dark'] .zenve-network-tab-btn:not(.zenve-network-tab-active):hover,
 .dark .zenve-network-tab-btn:not(.zenve-network-tab-active):hover {
-  color: #ffffff;
+  color: #e2ede6;
 }
 
 .zenve-network-page--dark .zenve-network-tabs-bar,
 [data-theme='dark'] .zenve-network-tabs-bar,
 .dark .zenve-network-tabs-bar {
-  border-bottom-color: rgba(244, 114, 182, 0.15);
+  border-bottom-color: #1f2f28;
 }
 
 .zenve-network-page--dark .zenve-network-results-bar,
 [data-theme='dark'] .zenve-network-results-bar,
 .dark .zenve-network-results-bar {
-  color: #94a3b8;
+  color: #8ca898;
 }
 
 .zenve-network-page--dark .zenve-network-results-count strong,
 [data-theme='dark'] .zenve-network-results-count strong,
 .dark .zenve-network-results-count strong {
-  color: #ffffff;
+  color: #e2ede6;
 }
 
 .zenve-network-page--dark .zenve-network-reset-btn,
 [data-theme='dark'] .zenve-network-reset-btn,
 .dark .zenve-network-reset-btn {
-  color: #f472b6;
+  color: #4ade80;
+}
+
+/* =========================================
+   VET NETWORK PAGE THEME TOGGLE (TOP-RIGHT)
+   ========================================= */
+.zenve-network-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  margin-right: 12px;
+}
+
+.zenve-network-theme-toggle--light {
+  background-color: #ffffff;
+  border: 1px solid #dce4de;
+  color: #1a2822;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.zenve-network-theme-toggle--light:hover {
+  background-color: #f7ebee;
+  border-color: #3D0D18;
+  color: #3D0D18;
+}
+
+.zenve-network-theme-toggle--dark {
+  background-color: #1a2922;
+  border: 1px solid #2a3d34;
+  color: #4ade80;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.zenve-network-theme-toggle--dark:hover {
+  background-color: #1e3028;
+  border-color: #4ade80;
+  color: #86efac;
+}
+
+.zenve-network-toggle-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.zenve-network-toggle-label {
+  font-size: 11.5px;
+  font-weight: 600;
 }
 
 /* =========================================
@@ -1152,4 +1152,176 @@
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+
+/* =========================================
+   USER PROFILE SPECIAL BADGE & CARD HIGHLIGHT
+   ========================================= */
+.zenve-network-user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background-color: #e6f7ee;
+  color: #0c6b45;
+  border: 1px solid #a3e2c2;
+  transition: all 0.2s ease;
+}
+
+.zenve-network-user-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #0c6b45;
+}
+
+/* User Badge: Dark Mode */
+.zenve-network-card--dark .zenve-network-user-badge,
+.zenve-network-page--dark .zenve-network-user-badge,
+[data-theme='dark'] .zenve-network-user-badge,
+.dark .zenve-network-user-badge {
+  background: rgba(74, 222, 128, 0.16);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.15);
+}
+
+.zenve-network-card--dark .zenve-network-user-badge-dot,
+.zenve-network-page--dark .zenve-network-user-badge-dot,
+[data-theme='dark'] .zenve-network-user-badge-dot,
+.dark .zenve-network-user-badge-dot {
+  background-color: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+/* User Profile Card Highlight: Light Mode */
+.zenve-network-card.zenve-network-card--user {
+  border: 1.5px solid #a3e2c2;
+  background: linear-gradient(180deg, #f7fdfa 0%, #ffffff 100%);
+  box-shadow: 0 4px 16px rgba(12, 107, 69, 0.08);
+}
+
+.zenve-network-card.zenve-network-card--user:hover {
+  border-color: #34d399;
+  box-shadow: 0 8px 24px rgba(12, 107, 69, 0.12);
+}
+
+/* User Profile Card Highlight: Dark Mode */
+.zenve-network-card--dark.zenve-network-card--user,
+.zenve-network-page--dark .zenve-network-card--user,
+[data-theme='dark'] .zenve-network-card--user,
+.dark .zenve-network-card--user {
+  border: 1.5px solid rgba(74, 222, 128, 0.45);
+  background: linear-gradient(180deg, #162a21 0%, #13221b 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(74, 222, 128, 0.1);
+}
+
+.zenve-network-card--dark.zenve-network-card--user:hover,
+.zenve-network-page--dark .zenve-network-card--user:hover,
+[data-theme='dark'] .zenve-network-card--user:hover,
+.dark .zenve-network-card--user:hover {
+  border-color: #4ade80;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 24px rgba(74, 222, 128, 0.2);
+}
+
+/* User Profile Edit Button: Light Mode */
+.zenve-network-user-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #0d5e3f;
+  background-color: #e5f4ec;
+  color: #0d5e3f;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s ease;
+}
+
+.zenve-network-user-edit-btn:hover {
+  background-color: #0d5e3f;
+  color: #ffffff;
+}
+
+/* User Profile Edit Button: Dark Mode */
+.zenve-network-card--dark .zenve-network-user-edit-btn,
+.zenve-network-page--dark .zenve-network-user-edit-btn,
+[data-theme='dark'] .zenve-network-user-edit-btn,
+.dark .zenve-network-user-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #4ade80;
+  background-color: #1a3a2a;
+  color: #4ade80;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s ease;
+}
+
+.zenve-network-card--dark .zenve-network-user-edit-btn:hover,
+.zenve-network-page--dark .zenve-network-user-edit-btn:hover,
+[data-theme='dark'] .zenve-network-user-edit-btn:hover,
+.dark .zenve-network-user-edit-btn:hover {
+  background-color: #4ade80;
+  color: #0c1a14;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.35);
+}
+
+/* Live User Profile Indicator in Results Bar */
+.zenve-network-user-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 8px;
+  font-weight: 600;
+  color: #0d5e3f;
+}
+
+.zenve-network-user-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #16a34a;
+  display: inline-block;
+}
+
+.zenve-network-page--dark .zenve-network-user-live-indicator,
+[data-theme='dark'] .zenve-network-user-live-indicator,
+.dark .zenve-network-user-live-indicator {
+  color: #4ade80;
+}
+
+.zenve-network-page--dark .zenve-network-user-live-dot,
+[data-theme='dark'] .zenve-network-user-live-dot,
+.dark .zenve-network-user-live-dot {
+  background-color: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+}
+
+/* Navigation Tabs: Dark Mode Active Fix */
+.zenve-network-page--dark .zenve-network-tab-active,
+[data-theme='dark'] .zenve-network-tab-active,
+.dark .zenve-network-tab-active {
+  color: #4ade80 !important;
+  font-weight: 700;
+}
+
+.zenve-network-page--dark .zenve-network-tab-active::after,
+[data-theme='dark'] .zenve-network-tab-active::after,
+.dark .zenve-network-tab-active::after {
+  background-color: #4ade80 !important;
 }

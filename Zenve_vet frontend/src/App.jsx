@@ -105,7 +105,7 @@ export function App() {
 
   return (
     <div
-      className={`zenve-app-container ${isDark ? 'dark dark-theme' : ''}`}
+      className={`zenve-app-container ${activeTab === 'network' ? 'zenve-app-container--network' : ''} ${isDark ? 'dark dark-theme' : ''}`}
       data-theme={isDark ? 'dark' : 'light'}
     >
       <Header onCreateProfile={() => setIsModalOpen(true)} />
@@ -117,7 +117,7 @@ export function App() {
           onOpenCreateProfile={() => setIsModalOpen(true)}
         />
 
-        <main className="zenve-content-workspace">
+        <main className={`zenve-content-workspace ${activeTab === 'network' ? 'zenve-workspace--network' : ''}`}>
           {activeTab === 'feed' ? (
             <div className="zenve-feed-layout-columns">
               <FeedContent

@@ -1,0 +1,1250 @@
+/* ==========================================================================
+   VetNetworkProfileModal.css
+   Modern, Executive Veterinary Profile Modal for Zenve Vet Network
+   Seamless Dark Mode (#121E18) and Light Mode (#FFFFFF)
+   ========================================================================== */
+
+/* 1. Modal Overlay & Backdrop */
+.vnpm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: vnpmFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vnpm-overlay--dark {
+  background: rgba(10, 18, 14, 0.78);
+}
+
+.vnpm-overlay--light {
+  background: rgba(15, 23, 42, 0.55);
+}
+
+/* 2. Main Card Container */
+.vnpm-card {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  animation: vnpmSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.vnpm-card--dark {
+  background-color: #13221b;
+  color: #e2ede6;
+  border: 1px solid #24382d;
+}
+
+.vnpm-card--light {
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+
+/* Close Button */
+.vnpm-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.vnpm-close-btn:hover {
+  background: rgba(15, 23, 42, 0.85);
+  transform: scale(1.08);
+}
+
+/* 3. Executive Medical Cover Banner */
+.vnpm-cover-banner {
+  position: relative;
+  height: 120px;
+  width: 100%;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #0f3d2a 0%, #17523a 45%, #0a2419 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 14px 56px 14px 16px;
+}
+
+.vnpm-card--light .vnpm-cover-banner {
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%);
+}
+
+.vnpm-cover-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vnpm-badge-you {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(74, 222, 128, 0.2);
+  border: 1px solid rgba(74, 222, 128, 0.5);
+  color: #4ade80;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 9999px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.vnpm-badge-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9999px;
+  backdrop-filter: blur(4px);
+}
+
+.vnpm-badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(16, 185, 129, 0.22);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  color: #a7f3d0;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9999px;
+}
+
+.vnpm-dot-live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  animation: vnpmPulse 1.8s infinite;
+}
+
+.vnpm-dot-online {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+}
+
+/* 4. Profile Header (Floating Avatar & Actions) */
+.vnpm-profile-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 24px;
+  margin-top: -46px;
+  position: relative;
+  z-index: 5;
+}
+
+.vnpm-avatar-wrap {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vnpm-avatar-wrap:hover {
+  transform: scale(1.04);
+}
+
+.vnpm-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.vnpm-card--dark .vnpm-avatar-img {
+  border: 3.5px solid #13221b;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.vnpm-card--light .vnpm-avatar-img {
+  border: 3.5px solid #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+.vnpm-avatar-status-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 15px;
+  height: 15px;
+  background: #10b981;
+  border-radius: 50%;
+  border: 2.5px solid #13221b;
+}
+
+.vnpm-card--light .vnpm-avatar-status-dot {
+  border-color: #ffffff;
+}
+
+/* Action Buttons */
+.vnpm-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+}
+
+.vnpm-btn-edit {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  background: rgba(74, 222, 128, 0.12);
+  color: #4ade80;
+  transition: all 0.18s ease;
+}
+
+.vnpm-btn-edit:hover {
+  background: rgba(74, 222, 128, 0.22);
+  border-color: #4ade80;
+}
+
+.vnpm-btn-connect {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  border: 1px solid #10b981;
+  background: #10b981;
+  color: #ffffff;
+}
+
+.vnpm-btn-connect:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+.vnpm-btn-connect--active {
+  background: transparent;
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+.vnpm-card--light .vnpm-btn-connect--active {
+  color: #059669;
+  border-color: #059669;
+  background: rgba(5, 150, 105, 0.08);
+}
+
+.vnpm-btn-msg {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.vnpm-card--dark .vnpm-btn-msg {
+  background: rgba(255, 255, 255, 0.07);
+  color: #e2ede6;
+  border: 1px solid #24382d;
+}
+
+.vnpm-card--dark .vnpm-btn-msg:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(74, 222, 128, 0.5);
+  color: #4ade80;
+}
+
+.vnpm-card--light .vnpm-btn-msg {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+}
+
+.vnpm-card--light .vnpm-btn-msg:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* 5. Doctor Information Block */
+.vnpm-main-info {
+  padding: 12px 24px 16px 24px;
+}
+
+.vnpm-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vnpm-doctor-name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.vnpm-card--dark .vnpm-doctor-name {
+  color: #f1f7f4;
+}
+
+.vnpm-card--light .vnpm-doctor-name {
+  color: #0f172a;
+}
+
+.vnpm-edu-pill {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.vnpm-card--dark .vnpm-edu-pill {
+  background: rgba(255, 255, 255, 0.08);
+  color: #9cb2a6;
+}
+
+.vnpm-card--light .vnpm-edu-pill {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.vnpm-specialty-title {
+  margin: 4px 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.vnpm-card--dark .vnpm-specialty-title {
+  color: #4ade80;
+}
+
+.vnpm-card--light .vnpm-specialty-title {
+  color: #059669;
+}
+
+.vnpm-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  flex-wrap: wrap;
+}
+
+.vnpm-card--dark .vnpm-meta-row {
+  color: #8da396;
+}
+
+.vnpm-card--light .vnpm-meta-row {
+  color: #64748b;
+}
+
+.vnpm-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.vnpm-meta-sep {
+  opacity: 0.5;
+}
+
+/* Following Alert */
+.vnpm-following-alert {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.vnpm-card--dark .vnpm-following-alert {
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  color: #a7f3d0;
+}
+
+.vnpm-card--light .vnpm-following-alert {
+  background: rgba(5, 150, 105, 0.08);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  color: #065f46;
+}
+
+.vnpm-following-check {
+  font-weight: 700;
+  color: #10b981;
+}
+
+/* 6. Streamlined Metric Bar */
+.vnpm-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 0 24px 14px 24px;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.vnpm-card--dark .vnpm-metrics-strip {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid #24382d;
+}
+
+.vnpm-card--light .vnpm-metrics-strip {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.vnpm-metric-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.vnpm-metric-val {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.vnpm-card--dark .vnpm-metric-val {
+  color: #e2ede6;
+}
+
+.vnpm-card--light .vnpm-metric-val {
+  color: #0f172a;
+}
+
+.vnpm-metric-lbl {
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.vnpm-card--dark .vnpm-metric-lbl {
+  color: #7f9689;
+}
+
+.vnpm-card--light .vnpm-metric-lbl {
+  color: #64748b;
+}
+
+/* 7. Navigation Tabs */
+.vnpm-tabs-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 6px;
+  overflow-x: auto;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.vnpm-tabs-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.vnpm-card--dark .vnpm-tabs-bar {
+  border-bottom-color: #24382d;
+}
+
+.vnpm-card--light .vnpm-tabs-bar {
+  border-bottom-color: #e2e8f0;
+}
+
+.vnpm-tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+
+.vnpm-card--dark .vnpm-tab-btn {
+  color: #8da396;
+}
+
+.vnpm-card--dark .vnpm-tab-btn:hover {
+  color: #e2ede6;
+}
+
+.vnpm-card--dark .vnpm-tab-btn--active {
+  color: #4ade80;
+}
+
+.vnpm-card--dark .vnpm-tab-btn--active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 8px;
+  right: 8px;
+  height: 2.5px;
+  background: #4ade80;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+}
+
+.vnpm-card--light .vnpm-tab-btn {
+  color: #64748b;
+}
+
+.vnpm-card--light .vnpm-tab-btn:hover {
+  color: #0f172a;
+}
+
+.vnpm-card--light .vnpm-tab-btn--active {
+  color: #059669;
+}
+
+.vnpm-card--light .vnpm-tab-btn--active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 8px;
+  right: 8px;
+  height: 2.5px;
+  background: #059669;
+  border-radius: 3px 3px 0 0;
+}
+
+.vnpm-tab-count {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  font-weight: 700;
+}
+
+.vnpm-card--dark .vnpm-tab-count {
+  background: rgba(255, 255, 255, 0.08);
+  color: #9cb2a6;
+}
+
+.vnpm-card--light .vnpm-tab-count {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.vnpm-tab-btn--active .vnpm-tab-count {
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+}
+
+.vnpm-card--light .vnpm-tab-btn--active .vnpm-tab-count {
+  background: rgba(5, 150, 105, 0.15);
+  color: #059669;
+}
+
+/* 8. Tab Content Body */
+.vnpm-tab-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.vnpm-card--dark .vnpm-tab-body {
+  scrollbar-color: #24382d transparent;
+}
+
+.vnpm-card--light .vnpm-tab-body {
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.vnpm-tab-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.vnpm-card--dark .vnpm-tab-body::-webkit-scrollbar-thumb {
+  background-color: #24382d;
+  border-radius: 4px;
+}
+
+.vnpm-card--light .vnpm-tab-body::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Section Block Styling */
+.vnpm-section-block {
+  margin-bottom: 20px;
+}
+
+.vnpm-section-block:last-child {
+  margin-bottom: 0;
+}
+
+.vnpm-block-title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vnpm-card--dark .vnpm-block-title {
+  color: #9cb2a6;
+}
+
+.vnpm-card--light .vnpm-block-title {
+  color: #475569;
+}
+
+.vnpm-about-text {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.vnpm-card--dark .vnpm-about-text {
+  color: #cbdad1;
+}
+
+.vnpm-card--light .vnpm-about-text {
+  color: #334155;
+}
+
+/* Focus Pills */
+.vnpm-focus-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vnpm-focus-pill {
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: transform 0.15s ease;
+}
+
+.vnpm-focus-pill:hover {
+  transform: translateY(-1px);
+}
+
+.vnpm-card--dark .vnpm-focus-pill {
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  color: #a7f3d0;
+}
+
+.vnpm-card--light .vnpm-focus-pill {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+
+/* Practice Details Table */
+.vnpm-practice-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.vnpm-card--dark .vnpm-practice-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid #24382d;
+}
+
+.vnpm-card--light .vnpm-practice-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.vnpm-practice-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.vnpm-practice-row:last-child {
+  border-bottom: none;
+}
+
+.vnpm-card--dark .vnpm-practice-row {
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+}
+
+.vnpm-card--light .vnpm-practice-row {
+  border-bottom-color: #e2e8f0;
+}
+
+.vnpm-practice-key {
+  font-weight: 500;
+}
+
+.vnpm-card--dark .vnpm-practice-key {
+  color: #7f9689;
+}
+
+.vnpm-card--light .vnpm-practice-key {
+  color: #64748b;
+}
+
+.vnpm-practice-val {
+  font-weight: 600;
+  text-align: right;
+}
+
+.vnpm-card--dark .vnpm-practice-val {
+  color: #e2ede6;
+}
+
+.vnpm-card--light .vnpm-practice-val {
+  color: #0f172a;
+}
+
+.vnpm-text-emerald {
+  color: #4ade80 !important;
+}
+
+.vnpm-card--light .vnpm-text-emerald {
+  color: #059669 !important;
+}
+
+/* 9. Posts & Media Grid */
+.vnpm-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.vnpm-post-card {
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.vnpm-card--dark .vnpm-post-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid #24382d;
+}
+
+.vnpm-card--light .vnpm-post-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.vnpm-post-card:hover {
+  transform: translateY(-2px);
+}
+
+.vnpm-card--dark .vnpm-post-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border-color: rgba(74, 222, 128, 0.35);
+}
+
+.vnpm-card--light .vnpm-post-card:hover {
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.vnpm-post-media-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+}
+
+.vnpm-post-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.vnpm-post-media-wrap:hover .vnpm-post-img {
+  transform: scale(1.05);
+}
+
+.vnpm-post-likes-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  backdrop-filter: blur(4px);
+}
+
+.vnpm-post-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.vnpm-post-title {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.vnpm-post-caption {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.vnpm-card--dark .vnpm-post-caption {
+  color: #9cb2a6;
+}
+
+.vnpm-card--light .vnpm-post-caption {
+  color: #64748b;
+}
+
+.vnpm-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.vnpm-post-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #10b981;
+}
+
+/* 10. Videos Section */
+.vnpm-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.vnpm-video-card {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+
+.vnpm-card--dark .vnpm-video-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid #24382d;
+}
+
+.vnpm-card--light .vnpm-video-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.vnpm-video-card:hover {
+  transform: translateY(-2px);
+}
+
+.vnpm-video-thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #000;
+}
+
+.vnpm-video-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vnpm-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s ease;
+}
+
+.vnpm-video-card:hover .vnpm-video-overlay {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.vnpm-video-play-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #10b981;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  padding-left: 3px;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
+  transition: transform 0.18s ease;
+}
+
+.vnpm-video-card:hover .vnpm-video-play-btn {
+  transform: scale(1.12);
+}
+
+.vnpm-video-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.vnpm-video-meta {
+  padding: 10px 12px;
+}
+
+.vnpm-video-title {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.vnpm-video-views {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.vnpm-card--dark .vnpm-video-views {
+  color: #7f9689;
+}
+
+/* 11. Peer Network List */
+.vnpm-followers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vnpm-peer-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition: background 0.16s ease;
+}
+
+.vnpm-card--dark .vnpm-peer-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #24382d;
+}
+
+.vnpm-card--light .vnpm-peer-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.vnpm-peer-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.vnpm-peer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.vnpm-peer-name {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.vnpm-peer-spec {
+  margin: 2px 0 0 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vnpm-card--dark .vnpm-peer-spec {
+  color: #8da396;
+}
+
+.vnpm-card--light .vnpm-peer-spec {
+  color: #64748b;
+}
+
+.vnpm-peer-mutual {
+  display: block;
+  font-size: 11px;
+  color: #10b981;
+  margin-top: 2px;
+}
+
+.vnpm-peer-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  border: 1px solid #10b981;
+  background: #10b981;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.vnpm-peer-btn--active {
+  background: transparent;
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+.vnpm-card--light .vnpm-peer-btn--active {
+  color: #059669;
+  border-color: #059669;
+}
+
+/* Empty State */
+.vnpm-empty-box {
+  padding: 36px 20px;
+  text-align: center;
+  font-size: 13.5px;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* 12. Full Photo Lightbox (Preserves aspect ratio with object-fit: contain) */
+.vnpm-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: vnpmFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vnpm-lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.vnpm-lightbox-close {
+  position: absolute;
+  top: -46px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.vnpm-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.1);
+}
+
+.vnpm-lightbox-img-wrap {
+  max-width: 100%;
+  max-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vnpm-lightbox-img {
+  max-width: 85vw;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.vnpm-lightbox-caption-box {
+  margin-top: 14px;
+  text-align: center;
+  color: #ffffff;
+  max-width: 580px;
+}
+
+.vnpm-lightbox-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.vnpm-lightbox-caption {
+  margin: 4px 0 0 0;
+  font-size: 12.5px;
+  opacity: 0.8;
+  line-height: 1.45;
+}
+
+/* Animations */
+@keyframes vnpmFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vnpmSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes vnpmPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(74, 222, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .vnpm-card {
+    max-height: 94vh;
+    border-radius: 16px;
+  }
+
+  .vnpm-cover-banner {
+    height: 100px;
+    padding-right: 50px;
+  }
+
+  .vnpm-avatar-wrap {
+    width: 76px;
+    height: 76px;
+    margin-top: -38px;
+  }
+
+  .vnpm-profile-header {
+    padding: 0 16px;
+    margin-top: -38px;
+  }
+
+  .vnpm-main-info,
+  .vnpm-tab-body {
+    padding: 12px 16px;
+  }
+
+  .vnpm-metrics-strip {
+    margin: 0 16px 12px 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .vnpm-posts-grid,
+  .vnpm-videos-grid {
+    grid-template-columns: 1fr;
+  }
+}
