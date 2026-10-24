@@ -51,6 +51,7 @@ const CITY_OPTIONS = [
 export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
   const themeContext = useTheme();
   const isDark = Boolean(themeContext?.isDark);
+  const toggleTheme = themeContext?.toggleTheme;
   const [profiles, setProfiles] = useState(() => {
     const all = getAllProfiles();
     let extra = customVets;
@@ -382,6 +383,18 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         </div>
 
         <div className="zenve-network-tabs-right">
+          {toggleTheme && (
+            <button
+              type="button"
+              className={`zenve-network-theme-toggle ${isDark ? 'zenve-network-theme-toggle--dark' : 'zenve-network-theme-toggle--light'}`}
+              onClick={toggleTheme}
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              <span className="zenve-network-toggle-icon">{isDark ? '🌙' : '☀️'}</span>
+              <span className="zenve-network-toggle-label">{isDark ? 'Dark Mode' : 'Light Mode'}</span>
+            </button>
+          )}
           <span className="zenve-community-feed-dot" />
           <span className="zenve-community-feed-label">Live Vet Network</span>
         </div>

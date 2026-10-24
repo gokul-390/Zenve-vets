@@ -1,4 +1,9 @@
 /* App Layout Styles */
+[data-theme='dark'] .zenve-content-workspace,
+.dark .zenve-content-workspace {
+  background-color: #0b1329;
+}
+
 [data-theme='dark'] .zenve-app-container,
 .dark .zenve-app-container {
   background-color: #0b1329;
