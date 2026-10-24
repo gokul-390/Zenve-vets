@@ -93,6 +93,7 @@
 .zenve-Member-benefits-title span {
   background: linear-gradient(135deg, #ffffff 0%, #fde2c7 45%, #f5be7a 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
@@ -476,6 +477,7 @@
 .zenve-benefits-container.zenve-dark-theme .zenve-Member-benefits-title span {
   background: linear-gradient(135deg, #ffffff 0%, #fde2c7 45%, #f5be7a 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
