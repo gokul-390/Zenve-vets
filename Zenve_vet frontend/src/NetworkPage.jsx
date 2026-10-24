@@ -6,7 +6,7 @@ import {
 } from '../data/profilesData';
 import { getDoctorImage, getDoctorFallbackImage } from '../utils/doctorImages.js';
 import { useTheme } from '../context/ThemeContext';
-import DoctorProfileModal from './DoctorProfileModal';
+import VetNetworkProfileModal from './components/VetNetworkProfileModal';
 import { SearchIcon, PlusIcon } from './Icons';
 import '../csscomponents/NetworkPage.css';
 
@@ -607,11 +607,14 @@ export const NetworkPage = ({ onOpenCreateProfile, customVets = [] }) => {
         </div>
       )}
 
-      {/* 5. Full Doctor Profile Modal View */}
-      <DoctorProfileModal
+      {/* 5. Professional Vet Network Profile Modal View */}
+      <VetNetworkProfileModal
         doctor={selectedDoctor}
         isOpen={isModalOpen}
         onClose={handleCloseDoctorModal}
+        isFollowing={selectedDoctor ? !!followingMap[selectedDoctor.id] : false}
+        onToggleFollow={handleToggleFollow}
+        onEditProfile={onOpenCreateProfile}
       />
     </div>
   );
