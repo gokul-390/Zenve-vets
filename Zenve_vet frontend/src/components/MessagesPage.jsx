@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { X, Sparkles, Settings, Users, UserPlus, Trash2, Globe, Lock, Share2, Check, Info, ShieldCheck, Pin, FileText, Paperclip, Smile, Copy, Edit2, MoreVertical, Download, CornerUpLeft, ArrowUpRight } from 'lucide-react';
+import { X, Sparkles, Settings, Users, UserPlus, Trash2, Globe, Lock, Share2, Check, Info, ShieldCheck, Pin, FileText, Paperclip, Smile, Copy, Edit2, MoreVertical, Download, CornerUpLeft, ArrowUpRight, Heart, Phone, Video, Image } from 'lucide-react';
 import { SearchIcon, MessagesIcon } from './Icons';
 import DoctorProfileModal from './DoctorProfileModal';
 import CreateProfileModal from './CreateProfileModal';
@@ -1031,6 +1031,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
 
   const messagesEndRef = useRef(null);
   const chatInputRef = useRef(null);
+  const commInputRef = useRef(null);
 
   // Message Editing, Deleting, Emoji Picker & File Attachment states
   const [editingMessage, setEditingMessage] = useState(null); // { id, text, context }
@@ -1042,6 +1043,79 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
   const [directAttachment, setDirectAttachment] = useState(null);
   const commFileInputRef = useRef(null);
   const directFileInputRef = useRef(null);
+
+  // Instagram Double-Tap Heart Burst Animation state
+  const [heartBurstMsgId, setHeartBurstMsgId] = useState(null);
+
+  // Instagram Message Emoji Reaction Handler
+  const handleReactToMessage = (context, msgId, emoji) => {
+    if (context === 'direct' && selectedDoctor) {
+      setConversations((prev) => {
+        const list = prev[selectedDoctor.id] || [];
+        const updated = list.map((m) => {
+          if (m.id !== msgId) return m;
+          const current = { ...(m.reactions || {}) };
+          if (current[emoji]) {
+            delete current[emoji];
+          } else {
+            current[emoji] = (current[emoji] || 0) + 1;
+          }
+          return { ...m, reactions: current };
+        });
+        const nextAll = { ...prev, [selectedDoctor.id]: updated };
+        try {
+          localStorage.setItem('zenve_chat_messages', JSON.stringify(nextAll));
+        } catch { }
+        return nextAll;
+      });
+    } else if (context === 'community' && activeCommunity) {
+      setCommunityMessages((prev) => {
+        const list = prev[activeCommunity.id] || [];
+        const updated = list.map((m) => {
+          if (m.id !== msgId) return m;
+          const current = { ...(m.reactions || {}) };
+          if (current[emoji]) {
+            delete current[emoji];
+          } else {
+            current[emoji] = (current[emoji] || 0) + 1;
+          }
+          return { ...m, reactions: current };
+        });
+        const nextAll = { ...prev, [activeCommunity.id]: updated };
+        try {
+          localStorage.setItem('zenve_community_chat_history', JSON.stringify(nextAll));
+        } catch { }
+        return nextAll;
+      });
+    }
+  };
+
+  // Instagram Double-Tap handler: triggers ❤️ reaction + animated heart burst, prevents accidental text selection
+  const handleDoubleTapMessage = (context, msgId) => {
+    try {
+      window.getSelection()?.removeAllRanges();
+    } catch { }
+    handleReactToMessage(context, msgId, '❤️');
+    setHeartBurstMsgId(msgId);
+    setTimeout(() => {
+      setHeartBurstMsgId((curr) => (curr === msgId ? null : curr));
+    }, 850);
+  };
+
+  // Helper to reliably insert emoji and retain focus on input
+  const handleInsertEmoji = (emoji, context = 'direct') => {
+    if (context === 'direct') {
+      setMessageInput((prev) => prev + emoji);
+      setTimeout(() => {
+        chatInputRef.current?.focus();
+      }, 20);
+    } else {
+      setCommunityInput((prev) => prev + emoji);
+      setTimeout(() => {
+        commInputRef.current?.focus();
+      }, 20);
+    }
+  };
 
   // Close menus & emoji popover on background click
   useEffect(() => {
@@ -2339,7 +2413,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         <p className="zenve-contact-preview">
                           {lastMsg ? (
                             <>
-                              {lastMsg.isMe && <span className="zenve-wa-preview-checks">✓✓ </span>}
+                              {lastMsg.isMe && <span className="zenve-ig-preview-you">You: </span>}
                               {lastMsg.senderName && !lastMsg.isMe ? `${lastMsg.senderName.split(' ')[0]}: ` : ''}
                               {lastMsg.text}
                             </>
@@ -2477,7 +2551,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                             <p className="zenve-contact-preview">
                               {lastMsg ? (
                                 <>
-                                  {lastMsg.sender === 'me' && <span className="zenve-wa-preview-checks">✓✓ </span>}
+                                  {lastMsg.sender === 'me' && <span className="zenve-ig-preview-you">You: </span>}
                                   {lastMsg.text}
                                 </>
                               ) : (
@@ -2486,10 +2560,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                             </p>
                             <span
                               className={`zenve-contact-status-chip ${isFollowing
-                                  ? 'zenve-status-following'
-                                  : doc.isFollower
-                                    ? 'zenve-status-follower'
-                                    : 'zenve-status-connect'
+                                ? 'zenve-status-following'
+                                : doc.isFollower
+                                  ? 'zenve-status-follower'
+                                  : 'zenve-status-connect'
                                 }`}
                             >
                               {isFollowing ? 'Following' : doc.isFollower ? 'Follower' : '+ Follow'}
@@ -2590,8 +2664,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                     <p className="zenve-chat-header-sub">
                       <span
                         className={`zenve-comm-mini-type-badge ${activeCommunity.type === 'public'
-                            ? 'zenve-status-public'
-                            : 'zenve-status-private'
+                          ? 'zenve-status-public'
+                          : 'zenve-status-private'
                           }`}
                       >
                         {activeCommunity.type === 'public' ? '🌐 Public' : '🔒 Private'}
@@ -2647,8 +2721,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         className="zenve-comm-action-btn zenve-toggle-privacy-btn"
                         onClick={() => handleToggleCommunityPrivacy(activeCommunity.id)}
                         title={`Switch privacy to ${activeCommunity.type === 'public'
-                            ? 'Private (Followers Only)'
-                            : 'Public (All Users)'
+                          ? 'Private (Followers Only)'
+                          : 'Public (All Users)'
                           }`}
                       >
                         {activeCommunity.type === 'public' ? (
@@ -2892,8 +2966,8 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 </div>
               )}
 
-              {/* WhatsApp-Style Community Chat History */}
-              <div className="zenve-chat-history zenve-comm-chat-history zenve-wa-chat-canvas">
+              {/* Instagram-Style Community Broadcast Chat History */}
+              <div className="zenve-chat-history zenve-comm-chat-history zenve-wa-chat-canvas zenve-ig-chat-canvas">
                 {/* Pinned Clinical Announcement Banner */}
                 {!isCommNoticeDismissed && (
                   <div className="zenve-comm-pinned-banner">
@@ -2914,13 +2988,13 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   </div>
                 )}
 
-                {/* WhatsApp End-to-End Encryption Notice Pill */}
-                <div className="zenve-wa-encryption-pill">
-                  <span>🔒 Messages in &ldquo;{activeCommunity.name}&rdquo; are secure & verified under ZenveVet clinical protocol.</span>
+                {/* Instagram Channel Header Pill */}
+                <div className="zenve-ig-channel-header-pill">
+                  <span>📣 {activeCommunity.name} • Clinical Broadcast Network</span>
                 </div>
 
-                {/* WhatsApp Centered Date Divider */}
-                <div className="zenve-wa-date-divider">
+                {/* Instagram Centered Date Divider */}
+                <div className="zenve-ig-date-divider">
                   <span>TODAY</span>
                 </div>
 
@@ -2942,183 +3016,240 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   return (
                     <div
                       key={msg.id}
-                      className={`zenve-wa-msg-row ${isMe ? 'wa-sent' : 'wa-received'}`}
+                      className={`zenve-ig-msg-row ${isMe ? 'ig-sent' : 'ig-received'} ${msg.reactions && Object.keys(msg.reactions).length > 0 ? 'has-reactions' : ''
+                        }`}
                     >
-                      <div className={`zenve-wa-bubble ${isMe ? 'bubble-sent' : 'bubble-received'}`}>
-                        {!isMe && (
-                          <div className="zenve-wa-author-line">
-                            <span className="zenve-wa-author-name" style={{ color: authorColor }}>
-                              {msg.senderName}
-                            </span>
-                            {msg.senderSpecialty && (
-                              <span className="zenve-wa-author-spec">
-                                • {msg.senderSpecialty}
+                      {!isMe && (
+                        <div
+                          className="zenve-ig-bubble-avatar-init"
+                          style={{ background: authorColor }}
+                          title={msg.senderName}
+                        >
+                          {(msg.senderName || 'D')[0]}
+                        </div>
+                      )}
+
+                      <div className="zenve-ig-bubble-wrapper">
+                        <div
+                          className={`zenve-ig-bubble ${isMe ? 'bubble-sent' : 'bubble-received'}`}
+                          onDoubleClick={() => handleDoubleTapMessage('community', msg.id)}
+                          title="Double-click to react with ❤️"
+                        >
+                          {!isMe && (
+                            <div className="zenve-ig-author-line">
+                              <span className="zenve-ig-author-name" style={{ color: authorColor }}>
+                                {msg.senderName}
                               </span>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Attachment display inside bubble */}
-                        {msg.attachment && !msg.isDeletedForEveryone && (
-                          <div className="zenve-wa-bubble-attachment">
-                            {msg.attachment.isImage ? (
-                              <div className="zenve-wa-msg-img-wrap">
-                                <img
-                                  src={msg.attachment.dataUrl}
-                                  alt={msg.attachment.name}
-                                  className="zenve-wa-msg-image"
-                                  onClick={() => window.open(msg.attachment.dataUrl, '_blank')}
-                                  title="Click to view full image"
-                                />
-                              </div>
-                            ) : (
-                              <div className="zenve-wa-msg-doc-card">
-                                <div className="zenve-wa-doc-icon-wrap">
-                                  <FileText size={22} color="#1D3B2F" />
-                                </div>
-                                <div className="zenve-wa-doc-info">
-                                  <span className="zenve-wa-doc-name" title={msg.attachment.name}>
-                                    {msg.attachment.name}
-                                  </span>
-                                  <span className="zenve-wa-doc-size">{msg.attachment.size}</span>
-                                </div>
-                                <a
-                                  href={msg.attachment.dataUrl}
-                                  download={msg.attachment.name}
-                                  className="zenve-wa-doc-download-btn"
-                                  title="Download attachment"
-                                >
-                                  <Download size={15} />
-                                </a>
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Deleted Message Tombstone */}
-                        {msg.isDeletedForEveryone ? (
-                          <div className="zenve-wa-deleted-msg">
-                            <span className="zenve-wa-deleted-icon">🚫</span>
-                            <span className="zenve-wa-deleted-text">
-                              {(msg.text ? msg.text.replace(/^[🚫\s]+/, '') : '') || 'This message was deleted'}
-                            </span>
-                            <span className="zenve-wa-meta-inline">
-                              <span className="zenve-wa-time">{msg.time}</span>
-                            </span>
-                          </div>
-                        ) : editingMessage?.id === msg.id && editingMessage?.context === 'community' ? (
-                          /* Inline Edit Box */
-                          <div className="zenve-wa-inline-edit-box">
-                            <input
-                              type="text"
-                              className="zenve-wa-inline-edit-input"
-                              value={editingMessage.text}
-                              onChange={(e) =>
-                                setEditingMessage((prev) => ({ ...prev, text: e.target.value }))
-                              }
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') handleSaveEdit('community', msg.id, editingMessage.text);
-                                if (e.key === 'Escape') setEditingMessage(null);
-                              }}
-                              autoFocus
-                            />
-                            <div className="zenve-wa-inline-edit-actions">
-                              <button
-                                type="button"
-                                className="zenve-wa-edit-btn save"
-                                onClick={() => handleSaveEdit('community', msg.id, editingMessage.text)}
-                                title="Save edit (Enter)"
-                              >
-                                <Check size={14} />
-                              </button>
-                              <button
-                                type="button"
-                                className="zenve-wa-edit-btn cancel"
-                                onClick={() => setEditingMessage(null)}
-                                title="Cancel (Esc)"
-                              >
-                                <X size={14} />
-                              </button>
+                              {msg.senderSpecialty && (
+                                <span className="zenve-ig-author-spec">
+                                  • {msg.senderSpecialty}
+                                </span>
+                              )}
                             </div>
-                          </div>
-                        ) : (
-                          /* Standard Message Text Content */
-                          <div className="zenve-wa-text-content">
-                            <span className="zenve-wa-msg-text">{msg.text}</span>
-                            <span className="zenve-wa-meta-inline">
-                              {msg.isEdited && <span className="zenve-wa-edited-badge">(edited)</span>}
-                              <span className="zenve-wa-time">{msg.time}</span>
-                              {isMe && <span className="zenve-wa-checks">✓✓</span>}
-                            </span>
+                          )}
 
-                            {/* Dropdown Menu Trigger for Reply / Edit / Delete */}
-                            <div className="zenve-wa-msg-actions-wrap">
-                              <button
-                                type="button"
-                                className="zenve-wa-msg-actions-btn"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setActiveMenuMsgId((prev) => (prev === msg.id ? null : msg.id));
-                                }}
-                                title="Message options"
-                                aria-label="Message options"
-                              >
-                                <MoreVertical size={13} />
-                              </button>
-                              {activeMenuMsgId === msg.id && (
-                                <div className="zenve-wa-dropdown-menu" onClick={(e) => e.stopPropagation()}>
-                                  <button
-                                    type="button"
-                                    className="zenve-wa-menu-item"
-                                    onClick={() => {
-                                      setReplyingTo({
-                                        id: msg.id,
-                                        senderName: isMe ? 'You' : (msg.senderName || 'Member'),
-                                        text: msg.text,
-                                        context: 'community',
-                                      });
-                                      setActiveMenuMsgId(null);
-                                    }}
+                          {/* Attachment display inside bubble */}
+                          {msg.attachment && !msg.isDeletedForEveryone && (
+                            <div className="zenve-wa-bubble-attachment zenve-ig-bubble-attachment">
+                              {msg.attachment.isImage ? (
+                                <div className="zenve-wa-msg-img-wrap">
+                                  <img
+                                    src={msg.attachment.dataUrl}
+                                    alt={msg.attachment.name}
+                                    className="zenve-wa-msg-image zenve-ig-msg-image"
+                                    onClick={() => window.open(msg.attachment.dataUrl, '_blank')}
+                                    title="Click to view full image"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="zenve-wa-msg-doc-card zenve-ig-msg-doc-card">
+                                  <div className="zenve-wa-doc-icon-wrap">
+                                    <FileText size={22} color={isMe ? '#ffffff' : '#1D3B2F'} />
+                                  </div>
+                                  <div className="zenve-wa-doc-info">
+                                    <span className="zenve-wa-doc-name" title={msg.attachment.name}>
+                                      {msg.attachment.name}
+                                    </span>
+                                    <span className="zenve-wa-doc-size">{msg.attachment.size}</span>
+                                  </div>
+                                  <a
+                                    href={msg.attachment.dataUrl}
+                                    download={msg.attachment.name}
+                                    className="zenve-wa-doc-download-btn"
+                                    title="Download attachment"
                                   >
-                                    <CornerUpLeft size={13} />
-                                    <span>Reply</span>
-                                  </button>
-                                  {isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg) && (
-                                    <button
-                                      type="button"
-                                      className="zenve-wa-menu-item"
-                                      onClick={() => {
-                                        setEditingMessage({ id: msg.id, text: msg.text, context: 'community' });
-                                        setActiveMenuMsgId(null);
-                                      }}
-                                    >
-                                      <Edit2 size={13} />
-                                      <span>Edit message</span>
-                                    </button>
-                                  )}
-                                  <button
-                                    type="button"
-                                    className="zenve-wa-menu-item danger"
-                                    onClick={() => {
-                                      const canEveryone = isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg);
-                                      setDeleteTarget({
-                                        id: msg.id,
-                                        context: 'community',
-                                        isMe,
-                                        canDeleteForEveryone: canEveryone,
-                                        text: msg.text,
-                                      });
-                                      setActiveMenuMsgId(null);
-                                    }}
-                                  >
-                                    <Trash2 size={13} />
-                                    <span>Delete message</span>
-                                  </button>
+                                    <Download size={15} />
+                                  </a>
                                 </div>
                               )}
                             </div>
+                          )}
+
+                          {/* Deleted Message Tombstone */}
+                          {msg.isDeletedForEveryone ? (
+                            <div className="zenve-ig-deleted-msg">
+                              <span className="zenve-ig-deleted-text">
+                                {(msg.text ? msg.text.replace(/^[🚫\s]+/, '') : '') || 'Message unsent'}
+                              </span>
+                            </div>
+                          ) : editingMessage?.id === msg.id && editingMessage?.context === 'community' ? (
+                            /* Inline Edit Box */
+                            <div className="zenve-ig-inline-edit-box">
+                              <input
+                                type="text"
+                                className="zenve-ig-inline-edit-input"
+                                value={editingMessage.text}
+                                onChange={(e) =>
+                                  setEditingMessage((prev) => ({ ...prev, text: e.target.value }))
+                                }
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleSaveEdit('community', msg.id, editingMessage.text);
+                                  if (e.key === 'Escape') setEditingMessage(null);
+                                }}
+                                autoFocus
+                              />
+                              <div className="zenve-ig-inline-edit-actions">
+                                <button
+                                  type="button"
+                                  className="zenve-ig-edit-btn save"
+                                  onClick={() => handleSaveEdit('community', msg.id, editingMessage.text)}
+                                  title="Save edit (Enter)"
+                                >
+                                  <Check size={14} />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="zenve-ig-edit-btn cancel"
+                                  onClick={() => setEditingMessage(null)}
+                                  title="Cancel (Esc)"
+                                >
+                                  <X size={14} />
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            /* Standard Message Text Content */
+                            <div className="zenve-ig-text-content">
+                              <span className="zenve-ig-msg-text">{msg.text}</span>
+                              {msg.isEdited && <span className="zenve-ig-edited-badge"> (edited)</span>}
+                            </div>
+                          )}
+
+                          {/* Animated Heart Burst on double-tap */}
+                          {heartBurstMsgId === msg.id && (
+                            <div className="zenve-ig-heart-burst" aria-hidden="true">
+                              ❤️
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Emoji Reaction Badges neatly positioned at the bottom corner */}
+                        {msg.reactions && Object.keys(msg.reactions).length > 0 && (
+                          <div className="zenve-ig-bubble-reactions">
+                            {Object.entries(msg.reactions).map(([emoji, count]) => (
+                              <button
+                                key={emoji}
+                                type="button"
+                                className="zenve-ig-reaction-badge"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleReactToMessage('community', msg.id, emoji);
+                                }}
+                                title={`Reacted with ${emoji}`}
+                              >
+                                <span>{emoji}</span>
+                                {count > 1 && <span className="zenve-ig-react-count">{count}</span>}
+                              </button>
+                            ))}
                           </div>
                         )}
+
+                        {/* Floating Instagram Hover Reaction Dock & Options */}
+                        <div className="zenve-ig-msg-actions-row zenve-ig-msg-hover-actions">
+                          <div className="zenve-ig-quick-react-dock">
+                            {['❤️', '😂', '😮', '😢', '👏', '🔥'].map((emoji) => (
+                              <button
+                                key={emoji}
+                                type="button"
+                                className="zenve-ig-react-mini-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  handleReactToMessage('community', msg.id, emoji);
+                                }}
+                                title={`React ${emoji}`}
+                              >
+                                {emoji}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="zenve-ig-dropdown-wrap">
+                            <button
+                              type="button"
+                              className="zenve-ig-msg-more-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveMenuMsgId((prev) => (prev === msg.id ? null : msg.id));
+                              }}
+                              title="Message options"
+                              aria-label="Message options"
+                            >
+                              <MoreVertical size={13} />
+                            </button>
+                            {activeMenuMsgId === msg.id && (
+                              <div className="zenve-ig-dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                <button
+                                  type="button"
+                                  className="zenve-ig-menu-item"
+                                  onClick={() => {
+                                    setReplyingTo({
+                                      id: msg.id,
+                                      senderName: isMe ? 'You' : (msg.senderName || 'Member'),
+                                      text: msg.text,
+                                      context: 'community',
+                                    });
+                                    setActiveMenuMsgId(null);
+                                  }}
+                                >
+                                  <CornerUpLeft size={13} />
+                                  <span>Reply</span>
+                                </button>
+                                {isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg) && (
+                                  <button
+                                    type="button"
+                                    className="zenve-ig-menu-item"
+                                    onClick={() => {
+                                      setEditingMessage({ id: msg.id, text: msg.text, context: 'community' });
+                                      setActiveMenuMsgId(null);
+                                    }}
+                                  >
+                                    <Edit2 size={13} />
+                                    <span>Edit</span>
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  className="zenve-ig-menu-item danger"
+                                  onClick={() => {
+                                    const canEveryone = isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg);
+                                    setDeleteTarget({
+                                      id: msg.id,
+                                      context: 'community',
+                                      isMe,
+                                      canDeleteForEveryone: canEveryone,
+                                      text: msg.text,
+                                    });
+                                    setActiveMenuMsgId(null);
+                                  }}
+                                >
+                                  <Trash2 size={13} />
+                                  <span>Unsend</span>
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );
@@ -3191,11 +3322,28 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                 </button>
               </div>
 
-              {/* WhatsApp-Style Community Message Composer Dock */}
-              <div className="zenve-wa-composer-wrapper">
+              {/* Instagram-Style Community Message Composer Dock */}
+              <div className="zenve-wa-composer-wrapper zenve-ig-composer-wrapper">
+                {/* Quick Emoji Ribbon for Community */}
+                <div className="zenve-ig-quick-emoji-ribbon">
+                  <div className="zenve-ig-quick-emoji-list">
+                    {['❤️', '😂', '😮', '😢', '👏', '🔥', '🩺', '🐶', '🐾'].map((emoji) => (
+                      <button
+                        key={emoji}
+                        type="button"
+                        className="zenve-ig-quick-emoji-btn"
+                        onClick={() => handleSendCommunityMessage(emoji)}
+                        title={`Send ${emoji} to channel`}
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Pending Attachment Bar Preview */}
                 {commAttachment && (
-                  <div className="zenve-wa-attachment-bar">
+                  <div className="zenve-wa-attachment-bar zenve-ig-attachment-bar">
                     <div className="zenve-wa-attach-preview-box">
                       {commAttachment.isImage ? (
                         <img
@@ -3224,15 +3372,15 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   </div>
                 )}
 
-                {/* WhatsApp Interactive Emoji Picker Popover */}
+                {/* Instagram Interactive Emoji Picker Popover */}
                 {showEmojiPicker === 'community' && (
-                  <div className="zenve-wa-emoji-popover" onClick={(e) => e.stopPropagation()}>
-                    <div className="zenve-wa-emoji-tabs">
+                  <div className="zenve-wa-emoji-popover zenve-ig-emoji-popover" onClick={(e) => e.stopPropagation()}>
+                    <div className="zenve-wa-emoji-tabs zenve-ig-emoji-tabs">
                       {EMOJI_TABS.map((tab) => (
                         <button
                           key={tab.id}
                           type="button"
-                          className={`zenve-wa-emoji-tab-btn ${activeEmojiTab === tab.id ? 'active' : ''}`}
+                          className={`zenve-wa-emoji-tab-btn zenve-ig-emoji-tab-btn ${activeEmojiTab === tab.id ? 'active' : ''}`}
                           onClick={() => setActiveEmojiTab(tab.id)}
                           title={tab.title}
                         >
@@ -3241,17 +3389,22 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         </button>
                       ))}
                     </div>
-                    <div className="zenve-wa-emoji-grid">
+                    <div className="zenve-wa-emoji-grid zenve-ig-emoji-grid">
                       {((EMOJI_TABS.find((t) => t.id === activeEmojiTab) || EMOJI_TABS[0]).emojis || []).map((emoji, idx) => (
                         <button
                           key={idx}
                           type="button"
-                          className="zenve-wa-emoji-btn"
-                          onClick={() => setCommunityInput((prev) => prev + emoji)}
+                          className="zenve-wa-emoji-btn zenve-ig-emoji-btn"
+                          onClick={() => handleInsertEmoji(emoji, 'community')}
+                          onDoubleClick={() => handleSendCommunityMessage(emoji)}
+                          title="Click to insert • Double-click to send"
                         >
                           {emoji}
                         </button>
                       ))}
+                    </div>
+                    <div className="zenve-ig-popover-footer">
+                      <span>Tip: Click to insert • Double-click to send immediately</span>
                     </div>
                   </div>
                 )}
@@ -3266,7 +3419,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
 
                 {/* Replying Context Bar for Community */}
                 {replyingTo && replyingTo.context === 'community' && (
-                  <div className="zenve-chat-replying-bar">
+                  <div className="zenve-chat-replying-bar zenve-ig-replying-bar">
                     <div className="zenve-replying-bar-left">
                       <div className="zenve-replying-bar-icon">
                         <CornerUpLeft size={13} />
@@ -3290,10 +3443,11 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   </div>
                 )}
 
-                <div className="zenve-wa-composer-dock">
+                {/* Instagram Unified Pill Composer Dock */}
+                <div className="zenve-wa-composer-dock zenve-ig-composer-dock">
                   <button
                     type="button"
-                    className={`zenve-wa-dock-icon-btn ${showEmojiPicker === 'community' ? 'active' : ''}`}
+                    className={`zenve-wa-dock-icon-btn zenve-ig-dock-icon-btn ${showEmojiPicker === 'community' ? 'active' : ''}`}
                     title="Choose emoji"
                     aria-label="Choose emoji"
                     onClick={(e) => {
@@ -3301,22 +3455,14 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                       setShowEmojiPicker((prev) => (prev === 'community' ? null : 'community'));
                     }}
                   >
-                    <Smile size={20} />
+                    <Smile size={22} />
                   </button>
-                  <button
-                    type="button"
-                    className={`zenve-wa-dock-icon-btn ${commAttachment ? 'has-file' : ''}`}
-                    title="Upload clinical document, image or lab panel"
-                    aria-label="Upload file"
-                    onClick={() => commFileInputRef.current?.click()}
-                  >
-                    <Paperclip size={20} />
-                  </button>
-                  <div className="zenve-wa-input-container">
+                  <div className="zenve-wa-input-container zenve-ig-input-container">
                     <input
+                      ref={commInputRef}
                       type="text"
-                      className="zenve-wa-input"
-                      placeholder={`Type a message in ${activeCommunity.name}...`}
+                      className="zenve-wa-input zenve-ig-input"
+                      placeholder={`Message in ${activeCommunity.name}...`}
                       value={communityInput}
                       onChange={(e) => setCommunityInput(e.target.value)}
                       onKeyDown={(e) => {
@@ -3329,26 +3475,34 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                   </div>
                   <button
                     type="button"
-                    className="zenve-wa-send-btn"
-                    onClick={() => handleSendCommunityMessage()}
-                    disabled={!communityInput.trim() && !commAttachment}
-                    title="Send message"
-                    aria-label="Send message"
+                    className={`zenve-wa-dock-icon-btn zenve-ig-dock-icon-btn ${commAttachment ? 'has-file' : ''}`}
+                    title="Upload clinical document, image or lab panel"
+                    aria-label="Upload file"
+                    onClick={() => commFileInputRef.current?.click()}
                   >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#ffffff"
-                      strokeWidth="2.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="22" y1="2" x2="11" y2="13" />
-                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                    </svg>
+                    <Paperclip size={20} />
                   </button>
+                  {communityInput.trim() || commAttachment ? (
+                    <button
+                      type="button"
+                      className="zenve-ig-send-btn"
+                      onClick={() => handleSendCommunityMessage()}
+                      title="Send message"
+                      aria-label="Send message"
+                    >
+                      Send
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="zenve-ig-heart-btn"
+                      onClick={() => handleSendCommunityMessage('❤️')}
+                      title="Send Heart (❤️)"
+                      aria-label="Send Heart"
+                    >
+                      <Heart size={22} fill="#ff3040" color="#ff3040" />
+                    </button>
+                  )}
                 </div>
               </div>
             </>
@@ -3367,190 +3521,308 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
           /* DIRECT CHATS MAIN CONVERSATION PANE */
           selectedDoctor ? (
             <>
-              {/* Chat Header */}
-              <div className="zenve-chat-header">
+              {/* Instagram-Style Direct Chat Header */}
+              <div className="zenve-chat-header zenve-ig-chat-header">
                 <div className="zenve-chat-header-user">
-                  <img
-                    src={selectedDoctor.img}
-                    alt={selectedDoctor.name}
-                    className="zenve-chat-header-avatar"
+                  <div
+                    className="zenve-ig-story-ring-sm"
                     onClick={() => openProfile(selectedDoctor)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  <div>
+                    title="View story / profile"
+                  >
+                    <img
+                      src={selectedDoctor.img}
+                      alt={selectedDoctor.name}
+                      className="zenve-chat-header-avatar"
+                    />
+                  </div>
+                  <div className="zenve-ig-header-info">
                     <h3
                       className="zenve-chat-header-name"
                       onClick={() => openProfile(selectedDoctor)}
                       style={{ cursor: 'pointer' }}
                     >
                       {selectedDoctor.name}
-                      <span className="zenve-chat-header-verified" title="Verified Veterinarian">
+                      <span className="zenve-ig-verified-badge" title="Verified Veterinarian">
                         ✓
                       </span>
                     </h3>
                     <p className="zenve-chat-header-sub">
                       <span>{selectedDoctor.specialty}</span>
                       <span>•</span>
-                      <span style={{ color: selectedDoctor.online ? '#16a34a' : '#889890' }}>
-                        {selectedDoctor.online ? 'Online now' : selectedDoctor.lastSeen}
+                      <span className={selectedDoctor.online ? 'zenve-ig-online-text' : 'zenve-ig-offline-text'}>
+                        {selectedDoctor.online ? 'Active now' : selectedDoctor.lastSeen}
                       </span>
                     </p>
                   </div>
                 </div>
 
-                {/* Action Buttons: View Profile & Follow Toggle */}
-                <div className="zenve-chat-header-actions">
+                {/* Instagram Direct Chat Action Buttons: Audio Call, Video Call, Follow & Info */}
+                <div className="zenve-chat-header-actions zenve-ig-header-actions">
                   <button
                     type="button"
-                    className="zenve-view-profile-btn"
-                    onClick={() => openProfile(selectedDoctor)}
-                    title="View full doctor profile"
+                    className="zenve-ig-header-icon-btn"
+                    onClick={() => alert(`Starting encrypted audio consultation with Dr. ${selectedDoctor.name}...`)}
+                    title="Audio call"
+                    aria-label="Audio call"
                   >
-                    View Profile ↗
+                    <Phone size={19} />
                   </button>
                   <button
                     type="button"
-                    className={`zenve-follow-toggle-btn ${isFollowingSelected ? 'following' : 'not-following'
-                      }`}
-                    onClick={() => handleToggleFollow(selectedDoctor.id)}
-                    title={
-                      isFollowingSelected ? 'Click to Unfollow' : 'Follow to enable messaging'
-                    }
+                    className="zenve-ig-header-icon-btn"
+                    onClick={() => alert(`Starting video telehealth session with Dr. ${selectedDoctor.name}...`)}
+                    title="Video call"
+                    aria-label="Video call"
                   >
-                    {isFollowingSelected ? '✓ Following' : '+ Follow to Msg'}
+                    <Video size={20} />
+                  </button>
+                  <button
+                    type="button"
+                    className={`zenve-ig-follow-pill-btn ${isFollowingSelected ? 'following' : 'not-following'}`}
+                    onClick={() => handleToggleFollow(selectedDoctor.id)}
+                    title={isFollowingSelected ? 'Click to Unfollow' : 'Follow Dr. ' + selectedDoctor.name}
+                  >
+                    {isFollowingSelected ? 'Following' : 'Follow'}
+                  </button>
+                  <button
+                    type="button"
+                    className="zenve-ig-header-icon-btn"
+                    onClick={() => openProfile(selectedDoctor)}
+                    title="Details & Profile"
+                    aria-label="Details & Profile"
+                  >
+                    <Info size={20} />
                   </button>
                 </div>
               </div>
 
-              {/* Messages Thread Flow - WhatsApp Style Canvas */}
-              <div className="zenve-chat-history zenve-wa-chat-canvas">
-                {/* WhatsApp End-to-End Encryption Notice Pill */}
-                <div className="zenve-wa-encryption-pill">
-                  <span>🔒 Direct clinical messages with Dr. {selectedDoctor.name} are end-to-end encrypted.</span>
+              {/* Instagram-Style Direct Chat Canvas */}
+              <div className="zenve-chat-history zenve-wa-chat-canvas zenve-ig-chat-canvas">
+                {/* Instagram Doctor Profile Intro Header Card */}
+                <div className="zenve-ig-profile-header-card">
+                  <div
+                    className="zenve-ig-story-ring-lg"
+                    onClick={() => openProfile(selectedDoctor)}
+                    title="View Profile"
+                  >
+                    <img
+                      src={selectedDoctor.img}
+                      alt={selectedDoctor.name}
+                      className="zenve-ig-profile-lg-avatar"
+                    />
+                  </div>
+                  <h4 className="zenve-ig-profile-lg-name">
+                    {selectedDoctor.name}
+                    <span className="zenve-ig-verified-badge" title="Verified Veterinarian">
+                      ✓
+                    </span>
+                  </h4>
+                  <p className="zenve-ig-profile-lg-meta">
+                    {selectedDoctor.specialty} • {selectedDoctor.clinic || 'Specialty Veterinary Hospital'}
+                  </p>
+                  <p className="zenve-ig-profile-lg-sub">
+                    {selectedDoctor.location || 'India'} • Verified Practitioner
+                  </p>
+                  <div className="zenve-ig-profile-actions">
+                    <button
+                      type="button"
+                      className="zenve-ig-profile-view-btn"
+                      onClick={() => openProfile(selectedDoctor)}
+                    >
+                      View Profile
+                    </button>
+                  </div>
                 </div>
 
-                {/* WhatsApp Centered Date Divider */}
-                <div className="zenve-wa-date-divider">
+                {/* Instagram Centered Date Divider */}
+                <div className="zenve-ig-date-divider">
                   <span>TODAY</span>
                 </div>
 
-                {activeChatMessages.map((msg) => {
+                {activeChatMessages.map((msg, index) => {
                   const isMe = msg.sender === 'me';
                   const isReplyingToThis = replyingTo?.id === msg.id;
+                  const isLastMsg = index === activeChatMessages.length - 1;
+                  const hasReactions = msg.reactions && Object.keys(msg.reactions).length > 0;
 
                   return (
                     <div
                       key={msg.id}
-                      className={`zenve-wa-msg-row ${isMe ? 'wa-sent' : 'wa-received'} ${isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
-                        }`}
+                      className={`zenve-ig-msg-row ${isMe ? 'ig-sent' : 'ig-received'} ${isReplyingToThis ? 'zenve-bubble-selected-reply' : ''
+                        } ${hasReactions ? 'has-reactions' : ''}`}
                     >
-                      <div className={`zenve-wa-bubble ${isMe ? 'bubble-sent' : 'bubble-received'}`}>
-                        {/* Quoted Reply Reference Box inside WhatsApp Bubble */}
-                        {msg.replyTo && (
-                          <div className="zenve-wa-reply-quote">
-                            <span className="zenve-wa-quote-author">{msg.replyTo.senderName}</span>
-                            <p className="zenve-wa-quote-text">{msg.replyTo.text}</p>
-                          </div>
-                        )}
+                      {!isMe && (
+                        <img
+                          src={selectedDoctor.img}
+                          alt={selectedDoctor.name}
+                          className="zenve-ig-bubble-avatar"
+                          onClick={() => openProfile(selectedDoctor)}
+                          title={`Dr. ${selectedDoctor.name}`}
+                        />
+                      )}
 
-                        {/* Attachment display inside bubble */}
-                        {msg.attachment && !msg.isDeletedForEveryone && (
-                          <div className="zenve-wa-bubble-attachment">
-                            {msg.attachment.isImage ? (
-                              <div className="zenve-wa-msg-img-wrap">
-                                <img
-                                  src={msg.attachment.dataUrl}
-                                  alt={msg.attachment.name}
-                                  className="zenve-wa-msg-image"
-                                  onClick={() => window.open(msg.attachment.dataUrl, '_blank')}
-                                  title="Click to view full image"
-                                />
-                              </div>
-                            ) : (
-                              <div className="zenve-wa-msg-doc-card">
-                                <div className="zenve-wa-doc-icon-wrap">
-                                  <FileText size={22} color="#1D3B2F" />
-                                </div>
-                                <div className="zenve-wa-doc-info">
-                                  <span className="zenve-wa-doc-name" title={msg.attachment.name}>
-                                    {msg.attachment.name}
-                                  </span>
-                                  <span className="zenve-wa-doc-size">{msg.attachment.size}</span>
-                                </div>
-                                <a
-                                  href={msg.attachment.dataUrl}
-                                  download={msg.attachment.name}
-                                  className="zenve-wa-doc-download-btn"
-                                  title="Download attachment"
-                                >
-                                  <Download size={15} />
-                                </a>
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Deleted Message Tombstone */}
-                        {msg.isDeletedForEveryone ? (
-                          <div className="zenve-wa-deleted-msg">
-                            <span className="zenve-wa-deleted-icon">🚫</span>
-                            <span className="zenve-wa-deleted-text">
-                              {(msg.text ? msg.text.replace(/^[🚫\s]+/, '') : '') || 'This message was deleted'}
-                            </span>
-                            <span className="zenve-wa-meta-inline">
-                              <span className="zenve-wa-time">{msg.time}</span>
-                            </span>
-                          </div>
-                        ) : editingMessage?.id === msg.id && editingMessage?.context === 'direct' ? (
-                          /* Inline Edit Box */
-                          <div className="zenve-wa-inline-edit-box">
-                            <input
-                              type="text"
-                              className="zenve-wa-inline-edit-input"
-                              value={editingMessage.text}
-                              onChange={(e) =>
-                                setEditingMessage((prev) => ({ ...prev, text: e.target.value }))
-                              }
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') handleSaveEdit('direct', msg.id, editingMessage.text);
-                                if (e.key === 'Escape') setEditingMessage(null);
-                              }}
-                              autoFocus
-                            />
-                            <div className="zenve-wa-inline-edit-actions">
-                              <button
-                                type="button"
-                                className="zenve-wa-edit-btn save"
-                                onClick={() => handleSaveEdit('direct', msg.id, editingMessage.text)}
-                                title="Save edit (Enter)"
-                              >
-                                <Check size={14} />
-                              </button>
-                              <button
-                                type="button"
-                                className="zenve-wa-edit-btn cancel"
-                                onClick={() => setEditingMessage(null)}
-                                title="Cancel (Esc)"
-                              >
-                                <X size={14} />
-                              </button>
+                      <div className="zenve-ig-bubble-wrapper">
+                        <div
+                          className={`zenve-ig-bubble ${isMe ? 'bubble-sent' : 'bubble-received'}`}
+                          onDoubleClick={() => handleDoubleTapMessage('direct', msg.id)}
+                          title="Double-click to react with ❤️"
+                        >
+                          {/* Quoted Reply Reference Box inside Instagram Bubble */}
+                          {msg.replyTo && (
+                            <div className="zenve-ig-reply-quote">
+                              <span className="zenve-ig-quote-author">{msg.replyTo.senderName}</span>
+                              <p className="zenve-ig-quote-text">{msg.replyTo.text}</p>
                             </div>
-                          </div>
-                        ) : (
-                          /* Standard Message Text Content */
-                          <div className="zenve-wa-text-content">
-                            <span className="zenve-wa-msg-text">{msg.text}</span>
-                            <span className="zenve-wa-meta-inline">
-                              {msg.isEdited && <span className="zenve-wa-edited-badge">(edited)</span>}
-                              <span className="zenve-wa-time">{msg.time}</span>
-                              {isMe && <span className="zenve-wa-checks">✓✓</span>}
-                            </span>
+                          )}
 
-                            {/* Dropdown Menu Trigger for Reply / Edit / Delete */}
-                            <div className="zenve-wa-msg-actions-wrap">
+                          {/* Attachment display inside bubble */}
+                          {msg.attachment && !msg.isDeletedForEveryone && (
+                            <div className="zenve-ig-bubble-attachment">
+                              {msg.attachment.isImage ? (
+                                <div className="zenve-ig-msg-img-wrap">
+                                  <img
+                                    src={msg.attachment.dataUrl}
+                                    alt={msg.attachment.name}
+                                    className="zenve-ig-msg-image"
+                                    onClick={() => window.open(msg.attachment.dataUrl, '_blank')}
+                                    title="Click to view full image"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="zenve-ig-msg-doc-card">
+                                  <div className="zenve-ig-doc-icon-wrap">
+                                    <FileText size={20} color="#3b82f6" />
+                                  </div>
+                                  <div className="zenve-ig-doc-info">
+                                    <span className="zenve-ig-doc-name" title={msg.attachment.name}>
+                                      {msg.attachment.name}
+                                    </span>
+                                    <span className="zenve-ig-doc-size">{msg.attachment.size}</span>
+                                  </div>
+                                  <a
+                                    href={msg.attachment.dataUrl}
+                                    download={msg.attachment.name}
+                                    className="zenve-ig-doc-download-btn"
+                                    title="Download attachment"
+                                  >
+                                    <Download size={14} />
+                                  </a>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Deleted Message Tombstone */}
+                          {msg.isDeletedForEveryone ? (
+                            <div className="zenve-ig-deleted-msg">
+                              <span className="zenve-ig-deleted-icon">🚫</span>
+                              <span className="zenve-ig-deleted-text">
+                                {(msg.text ? msg.text.replace(/^[🚫\s]+/, '') : '') || 'This message was deleted'}
+                              </span>
+                              <span className="zenve-ig-meta-inline">
+                                <span className="zenve-ig-time">{msg.time}</span>
+                              </span>
+                            </div>
+                          ) : editingMessage?.id === msg.id && editingMessage?.context === 'direct' ? (
+                            /* Inline Edit Box */
+                            <div className="zenve-ig-inline-edit-box">
+                              <input
+                                type="text"
+                                className="zenve-ig-inline-edit-input"
+                                value={editingMessage.text}
+                                onChange={(e) =>
+                                  setEditingMessage((prev) => ({ ...prev, text: e.target.value }))
+                                }
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleSaveEdit('direct', msg.id, editingMessage.text);
+                                  if (e.key === 'Escape') setEditingMessage(null);
+                                }}
+                                autoFocus
+                              />
+                              <div className="zenve-ig-inline-edit-actions">
+                                <button
+                                  type="button"
+                                  className="zenve-ig-edit-btn save"
+                                  onClick={() => handleSaveEdit('direct', msg.id, editingMessage.text)}
+                                  title="Save edit (Enter)"
+                                >
+                                  <Check size={14} />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="zenve-ig-edit-btn cancel"
+                                  onClick={() => setEditingMessage(null)}
+                                  title="Cancel (Esc)"
+                                >
+                                  <X size={14} />
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            /* Standard Message Text Content */
+                            <div className="zenve-ig-text-content">
+                              <span className="zenve-ig-msg-text">{msg.text}</span>
+                              <span className="zenve-ig-meta-inline">
+                                {msg.isEdited && <span className="zenve-ig-edited-badge">(edited)</span>}
+                                <span className="zenve-ig-time">{msg.time}</span>
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Animated Heart Burst on double-tap */}
+                          {heartBurstMsgId === msg.id && (
+                            <div className="zenve-ig-heart-burst" aria-hidden="true">
+                              ❤️
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Instagram Emoji Reactions Badge (cleanly anchored on outer bottom corner of bubble) */}
+                        {hasReactions && (
+                          <div className="zenve-ig-bubble-reactions">
+                            {Object.entries(msg.reactions).map(([emoji, count]) => (
+                              <button
+                                key={emoji}
+                                type="button"
+                                className="zenve-ig-reaction-badge"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleReactToMessage('direct', msg.id, emoji);
+                                }}
+                                title={`${count} reaction(s) - click to toggle`}
+                              >
+                                <span>{emoji}</span>
+                                {count > 1 && <span className="zenve-ig-react-count">{count}</span>}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Instagram Floating Hover Action Dock (Emoji reactions + Reply/Edit/Delete) */}
+                        {!msg.isDeletedForEveryone && (
+                          <div className="zenve-ig-msg-hover-actions">
+                            <div className="zenve-ig-quick-react-dock">
+                              {['❤️', '😂', '😮', '😢', '👏', '🔥'].map((emoji) => (
+                                <button
+                                  key={emoji}
+                                  type="button"
+                                  className="zenve-ig-react-mini-btn"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    handleReactToMessage('direct', msg.id, emoji);
+                                  }}
+                                  title={`React ${emoji}`}
+                                >
+                                  {emoji}
+                                </button>
+                              ))}
+                            </div>
+
+                            <div className="zenve-ig-msg-actions-wrap">
                               <button
                                 type="button"
-                                className="zenve-wa-msg-actions-btn"
+                                className="zenve-ig-msg-actions-btn"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setActiveMenuMsgId((prev) => (prev === msg.id ? null : msg.id));
@@ -3561,10 +3833,10 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                                 <MoreVertical size={13} />
                               </button>
                               {activeMenuMsgId === msg.id && (
-                                <div className="zenve-wa-dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                                <div className="zenve-ig-dropdown-menu" onClick={(e) => e.stopPropagation()}>
                                   <button
                                     type="button"
-                                    className="zenve-wa-menu-item"
+                                    className="zenve-ig-menu-item"
                                     onClick={() => {
                                       handleSelectMessageToReply(msg);
                                       setActiveMenuMsgId(null);
@@ -3576,19 +3848,19 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                                   {isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg) && (
                                     <button
                                       type="button"
-                                      className="zenve-wa-menu-item"
+                                      className="zenve-ig-menu-item"
                                       onClick={() => {
                                         setEditingMessage({ id: msg.id, text: msg.text, context: 'direct' });
                                         setActiveMenuMsgId(null);
                                       }}
                                     >
                                       <Edit2 size={13} />
-                                      <span>Edit message</span>
+                                      <span>Edit</span>
                                     </button>
                                   )}
                                   <button
                                     type="button"
-                                    className="zenve-wa-menu-item danger"
+                                    className="zenve-ig-menu-item danger"
                                     onClick={() => {
                                       const canEveryone = isMe && !msg.isDeletedForEveryone && isMessageWithinOneHour(msg);
                                       setDeleteTarget({
@@ -3602,11 +3874,18 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                                     }}
                                   >
                                     <Trash2 size={13} />
-                                    <span>Delete message</span>
+                                    <span>Unsend</span>
                                   </button>
                                 </div>
                               )}
                             </div>
+                          </div>
+                        )}
+
+                        {/* Instagram Seen receipt below last sent message */}
+                        {isMe && isLastMsg && !msg.isDeletedForEveryone && (
+                          <div className="zenve-ig-seen-receipt">
+                            <span>Seen</span>
                           </div>
                         )}
                       </div>
@@ -3616,13 +3895,17 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
 
                 {/* Typing indicator while doctor prepares reply */}
                 {isTyping && (
-                  <div className="zenve-typing-indicator" aria-label="Doctor is typing">
-                    <span className="zenve-typing-dot" />
-                    <span className="zenve-typing-dot" />
-                    <span className="zenve-typing-dot" />
-                    <span className="zenve-typing-label">
-                      {selectedDoctor.name.split(' ')[0]} is typing...
-                    </span>
+                  <div className="zenve-ig-typing-row" aria-label="Doctor is typing">
+                    <img
+                      src={selectedDoctor.img}
+                      alt={selectedDoctor.name}
+                      className="zenve-ig-bubble-avatar"
+                    />
+                    <div className="zenve-ig-typing-bubble">
+                      <span className="zenve-typing-dot" />
+                      <span className="zenve-typing-dot" />
+                      <span className="zenve-typing-dot" />
+                    </div>
                   </div>
                 )}
 
@@ -3679,7 +3962,7 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
 
               {/* Bottom: Input Composer OR Follow Notice */}
               {isFollowingSelected ? (
-                <div className="zenve-chat-composer-wrapper">
+                <div className="zenve-chat-composer-wrapper zenve-ig-composer-wrapper">
                   {/* Active Replying Bar Preview */}
                   {replyingTo && (
                     <div className="zenve-chat-replying-bar">
@@ -3737,15 +4020,31 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                     </div>
                   )}
 
-                  {/* WhatsApp Interactive Emoji Picker Popover for Direct Chat */}
+                  {/* Instagram Quick Emoji Ribbon for Direct Chat */}
+                  <div className="zenve-ig-quick-emoji-ribbon">
+                    <span className="zenve-ig-quick-emoji-label">Quick:</span>
+                    {['❤️', '😂', '😮', '😢', '👏', '🔥', '🩺', '🐶', '🐾'].map((emoji) => (
+                      <button
+                        key={emoji}
+                        type="button"
+                        className="zenve-ig-quick-emoji-btn"
+                        onClick={() => handleSendMessage(emoji)}
+                        title={`Send ${emoji} instantly`}
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Instagram Interactive Emoji Picker Popover for Direct Chat */}
                   {showEmojiPicker === 'direct' && (
-                    <div className="zenve-wa-emoji-popover" onClick={(e) => e.stopPropagation()}>
-                      <div className="zenve-wa-emoji-tabs">
+                    <div className="zenve-wa-emoji-popover zenve-ig-emoji-popover" onClick={(e) => e.stopPropagation()}>
+                      <div className="zenve-wa-emoji-tabs zenve-ig-emoji-tabs">
                         {EMOJI_TABS.map((tab) => (
                           <button
                             key={tab.id}
                             type="button"
-                            className={`zenve-wa-emoji-tab-btn ${activeEmojiTab === tab.id ? 'active' : ''}`}
+                            className={`zenve-wa-emoji-tab-btn zenve-ig-emoji-tab-btn ${activeEmojiTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveEmojiTab(tab.id)}
                             title={tab.title}
                           >
@@ -3754,13 +4053,15 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                           </button>
                         ))}
                       </div>
-                      <div className="zenve-wa-emoji-grid">
+                      <div className="zenve-wa-emoji-grid zenve-ig-emoji-grid">
                         {((EMOJI_TABS.find((t) => t.id === activeEmojiTab) || EMOJI_TABS[0]).emojis || []).map((emoji, idx) => (
                           <button
                             key={idx}
                             type="button"
-                            className="zenve-wa-emoji-btn"
-                            onClick={() => setMessageInput((prev) => prev + emoji)}
+                            className="zenve-wa-emoji-btn zenve-ig-emoji-btn"
+                            onClick={() => handleInsertEmoji(emoji, 'direct')}
+                            onDoubleClick={() => handleSendMessage(emoji)}
+                            title={`${emoji} (click to insert, double click to send)`}
                           >
                             {emoji}
                           </button>
@@ -3777,10 +4078,11 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                     onChange={(e) => handleFileUpload(e, 'direct')}
                   />
 
-                  <div className="zenve-wa-composer-dock">
+                  {/* Instagram Unified Pill Composer Dock */}
+                  <div className="zenve-wa-composer-dock zenve-ig-composer-dock">
                     <button
                       type="button"
-                      className={`zenve-wa-dock-icon-btn ${showEmojiPicker === 'direct' ? 'active' : ''}`}
+                      className={`zenve-wa-dock-icon-btn zenve-ig-dock-icon-btn ${showEmojiPicker === 'direct' ? 'active' : ''}`}
                       title="Choose emoji"
                       aria-label="Choose emoji"
                       onClick={(e) => {
@@ -3788,26 +4090,17 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                         setShowEmojiPicker((prev) => (prev === 'direct' ? null : 'direct'));
                       }}
                     >
-                      <Smile size={20} />
+                      <Smile size={22} />
                     </button>
-                    <button
-                      type="button"
-                      className={`zenve-wa-dock-icon-btn ${directAttachment ? 'has-file' : ''}`}
-                      title="Upload clinical document, radiograph or lab panel"
-                      aria-label="Upload file"
-                      onClick={() => directFileInputRef.current?.click()}
-                    >
-                      <Paperclip size={20} />
-                    </button>
-                    <div className="zenve-wa-input-container">
+                    <div className="zenve-wa-input-container zenve-ig-input-container">
                       <input
                         ref={chatInputRef}
                         type="text"
-                        className="zenve-wa-input"
+                        className="zenve-wa-input zenve-ig-input"
                         placeholder={
                           replyingTo
-                            ? `Write a reply to ${replyingTo.senderName}...`
-                            : `Type a message to ${selectedDoctor.name}...`
+                            ? `Reply to ${replyingTo.senderName}...`
+                            : `Message...`
                         }
                         value={messageInput}
                         onChange={(e) => setMessageInput(e.target.value)}
@@ -3817,26 +4110,35 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                     </div>
                     <button
                       type="button"
-                      className="zenve-wa-send-btn"
-                      onClick={() => handleSendMessage()}
-                      disabled={(!messageInput.trim() && !directAttachment) || isTyping}
-                      title="Send message (Enter)"
-                      aria-label="Send message"
+                      className={`zenve-wa-dock-icon-btn zenve-ig-dock-icon-btn ${directAttachment ? 'has-file' : ''}`}
+                      title="Upload clinical document, radiograph or lab panel"
+                      aria-label="Upload file"
+                      onClick={() => directFileInputRef.current?.click()}
                     >
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#ffffff"
-                        strokeWidth="2.4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1="22" y1="2" x2="11" y2="13" />
-                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                      </svg>
+                      <Paperclip size={20} />
                     </button>
+                    {messageInput.trim() || directAttachment ? (
+                      <button
+                        type="button"
+                        className="zenve-ig-send-btn"
+                        onClick={() => handleSendMessage()}
+                        disabled={isTyping}
+                        title="Send message"
+                        aria-label="Send message"
+                      >
+                        Send
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="zenve-ig-heart-btn"
+                        onClick={() => handleSendMessage('❤️')}
+                        title="Send Heart (❤️)"
+                        aria-label="Send Heart"
+                      >
+                        <Heart size={22} fill="#ff3040" color="#ff3040" />
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : (
