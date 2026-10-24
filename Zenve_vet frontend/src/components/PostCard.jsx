@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import soundManager from '../utils/soundManager';
 import { postsApi } from '../api';
+import SharePostModal from './SharePostModal';
 import '../csscomponents/PostCard.css';
 
-export const PostCard = ({ post, onDoctorClick }) => {
+export const PostCard = ({ post, onDoctorClick, onToggleSelfTag, onTagClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(post.likes || 120);
   const [isSaved, setIsSaved] = useState(false);
@@ -14,6 +15,7 @@ export const PostCard = ({ post, onDoctorClick }) => {
   const [hasVideoError, setHasVideoError] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentInput, setCommentInput] = useState('');
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [commentsList, setCommentsList] = useState(post.initialComments || [
     { id: 1, author: 'Dr. Arjun Mehta', text: 'Incredible recovery curve! Well done.' },
     { id: 2, author: 'Dr. Priya Nair', text: 'Splendid clinical execution.' },
@@ -147,9 +149,29 @@ export const PostCard = ({ post, onDoctorClick }) => {
           </div>
         </div>
 
-        <button type="button" className="zenve-post-options-btn" title="Post options">
-          •••
-        </button>
+        <div className="zenve-post-header-right">
+          {post.isSelfTagged && (
+            <button
+              type="button"
+              className="zenve-card-selftag-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDoctorClick && onDoctorClick(post.selfTaggedDoctor?.id || post.authorId || 'you');
+              }}
+              title={`Self-tagged: ${post.selfTaggedDoctor?.name || post.authorName} (Verified Doctor)`}
+            >
+              <span className="zenve-card-selftag-icon">🏷️</span>
+              <span className="zenve-card-selftag-text">
+                Self-Tagged: <strong>{post.selfTaggedDoctor?.name || post.authorName}</strong>
+              </span>
+              <span className="zenve-card-selftag-badge">Author</span>
+            </button>
+          )}
+
+          <button type="button" className="zenve-post-options-btn" title="Post options">
+            •••
+          </button>
+        </div>
       </div>
 
       {/* 2. Post Media Container */}
@@ -202,6 +224,25 @@ export const PostCard = ({ post, onDoctorClick }) => {
             alt={post.caption}
             className="zenve-post-media-img"
           />
+        )}
+
+        {/* Self-tag overlay indicator on the media photo */}
+        {post.isSelfTagged && (
+          <button
+            type="button"
+            className="zenve-media-selftag-overlay-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDoctorClick && onDoctorClick(post.selfTaggedDoctor?.id || post.authorId || 'you');
+            }}
+            title={`Tagged: ${post.selfTaggedDoctor?.name || post.authorName} • Click to view profile`}
+          >
+            <span className="zenve-media-selftag-icon">🏷️</span>
+            <span className="zenve-media-selftag-text">
+              {post.selfTaggedDoctor?.name || post.authorName}
+            </span>
+            <span className="zenve-media-selftag-arrow">↗</span>
+          </button>
         )}
 
         {/* Double-tap Heart Burst Animation */}
@@ -293,8 +334,9 @@ export const PostCard = ({ post, onDoctorClick }) => {
           <button
             type="button"
             className="zenve-post-action-btn"
-            onClick={() => alert(`Copied link to ${post.authorName}'s post!`)}
-            title="Share post"
+            onClick={() => setIsShareModalOpen(true)}
+            title="Share post with following colleagues"
+            aria-label="Share post"
           >
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="22" y1="2" x2="11" y2="13" />
@@ -314,6 +356,39 @@ export const PostCard = ({ post, onDoctorClick }) => {
               <span>{isPlaying ? 'Pause video' : 'Shorts video'}</span>
             </button>
           )}
+
+          {/* Self-Tag toggle button - Added on bottom of ALL posts */}
+          <button
+            type="button"
+            className={`zenve-post-action-btn zenve-card-selftag-action-btn ${post.isSelfTagged ? 'zenve-card-selftag-action-active' : ''}`}
+            onClick={() => onToggleSelfTag && onToggleSelfTag(post.id)}
+            title={
+              post.isSelfTagged
+                ? `Tagged as ${post.selfTaggedDoctor?.name || 'Dr. You'}. Tap to remove self tag`
+                : 'Self-tag yourself on this post'
+            }
+            aria-label="Self tag post"
+          >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill={post.isSelfTagged ? '#0f4332' : 'none'}
+              stroke={post.isSelfTagged ? '#0f4332' : 'currentColor'}
+              strokeWidth="2.1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+              <line x1="7" y1="7" x2="7.01" y2="7" />
+            </svg>
+            <span className="zenve-card-action-tag-text">
+              {post.isSelfTagged ? 'Tagged' : 'Self Tag'}
+            </span>
+            {post.isSelfTagged && (
+              <span className="zenve-card-action-tag-check">✓</span>
+            )}
+          </button>
         </div>
 
         {/* Bookmark / Save Button */}
@@ -329,6 +404,24 @@ export const PostCard = ({ post, onDoctorClick }) => {
         </button>
       </div>
 
+      {/* Self-tagged callout banner on post */}
+      {post.isSelfTagged && (
+        <div className="zenve-post-selftagged-callout">
+          <span className="zenve-selftagged-callout-icon">🏷️</span>
+          <span className="zenve-selftagged-callout-text">
+            Tagged: <strong>{post.selfTaggedDoctor?.name || 'Dr. You'}</strong> (Self)
+          </span>
+          <button
+            type="button"
+            className="zenve-selftagged-callout-remove"
+            onClick={() => onToggleSelfTag && onToggleSelfTag(post.id)}
+            title="Remove self tag"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* 4. Likes Count */}
       <div className="zenve-post-likes">
         <span>{likesCount.toLocaleString()} likes</span>
@@ -340,11 +433,43 @@ export const PostCard = ({ post, onDoctorClick }) => {
         <span className="zenve-post-caption-content">{post.caption}</span>
         {post.tags && (
           <div className="zenve-post-tags">
-            {post.tags.map((tag, idx) => (
-              <span key={idx} className="zenve-post-tag">
-                {tag}
-              </span>
-            ))}
+            {post.tags.map((tag, idx) => {
+              const isSelfTag =
+                tag.startsWith('@') ||
+                (post.isSelfTagged &&
+                  post.selfTaggedDoctor?.name &&
+                  tag.toLowerCase().includes(
+                    post.selfTaggedDoctor.name
+                      .toLowerCase()
+                      .replace('dr.', '')
+                      .trim()
+                  ));
+
+              return (
+                <span
+                  key={idx}
+                  className={`zenve-post-tag ${isSelfTag ? 'zenve-post-tag-selftag' : ''}`}
+                  onClick={() => {
+                    if (isSelfTag) {
+                      onDoctorClick &&
+                        onDoctorClick(
+                          post.selfTaggedDoctor?.id || post.authorId || 'you'
+                        );
+                    } else if (onTagClick) {
+                      onTagClick(tag);
+                    }
+                  }}
+                  title={
+                    isSelfTag
+                      ? `View ${post.selfTaggedDoctor?.name || 'doctor'} profile`
+                      : `Filter by ${tag}`
+                  }
+                >
+                  {isSelfTag && <span className="zenve-tag-selftag-icon">🏷️</span>}
+                  {tag}
+                </span>
+              );
+            })}
           </div>
         )}
       </div>
@@ -388,6 +513,15 @@ export const PostCard = ({ post, onDoctorClick }) => {
           )}
         </form>
       </div>
+
+      {/* Share Post & Video Modal */}
+      {isShareModalOpen && (
+        <SharePostModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          item={post}
+        />
+      )}
     </article>
   );
 };

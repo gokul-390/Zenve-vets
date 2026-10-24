@@ -718,6 +718,95 @@ export const checkUserHasProfileOrIsLoggedIn = () => {
   }
 };
 
+// ── Shared Post & Video Bubble Card ──
+const SharedPostCard = ({ sharedPost }) => {
+  if (!sharedPost) return null;
+  const isVideo = sharedPost.type === 'short_video' || sharedPost.media?.type === 'video' || !!sharedPost.videoUrl;
+  const mediaUrl = sharedPost.media?.url || sharedPost.videoUrl;
+  const posterUrl = sharedPost.media?.thumbnail || sharedPost.thumbnail;
+  const authorName = sharedPost.author?.name || 'Veterinary Specialist';
+  const authorAvatar = sharedPost.author?.avatar || '/images/doctors/priya.jpg';
+  const authorRole = sharedPost.author?.role || 'Veterinarian';
+
+  return (
+    <div className="zenve-wa-shared-post-bubble-card">
+      <div className="zenve-wa-shared-post-header">
+        <div className="zenve-wa-shared-post-author-wrap">
+          <img
+            src={authorAvatar}
+            alt={authorName}
+            className="zenve-wa-shared-post-avatar"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/images/doctors/priya.jpg';
+            }}
+          />
+          <div className="zenve-wa-shared-post-author-info">
+            <span className="zenve-wa-shared-post-author-name">{authorName}</span>
+            <span className="zenve-wa-shared-post-author-role">{authorRole}</span>
+          </div>
+        </div>
+        <span className={`zenve-wa-shared-post-type-badge ${isVideo ? 'is-video' : 'is-post'}`}>
+          {isVideo ? '▶ Clinical Short' : '📄 Case Post'}
+        </span>
+      </div>
+
+      {/* Media section */}
+      {isVideo && mediaUrl ? (
+        <div className="zenve-wa-shared-media-wrap is-video">
+          <video
+            src={mediaUrl}
+            poster={posterUrl}
+            controls
+            playsInline
+            preload="metadata"
+            className="zenve-wa-shared-video-player"
+          />
+        </div>
+      ) : mediaUrl ? (
+        <div className="zenve-wa-shared-media-wrap is-image">
+          <img
+            src={mediaUrl}
+            alt={sharedPost.title || 'Case Media'}
+            className="zenve-wa-shared-image"
+            onClick={() => window.open(mediaUrl, '_blank')}
+            title="Click to view full image"
+          />
+        </div>
+      ) : posterUrl ? (
+        <div className="zenve-wa-shared-media-wrap is-image">
+          <img
+            src={posterUrl}
+            alt={sharedPost.title || 'Case Media'}
+            className="zenve-wa-shared-image"
+            onClick={() => window.open(posterUrl, '_blank')}
+            title="Click to view full image"
+          />
+        </div>
+      ) : null}
+
+      {/* Body content */}
+      <div className="zenve-wa-shared-post-body">
+        {sharedPost.title && (
+          <h4 className="zenve-wa-shared-post-title">{sharedPost.title}</h4>
+        )}
+        {sharedPost.content && (
+          <p className="zenve-wa-shared-post-desc">{sharedPost.content}</p>
+        )}
+        {Array.isArray(sharedPost.tags) && sharedPost.tags.length > 0 && (
+          <div className="zenve-wa-shared-post-tags">
+            {sharedPost.tags.slice(0, 4).map((tag, idx) => (
+              <span key={idx} className="zenve-wa-shared-post-tag">
+                {tag.startsWith('#') ? tag : `#${tag}`}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
   // Profile check: only show messages when user has created a profile or is logged in
   const [hasProfile, setHasProfile] = useState(() => checkUserHasProfileOrIsLoggedIn());
@@ -1244,16 +1333,43 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
     setReplyingTo(null);
   }, [selectedDoctorId, activeCommunityId, viewMode]);
 
-  // Listen for global custom event 'zenve_open_message'
+  // Listen for global custom events 'zenve_open_message' and 'zenve_chat_messages_updated'
   useEffect(() => {
     const handleOpenMessageEvent = (e) => {
+      try {
+        const saved = localStorage.getItem('zenve_chat_messages');
+        if (saved) setConversations(JSON.parse(saved));
+      } catch { }
+
       if (e.detail?.doctorId) {
         setSelectedDoctorId(e.detail.doctorId);
+        setViewMode('chats');
         if (onDoctorChanged) onDoctorChanged(e.detail.doctorId);
       }
     };
+
+    const handleChatMessagesUpdated = (e) => {
+      try {
+        const saved = localStorage.getItem('zenve_chat_messages');
+        if (saved) setConversations(JSON.parse(saved));
+      } catch { }
+
+      if (e?.detail?.doctorId) {
+        setSelectedDoctorId(e.detail.doctorId);
+        setViewMode('chats');
+        if (onDoctorChanged) onDoctorChanged(e.detail.doctorId);
+      }
+    };
+
     window.addEventListener('zenve_open_message', handleOpenMessageEvent);
-    return () => window.removeEventListener('zenve_open_message', handleOpenMessageEvent);
+    window.addEventListener('zenve_chat_messages_updated', handleChatMessagesUpdated);
+    window.addEventListener('storage', handleChatMessagesUpdated);
+
+    return () => {
+      window.removeEventListener('zenve_open_message', handleOpenMessageEvent);
+      window.removeEventListener('zenve_chat_messages_updated', handleChatMessagesUpdated);
+      window.removeEventListener('storage', handleChatMessagesUpdated);
+    };
   }, [onDoctorChanged]);
 
   // Only open Community if user specifically clicks the Member Benefits CTA button
@@ -2478,7 +2594,17 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                               {lastMsg ? (
                                 <>
                                   {lastMsg.sender === 'me' && <span className="zenve-wa-preview-checks">✓✓ </span>}
-                                  {lastMsg.text}
+                                  {lastMsg.sharedPost ? (
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                      <span>{lastMsg.sharedPost.type === 'short_video' ? '▶' : '📷'}</span>
+                                      <span style={{ fontStyle: 'italic', color: '#10b981' }}>
+                                        {lastMsg.sharedPost.type === 'short_video' ? 'Shared video' : 'Shared post'}
+                                      </span>
+                                      {lastMsg.text && !lastMsg.text.startsWith('Shared a post') && !lastMsg.text.startsWith('Shared a clinical video') ? ` • ${lastMsg.text}` : ''}
+                                    </span>
+                                  ) : (
+                                    lastMsg.text
+                                  )}
                                 </>
                               ) : (
                                 doc.specialty
@@ -2956,6 +3082,11 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                               </span>
                             )}
                           </div>
+                        )}
+
+                        {/* Shared Post or Video Reel Display */}
+                        {msg.sharedPost && !msg.isDeletedForEveryone && (
+                          <SharedPostCard sharedPost={msg.sharedPost} />
                         )}
 
                         {/* Attachment display inside bubble */}
@@ -3451,6 +3582,11 @@ export const MessagesPage = ({ initialDoctorId, onDoctorChanged }) => {
                             <span className="zenve-wa-quote-author">{msg.replyTo.senderName}</span>
                             <p className="zenve-wa-quote-text">{msg.replyTo.text}</p>
                           </div>
+                        )}
+
+                        {/* Shared Post or Video Reel Display */}
+                        {msg.sharedPost && !msg.isDeletedForEveryone && (
+                          <SharedPostCard sharedPost={msg.sharedPost} />
                         )}
 
                         {/* Attachment display inside bubble */}
