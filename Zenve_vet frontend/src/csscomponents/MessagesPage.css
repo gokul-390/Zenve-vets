@@ -6213,3 +6213,206 @@ body.zenve-messages-mode .zenve-content-workspace,
   transform: translateY(-1px) !important;
   box-shadow: 0 8px 24px rgba(119, 27, 38, 0.4) !important;
 }
+
+/* ── Shared Post & Video Inside WhatsApp Chat Bubble ─────────────────── */
+.zenve-wa-shared-post-bubble-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 67, 50, 0.12);
+  margin-bottom: 6px;
+  max-width: 380px;
+  min-width: 260px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.zenve-wa-shared-post-bubble-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.zenve-wa-shared-post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f8faf9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.zenve-wa-shared-post-author-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.zenve-wa-shared-post-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid #0F4332;
+}
+
+.zenve-wa-shared-post-author-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.zenve-wa-shared-post-author-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #17261f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.zenve-wa-shared-post-author-role {
+  font-size: 10px;
+  color: #556e60;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.zenve-wa-shared-post-type-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  flex-shrink: 0;
+}
+
+.zenve-wa-shared-post-type-badge.is-video {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.zenve-wa-shared-post-type-badge.is-post {
+  background: rgba(15, 67, 50, 0.08);
+  color: #0F4332;
+  border: 1px solid rgba(15, 67, 50, 0.2);
+}
+
+.zenve-wa-shared-media-wrap {
+  width: 100%;
+  max-height: 240px;
+  background: #000000;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zenve-wa-shared-video-player {
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  background: #000;
+  display: block;
+}
+
+.zenve-wa-shared-image {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.zenve-wa-shared-image:hover {
+  transform: scale(1.02);
+}
+
+.zenve-wa-shared-post-body {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #ffffff;
+}
+
+.zenve-wa-shared-post-title {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #17261f;
+  line-height: 1.35;
+}
+
+.zenve-wa-shared-post-desc {
+  margin: 0;
+  font-size: 11.5px;
+  color: #40574b;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.zenve-wa-shared-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.zenve-wa-shared-post-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: #0F4332;
+  background: rgba(15, 67, 50, 0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Dark Mode Overrides */
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-bubble-card {
+  background: #1e2924 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-header {
+  background: #16201b !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-author-name {
+  color: #f1f5f9 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-author-role {
+  color: #94a3b8 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-body {
+  background: #1e2924 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-title {
+  color: #ffffff !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-desc {
+  color: #cbd5e1 !important;
+}
+
+:is([data-theme='dark'], .dark, .dark-theme, [data-mode='dark'], [data-color-mode='dark'], body.dark-mode) .zenve-wa-shared-post-tag {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+}

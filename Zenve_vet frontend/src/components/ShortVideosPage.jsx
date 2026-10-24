@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { SHORT_VIDEOS_DATA, VIDEO_CATEGORIES, QUALITY_OPTIONS, getQualityVideoUrl } from '../data/shortVideosData';
+import SharePostModal from './SharePostModal';
 import '../csscomponents/ShortVideosPage.css';
 
 export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
   // ── State Management ──
+  const [shareItem, setShareItem] = useState(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState(() => {
@@ -245,17 +248,25 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
 
   // ── Share Action ──
   const handleShare = (e, video) => {
-    e.stopPropagation();
-    const shareUrl = `${window.location.origin}/#shorts-${video.id}`;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(shareUrl).then(() => {
-        showToast('Clinical video link copied to clipboard! 📋');
-      }).catch(() => {
-        showToast('Link ready to share: ' + shareUrl);
-      });
-    } else {
-      showToast('Link ready to share!');
-    }
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (!video) return;
+    setShareItem({
+      id: video.id,
+      title: video.title || 'Clinical Video Short',
+      content: video.description || video.title || 'Veterinary clinical case reel',
+      videoUrl: video.videoUrl || '',
+      media: video.videoUrl ? { type: 'video', url: video.videoUrl, thumbnail: video.thumbnail } : null,
+      thumbnail: video.thumbnail || '',
+      author: {
+        name: video.author?.name || 'Veterinary Specialist',
+        avatar: video.author?.avatar || '/images/doctors/priya.jpg',
+        role: video.author?.role || video.author?.clinic || 'Veterinary Surgeon'
+      },
+      tags: video.tags || [],
+      type: 'short_video',
+      shareUrl: `${window.location.origin}/#shorts-${video.id}`
+    });
+    setIsShareModalOpen(true);
   };
 
   // ── Active Quality Object ──
@@ -2313,6 +2324,18 @@ export const ShortVideosPage = ({ onSelectTab, onOpenCreateProfile }) => {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Share Post / Video Modal */}
+      {isShareModalOpen && shareItem && (
+        <SharePostModal
+          isOpen={isShareModalOpen}
+          onClose={() => {
+            setIsShareModalOpen(false);
+            setShareItem(null);
+          }}
+          item={shareItem}
+        />
       )}
     </div>
   );
